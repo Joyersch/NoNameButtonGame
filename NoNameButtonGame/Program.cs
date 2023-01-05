@@ -8,7 +8,6 @@ namespace NoNameButtonGame
         static void Main() {
             using (var game = new NoNameGame())
                 game.Run();
-
         }
     }
 }

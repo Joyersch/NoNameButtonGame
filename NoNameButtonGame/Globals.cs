@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using System.Dynamic;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 namespace NoNameButtonGame
 {
@@ -6,15 +7,6 @@ namespace NoNameButtonGame
     {
         public static ContentManager Content { get; set; }
 
-        public static class Settings
-        {
-            public static bool IsFixedStep { get; set; }
-            public static bool IsFullscreen { get; set; }
-        }
-        
-        public static class GameData
-        {
-            public static int MaxLevel { get; set; }
-        }
+        public static Storage Storage { get; set; }
     }
 }

@@ -23,9 +23,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, ApplySettings applySettings) : base(defaultWidth, defaultHeight, window, rand) {
             this.applySettings = applySettings;
             string s1 ="❌", s2 = "❌";
-            if (Globals.Settings.IsFixedStep)
+            if (Globals.Storage.Settings.IsFixedStep)
                 s1 = "✔";
-            if (Globals.Settings.IsFullscreen)
+            if (Globals.Storage.Settings.IsFullscreen)
                 s2 = "✔";
             Name = "Start Menu";
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
