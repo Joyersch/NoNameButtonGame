@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NoNameButtonGame": {
+      "commandName": "Project",
+      "commandLineArgs": "-seed 0"
+    }
+  }
+}
