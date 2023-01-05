@@ -41,7 +41,7 @@ namespace NoNameButtonGame
                 sw.WriteLine(full);
                 sw.WriteLine(Res.X);
                 sw.WriteLine(Res.Y);
-                sw.WriteLine(Globals.MaxLevel);
+                sw.WriteLine(Globals.GameData.MaxLevel);
             }
             //Apply window changes
             levelManager.ChangeScreen(new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight));
@@ -88,7 +88,7 @@ namespace NoNameButtonGame
                     using (StreamReader sr = new StreamReader(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/NoNameButtonGame/data.txt")) {
                         IsFixedTimeStep = bool.Parse(sr.ReadLine());
                         bool full = bool.Parse(sr.ReadLine());
-                        Globals.FullScreen = full;
+                        Globals.Settings.IsFullscreen = full;
                         if ((!_graphics.IsFullScreen && full) || (!full && _graphics.IsFullScreen))
                             _graphics.ToggleFullScreen();
                         int X = int.Parse(sr.ReadLine());
@@ -96,7 +96,7 @@ namespace NoNameButtonGame
                         _graphics.PreferredBackBufferWidth = X;
                         _graphics.PreferredBackBufferHeight = Y;
                         _graphics.ApplyChanges();
-                        Globals.MaxLevel = int.Parse(sr.ReadLine());
+                        Globals.GameData.MaxLevel = int.Parse(sr.ReadLine());
                     }
                 } catch {
                     if (_graphics.IsFullScreen)
@@ -108,7 +108,7 @@ namespace NoNameButtonGame
                 }
             }
             Globals.Content = Content;
-            Globals.IsFix = IsFixedTimeStep;
+            Globals.Settings.IsFixedStep = IsFixedTimeStep;
             #endregion
 
 

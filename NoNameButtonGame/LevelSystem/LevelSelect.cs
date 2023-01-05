@@ -18,7 +18,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly int LevelAmmount = 1000;
         public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level Selection";
-            LevelAmmount = Globals.MaxLevel;
+            LevelAmmount = Globals.GameData.MaxLevel;
             levelButton = new TextButton[LevelAmmount];
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
             int Screen = LevelAmmount / 30;

@@ -59,7 +59,7 @@ namespace NoNameButtonGame.LevelSystem
                 }
             }
             state = MState.Startmenu;
-            LastLevel = Globals.MaxLevel;
+            LastLevel = Globals.GameData.MaxLevel;
             startScreen = new StartScreen(Width, Height, Screen, rand);
             startScreen.Finish += ExitStartScreen;
             settings = new SettingsScreen(Width, Height, Screen, rand, changesettings);
@@ -199,7 +199,7 @@ namespace NoNameButtonGame.LevelSystem
                     CanOverallSelect = false;
                     state = MState.BetweenLevel;
                     RedoCall = true;
-                    LastLevel = Globals.MaxLevel;
+                    LastLevel = Globals.GameData.MaxLevel;
                     break;
                 case StartScreen.ButtonPressed.LevelSelect:
                     state = MState.BetweenLevel;
@@ -226,9 +226,9 @@ namespace NoNameButtonGame.LevelSystem
             state = MState.BetweenLevel;
             if (!CanOverallSelect) {
                 LastLevel++;
-                if (Globals.MaxLevel < LastLevel) {
-                    Globals.MaxLevel = LastLevel;
-                    changesettings.Invoke(Screen, Globals.IsFix, Globals.FullScreen);
+                if (Globals.GameData.MaxLevel < LastLevel) {
+                    Globals.GameData.MaxLevel = LastLevel;
+                    changesettings.Invoke(Screen, Globals.Settings.IsFixedStep, Globals.Settings.IsFullscreen);
                 }
             }
             RedoCall = false;
