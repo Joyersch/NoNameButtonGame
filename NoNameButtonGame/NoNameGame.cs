@@ -25,7 +25,7 @@ namespace NoNameButtonGame
         {
             _graphics = new GraphicsDeviceManager(this);
             Globals.Storage = new Storage(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                          "/NoNameButtonGame/data.txt");
+                                          "/NoNameButtonGame/");
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
         }
@@ -40,16 +40,12 @@ namespace NoNameButtonGame
             _graphics.PreferredBackBufferHeight = (int) Res.Y;
             _graphics.ApplyChanges();
 
-            //Write settings
-            using (StreamWriter sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                                      "/NoNameButtonGame/data.txt"))
-            {
-                sw.WriteLine(step);
-                sw.WriteLine(full);
-                sw.WriteLine(Res.X);
-                sw.WriteLine(Res.Y);
-                sw.WriteLine(Globals.Storage.GameData.MaxLevel);
-            }
+            Globals.Storage.Settings.Resolution.Width = (int) Res.X;
+            Globals.Storage.Settings.Resolution.Height = (int) Res.Y;
+            Globals.Storage.Settings.IsFullscreen = full;
+            Globals.Storage.Settings.IsFixedStep = step;
+            //Write storage
+            Globals.Storage.Save();
 
             //Apply window changes
             levelManager.ChangeScreen(new Vector2(_graphics.PreferredBackBufferWidth,
@@ -86,56 +82,21 @@ namespace NoNameButtonGame
                                           "/NoNameButtonGame");
             }
 
-            if (!File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                             "/NoNameButtonGame/data.txt"))
+            try
             {
-                using (StreamWriter sw =
-                       new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                        "/NoNameButtonGame/data.txt"))
-                {
-                    sw.WriteLine(IsFixedTimeStep);
-                    sw.WriteLine(_graphics.IsFullScreen);
-                    sw.WriteLine("1280");
-                    sw.WriteLine("720");
-                }
-
+                Globals.Storage.Load();
+                _graphics.PreferredBackBufferWidth = Globals.Storage.Settings.Resolution.Width;
+                _graphics.PreferredBackBufferHeight = Globals.Storage.Settings.Resolution.Height;
+                _graphics.ApplyChanges();
+            }
+            catch
+            {
                 if (_graphics.IsFullScreen)
                     _graphics.ToggleFullScreen();
                 _graphics.PreferredBackBufferWidth = 1280;
                 _graphics.PreferredBackBufferHeight = 720;
                 _graphics.ApplyChanges();
                 IsFixedTimeStep = false;
-            }
-            else
-            {
-                try
-                {
-                    using (StreamReader sr = new StreamReader(
-                               Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                               "/NoNameButtonGame/data.txt"))
-                    {
-                        IsFixedTimeStep = bool.Parse(sr.ReadLine());
-                        bool full = bool.Parse(sr.ReadLine());
-                        Globals.Storage.Settings.IsFullscreen = full;
-                        if ((!_graphics.IsFullScreen && full) || (!full && _graphics.IsFullScreen))
-                            _graphics.ToggleFullScreen();
-                        int X = int.Parse(sr.ReadLine());
-                        int Y = int.Parse(sr.ReadLine());
-                        _graphics.PreferredBackBufferWidth = X;
-                        _graphics.PreferredBackBufferHeight = Y;
-                        _graphics.ApplyChanges();
-                        Globals.Storage.GameData.MaxLevel = int.Parse(sr.ReadLine());
-                    }
-                }
-                catch
-                {
-                    if (_graphics.IsFullScreen)
-                        _graphics.ToggleFullScreen();
-                    _graphics.PreferredBackBufferWidth = 1280;
-                    _graphics.PreferredBackBufferHeight = 720;
-                    _graphics.ApplyChanges();
-                    IsFixedTimeStep = false;
-                }
             }
 
             Globals.Content = Content;
