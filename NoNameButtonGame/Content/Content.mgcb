@@ -49,7 +49,7 @@
 /processorParam:TextureFormat=Color
 /build:emptybutton.png
 
-#begin Exitbutton.png
+#begin exitbutton.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,7 +59,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Exitbutton.png
+/build:exitbutton.png
 
 #begin failbutton.png
 /importer:TextureImporter

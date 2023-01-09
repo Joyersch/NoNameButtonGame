@@ -11,7 +11,7 @@ namespace NoNameButtonGame.Text
         public Letter(Vector2 Position, Vector2 Size, Character Character, Color CColor) {
             this.Position = Position;
             this.Size = Size;
-            this.Texture = Globals.Content.Load<Texture2D>("Font");
+            this.Texture = Globals.Content.Load<Texture2D>("font");
             DrawColor = CColor;
             FrameSize = new Vector2(8, 8);
             ChangeCharacter(Character);
