@@ -163,5 +163,10 @@ namespace NoNameButtonGame
 
             base.Draw(gameTime);
         }
+
+        private void LoadArgs(string args)
+        {
+            
+        }
     }
 }
