@@ -19,7 +19,7 @@ public class Display
     private GraphicsDevice device;
     public Display(GraphicsDevice device)
     {
-        this.device = this.device;
+        this.device = device;
         Target = new RenderTarget2D(this.device, (int) DefaultWidth, (int) DefaultHeight);
     }
     

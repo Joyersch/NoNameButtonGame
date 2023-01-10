@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Raigy.Obj;
-namespace NoNameButtonGame.color
+namespace NoNameButtonGame.Colors
 {
     class Rainbow : BaseAniColor
     {

@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.BeforeMaths;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
-using NoNameButtonGame.color;
+using NoNameButtonGame.Colors;
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
     class Level17 : SampleLevel

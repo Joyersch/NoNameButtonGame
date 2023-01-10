@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Raigy.Obj;
 
-namespace NoNameButtonGame.color
+namespace NoNameButtonGame.Colors
 {
     class BaseAniColor : MonoObject
     {
