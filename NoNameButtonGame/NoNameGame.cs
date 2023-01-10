@@ -2,9 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
 using NoNameButtonGame.BeforeMaths;
 using NoNameButtonGame.LevelSystem;
-using System.IO;
+using Display = NoNameButtonGame.Display;
 
 namespace NoNameButtonGame
 {
@@ -13,9 +14,7 @@ namespace NoNameButtonGame
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private RenderTarget2D target2D;
-        readonly float defaultWidth = 1280F;
-        readonly float defaultHeight = 720F;
+        private Display.Display display;
         LevelManager levelManager;
         Texture2D Mousepoint;
         Vector2 MousepointTopLeft;
@@ -30,7 +29,7 @@ namespace NoNameButtonGame
             IsMouseVisible = false;
         }
 
-        private void Changesettings(Vector2 Res, bool step, bool full)
+        private void ChangeSettings(Vector2 Res, bool step, bool full)
         {
             IsFixedTimeStep = step;
             //Apply settings
@@ -71,7 +70,7 @@ namespace NoNameButtonGame
             #endregion
 
             IsFixedTimeStep = false;
-            
+
 
             #region Storage
 
@@ -104,10 +103,9 @@ namespace NoNameButtonGame
 
             #endregion
 
-
-            target2D = new RenderTarget2D(GraphicsDevice, (int) defaultWidth, (int) defaultHeight);
-            levelManager = new LevelManager((int) defaultHeight, (int) defaultWidth,
-                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Changesettings)
+            display = new(GraphicsDevice);
+            levelManager = new LevelManager((int) display.defaultHeight, (int) display.defaultWidth,
+                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), ChangeSettings)
             {
                 ChangeWindowName = ChangeTitle
             };
@@ -128,46 +126,20 @@ namespace NoNameButtonGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
-        //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-        Rectangle BackbufferBounds;
-        float backbufferAspectRatio;
-        float ScreenAspectRatio;
-        float rx, ry, rw, rh;
-
-
         protected override void Update(GameTime gameTime)
         {
             MouseState mouse = Mouse.GetState();
             MousepointTopLeft = mouse.Position.ToVector2() - new Vector2(3, 3);
             base.Update(gameTime);
 
+            display.Update(gameTime);
 
             levelManager.Update(gameTime);
-
-            //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-            BackbufferBounds = GraphicsDevice.PresentationParameters.Bounds;
-            backbufferAspectRatio = (float) BackbufferBounds.Width / BackbufferBounds.Height;
-            ScreenAspectRatio = (float) target2D.Width / target2D.Height;
-
-            rx = 0f;
-            ry = 0f;
-            rw = BackbufferBounds.Width;
-            rh = BackbufferBounds.Height;
-            if (backbufferAspectRatio > ScreenAspectRatio)
-            {
-                rw = rh * ScreenAspectRatio;
-                rx = (BackbufferBounds.Width - rw) / 2f;
-            }
-            else if (backbufferAspectRatio < ScreenAspectRatio)
-            {
-                rh = rw / ScreenAspectRatio;
-                ry = (BackbufferBounds.Height - rh) / 2f;
-            }
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(target2D);
+            GraphicsDevice.SetRenderTarget(display.target2D);
             GraphicsDevice.Clear(new Color(50, 50, 50));
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
@@ -178,13 +150,11 @@ namespace NoNameButtonGame
             _spriteBatch.End();
             GraphicsDevice.SetRenderTarget(null);
 
-
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
                 null, null);
-
-            Rectangle DesRec = new Rectangle((int) rx, (int) ry, (int) rw, (int) rh);
+            
             GraphicsDevice.Clear(Color.HotPink);
-            _spriteBatch.Draw(target2D, DesRec, null, Color.White);
+            _spriteBatch.Draw(display.target2D, display.Window, null, Color.White);
 
             if (ShowActualMousePos)
                 _spriteBatch.Draw(Mousepoint, new Rectangle(MousepointTopLeft.ToPoint(), new Point(6, 6)), Color.White);
