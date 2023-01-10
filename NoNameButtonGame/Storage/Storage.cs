@@ -2,23 +2,29 @@ using System;
 using System.Dynamic;
 using System.IO;
 using Newtonsoft.Json;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame;
 
-public class Storage
+public class Storage : IChangeable
 {
-    public string BasePath;
+    private string BasePath;
+
+    public event EventHandler HasChanged;
 
     public Storage(string path)
     {
         BasePath = path;
         Settings = new();
+        Settings.HasChanged += HasChanged;
         GameData = new();
+        GameData.HasChanged += HasChanged;
     }
 
     public Settings Settings;
     
     public GameData GameData;
+    
     public void Load()
     {
         using StreamReader settingsReader = new($"{BasePath}/{nameof(Settings)}.json");

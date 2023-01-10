@@ -14,7 +14,9 @@ namespace NoNameButtonGame
         private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private Display.Display display;
+        private Display.Display _display;
+        private Storage _storage;
+        
         LevelManager levelManager;
         Texture2D Mousepoint;
         Vector2 MousepointTopLeft;
@@ -23,32 +25,10 @@ namespace NoNameButtonGame
         public NoNameGame()
         {
             _graphics = new GraphicsDeviceManager(this);
-            Globals.Storage = new Storage(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                          "/NoNameButtonGame/");
+            _storage = new Storage(Globals.SaveDirectory);
+
             Content.RootDirectory = "Content";
             IsMouseVisible = false;
-        }
-
-        private void ChangeSettings(Vector2 Res, bool step, bool full)
-        {
-            IsFixedTimeStep = step;
-            //Apply settings
-            if ((!_graphics.IsFullScreen && full) || (!full && _graphics.IsFullScreen))
-                _graphics.ToggleFullScreen();
-            _graphics.PreferredBackBufferWidth = (int) Res.X;
-            _graphics.PreferredBackBufferHeight = (int) Res.Y;
-            _graphics.ApplyChanges();
-
-            Globals.Storage.Settings.Resolution.Width = (int) Res.X;
-            Globals.Storage.Settings.Resolution.Height = (int) Res.Y;
-            Globals.Storage.Settings.IsFullscreen = full;
-            Globals.Storage.Settings.IsFixedStep = step;
-            //Write storage
-            Globals.Storage.Save();
-
-            //Apply window changes
-            levelManager.ChangeScreen(new Vector2(_graphics.PreferredBackBufferWidth,
-                _graphics.PreferredBackBufferHeight));
         }
 
         protected override void Initialize()
@@ -83,29 +63,29 @@ namespace NoNameButtonGame
 
             try
             {
-                Globals.Storage.Load();
-                _graphics.PreferredBackBufferWidth = Globals.Storage.Settings.Resolution.Width;
-                _graphics.PreferredBackBufferHeight = Globals.Storage.Settings.Resolution.Height;
-                _graphics.ApplyChanges();
+                _storage.Load();
             }
             catch
             {
-                if (_graphics.IsFullScreen)
-                    _graphics.ToggleFullScreen();
-                _graphics.PreferredBackBufferWidth = 1280;
-                _graphics.PreferredBackBufferHeight = 720;
-                _graphics.ApplyChanges();
-                IsFixedTimeStep = false;
+                _storage.Settings.Resolution.Width = 1280;
+                _storage.Settings.Resolution.Height = 720;
+                _storage.Settings.IsFullscreen = false;
+                _storage.Settings.IsFixedStep = true;
+                _storage.Save();
+            }
+            finally
+            {
+                SettingsChanged(_storage.Settings, EventArgs.Empty);
+                _storage.Settings.HasChanged += SettingsChanged;
             }
 
             Globals.Content = Content;
-            Globals.Storage.Settings.IsFixedStep = IsFixedTimeStep;
 
             #endregion
 
-            display = new(GraphicsDevice);
-            levelManager = new LevelManager((int) display.DefaultHeight, (int) display.DefaultWidth,
-                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), ChangeSettings)
+            _display = new(GraphicsDevice);
+            levelManager = new LevelManager((int) _display.DefaultHeight, (int) _display.DefaultWidth,
+                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), _storage)
             {
                 ChangeWindowName = ChangeTitle
             };
@@ -132,14 +112,14 @@ namespace NoNameButtonGame
             MousepointTopLeft = mouse.Position.ToVector2() - new Vector2(3, 3);
             base.Update(gameTime);
 
-            display.Update(gameTime);
+            _display.Update(gameTime);
 
             levelManager.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(display.Target);
+            GraphicsDevice.SetRenderTarget(_display.Target);
             GraphicsDevice.Clear(new Color(50, 50, 50));
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
@@ -152,9 +132,9 @@ namespace NoNameButtonGame
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
                 null, null);
-            
+
             GraphicsDevice.Clear(Color.HotPink);
-            _spriteBatch.Draw(display.Target, display.Window, null, Color.White);
+            _spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
 
             if (ShowActualMousePos)
                 _spriteBatch.Draw(Mousepoint, new Rectangle(MousepointTopLeft.ToPoint(), new Point(6, 6)), Color.White);
@@ -164,9 +144,24 @@ namespace NoNameButtonGame
             base.Draw(gameTime);
         }
 
-        private void LoadArgs(string args)
+        private void SettingsChanged(object obj, EventArgs e)
         {
-            
+            if (obj is not Settings settings)
+                return;
+
+            IsFixedTimeStep = settings.IsFixedStep;
+
+            if ((!_graphics.IsFullScreen && settings.IsFullscreen) ||
+                (!settings.IsFullscreen && _graphics.IsFullScreen))
+                _graphics.ToggleFullScreen();
+            _graphics.PreferredBackBufferWidth = settings.Resolution.Width;
+            _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
+            _graphics.ApplyChanges();
+
+            // Update level screen
+            levelManager?.ChangeScreen(new Vector2(_graphics.PreferredBackBufferWidth,
+                _graphics.PreferredBackBufferHeight));
+            _storage.Save();
         }
     }
 }

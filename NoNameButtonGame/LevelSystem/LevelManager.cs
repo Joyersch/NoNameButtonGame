@@ -15,6 +15,7 @@ namespace NoNameButtonGame.LevelSystem
         SampleLevel CurrentLevel;
         StartScreen startScreen;
         SettingsScreen settings;
+        private Storage storage;
         public delegate void Changewindowname(string name);
         public Changewindowname ChangeWindowName;
 
@@ -34,15 +35,15 @@ namespace NoNameButtonGame.LevelSystem
         bool CanOverallSelect = true;
         bool RedoCall = false;
         MState state;
-        SettingsScreen.ApplySettings changesettings;
         int LastLevel = 0;
         public void ChangeScreen(Vector2 Screen) {
             this.Screen = Screen;
             if (CurrentLevel != null)
                 CurrentLevel.SetScreen(Screen);
         }
-        public LevelManager(int Height, int Width, Vector2 Screen, SettingsScreen.ApplySettings changesettings) {
-            this.changesettings = changesettings;
+        public LevelManager(int Height, int Width, Vector2 Screen, Storage storage)
+        {
+            this.storage = storage;
             DHeight = Height;
             DWidth = Width;
             this.Screen = Screen;
@@ -59,10 +60,10 @@ namespace NoNameButtonGame.LevelSystem
                 }
             }
             state = MState.Startmenu;
-            LastLevel = Globals.Storage.GameData.MaxLevel;
+            LastLevel = storage.GameData.MaxLevel;
             startScreen = new StartScreen(Width, Height, Screen, rand);
             startScreen.Finish += ExitStartScreen;
-            settings = new SettingsScreen(Width, Height, Screen, rand, changesettings);
+            settings = new SettingsScreen(Width, Height, Screen, rand, storage);
         }
         enum MState
         {
@@ -122,7 +123,7 @@ namespace NoNameButtonGame.LevelSystem
                 case MState.BetweenLevel:
                     InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true);
                     if (CanOverallSelect && !RedoCall) {
-                        CurrentLevel = new LevelSelect(DWidth, DHeight, Screen, rand);
+                        CurrentLevel = new LevelSelect(DWidth, DHeight, Screen, rand, storage);
                         CurrentLevel.Finish += LevelSelected;
                         state = MState.LevelSelect;
                     } else {
@@ -199,7 +200,7 @@ namespace NoNameButtonGame.LevelSystem
                     CanOverallSelect = false;
                     state = MState.BetweenLevel;
                     RedoCall = true;
-                    LastLevel = Globals.Storage.GameData.MaxLevel;
+                    LastLevel = storage.GameData.MaxLevel;
                     break;
                 case StartScreen.ButtonPressed.LevelSelect:
                     state = MState.BetweenLevel;
@@ -208,7 +209,7 @@ namespace NoNameButtonGame.LevelSystem
                     break;
                 case StartScreen.ButtonPressed.Settings:
                     state = MState.Settings;
-                    settings = new SettingsScreen(DWidth, DHeight, Screen, rand, changesettings);
+                    settings = new SettingsScreen(DWidth, DHeight, Screen, rand, storage);
                     break;
                 case StartScreen.ButtonPressed.Exit:
                     Environment.Exit(0);
@@ -226,9 +227,8 @@ namespace NoNameButtonGame.LevelSystem
             state = MState.BetweenLevel;
             if (!CanOverallSelect) {
                 LastLevel++;
-                if (Globals.Storage.GameData.MaxLevel < LastLevel) {
-                    Globals.Storage.GameData.MaxLevel = LastLevel;
-                    changesettings.Invoke(Screen, Globals.Storage.Settings.IsFixedStep, Globals.Storage.Settings.IsFullscreen);
+                if (storage.GameData.MaxLevel < LastLevel) {
+                    storage.GameData.MaxLevel = LastLevel;
                 }
             }
             RedoCall = false;

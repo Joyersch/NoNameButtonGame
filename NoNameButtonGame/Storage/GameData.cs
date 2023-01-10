@@ -1,6 +1,21 @@
+using System;
+using NoNameButtonGame.Interfaces;
+
 namespace NoNameButtonGame;
 
-public class GameData
+public class GameData : IChangeable
 {
-    public int MaxLevel { get; set; }
+    private int _maxLevel;
+
+    public int MaxLevel
+    {
+        get => _maxLevel;
+        set
+        {
+            _maxLevel = value;
+            HasChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public event EventHandler HasChanged;
 }

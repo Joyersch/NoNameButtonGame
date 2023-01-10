@@ -17,15 +17,15 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly TextButton[] resolutionButton;
         readonly TextButton fixedStepButton;
         readonly TextButton fullscreenButton;
-        readonly ApplySettings applySettings;
+        private Storage storage;
         Vector2 vectorResolution;
-        public delegate void ApplySettings(Vector2 Rec, bool Step, bool Full);
-        public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, ApplySettings applySettings) : base(defaultWidth, defaultHeight, window, rand) {
-            this.applySettings = applySettings;
+        public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(defaultWidth, defaultHeight, window, rand)
+        {
+            this.storage = storage;
             string s1 ="❌", s2 = "❌";
-            if (Globals.Storage.Settings.IsFixedStep)
+            if (storage.Settings.IsFixedStep)
                 s1 = "✔";
-            if (Globals.Storage.Settings.IsFullscreen)
+            if (storage.Settings.IsFullscreen)
                 s2 = "✔";
             Name = "Start Menu";
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
@@ -84,7 +84,10 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
             }
             Resolution.ChangeText(vectorResolution.X + "x" + vectorResolution.Y);
-            applySettings(vectorResolution, fixedStepButton.Text.Text == "✔", fullscreenButton.Text.Text == "✔");
+            storage.Settings.Resolution.Width = (int)vectorResolution.X;
+            storage.Settings.Resolution.Height = (int)vectorResolution.Y;
+            storage.Settings.IsFixedStep = fixedStepButton.Text.Text == "✔";
+            storage.Settings.IsFullscreen = fullscreenButton.Text.Text == "✔";
         }
         
         private void ChangePressState(object sender, EventArgs e) {
@@ -97,7 +100,10 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     (sender as TextButton).Text.ChangeText("❌", new Color[1] { Color.Red });
                     break;
             }
-            applySettings(vectorResolution, fixedStepButton.Text.Text == "✔", fullscreenButton.Text.Text == "✔");
+            storage.Settings.Resolution.Width = (int)vectorResolution.X;
+            storage.Settings.Resolution.Height = (int)vectorResolution.Y;
+            storage.Settings.IsFixedStep = fixedStepButton.Text.Text == "✔";
+            storage.Settings.IsFullscreen = fullscreenButton.Text.Text == "✔";
         }
         public override void Draw(SpriteBatch sp) {
             
