@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Threading;
 
-namespace Raigy.Camera
+namespace Joyersch.Camera
 {
     class CameraClass
     {

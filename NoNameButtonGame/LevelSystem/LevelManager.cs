@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Raigy.Obj;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Camera;
 using NoNameButtonGame.LevelSystem.LevelContainer;
-using Raigy.Input;
+using Joyersch.Input;
 
 namespace NoNameButtonGame.LevelSystem
 {

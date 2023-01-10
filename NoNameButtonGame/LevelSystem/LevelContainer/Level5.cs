@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Raigy.Obj;
-using Raigy.Input;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Input;
+using Joyersch.Camera;
 
 using NoNameButtonGame.Interfaces;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 
@@ -29,11 +29,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level5(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 5 - MORE BUTTONS!";
             this.rand = rand;
-            button = new HoldButton(new Vector2(-220, -100), new Vector2(128, 64), Globals.Content.GetTHBox("emptybutton")) {
+            button = new HoldButton(new Vector2(-220, -100), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton")) {
                 EndHoldTime = 6900
             };
             button.Click += EmptyBtnEvent;
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("<-- Hold this button till the timer runs out!", new Vector2(-64, -72), new Vector2(8,8), null, 0);
             Infos[1] = new TextBuilder("<-- This one will be unlocked then", new Vector2(-64, 32), new Vector2(8, 8), null, 0);
@@ -44,7 +44,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
                 Infos[i].ChangeColor(c);
             }
-            lockbutton = new LockButton(new Vector2(-220, 0), new Vector2(128, 64), Globals.Content.GetTHBox("awesomebutton"), true);
+            lockbutton = new LockButton(new Vector2(-220, 0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
             lockbutton.Click += BtnEvent;
             
         }

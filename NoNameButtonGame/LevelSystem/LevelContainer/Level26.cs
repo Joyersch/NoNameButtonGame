@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Raigy.Obj;
-using Raigy.Input;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Input;
+using Joyersch.Camera;
 
 using NoNameButtonGame.Interfaces;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 
@@ -26,12 +26,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         int stat2 = 0;
         public Level26(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetTHBox("awesomebutton"), 100000) {
+            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), 100000) {
                 DrawColor = Color.White,
             };
             button.Click += BtnEvent;
             Name = "Level 26 - I hope you have an autoclicker";
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             Info = new TextBuilder("THiS AGAIN again!!1!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
         }
 

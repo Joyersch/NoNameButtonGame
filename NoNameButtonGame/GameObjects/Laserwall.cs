@@ -1,10 +1,10 @@
 ﻿using System;
-using Raigy.Obj;
+using Joyersch.Obj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using System.Collections.Generic;
 namespace NoNameButtonGame.GameObjects
 {
@@ -20,7 +20,7 @@ namespace NoNameButtonGame.GameObjects
 
         Color OldDrawColor;
 
-        public Laserwall(Vector2 Pos, Vector2 Size, THBox box) {
+        public Laserwall(Vector2 Pos, Vector2 Size, HitboxMap box) {
             this.Size = Size;
             this.Position = Pos;
             Vector2 grid = Size / 32;

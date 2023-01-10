@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Raigy.Obj;
-using Raigy.Input;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Input;
+using Joyersch.Camera;
 
 using NoNameButtonGame.Interfaces;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 
@@ -38,12 +38,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         public Level37(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetTHBox("awesomebutton"), 333) {
+            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), 333) {
                 DrawColor = Color.White,
             };
             button.Click += BtnEvent;
             Name = "Level 37 - roots with a gun";
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             Info = new TextBuilder("THiS AGAIN!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
             shots = new List<Tuple<Laserwall, Vector2>>();
@@ -76,7 +76,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (GT > ShotTime) {
                     GT -= ShotTime;
                     Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rec.Center.ToVector2();
-                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetTHBox("zonenew")), Dir / Dir.Length()));
+                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
                     shots[^1].Item1.Enter += CallFail;
                 }
             }

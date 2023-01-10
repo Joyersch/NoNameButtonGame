@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Raigy.Obj
+namespace Joyersch.Obj
 {
      class GameObject : MonoObject
     {

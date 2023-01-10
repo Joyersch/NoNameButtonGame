@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
     class SettingsScreen : SampleLevel
@@ -28,19 +28,19 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             if (Globals.Storage.Settings.IsFullscreen)
                 s2 = "✔";
             Name = "Start Menu";
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             fixedStep = new TextBuilder("FixedStep", new Vector2(-64, -0), new Vector2(16, 16), null, 0);
             Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64), new Vector2(16, 16), null, 0);
             Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64), new Vector2(16, 16), null, 0);
             resolutionButton = new TextButton[2];
-            resolutionButton[0] = new TextButton(new Vector2(64, -72), new Vector2(40, 32), Globals.Content.GetTHBox("minibutton"), ">", ">",new Vector2(16,16));
-            resolutionButton[1] = new TextButton(new Vector2(-108, -72), new Vector2(40, 32), Globals.Content.GetTHBox("minibutton"), "<", "<", new Vector2(16, 16));
+            resolutionButton[0] = new TextButton(new Vector2(64, -72), new Vector2(40, 32), Globals.Content.GetHitboxMapping("minibutton"), ">", ">",new Vector2(16,16));
+            resolutionButton[1] = new TextButton(new Vector2(-108, -72), new Vector2(40, 32), Globals.Content.GetHitboxMapping("minibutton"), "<", "<", new Vector2(16, 16));
             resolutionButton[0].Click += ChangeRes;
             resolutionButton[1].Click += ChangeRes;
-            fixedStepButton = new TextButton(new Vector2(-108, -8), new Vector2(40, 32), Globals.Content.GetTHBox("minibutton"), "IsFixedStep", s1, new Vector2(16, 16));
+            fixedStepButton = new TextButton(new Vector2(-108, -8), new Vector2(40, 32), Globals.Content.GetHitboxMapping("minibutton"), "IsFixedStep", s1, new Vector2(16, 16));
             fixedStepButton.Text.ChangeColor(new Color[1] { s1 == "❌" ? Color.Red : Color.Green});
             fixedStepButton.Click += ChangePressState;
-            fullscreenButton = new TextButton(new Vector2(-108, 56), new Vector2(40, 32), Globals.Content.GetTHBox("minibutton"), "Fullscreen", s2, new Vector2(16, 16));
+            fullscreenButton = new TextButton(new Vector2(-108, 56), new Vector2(40, 32), Globals.Content.GetHitboxMapping("minibutton"), "Fullscreen", s2, new Vector2(16, 16));
             fullscreenButton.Text.ChangeColor(new Color[1] { s2 == "❌" ? Color.Red : Color.Green });
             fullscreenButton.Click += ChangePressState;
             vectorResolution = window;

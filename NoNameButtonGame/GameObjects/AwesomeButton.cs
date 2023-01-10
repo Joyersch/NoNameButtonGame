@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Raigy.Obj;
+using Joyersch.Obj;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.BeforeMaths;
-using Raigy.Input;
+using Joyersch.Input;
+using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.GameObjects
 {
@@ -21,24 +21,22 @@ namespace NoNameButtonGame.GameObjects
 
         public string Name { get; set; }
 
-        public Rectangle[] Hitbox {
-            get => ingameHitbox;
-        }
+        public Rectangle[] Hitbox => ingameHitbox;
 
 
-        public AwesomeButton(Vector2 Position, Vector2 Size, THBox thBox) {
+        public AwesomeButton(Vector2 Position, Vector2 Size, HitboxMap thBox) {
             base.Size = Size;
             base.Position = Position;
             DrawColor = Color.White;
-            ImageLocation = new Rectangle((int)thBox.Imagesize.X, 0, (int)thBox.Imagesize.X, (int)thBox.Imagesize.Y);
-            FrameSize = thBox.Imagesize;
-            textureHitbox = new Rectangle[thBox.Hitbox.Length];
+            ImageLocation = new Rectangle((int)thBox.ImageSize.X, 0, (int)thBox.ImageSize.X, (int)thBox.ImageSize.Y);
+            FrameSize = thBox.ImageSize;
+            textureHitbox = new Rectangle[thBox.Hitboxes.Length];
             Texture = thBox.Texture;
             Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            textureHitbox = thBox.Hitbox;
+            textureHitbox = thBox.Hitboxes;
             ingameHitbox = new Rectangle[textureHitbox.Length];
-            for (int i = 0; i < thBox.Hitbox.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(base.Position.X + (thBox.Hitbox[i].X * Scale.X)), (int)(base.Position.Y + (thBox.Hitbox[i].Y * Scale.Y)), (int)(thBox.Hitbox[i].Width * Scale.X), (int)(thBox.Hitbox[i].Height * Scale.Y));
+            for (int i = 0; i < thBox.Hitboxes.Length; i++) {
+                ingameHitbox[i] = new Rectangle((int)(base.Position.X + (thBox.Hitboxes[i].X * Scale.X)), (int)(base.Position.Y + (thBox.Hitboxes[i].Y * Scale.Y)), (int)(thBox.Hitboxes[i].Width * Scale.X), (int)(thBox.Hitboxes[i].Height * Scale.Y));
             }
         }
 
@@ -47,14 +45,14 @@ namespace NoNameButtonGame.GameObjects
             if (HitboxCheck(mousePos)) {
                 if (!Hover) {
                     Hover = true;
-                    Enter?.Invoke(this, new EventArgs());
+                    Enter?.Invoke(this, new());
                 }
                 if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true)) {
-                    Click?.Invoke(this, new EventArgs());
+                    Click?.Invoke(this, new());
                 }
             } else {
                 if (Hover)
-                    Leave?.Invoke(this, new EventArgs());
+                    Leave?.Invoke(this, new());
                 Hover = false;
             }
 

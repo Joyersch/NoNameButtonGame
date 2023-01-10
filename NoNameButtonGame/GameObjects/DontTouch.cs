@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Raigy.Obj;
-using NoNameButtonGame.BeforeMaths;
+using Joyersch.Obj;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Input;
 
@@ -25,12 +25,12 @@ namespace NoNameButtonGame.GameObjects
         public event EventHandler Leave;
         public event EventHandler Click;
 
-        public DontTouch(Vector2 Pos, Vector2 Size, THBox box) {
+        public DontTouch(Vector2 Pos, Vector2 Size, HitboxMap box) {
             base.Size = Size;
            
             Position = Pos;
-            FrameSize = box.Imagesize;
-            frameHitbox = box.Hitbox;
+            FrameSize = box.ImageSize;
+            frameHitbox = box.Hitboxes;
             
             
             if (Size.X % 32 != 0 || Size.Y % 32 != 0) {
@@ -41,14 +41,14 @@ namespace NoNameButtonGame.GameObjects
             }
 
             Texture = box.Texture;
-            FrameMax = box.Aniframes;
+            FrameMax = box.AnimationsFrames;
             Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            ImageLocation = new Rectangle(0,0, (int)box.Imagesize.X, (int)box.Imagesize.Y);
+            ImageLocation = new Rectangle(0,0, (int)box.ImageSize.X, (int)box.ImageSize.Y);
             ingameHitbox = new Rectangle[frameHitbox.Length];
             DrawColor = Color.White;
 
-            for (int i = 0; i < box.Hitbox.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitbox[i].X * Scale.X)), (int)(Position.Y + (box.Hitbox[i].Y * Scale.Y)), (int)(box.Hitbox[i].Width * Scale.X), (int)(box.Hitbox[i].Height * Scale.Y));
+            for (int i = 0; i < box.Hitboxes.Length; i++) {
+                ingameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitboxes[i].X * Scale.X)), (int)(Position.Y + (box.Hitboxes[i].Y * Scale.Y)), (int)(box.Hitboxes[i].Width * Scale.X), (int)(box.Hitboxes[i].Height * Scale.Y));
             }
         }
 
@@ -81,7 +81,7 @@ namespace NoNameButtonGame.GameObjects
                 ImageLocation = new Rectangle(0, FramePos * (int)FrameSize.X, (int)FrameSize.X, (int)FrameSize.Y);
             }
             if (HitboxCheck(MousePos)) {
-                Enter(this, new EventArgs());
+                Enter(this, new());
             }
 
             UpdateHitbox();

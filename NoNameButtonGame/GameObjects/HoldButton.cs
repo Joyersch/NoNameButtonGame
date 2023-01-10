@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Raigy.Obj;
+using Joyersch.Obj;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.BeforeMaths;
-using Raigy.Input;
+using NoNameButtonGame.Hitboxes;
+using Joyersch.Input;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects
@@ -31,22 +31,22 @@ namespace NoNameButtonGame.GameObjects
             get => ingameHitbox;
         }
 
-        public HoldButton(Vector2 Position, Vector2 Size, THBox thBox) {
+        public HoldButton(Vector2 Position, Vector2 Size, HitboxMap thBox) {
             base.Size = Size;
             base.Position = Position;
             DrawColor = Color.White;
-            ImageLocation = new Rectangle((int)thBox.Imagesize.X, 0, (int)thBox.Imagesize.X, (int)thBox.Imagesize.Y);
-            FrameSize = thBox.Imagesize;
-            frameHitbox = new Rectangle[thBox.Hitbox.Length];
+            ImageLocation = new Rectangle((int)thBox.ImageSize.X, 0, (int)thBox.ImageSize.X, (int)thBox.ImageSize.Y);
+            FrameSize = thBox.ImageSize;
+            frameHitbox = new Rectangle[thBox.Hitboxes.Length];
             Texture = thBox.Texture;
             Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            frameHitbox = thBox.Hitbox;
+            frameHitbox = thBox.Hitboxes;
             textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16), null, 0);
 
 
             ingameHitbox = new Rectangle[frameHitbox.Length];
-            for (int i = 0; i < thBox.Hitbox.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(base.Position.X + (thBox.Hitbox[i].X * Scale.X)), (int)(base.Position.Y + (thBox.Hitbox[i].Y * Scale.Y)), (int)(thBox.Hitbox[i].Width * Scale.X), (int)(thBox.Hitbox[i].Height * Scale.Y));
+            for (int i = 0; i < thBox.Hitboxes.Length; i++) {
+                ingameHitbox[i] = new Rectangle((int)(base.Position.X + (thBox.Hitboxes[i].X * Scale.X)), (int)(base.Position.Y + (thBox.Hitboxes[i].Y * Scale.Y)), (int)(thBox.Hitboxes[i].Width * Scale.X), (int)(thBox.Hitboxes[i].Height * Scale.Y));
             }
 
         }
@@ -73,13 +73,13 @@ namespace NoNameButtonGame.GameObjects
                 if (!Hover) {
                     Hover = true;
                     if (Enter != null)
-                        Enter(this, new EventArgs());
+                        Enter(this, new());
                 }
                 if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false)) {
                     HoldTime += (float)gt.ElapsedGameTime.TotalMilliseconds;
                     if (HoldTime > EndHoldTime) {
                         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true)) {
-                            Click(this, new EventArgs());
+                            Click(this, new());
                             EndHoldTime = 0;
                         }
 
@@ -92,7 +92,7 @@ namespace NoNameButtonGame.GameObjects
             } else {
                 if (Hover)
                     if (Leave != null)
-                        Leave(this, new EventArgs());
+                        Leave(this, new());
                 Hover = false;
                 HoldTime -= (float)gt.ElapsedGameTime.TotalMilliseconds / 2;
 

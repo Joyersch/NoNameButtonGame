@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
@@ -20,14 +20,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public StartScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Start Menu";
             int Startpos = -(64 * 2);
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
-            startButton = new AwesomeButton(new Vector2(-64, Startpos), new Vector2(160, 64), Globals.Content.GetTHBox("startbutton"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            startButton = new AwesomeButton(new Vector2(-64, Startpos), new Vector2(160, 64), Globals.Content.GetHitboxMapping("startbutton"));
             startButton.Click += BnEvStart;
-            selectLevelButton = new AwesomeButton(new Vector2(-92, Startpos + 64), new Vector2(216, 64), Globals.Content.GetTHBox("selectbutton"));
+            selectLevelButton = new AwesomeButton(new Vector2(-92, Startpos + 64), new Vector2(216, 64), Globals.Content.GetHitboxMapping("selectbutton"));
             selectLevelButton.Click += BnEvSelect;
-            settingsButton = new AwesomeButton(new Vector2(-130, Startpos + 64 * 2), new Vector2(292, 64), Globals.Content.GetTHBox("settingsbutton"));
+            settingsButton = new AwesomeButton(new Vector2(-130, Startpos + 64 * 2), new Vector2(292, 64), Globals.Content.GetHitboxMapping("settingsbutton"));
             settingsButton.Click += BnEvSettings;
-            exitButton = new AwesomeButton(new Vector2(-52, Startpos + 64 * 3), new Vector2(136, 64), Globals.Content.GetTHBox("exitbutton"));
+            exitButton = new AwesomeButton(new Vector2(-52, Startpos + 64 * 3), new Vector2(136, 64), Globals.Content.GetHitboxMapping("exitbutton"));
             exitButton.Click += BnEvExit;
         }
         

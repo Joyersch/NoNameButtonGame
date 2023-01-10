@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Raigy.Obj;
-using Raigy.Input;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Input;
+using Joyersch.Camera;
 
 using NoNameButtonGame.Interfaces;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 
@@ -27,7 +27,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level11(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 11 - ?";
             displayText = new TextBuilder[15];
-            finishButton = new AwesomeButton(new Vector2(-1, 8), new Vector2(8, 4), Globals.Content.GetTHBox("emptybutton"));
+            finishButton = new AwesomeButton(new Vector2(-1, 8), new Vector2(8, 4), Globals.Content.GetHitboxMapping("emptybutton"));
             finishButton.Click += CallFinish;
             displayText[0] = new TextBuilder("So this is Level 11. I though there would be more. the creator must has", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             displayText[1] = new TextBuilder("run out of Ideas other wise he would have put some effort", new Vector2(0, 0), new Vector2(8, 8), null, 0);
@@ -71,7 +71,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
                 displayText[i].ChangeColor(c);
             }
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             
         }
 

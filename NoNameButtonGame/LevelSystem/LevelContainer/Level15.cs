@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Raigy.Obj;
-using Raigy.Input;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Input;
+using Joyersch.Camera;
 
 using NoNameButtonGame.Interfaces;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 
@@ -25,12 +25,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly TextBuilder infoText;
         public Level15(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            stateButton = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetTHBox("awesomebutton"),100) {
+            stateButton = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"),100) {
                 DrawColor = Color.White,
             };
             stateButton.Click += BtnEvent;
             Name = "Level 15 - Back to the roots!";
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             infoText = new TextBuilder("THiS AGAIN!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
         }
 

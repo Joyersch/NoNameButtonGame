@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Raigy.Obj;
-using NoNameButtonGame.BeforeMaths;
+using Joyersch.Obj;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects
@@ -14,18 +14,18 @@ namespace NoNameButtonGame.GameObjects
 
         public Rectangle[] Hitbox => ingameHitbox;
 
-        public Cursor(Vector2 Position, Vector2 Size, THBox thBox) {
+        public Cursor(Vector2 Position, Vector2 Size, HitboxMap thBox) {
             base.Size = Size;
             base.Position = Position;
             ImageLocation = new Rectangle(0,0,0,0);
-            FrameSize = thBox.Imagesize;
+            FrameSize = thBox.ImageSize;
             Texture = thBox.Texture;
             DrawColor = Color.White;
-            textureHitbox = thBox.Hitbox;
+            textureHitbox = thBox.Hitboxes;
             ingameHitbox = new Rectangle[textureHitbox.Length];
             Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            for (int i = 0; i < thBox.Hitbox.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(base.Position.X + (thBox.Hitbox[i].X * Scale.X)), (int)(base.Position.Y + (thBox.Hitbox[i].Y * Scale.Y)), (int)(thBox.Hitbox[i].Width * Scale.X), (int)(thBox.Hitbox[i].Height * Scale.Y));
+            for (int i = 0; i < thBox.Hitboxes.Length; i++) {
+                ingameHitbox[i] = new Rectangle((int)(base.Position.X + (thBox.Hitboxes[i].X * Scale.X)), (int)(base.Position.Y + (thBox.Hitboxes[i].Y * Scale.Y)), (int)(thBox.Hitboxes[i].Width * Scale.X), (int)(thBox.Hitboxes[i].Height * Scale.Y));
             }
         }
 

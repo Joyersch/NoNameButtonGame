@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 
@@ -15,11 +15,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly TextBuilder Info;
         public LevelNULL(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            failButton = new AwesomeButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetTHBox("failbutton")) {
+            failButton = new AwesomeButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("failbutton")) {
                 DrawColor = Color.White,
             };
             failButton.Click += BtnEvent;
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
             Name = "Level ??? End";
             Info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), null, 0);
         }

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Raigy.Obj;
-using Raigy.Input;
-using Raigy.Camera;
+using Joyersch.Obj;
+using Joyersch.Input;
+using Joyersch.Camera;
 
 using NoNameButtonGame.Interfaces;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
@@ -33,7 +33,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
 
             Vector2 clustPos = new Vector2(-250, -150);
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetTHBox("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
 
             Info = new TextBuilder("this is still bad! ->", new Vector2(-296, -96), new Vector2(16, 16), null, 0);
             raincolor = new Rainbow {
@@ -42,14 +42,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Offset = 256
             };
             laserwall = new Laserwall[4];
-            button = new AwesomeButton(new Vector2(-64, 96), new Vector2(128, 64), Globals.Content.GetTHBox("awesomebutton")) {
+            button = new AwesomeButton(new Vector2(-64, 96), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton")) {
                 DrawColor = Color.White,
             };
             button.Click += CallFinish;
-            laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224), Globals.Content.GetTHBox("zonenew"));
-            laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576), Globals.Content.GetTHBox("zonenew"));
-            laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576), Globals.Content.GetTHBox("zonenew"));
-            laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 56), Globals.Content.GetTHBox("zonenew"));
+            laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224), Globals.Content.GetHitboxMapping("zonenew"));
+            laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576), Globals.Content.GetHitboxMapping("zonenew"));
+            laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576), Globals.Content.GetHitboxMapping("zonenew"));
+            laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 56), Globals.Content.GetHitboxMapping("zonenew"));
             for (int i = 0; i < laserwall.Length; i++) {
                 laserwall[i].Enter += LaserEvent;
             }

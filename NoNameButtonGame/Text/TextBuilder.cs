@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Raigy.Obj;
+using Joyersch.Obj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

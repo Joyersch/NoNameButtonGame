@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
-using NoNameButtonGame.BeforeMaths;
+using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LevelSystem;
 using Display = NoNameButtonGame.Display;
 
@@ -110,7 +110,7 @@ namespace NoNameButtonGame
                 ChangeWindowName = ChangeTitle
             };
 
-            Mousepoint = Content.GetTHBox("mousepoint").Texture;
+            Mousepoint = Content.GetHitboxMapping("mousepoint").Texture;
 
             //CamPos = new Vector2(button[0].Size.X / 2, button[0].Size.Y / 2);
             //CamPos = new Vector2(700, 400);

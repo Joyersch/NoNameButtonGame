@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Raigy.Obj;
+using Joyersch.Obj;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.BeforeMaths;
-using Raigy.Input;
+using NoNameButtonGame.Hitboxes;
+using Joyersch.Input;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects
@@ -28,22 +28,22 @@ namespace NoNameButtonGame.GameObjects
         public Rectangle[] Hitbox {
             get => IngameHitbox;
         }
-        public TextButton(Vector2 Pos, Vector2 Size, THBox box, string Name,string Text, Vector2 TextSize) {
+        public TextButton(Vector2 Pos, Vector2 Size, HitboxMap box, string Name,string Text, Vector2 TextSize) {
             base.Size = Size;
             Position = Pos;
             DrawColor = Color.White;
-            ImageLocation = new Rectangle((int)box.Imagesize.X, 0, (int)box.Imagesize.X, (int)box.Imagesize.Y);
-            FrameSize = box.Imagesize;
-            textureHitbox = new Rectangle[box.Hitbox.Length];
+            ImageLocation = new Rectangle((int)box.ImageSize.X, 0, (int)box.ImageSize.X, (int)box.ImageSize.Y);
+            FrameSize = box.ImageSize;
+            textureHitbox = new Rectangle[box.Hitboxes.Length];
             Texture = box.Texture;
             Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            textureHitbox = box.Hitbox;
+            textureHitbox = box.Hitboxes;
             textContainer = new TextBuilder(Text, Position, TextSize, null, 0);
             textContainer.ChangeText(Text);
             this.Name = Name;
             IngameHitbox = new Rectangle[textureHitbox.Length];
-            for (int i = 0; i < box.Hitbox.Length; i++) {
-                IngameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitbox[i].X * Scale.X)), (int)(Position.Y + (box.Hitbox[i].Y * Scale.Y)), (int)(box.Hitbox[i].Width * Scale.X), (int)(box.Hitbox[i].Height * Scale.Y));
+            for (int i = 0; i < box.Hitboxes.Length; i++) {
+                IngameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitboxes[i].X * Scale.X)), (int)(Position.Y + (box.Hitboxes[i].Y * Scale.Y)), (int)(box.Hitboxes[i].Width * Scale.X), (int)(box.Hitboxes[i].Height * Scale.Y));
             }
         }
         

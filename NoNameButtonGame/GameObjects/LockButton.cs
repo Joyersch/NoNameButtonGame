@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Raigy.Obj;
+using Joyersch.Obj;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.BeforeMaths;
-using Raigy.Input;
+using NoNameButtonGame.Hitboxes;
+using Joyersch.Input;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects
@@ -29,21 +29,21 @@ namespace NoNameButtonGame.GameObjects
             get => ingameHitbox;
         }
 
-        public LockButton(Vector2 Pos, Vector2 Size, THBox box, bool Startstate) {
+        public LockButton(Vector2 Pos, Vector2 Size, HitboxMap box, bool Startstate) {
             base.Size = Size;
             Position = Pos;
-            ImageLocation = new Rectangle((int)box.Imagesize.X, 0, (int)box.Imagesize.X, (int)box.Imagesize.Y);
-            FrameSize = box.Imagesize;
-            frameHitbox = new Rectangle[box.Hitbox.Length];
+            ImageLocation = new Rectangle((int)box.ImageSize.X, 0, (int)box.ImageSize.X, (int)box.ImageSize.Y);
+            FrameSize = box.ImageSize;
+            frameHitbox = new Rectangle[box.Hitboxes.Length];
             Texture = box.Texture;
             Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            frameHitbox = box.Hitbox;
+            frameHitbox = box.Hitboxes;
             DrawColor = Color.White;
             textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16), null, 0);
 
             ingameHitbox = new Rectangle[frameHitbox.Length];
-            for (int i = 0; i < box.Hitbox.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitbox[i].X * Scale.X)), (int)(Position.Y + (box.Hitbox[i].Y * Scale.Y)), (int)(box.Hitbox[i].Width * Scale.X), (int)(box.Hitbox[i].Height * Scale.Y));
+            for (int i = 0; i < box.Hitboxes.Length; i++) {
+                ingameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitboxes[i].X * Scale.X)), (int)(Position.Y + (box.Hitboxes[i].Y * Scale.Y)), (int)(box.Hitboxes[i].Width * Scale.X), (int)(box.Hitboxes[i].Height * Scale.Y));
             }
             Locked = Startstate;
         }
@@ -68,18 +68,18 @@ namespace NoNameButtonGame.GameObjects
                 if (!Hover) {
                     Hover = true;
                     if (Enter != null)
-                        Enter(this, new EventArgs());
+                        Enter(this, new());
                 }
                 if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true)) {
                    if (!Locked)
-                        Click(this, new EventArgs());
+                        Click(this, new());
                 } else {
                     //HoldTime -= gt.ElapsedGameTime.TotalMilliseconds / 2;
                 }
             } else {
                 if (Hover)
                     if (Leave != null)
-                        Leave(this, new EventArgs());
+                        Leave(this, new());
                 Hover = false;
 
 
