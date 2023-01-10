@@ -104,7 +104,7 @@ namespace NoNameButtonGame
             #endregion
 
             display = new(GraphicsDevice);
-            levelManager = new LevelManager((int) display.defaultHeight, (int) display.defaultWidth,
+            levelManager = new LevelManager((int) display.DefaultHeight, (int) display.DefaultWidth,
                 new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), ChangeSettings)
             {
                 ChangeWindowName = ChangeTitle
@@ -139,7 +139,7 @@ namespace NoNameButtonGame
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.SetRenderTarget(display.target2D);
+            GraphicsDevice.SetRenderTarget(display.Target);
             GraphicsDevice.Clear(new Color(50, 50, 50));
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
@@ -154,7 +154,7 @@ namespace NoNameButtonGame
                 null, null);
             
             GraphicsDevice.Clear(Color.HotPink);
-            _spriteBatch.Draw(display.target2D, display.Window, null, Color.White);
+            _spriteBatch.Draw(display.Target, display.Window, null, Color.White);
 
             if (ShowActualMousePos)
                 _spriteBatch.Draw(Mousepoint, new Rectangle(MousepointTopLeft.ToPoint(), new Point(6, 6)), Color.White);
