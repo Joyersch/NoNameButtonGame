@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Joyersch.Obj;
 using Joyersch.Input;
 using Joyersch.Camera;
 

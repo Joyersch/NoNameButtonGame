@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Joyersch.Obj;
 namespace NoNameButtonGame.Colors
 {
     class Rainbow : BaseAniColor

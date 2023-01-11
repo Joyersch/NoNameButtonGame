@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Joyersch.Obj;
+using NoNameButtonGame.GameObjects;
+
 namespace NoNameButtonGame.Text
 {
     class Letter : GameObject

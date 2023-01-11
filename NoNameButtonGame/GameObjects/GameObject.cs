@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Joyersch.Obj
+namespace NoNameButtonGame.GameObjects
 {
-     class GameObject : MonoObject
+    public class GameObject : MonoObject
     {
         public Texture2D Texture;
         public Vector2 Position;
@@ -18,16 +18,21 @@ namespace Joyersch.Obj
         public Rectangle rec;
 
 
-        public override void Update(GameTime gt) {
+        public override void Update(GameTime gt)
+        {
             rec = new Rectangle(Position.ToPoint(), Size.ToPoint());
         }
-        public override void Draw(SpriteBatch sp) {
-            if (ImageLocation == new Rectangle(0,0,0,0)) {
+
+        public override void Draw(SpriteBatch sp)
+        {
+            if (ImageLocation == new Rectangle(0, 0, 0, 0))
+            {
                 sp.Draw(Texture, rec, DrawColor);
-            } else {
+            }
+            else
+            {
                 sp.Draw(Texture, rec, ImageLocation, DrawColor);
             }
-            
         }
     }
 }

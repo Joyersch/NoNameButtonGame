@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Joyersch.Obj;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Hitboxes;

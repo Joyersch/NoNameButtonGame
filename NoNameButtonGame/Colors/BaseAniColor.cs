@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Joyersch.Obj;
+using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Colors
 {

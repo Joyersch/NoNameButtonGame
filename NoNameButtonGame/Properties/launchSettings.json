@@ -2,7 +2,7 @@
   "profiles": {
     "NoNameButtonGame": {
       "commandName": "Project",
-      "commandLineArgs": "-seed 0 -showmouse"
+      "commandLineArgs": "-seed 0 -mp"
     }
   }
 }

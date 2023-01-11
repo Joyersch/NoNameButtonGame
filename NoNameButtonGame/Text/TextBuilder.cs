@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Joyersch.Obj;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Text
 {

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
+using System.Linq;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LevelSystem;
 using Display = NoNameButtonGame.Display;
@@ -34,39 +35,22 @@ namespace NoNameButtonGame
         protected override void Initialize()
         {
             base.Initialize();
+            
+            // Read argument(s)
+            ShowActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
+            
+            // Check Save directory
+            if (!Directory.Exists(Globals.SaveDirectory))
+                Directory.CreateDirectory(Globals.SaveDirectory);
 
-            #region LoadArgs
-
-            string[] args = Environment.GetCommandLineArgs();
-
-            for (int i = 0; i < args.Length; i++)
-            {
-                if (args[i] == "-showmouse")
-                {
-                    ShowActualMousePos = true;
-                }
-            }
-
-            #endregion
-
-            IsFixedTimeStep = false;
-
-
-            #region Storage
-
-            if (!Directory.Exists(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/NoNameButtonGame"))
-            {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
-                                          "/NoNameButtonGame");
-            }
-
+            // Load or generate settings file (as well as save)
             try
             {
                 _storage.Load();
             }
             catch
             {
+                // fallback default settings
                 _storage.Settings.Resolution.Width = 1280;
                 _storage.Settings.Resolution.Height = 720;
                 _storage.Settings.IsFullscreen = false;
@@ -79,9 +63,10 @@ namespace NoNameButtonGame
                 _storage.Settings.HasChanged += SettingsChanged;
             }
 
+            // will be removed
             Globals.Content = Content;
 
-            #endregion
+
 
             _display = new(GraphicsDevice);
             levelManager = new LevelManager((int) _display.DefaultHeight, (int) _display.DefaultWidth,
