@@ -105,30 +105,30 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             storage.Settings.IsFixedStep = fixedStepButton.Text.Text == "✔";
             storage.Settings.IsFullscreen = fullscreenButton.Text.Text == "✔";
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             
-            fixedStep.Draw(sp);
-            Resolution.Draw(sp);
-            Fullscreen.Draw(sp);
+            fixedStep.Draw(spriteBatch);
+            Resolution.Draw(spriteBatch);
+            Fullscreen.Draw(spriteBatch);
             for (int i = 0; i < resolutionButton.Length; i++) {
-                resolutionButton[i].Draw(sp);
+                resolutionButton[i].Draw(spriteBatch);
             }
-            fixedStepButton.Draw(sp);
-            fullscreenButton.Draw(sp);
-            mouseCursor.Draw(sp);
+            fixedStepButton.Draw(spriteBatch);
+            fullscreenButton.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
-        public override void Update(GameTime gt) {
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            base.Update(gameTime);
             mouseCursor.Position = mousePosition;
-            mouseCursor.Update(gt);
-            fixedStep.Update(gt);
-            Resolution.Update(gt);
-            Fullscreen.Update(gt);
+            mouseCursor.Update(gameTime);
+            fixedStep.Update(gameTime);
+            Resolution.Update(gameTime);
+            Fullscreen.Update(gameTime);
             for (int i = 0; i < resolutionButton.Length; i++) {
-                resolutionButton[i].Update(gt,mouseCursor.Hitbox[0]);
+                resolutionButton[i].Update(gameTime,mouseCursor.Hitbox[0]);
             }
-            fixedStepButton.Update(gt, mouseCursor.Hitbox[0]);
-            fullscreenButton.Update(gt, mouseCursor.Hitbox[0]);
+            fixedStepButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            fullscreenButton.Update(gameTime, mouseCursor.Hitbox[0]);
         }
     }
 }

@@ -61,33 +61,33 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void BtnEvent(object sender, EventArgs e) {
             CallFinish(sender,e);
         }
-        public override void Draw(SpriteBatch sp) {
-            button.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            button.Draw(spriteBatch);
             for (int i = 0; i < laserwall.Length; i++) {
-                laserwall[i].Draw(sp);
+                laserwall[i].Draw(spriteBatch);
             }
-            Info.Draw(sp);
-            cursor.Draw(sp);
+            Info.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
            
         }
 
-        public override void Update(GameTime gt) {
-            GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+        public override void Update(GameTime gameTime) {
+            GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while(GT > 125) {
                 GT -= 125;
                 //laserwall.Move(new Vector2(1, 0));
             }
-            cursor.Update(gt);
-            raincolor.Update(gt);
+            cursor.Update(gameTime);
+            raincolor.Update(gameTime);
             Info.ChangeColor(raincolor.GetColor(Info.Text.Length));
-            Info.Update(gt);
-            base.Update(gt);
+            Info.Update(gameTime);
+            base.Update(gameTime);
             for (int i = 0; i < laserwall.Length; i++) {
-                laserwall[i].Update(gt, cursor.Hitbox[0]);
+                laserwall[i].Update(gameTime, cursor.Hitbox[0]);
             }
             
             cursor.Position = mousePosition - cursor.Size / 2;
-            button.Update(gt, cursor.Hitbox[0]);
+            button.Update(gameTime, cursor.Hitbox[0]);
         }
     }
 }

@@ -37,15 +37,15 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void BtnEvent(object sender, EventArgs e) {
             CallFinish();
         }
-        public override void Draw(SpriteBatch sp) {
-            Info.Draw(sp);
-            button.Draw(sp);
-            cursor.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            Info.Draw(spriteBatch);
+            button.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            cursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            cursor.Update(gameTime);
+            base.Update(gameTime);
             Info.ChangePosition(-Info.rec.Size.ToVector2() / 2 + new Vector2(0, -64));
             if (button.CurrentStates < 99950 && stat2 == 0) {
                 stat2++;
@@ -65,8 +65,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 button.States = 100;
             }
             cursor.Position = mousePosition - cursor.Size / 2;
-            button.Update(gt, cursor.Hitbox[0]);
-            Info.Update(gt);
+            button.Update(gameTime, cursor.Hitbox[0]);
+            Info.Update(gameTime);
         }
     }
 }

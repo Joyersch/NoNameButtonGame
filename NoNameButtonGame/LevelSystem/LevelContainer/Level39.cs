@@ -86,28 +86,28 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
 
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             for (int i = 0; i < button.Length; i++) {
-                button[i].Draw(sp);
+                button[i].Draw(spriteBatch);
             }
-            Questions.Draw(sp);
-            Timer.Draw(sp);
-            cursor.Draw(sp);
+            Questions.Draw(spriteBatch);
+            Timer.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            cursor.Update(gt);
-            base.Update(gt);
-            GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+        public override void Update(GameTime gameTime) {
+            cursor.Update(gameTime);
+            base.Update(gameTime);
+            GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             Timer.ChangeText(((GTMax - GT) / 1000).ToString("0.0").Replace(',', '.') + "s");
             Timer.ChangePosition(-Timer.rec.Size.ToVector2() / 2 + new Vector2(0, -160));
-            Timer.Update(gt);
+            Timer.Update(gameTime);
             if (Timer.Text.Contains("-"))
                 CallReset();
             Questions.ChangePosition(new Vector2(0, -128) - Questions.rec.Size.ToVector2() / 2);
-            Questions.Update(gt);
+            Questions.Update(gameTime);
             for (int i = 0; i < button.Length; i++) {
-                button[i].Update(gt, cursor.Hitbox[0]);
+                button[i].Update(gameTime, cursor.Hitbox[0]);
             }
             cursor.Position = mousePosition - cursor.Size / 2;
         }

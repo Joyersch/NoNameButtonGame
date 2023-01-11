@@ -20,7 +20,7 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
 
     Color OldDrawColor;
 
-    public Laserwall(Vector2 Pos, Vector2 Size, HitboxMap box)
+    public Laserwall(Vector2 Pos, Vector2 Size, TextureHitboxMapping box)
     {
         this.Size = Size;
         this.Position = Pos;
@@ -110,11 +110,11 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
         OldDrawColor = DrawColor;
     }
 
-    public override void Draw(SpriteBatch sp)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < dontTouchGrid.Length; i++)
         {
-            dontTouchGrid[i].Draw(sp);
+            dontTouchGrid[i].Draw(spriteBatch);
         }
     }
 

@@ -37,19 +37,19 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             CallFinish();
         }
 
-        public override void Draw(SpriteBatch sp) {
-            infoText.Draw(sp);
-            stateButton.Draw(sp);
-            mouseCursor.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            infoText.Draw(spriteBatch);
+            stateButton.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            mouseCursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
             infoText.ChangePosition(- infoText.rec.Size.ToVector2() / 2 + new Vector2(0,-64));
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
-            stateButton.Update(gt, mouseCursor.Hitbox[0]);
-            infoText.Update(gt);
+            stateButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            infoText.Update(gameTime);
         }
     }
 }

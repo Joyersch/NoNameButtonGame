@@ -80,28 +80,28 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void WallEvent(object sender, EventArgs e) {
             CallReset(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            finishButton.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            finishButton.Draw(spriteBatch);
             for (int i = 0; i < longText.Length; i++) {
-                longText[i].Draw(sp);
+                longText[i].Draw(spriteBatch);
             }
-            mouseCursor.Draw(sp);
+            mouseCursor.Draw(spriteBatch);
         }
         
-        public override void Update(GameTime gt) {
-            mouseCursor.Update(gt);
-            base.Update(gt);
-            finishButton.Update(gt, mouseCursor.Hitbox[0]);
+        public override void Update(GameTime gameTime) {
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
+            finishButton.Update(gameTime, mouseCursor.Hitbox[0]);
             if (!Loaded) {
                 for (int i = 0; i < longText.Length; i++) {
-                    longText[i].Update(gt);
+                    longText[i].Update(gameTime);
                     longText[i].ChangePosition(new Vector2(24, -120 + i * 16) - longText[i].rec.Size.ToVector2() / 2);
 
                 }
                 Loaded = true;
             } else
                 for (int i = 0; i < longText.Length; i++)
-                    longText[i].Update(gt);
+                    longText[i].Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
         }
     }

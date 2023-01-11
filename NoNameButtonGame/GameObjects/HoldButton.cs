@@ -32,7 +32,7 @@ class HoldButton : GameObject, IMouseActions, IHitbox
         get => ingameHitbox;
     }
 
-    public HoldButton(Vector2 Position, Vector2 Size, HitboxMap thBox)
+    public HoldButton(Vector2 Position, Vector2 Size, TextureHitboxMapping thBox)
     {
         base.Size = Size;
         base.Position = Position;
@@ -146,9 +146,9 @@ class HoldButton : GameObject, IMouseActions, IHitbox
         Update(gt);
     }
 
-    public override void Draw(SpriteBatch sp)
+    public override void Draw(SpriteBatch spriteBatch)
     {
-        base.Draw(sp);
-        textContainer.Draw(sp);
+        base.Draw(spriteBatch);
+        textContainer.Draw(spriteBatch);
     }
 }

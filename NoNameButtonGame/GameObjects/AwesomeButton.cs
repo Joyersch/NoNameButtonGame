@@ -24,7 +24,7 @@ class AwesomeButton : GameObject, IMouseActions, IHitbox, IMoveable
     public Rectangle[] Hitbox => ingameHitbox;
 
 
-    public AwesomeButton(Vector2 Position, Vector2 Size, HitboxMap thBox)
+    public AwesomeButton(Vector2 Position, Vector2 Size, TextureHitboxMapping thBox)
     {
         base.Size = Size;
         base.Position = Position;

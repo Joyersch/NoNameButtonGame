@@ -45,18 +45,18 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void BtnWinEvent(object sender, EventArgs e) {
             CallFinish();
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             for (int i = 0; i < button.Length; i++) {
-                button[i].Draw(sp);
+                button[i].Draw(spriteBatch);
             }
-            Info.Draw(sp);
-            cursor.Draw(sp);
+            Info.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            cursor.Update(gt);
-            base.Update(gt);
-            GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+        public override void Update(GameTime gameTime) {
+            cursor.Update(gameTime);
+            base.Update(gameTime);
+            GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while (GT > 333) {
                 GT -= 333;
                 int randI64 = rand.Next(0, 16);
@@ -76,9 +76,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             cursor.Position = mousePosition - cursor.Size / 2;
             for (int i = 0; i < button.Length; i++) {
-                button[i].Update(gt, cursor.Hitbox[0]);
+                button[i].Update(gameTime, cursor.Hitbox[0]);
             }
-            Info.Update(gt);
+            Info.Update(gameTime);
         }
     }
 }

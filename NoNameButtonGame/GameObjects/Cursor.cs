@@ -14,7 +14,7 @@ class Cursor : GameObject, IHitbox
 
     public Rectangle[] Hitbox => ingameHitbox;
 
-    public Cursor(Vector2 Position, Vector2 Size, HitboxMap thBox)
+    public Cursor(Vector2 Position, Vector2 Size, TextureHitboxMapping thBox)
     {
         base.Size = Size;
         base.Position = Position;
@@ -33,14 +33,14 @@ class Cursor : GameObject, IHitbox
         }
     }
 
-    public override void Draw(SpriteBatch sp)
+    public override void Draw(SpriteBatch spriteBatch)
     {
-        base.Draw(sp);
+        base.Draw(spriteBatch);
     }
 
-    public override void Update(GameTime gt)
+    public override void Update(GameTime gameTime)
     {
-        base.Update(gt);
+        base.Update(gameTime);
         UpdateHitbox();
     }
 

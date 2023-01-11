@@ -29,7 +29,7 @@ namespace NoNameButtonGame.GameObjects
         public Rectangle[] Hitbox {
             get => ingameHitbox;
         }
-        public StateButton(Vector2 Pos, Vector2 Size, HitboxMap box, int States) {
+        public StateButton(Vector2 Pos, Vector2 Size, TextureHitboxMapping box, int States) {
             base.Size = Size;
             Position = Pos;
             ImageLocation = new Rectangle((int)box.ImageSize.X, 0, (int)box.ImageSize.X, (int)box.ImageSize.Y);
@@ -101,9 +101,9 @@ namespace NoNameButtonGame.GameObjects
             Update(gt);
         }
 
-        public override void Draw(SpriteBatch sp) {
-            base.Draw(sp);
-            textContainer.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            base.Draw(spriteBatch);
+            textContainer.Draw(spriteBatch);
 
         }
     }

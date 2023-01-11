@@ -55,22 +55,22 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             pressedAction = ButtonPressed.Exit;
             CallFinish(this, e);
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
 
-            startButton.Draw(sp);
-            settingsButton.Draw(sp);
-            selectLevelButton.Draw(sp);
-            exitButton.Draw(sp);
-            mouseCursor.Draw(sp);
+            startButton.Draw(spriteBatch);
+            settingsButton.Draw(spriteBatch);
+            selectLevelButton.Draw(spriteBatch);
+            exitButton.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
-        public override void Update(GameTime gt) {
-            base.Update(gt);
-            startButton.Update(gt, mouseCursor.Hitbox[0]);
-            settingsButton.Update(gt, mouseCursor.Hitbox[0]);
-            selectLevelButton.Update(gt, mouseCursor.Hitbox[0]);
-            exitButton.Update(gt, mouseCursor.Hitbox[0]);
+        public override void Update(GameTime gameTime) {
+            base.Update(gameTime);
+            startButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            settingsButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            selectLevelButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            exitButton.Update(gameTime, mouseCursor.Hitbox[0]);
             mouseCursor.Position = mousePosition;
-            mouseCursor.Update(gt);
+            mouseCursor.Update(gameTime);
         }
     }
 }

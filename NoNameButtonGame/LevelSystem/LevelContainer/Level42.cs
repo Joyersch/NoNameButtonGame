@@ -51,44 +51,44 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void WallEvent(object sender, EventArgs e) {
             CallReset(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            button.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            button.Draw(spriteBatch);
             if (TimerStarted) {
-                Info.Draw(sp);
-                wall.Draw(sp);
-                Timer.Draw(sp);
+                Info.Draw(spriteBatch);
+                wall.Draw(spriteBatch);
+                Timer.Draw(spriteBatch);
             }
             if (!TimerStarted && button.Locked)
-                ButtonStartTimer.Draw(sp);
-            cursor.Draw(sp);
+                ButtonStartTimer.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            base.Update(gameTime);
             cursor.Position = mousePosition - cursor.Size / 2;
-            cursor.Update(gt);
+            cursor.Update(gameTime);
             if (TimerStarted) {
-                Info.Update(gt);
-                GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
-                TGT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                Info.Update(gameTime);
+                GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                TGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > 32) {
                     GT -= 32;
                     Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - wall.rec.Center.ToVector2();
 
                     wall.Move(Dir / Dir.Length() * (TGT / 1111));
                 }
-                wall.Update(gt, cursor.Hitbox[0]);
+                wall.Update(gameTime, cursor.Hitbox[0]);
                 float TL = (60000 - TGT) / 1000;
                 if (TL <= 0) {
                     TimerStarted = false;
                     button.Locked = false;
                 }
                 Timer.ChangeText(TL.ToString("0.0").Replace(',', '.') + "S");
-                Timer.Update(gt);
+                Timer.Update(gameTime);
             }
             if (!TimerStarted && button.Locked)
-                ButtonStartTimer.Update(gt, cursor.Hitbox[0]);
-            button.Update(gt, cursor.Hitbox[0]);
+                ButtonStartTimer.Update(gameTime, cursor.Hitbox[0]);
+            button.Update(gameTime, cursor.Hitbox[0]);
 
         }
     }

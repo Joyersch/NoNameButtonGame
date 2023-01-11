@@ -59,17 +59,17 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void WallEvent(object sender, EventArgs e) {
             CallReset(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            button.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            button.Draw(spriteBatch);
             for (int i = 0; i < Infos.Length; i++) {
-                Infos[i].Draw(sp);
+                Infos[i].Draw(spriteBatch);
             }
-            lockbutton.Draw(sp);
-            cursor.Draw(sp);
+            lockbutton.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+        public override void Update(GameTime gameTime) {
+            GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while(GT > 512) {
                 GT -= 512;
                 for (int i = 0; i < Infos.Length; i++) {
@@ -81,14 +81,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
                 
             }
-            cursor.Update(gt);
-            base.Update(gt);
+            cursor.Update(gameTime);
+            base.Update(gameTime);
             for (int i = 0; i < Infos.Length; i++) {
-                Infos[i].Update(gt);
+                Infos[i].Update(gameTime);
             }
             cursor.Position = mousePosition - cursor.Size / 2;
-            button.Update(gt, cursor.Hitbox[0]);
-            lockbutton.Update(gt, cursor.Hitbox[0]);
+            button.Update(gameTime, cursor.Hitbox[0]);
+            lockbutton.Update(gameTime, cursor.Hitbox[0]);
         }
     }
 }

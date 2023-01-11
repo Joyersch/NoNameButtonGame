@@ -50,13 +50,13 @@ namespace NoNameButtonGame.LevelSystem
             
         }
 
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             throw new NotImplementedException();
         }
         
-        public override void Update(GameTime gt) {
+        public override void Update(GameTime gameTime) {
             if (animationIn || animationOut) {
-                OutGT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                OutGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 while (OutGT > 8) {
                     OutGT -= 8;

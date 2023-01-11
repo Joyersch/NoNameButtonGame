@@ -43,25 +43,25 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void WallEvent(object sender, EventArgs e) {
             CallReset(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            button.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            button.Draw(spriteBatch);
             for (int i = 0; i < Infos.Length; i++) {
-                Infos[i].Draw(sp);
+                Infos[i].Draw(spriteBatch);
             }
-            wall.Draw(sp);
-            cursor.Draw(sp);
+            wall.Draw(spriteBatch);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            cursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            cursor.Update(gameTime);
+            base.Update(gameTime);
             for (int i = 0; i < Infos.Length; i++) {
-                Infos[i].Update(gt);
+                Infos[i].Update(gameTime);
             }
 
             cursor.Position = mousePosition - cursor.Size / 2;
-            button.Update(gt, cursor.Hitbox[0]);
-            wall.Update(gt, cursor.Hitbox[0]);
+            button.Update(gameTime, cursor.Hitbox[0]);
+            wall.Update(gameTime, cursor.Hitbox[0]);
         }
     }
 }

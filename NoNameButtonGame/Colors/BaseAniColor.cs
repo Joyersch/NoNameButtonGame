@@ -21,13 +21,13 @@ namespace NoNameButtonGame.Colors
             
         }
 
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
 
         }
 
-        public override void Update(GameTime gt) {
+        public override void Update(GameTime gameTime) {
              if (Color.Length != 0 && Speed > 0) {
-                GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > Speed) {
                     GT -= Speed;
                     Index += Increment;

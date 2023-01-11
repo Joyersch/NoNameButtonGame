@@ -35,23 +35,23 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             wallDown.Enter += CallFail;
         }
         
-        public override void Draw(SpriteBatch sp) {
-            userButton.Draw(sp);
-            wallUp.Draw(sp);
-            wallDown.Draw(sp);
-            movingCursor.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            userButton.Draw(spriteBatch);
+            wallUp.Draw(spriteBatch);
+            wallDown.Draw(spriteBatch);
+            movingCursor.Draw(spriteBatch);
         }
 
         
-        public override void Update(GameTime gt) {
-            movingCursor.Update(gt);
-            base.Update(gt);
-            double angle = gt.TotalGameTime.Milliseconds / 1000F * Math.PI * 2;
+        public override void Update(GameTime gameTime) {
+            movingCursor.Update(gameTime);
+            base.Update(gameTime);
+            double angle = gameTime.TotalGameTime.Milliseconds / 1000F * Math.PI * 2;
             movingCursor.Position = new Vector2(Multiplier * (float)Math.Sin(angle), Multiplier * (float)Math.Cos(angle));
             userButton.Position = mousePosition - userButton.Size / 2;
-            wallUp.Update(gt, userButton.rec);
-            wallDown.Update(gt, userButton.rec);
-            userButton.Update(gt, movingCursor.Hitbox[0]);
+            wallUp.Update(gameTime, userButton.rec);
+            wallDown.Update(gameTime, userButton.rec);
+            userButton.Update(gameTime, movingCursor.Hitbox[0]);
 
         }
     }

@@ -73,22 +73,22 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         }
         
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             for (int i = 0; i < awnserButton.Length; i++) {
-                awnserButton[i].Draw(sp);
+                awnserButton[i].Draw(spriteBatch);
             }
-            Questions.Draw(sp);
-            mouseCursor.Draw(sp);
+            Questions.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            totalGameTime = gt.TotalGameTime.TotalSeconds;
-            mouseCursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            totalGameTime = gameTime.TotalGameTime.TotalSeconds;
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
             Questions.ChangePosition(new Vector2(0, -128) - Questions.rec.Size.ToVector2() / 2);
-            Questions.Update(gt);
+            Questions.Update(gameTime);
             for (int i = 0; i < awnserButton.Length; i++) {
-                awnserButton[i].Update(gt, mouseCursor.Hitbox[0]);
+                awnserButton[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
         }

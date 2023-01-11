@@ -4,7 +4,7 @@ namespace NoNameButtonGame.GameObjects
 {
     public abstract class MonoObject
     {
-        public abstract void Update(GameTime gt);
-        public abstract void Draw(SpriteBatch sp);
+        public abstract void Update(GameTime gameTime);
+        public abstract void Draw(SpriteBatch spriteBatch);
     }
 }

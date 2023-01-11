@@ -53,29 +53,29 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             CallReset(sender, e);
         }
 
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
 
-            displayGun.Draw(sp);
+            displayGun.Draw(spriteBatch);
             for (int i = 0; i < shots.Count; i++) {
-                shots[i].Item1.Draw(sp);
+                shots[i].Item1.Draw(spriteBatch);
             }
-            displayTimer.Draw(sp);
-            mouseCursor.Draw(sp);
+            displayTimer.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            mouseCursor.Update(gt);
-            base.Update(gt);
-            displayGun.Update(gt);
+        public override void Update(GameTime gameTime) {
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
+            displayGun.Update(gameTime);
 
-            gameTimeUpdateOverAll += (float)gt.ElapsedGameTime.TotalMilliseconds;
-            TimerC += (float)gt.ElapsedGameTime.TotalMilliseconds;
+            gameTimeUpdateOverAll += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            TimerC += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while (gameTimeUpdateOverAll > updateSpeed) {
                 gameTimeUpdateOverAll -= updateSpeed;
                 for (int i = 0; i < shots.Count; i++) {
                     shots[i].Item1.Move(shots[i].Item2 * travelSpeed);
                 }
-                gameTimeUpdateShots += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                gameTimeUpdateShots += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (gameTimeUpdateShots > shotTime) {
                     gameTimeUpdateShots -= shotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - displayGun.rec.Center.ToVector2();
@@ -85,7 +85,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
-                shots[i].Item1.Update(gt, mouseCursor.Hitbox[0]);
+                shots[i].Item1.Update(gameTime, mouseCursor.Hitbox[0]);
                 if (!shots[i].Item1.rec.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
@@ -105,7 +105,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             if (TimerC >= TimerMax)
                 CallFinish(this, new EventArgs());
             displayTimer.ChangeText(((TimerMax - TimerC) / 1000).ToString("0.0") + "S");
-            displayTimer.Update(gt);
+            displayTimer.Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
             OldMPos = mousePosition;
         }

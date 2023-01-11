@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
 using System.Linq;
+using Microsoft.Xna.Framework.Content;
+using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LevelSystem;
 using Display = NoNameButtonGame.Display;
@@ -17,11 +19,10 @@ namespace NoNameButtonGame
 
         private Display.Display _display;
         private Storage _storage;
+        private LevelManager levelManager;
         
-        LevelManager levelManager;
-        Texture2D Mousepoint;
-        Vector2 MousepointTopLeft;
-        bool ShowActualMousePos = false;
+        private bool ShowActualMousePos = false;
+        private MousePointer _mousePointer;
 
         public NoNameGame()
         {
@@ -65,20 +66,14 @@ namespace NoNameButtonGame
 
             // will be removed
             Globals.Content = Content;
-
-
-
             _display = new(GraphicsDevice);
+            _mousePointer = new MousePointer();
+            
             levelManager = new LevelManager((int) _display.DefaultHeight, (int) _display.DefaultWidth,
                 new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), _storage)
             {
                 ChangeWindowName = ChangeTitle
             };
-
-            Mousepoint = Content.GetHitboxMapping("mousepoint").Texture;
-
-            //CamPos = new Vector2(button[0].Size.X / 2, button[0].Size.Y / 2);
-            //CamPos = new Vector2(700, 400);
         }
 
         private void ChangeTitle(string NewName)
@@ -89,14 +84,15 @@ namespace NoNameButtonGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            MousePointer.TextureHitboxMapping = Content.GetHitboxMapping("mousepoint");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            MouseState mouse = Mouse.GetState();
-            MousepointTopLeft = mouse.Position.ToVector2() - new Vector2(3, 3);
             base.Update(gameTime);
-
+            
+            _mousePointer.Update(gameTime);
+            
             _display.Update(gameTime);
 
             levelManager.Update(gameTime);
@@ -122,7 +118,7 @@ namespace NoNameButtonGame
             _spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
 
             if (ShowActualMousePos)
-                _spriteBatch.Draw(Mousepoint, new Rectangle(MousepointTopLeft.ToPoint(), new Point(6, 6)), Color.White);
+                _mousePointer.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

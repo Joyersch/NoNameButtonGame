@@ -73,25 +73,25 @@ namespace NoNameButtonGame.LevelSystem
             BetweenLevel,
             LevelSelect,
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             switch (state) {
                 case MState.Settings:
-                    settings.Draw(sp);
+                    settings.Draw(spriteBatch);
                     break;
                 case MState.Startmenu:
-                    startScreen.Draw(sp);
+                    startScreen.Draw(spriteBatch);
                     break;
                 case MState.Level:
-                    CurrentLevel.Draw(sp);
+                    CurrentLevel.Draw(spriteBatch);
                     break;
                 case MState.BetweenLevel:
                     break;
                 case MState.LevelSelect:
-                    CurrentLevel.Draw(sp);
+                    CurrentLevel.Draw(spriteBatch);
                     break;
             }
         }
-        public override void Update(GameTime gt) {
+        public override void Update(GameTime gameTime) {
             if (InputReaderKeyboard.CheckKey(Microsoft.Xna.Framework.Input.Keys.Escape, true)) {
                 MState save = state;
                 switch (state) {
@@ -107,18 +107,18 @@ namespace NoNameButtonGame.LevelSystem
             ChangeWindowName((CurrentLevel ?? new SampleLevel(DWidth, DHeight, Screen, rand) { Name = "NoNameButtonGame" }).Name);
             switch (state) {
                 case MState.Settings:
-                    settings.Update(gt);
+                    settings.Update(gameTime);
                     ChangeWindowName(settings.Name);
                     break;
                 case MState.Startmenu:
-                    startScreen.Update(gt);
+                    startScreen.Update(gameTime);
                     ChangeWindowName(startScreen.Name);
                     break;
                 case MState.Level:
-                    CurrentLevel.Update(gt);
+                    CurrentLevel.Update(gameTime);
                     break;
                 case MState.LevelSelect:
-                    CurrentLevel.Update(gt);
+                    CurrentLevel.Update(gameTime);
                     break;
                 case MState.BetweenLevel:
                     InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true);
@@ -229,6 +229,7 @@ namespace NoNameButtonGame.LevelSystem
                 LastLevel++;
                 if (storage.GameData.MaxLevel < LastLevel) {
                     storage.GameData.MaxLevel = LastLevel;
+                    storage.Save();
                 }
             }
             RedoCall = false;

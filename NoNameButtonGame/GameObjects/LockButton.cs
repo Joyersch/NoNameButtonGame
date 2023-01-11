@@ -30,7 +30,7 @@ class LockButton : GameObject, IMouseActions, IHitbox
         get => ingameHitbox;
     }
 
-    public LockButton(Vector2 Pos, Vector2 Size, HitboxMap box, bool Startstate)
+    public LockButton(Vector2 Pos, Vector2 Size, TextureHitboxMapping box, bool Startstate)
     {
         base.Size = Size;
         Position = Pos;
@@ -127,9 +127,9 @@ class LockButton : GameObject, IMouseActions, IHitbox
         Update(gt);
     }
 
-    public override void Draw(SpriteBatch sp)
+    public override void Draw(SpriteBatch spriteBatch)
     {
-        base.Draw(sp);
-        textContainer.Draw(sp);
+        base.Draw(spriteBatch);
+        textContainer.Draw(spriteBatch);
     }
 }

@@ -43,29 +43,29 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void WallEvent(object sender, EventArgs e) {
             CallReset(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
 
-            Gun.Draw(sp);
+            Gun.Draw(spriteBatch);
             for (int i = 0; i < Shots.Count; i++) {
-                Shots[i].Item1.Draw(sp);
+                Shots[i].Item1.Draw(spriteBatch);
             }
-            Timer.Draw(sp);
-            mouseCursor.Draw(sp);
+            Timer.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
         
-        public override void Update(GameTime gt) {
-            mouseCursor.Update(gt);
-            base.Update(gt);
-            Gun.Update(gt);
+        public override void Update(GameTime gameTime) {
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
+            Gun.Update(gameTime);
 
-            MGT += (float)gt.ElapsedGameTime.TotalMilliseconds;
-            timerCurrent += (float)gt.ElapsedGameTime.TotalMilliseconds;
+            MGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+            timerCurrent += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while (MGT > updateSpeed) {
                 MGT -= updateSpeed;
                 for (int i = 0; i < Shots.Count; i++) {
                     Shots[i].Item1.Move(Shots[i].Item2 * travelSpeed);
                 }
-                GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > shotTime) {
                     GT -= shotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - Gun.rec.Center.ToVector2();
@@ -75,7 +75,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             removeItem.Clear();
             for (int i = 0; i < Shots.Count; i++) {
-                Shots[i].Item1.Update(gt, mouseCursor.Hitbox[0]);
+                Shots[i].Item1.Update(gameTime, mouseCursor.Hitbox[0]);
                 if (!Shots[i].Item1.rec.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
@@ -94,7 +94,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             if (timerCurrent >= timerMax)
                 CallFinish(this, new EventArgs());
-            Timer.Update(gt);
+            Timer.Update(gameTime);
             Timer.ChangeText(((timerMax - timerCurrent) / 1000).ToString("0.0") + "S");
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
             oldMousePosition = mousePosition;

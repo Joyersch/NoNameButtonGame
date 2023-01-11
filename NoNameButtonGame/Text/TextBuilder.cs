@@ -305,18 +305,18 @@ namespace NoNameButtonGame.Text
             return Letters.ToArray();
         }
 
-        public override void Update(GameTime gt) {
+        public override void Update(GameTime gameTime) {
             //base.Update(gt);
             for (int i = 0; i < LetterAry.Length; i++) {
-                LetterAry[i].Update(gt);
+                LetterAry[i].Update(gameTime);
             }
             rec = new Rectangle(Position.ToPoint(), new Point(Length + (spacing + 1) * (LetterAry.Length - 1), (int)Size.Y));
         }
 
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             //base.Draw(sp);
             for (int i = 0; i < LetterAry.Length; i++) {
-                LetterAry[i].Draw(sp);
+                LetterAry[i].Draw(spriteBatch);
             }
         }
     }

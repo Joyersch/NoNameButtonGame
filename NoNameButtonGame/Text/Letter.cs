@@ -28,12 +28,12 @@ namespace NoNameButtonGame.Text
             ImageLocation = new Rectangle(new Point((int)Cchar % 5 * 8, (int)Cchar / 5 * 8 ), (FrameSize).ToPoint());
         }
 
-        public override void Draw(SpriteBatch sp) {
-            base.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            base.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            base.Update(gameTime);
             
         }
         private Rectangle GenerateRec(Character c) {

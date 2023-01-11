@@ -62,17 +62,17 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void BtnEvent(object sender, EventArgs e) {
             CallFinish(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            finishButton.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            finishButton.Draw(spriteBatch);
             for (int i = 0; i < laserWalls.Length; i++) {
-                laserWalls[i].Draw(sp);
+                laserWalls[i].Draw(spriteBatch);
             }
-            Info.Draw(sp);
-            mouseCursor.Draw(sp);
+            Info.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
 
         }
-        public override void Update(GameTime gt) {
-            gameTimeMoveWalls += (float)gt.ElapsedGameTime.TotalMilliseconds;
+        public override void Update(GameTime gameTime) {
+            gameTimeMoveWalls += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while (gameTimeMoveWalls > 80) {
                 gameTimeMoveWalls -= 80;
                 if (Left)
@@ -84,17 +84,17 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 if (laserWalls[3].Position.X <= -128)
                     Left = false;
             }
-            mouseCursor.Update(gt);
-            rainbowColorTransition.Update(gt);
+            mouseCursor.Update(gameTime);
+            rainbowColorTransition.Update(gameTime);
             Info.ChangeColor(rainbowColorTransition.GetColor(Info.Text.Length));
-            Info.Update(gt);
-            base.Update(gt);
+            Info.Update(gameTime);
+            base.Update(gameTime);
             for (int i = 0; i < laserWalls.Length; i++) {
-                laserWalls[i].Update(gt, mouseCursor.Hitbox[0]);
+                laserWalls[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
 
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
-            finishButton.Update(gt, mouseCursor.Hitbox[0]);
+            finishButton.Update(gameTime, mouseCursor.Hitbox[0]);
         }
     }
 }

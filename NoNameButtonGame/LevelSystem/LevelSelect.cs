@@ -56,25 +56,25 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             CTicks = 40;
         }
        
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             
             for (int i = 0; i < LevelAmmount; i++) {
                 if (levelButton[i].rec.Intersects(cameraRectangle))
-                levelButton[i].Draw(sp);
+                levelButton[i].Draw(spriteBatch);
             }
             for (int i = 0; i < Down.Length; i++) {
                 if (Down[i].rec.Intersects(cameraRectangle))
-                    Down[i].Draw(sp);
+                    Down[i].Draw(spriteBatch);
                 if (Up[i].rec.Intersects(cameraRectangle))
-                    Up[i].Draw(sp);
+                    Up[i].Draw(spriteBatch);
             }
-            mouseCursor.Draw(sp);
+            mouseCursor.Draw(spriteBatch);
         }
         float GT;
-        public override void Update(GameTime gt) {
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            base.Update(gameTime);
             if (bMove) {
-                GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > 10) {
                     GT -= 10;
                     Vector2 SinWaveRoute = new Vector2(0, 12.2F * (float)Math.Sin((float)CTicks / 50 * Math.PI));
@@ -94,18 +94,18 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
                 }
             }
-            mouseCursor.Update(gt);
+            mouseCursor.Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
             for (int i = 0; i < Down.Length; i++) {
                 if (Down[i].rec.Intersects(cameraRectangle))
-                    Down[i].Update(gt, mouseCursor.Hitbox[0]);
+                    Down[i].Update(gameTime, mouseCursor.Hitbox[0]);
                 if (Up[i].rec.Intersects(cameraRectangle))
-                    Up[i].Update(gt, mouseCursor.Hitbox[0]);
+                    Up[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
 
             for (int i = 0; i < LevelAmmount; i++) {
                 if (levelButton[i].rec.Intersects(cameraRectangle))
-                    levelButton[i].Update(gt, mouseCursor.Hitbox[0]);
+                    levelButton[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
         }
     }

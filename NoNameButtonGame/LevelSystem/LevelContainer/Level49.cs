@@ -60,22 +60,22 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void WallEvent(object sender, EventArgs e) {
             CallReset(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            winButton.Draw(sp);
-            UnlockButton.Draw(sp);
-            firstBlock.Draw(sp);
-            leftWall.Draw(sp);
-            rightWall.Draw(sp);
-            buttomWall.Draw(sp);
-            secondBlock.Draw(sp);
-            mouseCursor.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            winButton.Draw(spriteBatch);
+            UnlockButton.Draw(spriteBatch);
+            firstBlock.Draw(spriteBatch);
+            leftWall.Draw(spriteBatch);
+            rightWall.Draw(spriteBatch);
+            buttomWall.Draw(spriteBatch);
+            secondBlock.Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            mouseCursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
-            GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+            GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             while (GT > 20) {
                 GT -= 20;
@@ -99,13 +99,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 if (secondBlock.Position.Y < 58)
                     upMove = false;
             }
-            UnlockButton.Update(gt, mouseCursor.Hitbox[0]);
-            winButton.Update(gt, mouseCursor.Hitbox[0]);
-            leftWall.Update(gt, mouseCursor.Hitbox[0]);
-            rightWall.Update(gt, mouseCursor.Hitbox[0]);
-            buttomWall.Update(gt, mouseCursor.Hitbox[0]);
-            firstBlock.Update(gt, mouseCursor.Hitbox[0]);
-            secondBlock.Update(gt, mouseCursor.Hitbox[0]);
+            UnlockButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            winButton.Update(gameTime, mouseCursor.Hitbox[0]);
+            leftWall.Update(gameTime, mouseCursor.Hitbox[0]);
+            rightWall.Update(gameTime, mouseCursor.Hitbox[0]);
+            buttomWall.Update(gameTime, mouseCursor.Hitbox[0]);
+            firstBlock.Update(gameTime, mouseCursor.Hitbox[0]);
+            secondBlock.Update(gameTime, mouseCursor.Hitbox[0]);
         }
     }
 }

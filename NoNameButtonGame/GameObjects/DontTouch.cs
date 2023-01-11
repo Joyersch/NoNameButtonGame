@@ -27,7 +27,7 @@ class DontTouch : GameObject, IHitbox, IMouseActions
     public event EventHandler Leave;
     public event EventHandler Click;
 
-    public DontTouch(Vector2 Pos, Vector2 Size, HitboxMap box)
+    public DontTouch(Vector2 Pos, Vector2 Size, TextureHitboxMapping box)
     {
         base.Size = Size;
 
@@ -84,9 +84,9 @@ class DontTouch : GameObject, IHitbox, IMouseActions
         }
     }
 
-    public override void Draw(SpriteBatch sp)
+    public override void Draw(SpriteBatch spriteBatch)
     {
-        base.Draw(sp);
+        base.Draw(spriteBatch);
     }
 
     public void Update(GameTime gt, Rectangle MousePos)

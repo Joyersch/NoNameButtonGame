@@ -67,33 +67,33 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private void BtnEvent(object sender, EventArgs e) {
             CallFinish(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
-            button.Draw(sp);
+        public override void Draw(SpriteBatch spriteBatch) {
+            button.Draw(spriteBatch);
             for (int i = 0; i < Infos.Length; i++) {
-                Infos[i].Draw(sp);
+                Infos[i].Draw(spriteBatch);
             }
             for (int i = 0; i < WallLength; i++) {
                 if (WallLeft[i].rec.Intersects(cameraRectangle))
-                    WallLeft[i].Draw(sp);
+                    WallLeft[i].Draw(spriteBatch);
                 if (WallRight[i].rec.Intersects(cameraRectangle))
-                    WallRight[i].Draw(sp);
+                    WallRight[i].Draw(spriteBatch);
 
             }
             for (int i = 0; i < Blocks.Length; i++) {
                 if (Blocks[i].rec.Intersects(cameraRectangle))
-                    Blocks[i].Draw(sp);
+                    Blocks[i].Draw(spriteBatch);
             }
 
-            cursor.Draw(sp);
+            cursor.Draw(spriteBatch);
         }
 
-        public override void Update(GameTime gt) {
-            cursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            cursor.Update(gameTime);
+            base.Update(gameTime);
             for (int i = 0; i < Infos.Length; i++) {
-                Infos[i].Update(gt);
+                Infos[i].Update(gameTime);
             }
-            GT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+            GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             while (GT > 8) {
                 GT -= 8;
                 for (int i = 0; i < WallLength; i++) {
@@ -105,13 +105,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
             }
             cursor.Position = mousePosition - cursor.Size / 2;
-            button.Update(gt, cursor.Hitbox[0]);
+            button.Update(gameTime, cursor.Hitbox[0]);
             for (int i = 0; i < WallLength; i++) {
-                WallLeft[i].Update(gt, cursor.Hitbox[0]);
-                WallRight[i].Update(gt, cursor.Hitbox[0]);
+                WallLeft[i].Update(gameTime, cursor.Hitbox[0]);
+                WallRight[i].Update(gameTime, cursor.Hitbox[0]);
             }
             for (int i = 0; i < Blocks.Length; i++) {
-                Blocks[i].Update(gt, cursor.Hitbox[0]);
+                Blocks[i].Update(gameTime, cursor.Hitbox[0]);
             }
         }
     }

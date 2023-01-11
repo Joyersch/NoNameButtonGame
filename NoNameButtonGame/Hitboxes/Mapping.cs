@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System;
+using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Hitboxes;
 
-public struct HitboxMap
+public struct TextureHitboxMapping
 {
     public Texture2D Texture;
     public Vector2 ImageSize;
@@ -17,9 +18,9 @@ public struct HitboxMap
 
 public static class Mapping
 {
-    public static HitboxMap GetHitboxMapping(this ContentManager contentManager, string textureName)
+    public static TextureHitboxMapping GetHitboxMapping(this ContentManager contentManager, string textureName)
     {
-        var map = new HitboxMap
+        var map = new TextureHitboxMapping
         {
             Texture = contentManager.Load<Texture2D>(textureName)
         };

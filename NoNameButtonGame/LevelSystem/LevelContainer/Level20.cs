@@ -107,35 +107,35 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             CallFail(sender, e);
         }
-        public override void Draw(SpriteBatch sp) {
+        public override void Draw(SpriteBatch spriteBatch) {
             if (!(startButton is null))
-                startButton.Draw(sp);
+                startButton.Draw(spriteBatch);
             else {
                 if (!PlayingSequenz) {
-                    Marker[1].Draw(sp);
+                    Marker[1].Draw(spriteBatch);
                 }
                 for (int i = 0; i < bobIt.Length; i++) {
-                    bobIt[i].Draw(sp);
+                    bobIt[i].Draw(spriteBatch);
                 }
             }
 
-            Marker[0].Draw(sp);
-            mouseCursor.Draw(sp);
+            Marker[0].Draw(spriteBatch);
+            mouseCursor.Draw(spriteBatch);
         }
-        public override void Update(GameTime gt) {
-            mouseCursor.Update(gt);
-            base.Update(gt);
+        public override void Update(GameTime gameTime) {
+            mouseCursor.Update(gameTime);
+            base.Update(gameTime);
 
-            Marker[0].Update(gt);
+            Marker[0].Update(gameTime);
 
             if (!(startButton is null))
-                startButton.Update(gt, mouseCursor.Hitbox[0]);
+                startButton.Update(gameTime, mouseCursor.Hitbox[0]);
             else {
 
                 if (!PlayingSequenz) {
-                    Marker[1].Update(gt);
+                    Marker[1].Update(gameTime);
                 } else {
-                    SSGT += (float)gt.ElapsedGameTime.TotalMilliseconds;
+                    SSGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     while (SSGT > 500) {
                         SSGT -= 500;
                         bobIt[0].Text.ChangeColor(new Color[1] { Color.Orange });
@@ -180,7 +180,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     }
                 }
                 for (int i = 0; i < bobIt.Length; i++) {
-                    bobIt[i].Update(gt, mouseCursor.Hitbox[0]);
+                    bobIt[i].Update(gameTime, mouseCursor.Hitbox[0]);
                 }
             }
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
