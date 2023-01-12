@@ -12,235 +12,249 @@ namespace NoNameButtonGame.LevelSystem
 {
     class LevelManager : MonoObject
     {
-        SampleLevel CurrentLevel;
-        StartScreen startScreen;
-        SettingsScreen settings;
-        private Storage storage;
-        public delegate void Changewindowname(string name);
-        public Changewindowname ChangeWindowName;
+        private SampleLevel CurrentLevel;
+        private StartScreen startScreen;
+        private SettingsScreen settings;
+        private Display.Display _display;
+        private Storage _storage;
+        private Random _random;
 
-        public CameraClass GetCurrentCamera() {
-            return state switch {
-                MState.Settings => settings.Camera,
-                MState.Startmenu => startScreen.Camera,
-                MState.BetweenLevel => new CameraClass(Screen),
-                _ => CurrentLevel.Camera,
-            };
-        }
-            
-        int DHeight;
-        int DWidth;
-        Random rand;
-        Vector2 Screen;
         bool CanOverallSelect = true;
         bool RedoCall = false;
-        MState state;
+
         int LastLevel = 0;
-        public void ChangeScreen(Vector2 Screen) {
-            this.Screen = Screen;
-            if (CurrentLevel != null)
-                CurrentLevel.SetScreen(Screen);
-        }
-        public LevelManager(int Height, int Width, Vector2 Screen, Storage storage)
-        {
-            this.storage = storage;
-            DHeight = Height;
-            DWidth = Width;
-            this.Screen = Screen;
-            
-            string[] args = Environment.GetCommandLineArgs();
-            rand = new Random();
-            for (int i = 0; i < args.Length; i++) {
-                if (args[i] == "-seed") {
-                    if (args.Length > i + 1) {
-                        if (int.TryParse(args[i + 1], out int res))
-                            rand = new Random(res);
-                        
-                    }
-                }
-            }
-            state = MState.Startmenu;
-            LastLevel = storage.GameData.MaxLevel;
-            startScreen = new StartScreen(Width, Height, Screen, rand);
-            startScreen.Finish += ExitStartScreen;
-            settings = new SettingsScreen(Width, Height, Screen, rand, storage);
-        }
-        enum MState
+        MenuState _state;
+
+        enum MenuState
         {
             Settings,
             Startmenu,
             Level,
             BetweenLevel,
-            LevelSelect,
+            LevelSelect
         }
-        public override void Draw(SpriteBatch spriteBatch) {
-            switch (state) {
-                case MState.Settings:
+
+        public CameraClass CurrentCamera =>
+            _state switch
+            {
+                MenuState.Settings => settings.Camera,
+                MenuState.Startmenu => startScreen.Camera,
+                MenuState.BetweenLevel => new CameraClass(_storage.Settings.Resolution.ToVertor2()),
+                _ => CurrentLevel.Camera,
+            };
+
+        public event Action<string> ChangeWindowName;
+
+        public LevelManager(Display.Display display, Storage storage, int? seed = null)
+        {
+            _display = display;
+            _storage = storage;
+            _random = new Random(seed ?? DateTime.Now.Millisecond);
+            _state = MenuState.Startmenu;
+            LastLevel = storage.GameData.MaxLevel;
+            startScreen = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                _storage.Settings.Resolution.ToVertor2(), _random);
+            startScreen.Finish += ExitStartScreen;
+            settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                _storage.Settings.Resolution.ToVertor2(), _random, storage);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            switch (_state)
+            {
+                case MenuState.Settings:
                     settings.Draw(spriteBatch);
                     break;
-                case MState.Startmenu:
+                case MenuState.Startmenu:
                     startScreen.Draw(spriteBatch);
                     break;
-                case MState.Level:
+                case MenuState.Level:
                     CurrentLevel.Draw(spriteBatch);
                     break;
-                case MState.BetweenLevel:
+                case MenuState.BetweenLevel:
                     break;
-                case MState.LevelSelect:
+                case MenuState.LevelSelect:
                     CurrentLevel.Draw(spriteBatch);
                     break;
             }
         }
-        public override void Update(GameTime gameTime) {
-            if (InputReaderKeyboard.CheckKey(Microsoft.Xna.Framework.Input.Keys.Escape, true)) {
-                MState save = state;
-                switch (state) {
-                case MState.Settings:
-                    case MState.Level:
-                    case MState.LevelSelect:
-                        state = MState.Startmenu;
-                        startScreen = new StartScreen(DWidth, DHeight, Screen, rand);
+
+        public override void Update(GameTime gameTime)
+        {
+            if (InputReaderKeyboard.CheckKey(Microsoft.Xna.Framework.Input.Keys.Escape, true))
+            {
+                MenuState save = _state;
+                switch (_state)
+                {
+                    case MenuState.Settings:
+                    case MenuState.Level:
+                    case MenuState.LevelSelect:
+                        _state = MenuState.Startmenu;
+                        startScreen = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                            _storage.Settings.Resolution.ToVertor2(), _random);
                         startScreen.Finish += ExitStartScreen;
                         break;
                 }
             }
-            ChangeWindowName((CurrentLevel ?? new SampleLevel(DWidth, DHeight, Screen, rand) { Name = "NoNameButtonGame" }).Name);
-            switch (state) {
-                case MState.Settings:
+
+            ChangeWindowName((CurrentLevel ?? new SampleLevel((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                    _storage.Settings.Resolution.ToVertor2(), _random)
+                {Name = "NoNameButtonGame"}).Name);
+            switch (_state)
+            {
+                case MenuState.Settings:
                     settings.Update(gameTime);
                     ChangeWindowName(settings.Name);
                     break;
-                case MState.Startmenu:
+                case MenuState.Startmenu:
                     startScreen.Update(gameTime);
                     ChangeWindowName(startScreen.Name);
                     break;
-                case MState.Level:
+                case MenuState.Level:
                     CurrentLevel.Update(gameTime);
                     break;
-                case MState.LevelSelect:
+                case MenuState.LevelSelect:
                     CurrentLevel.Update(gameTime);
                     break;
-                case MState.BetweenLevel:
+                case MenuState.BetweenLevel:
                     InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true);
-                    if (CanOverallSelect && !RedoCall) {
-                        CurrentLevel = new LevelSelect(DWidth, DHeight, Screen, rand, storage);
+                    if (CanOverallSelect && !RedoCall)
+                    {
+                        CurrentLevel = new LevelSelect((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                            _storage.Settings.Resolution.ToVertor2(), _random, _storage);
                         CurrentLevel.Finish += LevelSelected;
-                        state = MState.LevelSelect;
-                    } else {
-                        SelectLevel(LastLevel);
-                        state = MState.Level;
+                        _state = MenuState.LevelSelect;
                     }
+                    else
+                    {
+                        SelectLevel(LastLevel);
+                        _state = MenuState.Level;
+                    }
+
                     break;
             }
-
-
         }
-        private void SelectLevel(int LL) {
-            CurrentLevel = LL switch {
-                0 => new Level1(DWidth, DHeight, Screen, rand),
-                1 => new Level2(DWidth, DHeight, Screen, rand),
-                2 => new Level3(DWidth, DHeight, Screen, rand),
-                3 => new Level4(DWidth, DHeight, Screen, rand),
-                4 => new Level5(DWidth, DHeight, Screen, rand),
-                5 => new Level6(DWidth, DHeight, Screen, rand),
-                6 => new Level7(DWidth, DHeight, Screen, rand),
-                7 => new Level8(DWidth, DHeight, Screen, rand),
-                8 => new Level9(DWidth, DHeight, Screen, rand),
-                9 => new Level10(DWidth, DHeight, Screen, rand),
-                10 => new Level11(DWidth, DHeight, Screen, rand),
-                11 => new Level12(DWidth, DHeight, Screen, rand),
-                12 => new Level13(DWidth, DHeight, Screen, rand),
-                13 => new Level14(DWidth, DHeight, Screen, rand),
-                14 => new Level15(DWidth, DHeight, Screen, rand),
-                15 => new Level16(DWidth, DHeight, Screen, rand),
-                16 => new Level17(DWidth, DHeight, Screen, rand),
-                17 => new Level18(DWidth, DHeight, Screen, rand),
-                18 => new Level19(DWidth, DHeight, Screen, rand),
-                19 => new Level20(DWidth, DHeight, Screen, rand),
-                20 => new Level21(DWidth, DHeight, Screen, rand),
-                21 => new Level22(DWidth, DHeight, Screen, rand),
-                22 => new Level23(DWidth, DHeight, Screen, rand),
-                23 => new Level24(DWidth, DHeight, Screen, rand),
-                24 => new Level25(DWidth, DHeight, Screen, rand),
-                25 => new Level26(DWidth, DHeight, Screen, rand),
-                26 => new Level27(DWidth, DHeight, Screen, rand),
-                27 => new Level28(DWidth, DHeight, Screen, rand),
-                28 => new Level29(DWidth, DHeight, Screen, rand),
-                29 => new Level30(DWidth, DHeight, Screen, rand),
-                30 => new Level31(DWidth, DHeight, Screen, rand),
-                31 => new Level32(DWidth, DHeight, Screen, rand),
-                32 => new Level33(DWidth, DHeight, Screen, rand),
-                33 => new Level34(DWidth, DHeight, Screen, rand),
-                34 => new Level35(DWidth, DHeight, Screen, rand),
-                35 => new Level36(DWidth, DHeight, Screen, rand),
-                36 => new Level37(DWidth, DHeight, Screen, rand),
-                37 => new Level38(DWidth, DHeight, Screen, rand),
-                38 => new Level39(DWidth, DHeight, Screen, rand),
-                39 => new Level40(DWidth, DHeight, Screen, rand),
-                40 => new Level41(DWidth, DHeight, Screen, rand),
-                41 => new Level42(DWidth, DHeight, Screen, rand),
-                42 => new Level43(DWidth, DHeight, Screen, rand),
-                43 => new Level44(DWidth, DHeight, Screen, rand),
-                44 => new Level45(DWidth, DHeight, Screen, rand),
-                45 => new Level46(DWidth, DHeight, Screen, rand),
-                46 => new Level47(DWidth, DHeight, Screen, rand),
-                47 => new Level48(DWidth, DHeight, Screen, rand),
-                48 => new Level49(DWidth, DHeight, Screen, rand),
-                49 => new Level50(DWidth, DHeight, Screen, rand),
-                _ => new LevelNULL(DWidth, DHeight, Screen, rand),
+
+        private void SelectLevel(int level)
+        {
+            var width = (int) _display.DefaultWidth;
+            var height = (int) _display.DefaultHeight;
+            var screen = _storage.Settings.Resolution.ToVertor2();
+            CurrentLevel = level switch
+            {
+                0 => new Level1(width, height, screen, _random),
+                1 => new Level2(width, height, screen, _random),
+                2 => new Level3(width, height, screen, _random),
+                3 => new Level4(width, height, screen, _random),
+                4 => new Level5(width, height, screen, _random),
+                5 => new Level6(width, height, screen, _random),
+                6 => new Level7(width, height, screen, _random),
+                7 => new Level8(width, height, screen, _random),
+                8 => new Level9(width, height, screen, _random),
+                9 => new Level10(width, height, screen, _random),
+                10 => new Level11(width, height, screen, _random),
+                11 => new Level12(width, height, screen, _random),
+                12 => new Level13(width, height, screen, _random),
+                13 => new Level14(width, height, screen, _random),
+                14 => new Level15(width, height, screen, _random),
+                15 => new Level16(width, height, screen, _random),
+                16 => new Level17(width, height, screen, _random),
+                17 => new Level18(width, height, screen, _random),
+                18 => new Level19(width, height, screen, _random),
+                19 => new Level20(width, height, screen, _random),
+                20 => new Level21(width, height, screen, _random),
+                21 => new Level22(width, height, screen, _random),
+                22 => new Level23(width, height, screen, _random),
+                23 => new Level24(width, height, screen, _random),
+                24 => new Level25(width, height, screen, _random),
+                25 => new Level26(width, height, screen, _random),
+                26 => new Level27(width, height, screen, _random),
+                27 => new Level28(width, height, screen, _random),
+                28 => new Level29(width, height, screen, _random),
+                29 => new Level30(width, height, screen, _random),
+                30 => new Level31(width, height, screen, _random),
+                31 => new Level32(width, height, screen, _random),
+                32 => new Level33(width, height, screen, _random),
+                33 => new Level34(width, height, screen, _random),
+                34 => new Level35(width, height, screen, _random),
+                35 => new Level36(width, height, screen, _random),
+                36 => new Level37(width, height, screen, _random),
+                37 => new Level38(width, height, screen, _random),
+                38 => new Level39(width, height, screen, _random),
+                39 => new Level40(width, height, screen, _random),
+                40 => new Level41(width, height, screen, _random),
+                41 => new Level42(width, height, screen, _random),
+                42 => new Level43(width, height, screen, _random),
+                43 => new Level44(width, height, screen, _random),
+                44 => new Level45(width, height, screen, _random),
+                45 => new Level46(width, height, screen, _random),
+                46 => new Level47(width, height, screen, _random),
+                47 => new Level48(width, height, screen, _random),
+                48 => new Level49(width, height, screen, _random),
+                49 => new Level50(width, height, screen, _random),
+                _ => new LevelNULL(width, height, screen, _random),
             };
             CurrentLevel.Finish += LevelFinish;
-            CurrentLevel.Fail += LevelFail;
-            CurrentLevel.Reset += LevelReset;
+            CurrentLevel.Fail += LevelFailOrReset;
+            CurrentLevel.Reset += LevelFailOrReset;
         }
-        private void ExitStartScreen(object sender, EventArgs e) {
+
+        private void ExitStartScreen(object sender, EventArgs e)
+        {
             StartScreen.ButtonPressed action = (sender as StartScreen).pressedAction;
-            switch (action) {
+            switch (action)
+            {
                 case StartScreen.ButtonPressed.Start:
                     CanOverallSelect = false;
-                    state = MState.BetweenLevel;
+                    _state = MenuState.BetweenLevel;
                     RedoCall = true;
-                    LastLevel = storage.GameData.MaxLevel;
+                    LastLevel = _storage.GameData.MaxLevel;
                     break;
                 case StartScreen.ButtonPressed.LevelSelect:
-                    state = MState.BetweenLevel;
+                    _state = MenuState.BetweenLevel;
                     CanOverallSelect = true;
                     RedoCall = false;
                     break;
                 case StartScreen.ButtonPressed.Settings:
-                    state = MState.Settings;
-                    settings = new SettingsScreen(DWidth, DHeight, Screen, rand, storage);
+                    _state = MenuState.Settings;
+                    settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                        _storage.Settings.Resolution.ToVertor2(), _random, _storage);
                     break;
                 case StartScreen.ButtonPressed.Exit:
                     Environment.Exit(0);
                     break;
             }
         }
-       
-        private void LevelSelected(object sender, EventArgs e) {
+
+        private void LevelSelected(object sender, EventArgs e)
+        {
             LastLevel = int.Parse((sender as GameObjects.TextButton).Name) - 1;
             SelectLevel(LastLevel);
-            state = MState.Level;
+            _state = MenuState.Level;
         }
-        private void LevelFinish(object sender, EventArgs e) {
 
-            state = MState.BetweenLevel;
-            if (!CanOverallSelect) {
-                LastLevel++;
-                if (storage.GameData.MaxLevel < LastLevel) {
-                    storage.GameData.MaxLevel = LastLevel;
-                    storage.Save();
-                }
-            }
+        private void LevelFinish(object sender, EventArgs e)
+        {
+            _state = MenuState.BetweenLevel;
+            if (CanOverallSelect)
+                return;
+
+            LastLevel++;
+            
+            if (_storage.GameData.MaxLevel >= LastLevel)
+                return;
+            
+            _storage.GameData.MaxLevel = LastLevel;
+            _storage.Save();
+
+
             RedoCall = false;
+        }
 
-        }
-        private void LevelFail(object sender, EventArgs e) {
-            state = MState.BetweenLevel;
-            RedoCall = true;
-        }
-        private void LevelReset(object sender, EventArgs e) {
-            state = MState.BetweenLevel;
+        private void LevelFailOrReset(object sender, EventArgs e)
+        {
+            _state = MenuState.BetweenLevel;
             RedoCall = true;
         }
     }

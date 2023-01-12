@@ -20,7 +20,7 @@ namespace NoNameButtonGame
         private Display.Display _display;
         private Storage _storage;
         private LevelManager levelManager;
-        
+
         private bool ShowActualMousePos = false;
         private MousePointer _mousePointer;
 
@@ -36,10 +36,10 @@ namespace NoNameButtonGame
         protected override void Initialize()
         {
             base.Initialize();
-            
+
             // Read argument(s)
             ShowActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
-            
+
             // Check Save directory
             if (!Directory.Exists(Globals.SaveDirectory))
                 Directory.CreateDirectory(Globals.SaveDirectory);
@@ -68,12 +68,9 @@ namespace NoNameButtonGame
             Globals.Content = Content;
             _display = new(GraphicsDevice);
             _mousePointer = new MousePointer();
-            
-            levelManager = new LevelManager((int) _display.DefaultHeight, (int) _display.DefaultWidth,
-                new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), _storage)
-            {
-                ChangeWindowName = ChangeTitle
-            };
+
+            levelManager = new LevelManager(_display, _storage);
+            levelManager.ChangeWindowName += ChangeTitle;
         }
 
         private void ChangeTitle(string NewName)
@@ -90,9 +87,9 @@ namespace NoNameButtonGame
         protected override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            
+
             _mousePointer.Update(gameTime);
-            
+
             _display.Update(gameTime);
 
             levelManager.Update(gameTime);
@@ -103,18 +100,19 @@ namespace NoNameButtonGame
             GraphicsDevice.SetRenderTarget(_display.Target);
             GraphicsDevice.Clear(new Color(50, 50, 50));
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
-                null, transformMatrix: levelManager.GetCurrentCamera().CamMatrix);
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+                transformMatrix: levelManager.CurrentCamera.CamMatrix);
 
             levelManager.Draw(_spriteBatch);
 
             _spriteBatch.End();
+            
             GraphicsDevice.SetRenderTarget(null);
 
-            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null,
-                null, null);
+            _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
             GraphicsDevice.Clear(Color.HotPink);
+            
             _spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
 
             if (ShowActualMousePos)
@@ -135,13 +133,12 @@ namespace NoNameButtonGame
             if ((!_graphics.IsFullScreen && settings.IsFullscreen) ||
                 (!settings.IsFullscreen && _graphics.IsFullScreen))
                 _graphics.ToggleFullScreen();
+            
             _graphics.PreferredBackBufferWidth = settings.Resolution.Width;
             _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
             _graphics.ApplyChanges();
 
             // Update level screen
-            levelManager?.ChangeScreen(new Vector2(_graphics.PreferredBackBufferWidth,
-                _graphics.PreferredBackBufferHeight));
             _storage.Save();
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame;
@@ -27,4 +28,6 @@ public class Resolution : IChangeable
         }
     }
     public event EventHandler HasChanged;
+
+    public Vector2 ToVertor2() => new(_width, _height);
 }
