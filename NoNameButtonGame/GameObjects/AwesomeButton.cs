@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using Joyersch.Input;
+using NoNameButtonGame.Input;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Hitboxes;
 

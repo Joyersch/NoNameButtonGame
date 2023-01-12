@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace Joyersch.Input
+namespace NoNameButtonGame.Input
 {
     public static class InputReaderMouse
     {

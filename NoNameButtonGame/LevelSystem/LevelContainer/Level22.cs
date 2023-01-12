@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 
-using Joyersch.Input;
-using Joyersch.Camera;
+using NoNameButtonGame.Input;
+using NoNameButtonGame.Camera;
 
 using NoNameButtonGame.Interfaces;
 

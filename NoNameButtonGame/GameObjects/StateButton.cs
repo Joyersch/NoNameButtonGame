@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Hitboxes;
-using Joyersch.Input;
+using NoNameButtonGame.Input;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects

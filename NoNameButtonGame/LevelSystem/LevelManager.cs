@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Joyersch.Camera;
+using NoNameButtonGame.Camera;
 using NoNameButtonGame.LevelSystem.LevelContainer;
-using Joyersch.Input;
+using NoNameButtonGame.Input;
 using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.LevelSystem
