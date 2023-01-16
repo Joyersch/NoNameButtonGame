@@ -94,10 +94,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             string s = (sender as TextButton).Text.Text;
             switch (s){
                 case "❌":
-                    (sender as TextButton).Text.ChangeText("✔", new Color[1] { Color.Green });
+                    (sender as TextButton).Text.ChangeText("✔");
+                    (sender as TextButton).Text.ChangeColor(new []{Color.Green});
                     break;
                 case "✔":
-                    (sender as TextButton).Text.ChangeText("❌", new Color[1] { Color.Red });
+                    (sender as TextButton).Text.ChangeText("❌");
+                    (sender as TextButton).Text.ChangeColor(new []{Color.Red});
                     break;
             }
             storage.Settings.Resolution.Width = (int)vectorResolution.X;
