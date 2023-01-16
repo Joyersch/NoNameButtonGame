@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Mime;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,35 +13,35 @@ namespace NoNameButtonGame.LevelSystem
 {
     class LevelManager : MonoObject
     {
-        private SampleLevel CurrentLevel;
-        private StartScreen startScreen;
-        private SettingsScreen settings;
+        private SampleLevel _currentLevel;
+        private StartScreen _startMenu;
+        private SettingsScreen _settings;
+        private LevelSelect _levelSelect;
+        
         private Display.Display _display;
         private Storage _storage;
+        
         private Random _random;
-
-        bool CanOverallSelect = true;
-        bool RedoCall = false;
-
-        int LastLevel = 0;
-        MenuState _state;
+        private MenuState _state;
+        private int currentSelectLevel = 0;
+        private bool fromSelect = false;
+        public event Action CloseGameEventHandler;
 
         enum MenuState
         {
             Settings,
-            Startmenu,
+            StartMenu,
             Level,
-            BetweenLevel,
             LevelSelect
         }
 
         public CameraClass CurrentCamera =>
             _state switch
             {
-                MenuState.Settings => settings.Camera,
-                MenuState.Startmenu => startScreen.Camera,
-                MenuState.BetweenLevel => new CameraClass(_storage.Settings.Resolution.ToVertor2()),
-                _ => CurrentLevel.Camera,
+                MenuState.Settings => _settings.Camera,
+                MenuState.StartMenu => _startMenu.Camera,
+                MenuState.LevelSelect => _levelSelect.Camera,
+                _ => _currentLevel.Camera,
             };
 
         public event Action<string> ChangeWindowName;
@@ -50,90 +51,60 @@ namespace NoNameButtonGame.LevelSystem
             _display = display;
             _storage = storage;
             _random = new Random(seed ?? DateTime.Now.Millisecond);
-            _state = MenuState.Startmenu;
-            LastLevel = storage.GameData.MaxLevel;
-            startScreen = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+            _state = MenuState.StartMenu;
+            currentSelectLevel = storage.GameData.MaxLevel;
+            
+            _startMenu = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
                 _storage.Settings.Resolution.ToVertor2(), _random);
-            startScreen.Finish += ExitStartScreen;
-            settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+            _startMenu.StartEventHandler += StartMenuOnStartEventHandler; 
+            _startMenu.SelectEventHandler += StartMenuOnSelectEventHandler;
+            _startMenu.SettingsEventHandler += StartMenuOnSettingsEventHandler;
+            _startMenu.ExitEventHandler += StartMenuOnExitEventHandler;
+            
+            _settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
                 _storage.Settings.Resolution.ToVertor2(), _random, storage);
-        }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            switch (_state)
-            {
-                case MenuState.Settings:
-                    settings.Draw(spriteBatch);
-                    break;
-                case MenuState.Startmenu:
-                    startScreen.Draw(spriteBatch);
-                    break;
-                case MenuState.Level:
-                    CurrentLevel.Draw(spriteBatch);
-                    break;
-                case MenuState.BetweenLevel:
-                    break;
-                case MenuState.LevelSelect:
-                    CurrentLevel.Draw(spriteBatch);
-                    break;
-            }
+            _settings.ExitEventHandler += SettingsOnExitEventHandler;
+            
+            _levelSelect = new LevelSelect((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+                _storage.Settings.Resolution.ToVertor2(), _random, storage);
+            _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
+            _levelSelect.LevelSelectedEventHandler += LevelSelected;
         }
 
         public override void Update(GameTime gameTime)
         {
+            SampleLevel level = _state switch
+            {
+                MenuState.LevelSelect => _levelSelect,
+                MenuState.Level => _currentLevel,
+                MenuState.Settings => _settings,
+                _ => _startMenu,
+            };
             if (InputReaderKeyboard.CheckKey(Microsoft.Xna.Framework.Input.Keys.Escape, true))
             {
-                MenuState save = _state;
-                switch (_state)
-                {
-                    case MenuState.Settings:
-                    case MenuState.Level:
-                    case MenuState.LevelSelect:
-                        _state = MenuState.Startmenu;
-                        startScreen = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-                            _storage.Settings.Resolution.ToVertor2(), _random);
-                        startScreen.Finish += ExitStartScreen;
-                        break;
-                }
+                level.CallExit();   
             }
 
-            ChangeWindowName((CurrentLevel ?? new SampleLevel((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-                    _storage.Settings.Resolution.ToVertor2(), _random)
-                {Name = "NoNameButtonGame"}).Name);
-            switch (_state)
+
+            if (false)
+                ChangeWindowName((_currentLevel ?? new SampleLevel((int) _display.DefaultWidth,
+                        (int) _display.DefaultHeight,
+                        _storage.Settings.Resolution.ToVertor2(), _random)
+                    {Name = "NoNameButtonGame"}).Name);
+
+            level.Update(gameTime);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            SampleLevel level = _state switch
             {
-                case MenuState.Settings:
-                    settings.Update(gameTime);
-                    ChangeWindowName(settings.Name);
-                    break;
-                case MenuState.Startmenu:
-                    startScreen.Update(gameTime);
-                    ChangeWindowName(startScreen.Name);
-                    break;
-                case MenuState.Level:
-                    CurrentLevel.Update(gameTime);
-                    break;
-                case MenuState.LevelSelect:
-                    CurrentLevel.Update(gameTime);
-                    break;
-                case MenuState.BetweenLevel:
-                    InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true);
-                    if (CanOverallSelect && !RedoCall)
-                    {
-                        CurrentLevel = new LevelSelect((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-                            _storage.Settings.Resolution.ToVertor2(), _random, _storage);
-                        CurrentLevel.Finish += LevelSelected;
-                        _state = MenuState.LevelSelect;
-                    }
-                    else
-                    {
-                        SelectLevel(LastLevel);
-                        _state = MenuState.Level;
-                    }
-
-                    break;
-            }
+                MenuState.LevelSelect => _levelSelect,
+                MenuState.Level => _currentLevel,
+                MenuState.Settings => _settings,
+                _ => _startMenu,
+            };
+            level.Draw(spriteBatch);
         }
 
         private void SelectLevel(int level)
@@ -141,7 +112,7 @@ namespace NoNameButtonGame.LevelSystem
             var width = (int) _display.DefaultWidth;
             var height = (int) _display.DefaultHeight;
             var screen = _storage.Settings.Resolution.ToVertor2();
-            CurrentLevel = level switch
+            _currentLevel = level switch
             {
                 0 => new Level1(width, height, screen, _random),
                 1 => new Level2(width, height, screen, _random),
@@ -195,67 +166,76 @@ namespace NoNameButtonGame.LevelSystem
                 49 => new Level50(width, height, screen, _random),
                 _ => new LevelNULL(width, height, screen, _random),
             };
-            CurrentLevel.Finish += LevelFinish;
-            CurrentLevel.Fail += LevelFailOrReset;
-            CurrentLevel.Reset += LevelFailOrReset;
+            _currentLevel.FinishEventHandler += LevelFinish;
+            _currentLevel.FailEventHandler += LevelFail;
+            _currentLevel.ExitEventHandler += LevelExitEventHandler;
         }
 
-        private void ExitStartScreen(object sender, EventArgs e)
-        {
-            StartScreen.ButtonPressed action = (sender as StartScreen).pressedAction;
-            switch (action)
-            {
-                case StartScreen.ButtonPressed.Start:
-                    CanOverallSelect = false;
-                    _state = MenuState.BetweenLevel;
-                    RedoCall = true;
-                    LastLevel = _storage.GameData.MaxLevel;
-                    break;
-                case StartScreen.ButtonPressed.LevelSelect:
-                    _state = MenuState.BetweenLevel;
-                    CanOverallSelect = true;
-                    RedoCall = false;
-                    break;
-                case StartScreen.ButtonPressed.Settings:
-                    _state = MenuState.Settings;
-                    settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-                        _storage.Settings.Resolution.ToVertor2(), _random, _storage);
-                    break;
-                case StartScreen.ButtonPressed.Exit:
-                    Environment.Exit(0);
-                    break;
-            }
-        }
 
-        private void LevelSelected(object sender, EventArgs e)
+        private void LevelSelected(int level)
         {
-            LastLevel = int.Parse((sender as GameObjects.TextButton).Name) - 1;
-            SelectLevel(LastLevel);
+            currentSelectLevel = level;
+            fromSelect = true;
+            SelectLevel(currentSelectLevel);
             _state = MenuState.Level;
         }
 
         private void LevelFinish(object sender, EventArgs e)
         {
-            _state = MenuState.BetweenLevel;
-            if (CanOverallSelect)
+            if (fromSelect)
+            {
+                fromSelect = false;
+                _state = MenuState.LevelSelect;
                 return;
+            }
 
-            LastLevel++;
-            
-            if (_storage.GameData.MaxLevel >= LastLevel)
-                return;
-            
-            _storage.GameData.MaxLevel = LastLevel;
-            _storage.Save();
-
-
-            RedoCall = false;
+            currentSelectLevel++;
+            SelectLevel(currentSelectLevel);
         }
 
-        private void LevelFailOrReset(object sender, EventArgs e)
+        private void LevelFail(object sender, EventArgs e)
         {
-            _state = MenuState.BetweenLevel;
-            RedoCall = true;
+            if (fromSelect)
+            {
+                fromSelect = false;
+                _state = MenuState.LevelSelect;
+                return;
+            }
+
+            SelectLevel(currentSelectLevel);
         }
+
+        private void LevelExitEventHandler(object sender, EventArgs e)
+        {
+            if (fromSelect)
+            {
+                fromSelect = false;
+                _state = MenuState.LevelSelect;
+                return;
+            }
+
+            _state = MenuState.StartMenu;
+        }
+
+        private void StartMenuOnExitEventHandler()
+            => CloseGameEventHandler?.Invoke();
+
+        private void StartMenuOnSettingsEventHandler()
+            => _state = MenuState.Settings;
+
+        private void StartMenuOnSelectEventHandler()
+            => _state = MenuState.LevelSelect;
+
+        private void StartMenuOnStartEventHandler()
+        {
+            SelectLevel(_storage.GameData.MaxLevel);
+            _state = MenuState.Level;
+        }
+
+        private void SettingsOnExitEventHandler(object sender, EventArgs e)
+            => _state = MenuState.StartMenu;
+
+        private void LevelSelectOnExitEventHandler(object sender, EventArgs e)
+            => _state = MenuState.StartMenu;
     }
 }

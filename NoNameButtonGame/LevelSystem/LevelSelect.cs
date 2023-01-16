@@ -16,6 +16,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly TextButton[] Up;
         readonly Cursor mouseCursor;
         readonly int LevelAmmount = 1000;
+        public event Action<int> LevelSelectedEventHandler;
         public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level Selection";
             LevelAmmount = storage.GameData.MaxLevel;
@@ -42,9 +43,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         bool bMove = false;
         bool bUp = false;
         int CTicks = 0;
-        private void SelectLevel(object sender, EventArgs e) {
-            CallFinish(sender,e);
-        }
+
+        private void SelectLevel(object sender, EventArgs e)
+            => LevelSelectedEventHandler?.Invoke(int.Parse((sender as TextButton).Text.ToString()));
         private void MoveDown(object sender, EventArgs e) {
             bMove = true;
             bUp = false;
@@ -59,13 +60,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public override void Draw(SpriteBatch spriteBatch) {
             
             for (int i = 0; i < LevelAmmount; i++) {
-                if (levelButton[i].rec.Intersects(cameraRectangle))
+                if (levelButton[i].rectangle.Intersects(cameraRectangle))
                 levelButton[i].Draw(spriteBatch);
             }
             for (int i = 0; i < Down.Length; i++) {
-                if (Down[i].rec.Intersects(cameraRectangle))
+                if (Down[i].rectangle.Intersects(cameraRectangle))
                     Down[i].Draw(spriteBatch);
-                if (Up[i].rec.Intersects(cameraRectangle))
+                if (Up[i].rectangle.Intersects(cameraRectangle))
                     Up[i].Draw(spriteBatch);
             }
             mouseCursor.Draw(spriteBatch);
@@ -97,14 +98,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor.Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
             for (int i = 0; i < Down.Length; i++) {
-                if (Down[i].rec.Intersects(cameraRectangle))
+                if (Down[i].rectangle.Intersects(cameraRectangle))
                     Down[i].Update(gameTime, mouseCursor.Hitbox[0]);
-                if (Up[i].rec.Intersects(cameraRectangle))
+                if (Up[i].rectangle.Intersects(cameraRectangle))
                     Up[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
 
             for (int i = 0; i < LevelAmmount; i++) {
-                if (levelButton[i].rec.Intersects(cameraRectangle))
+                if (levelButton[i].rectangle.Intersects(cameraRectangle))
                     levelButton[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
         }

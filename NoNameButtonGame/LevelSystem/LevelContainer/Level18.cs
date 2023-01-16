@@ -55,7 +55,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         }
 
         private void WallEvent(object sender, EventArgs e) {
-            CallReset(sender, e);
+            CallExit(sender, e);
         }
         public override void Draw(SpriteBatch spriteBatch) {
             lockedButton.Draw(spriteBatch);

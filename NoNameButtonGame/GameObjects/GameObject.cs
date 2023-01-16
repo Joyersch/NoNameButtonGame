@@ -18,22 +18,22 @@ namespace NoNameButtonGame.GameObjects
         public Vector2 FrameSize;
         public Rectangle ImageLocation;
         public Color DrawColor;
-        public Rectangle rec;
+        public Rectangle rectangle;
 
         public override void Update(GameTime gameTime)
         {
-            rec = new Rectangle(Position.ToPoint(), Size.ToPoint());
+            rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (ImageLocation == new Rectangle(0, 0, 0, 0))
             {
-                spriteBatch.Draw(Texture, rec, DrawColor);
+                spriteBatch.Draw(Texture, rectangle, DrawColor);
             }
             else
             {
-                spriteBatch.Draw(Texture, rec, ImageLocation, DrawColor);
+                spriteBatch.Draw(Texture, rectangle, ImageLocation, DrawColor);
             }
         }
     }

@@ -85,7 +85,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             totalGameTime = gameTime.TotalGameTime.TotalSeconds;
             mouseCursor.Update(gameTime);
             base.Update(gameTime);
-            Questions.ChangePosition(new Vector2(0, -128) - Questions.rec.Size.ToVector2() / 2);
+            Questions.ChangePosition(new Vector2(0, -128) - Questions.rectangle.Size.ToVector2() / 2);
             Questions.Update(gameTime);
             for (int i = 0; i < awnserButton.Length; i++) {
                 awnserButton[i].Update(gameTime, mouseCursor.Hitbox[0]);

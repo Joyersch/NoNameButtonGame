@@ -96,7 +96,7 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
             dontTouchGrid[i].Update(gt, MousePos);
         }
 
-        if (rec.Intersects(MousePos))
+        if (rectangle.Intersects(MousePos))
             Enter?.Invoke(this, new EventArgs());
         base.Update(gt);
         if (DrawColor != OldDrawColor)

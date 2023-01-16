@@ -24,7 +24,7 @@ class Letter : GameObject
         DrawColor = color;
         RepresentingCharacter = character;
         UpdateCharacter(character);
-        rec = new Rectangle((position + frameSpace.Location.ToVector2()).ToPoint(),
+        rectangle = new Rectangle((position + frameSpace.Location.ToVector2()).ToPoint(),
             (size + frameSpace.Size.ToVector2()).ToPoint());
     }
 

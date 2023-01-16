@@ -119,7 +119,7 @@ namespace NoNameButtonGame.GameObjects
             }
 
             UpdateHitbox();
-            textContainer.ChangePosition(rec.Center.ToVector2() - textContainer.rec.Size.ToVector2() / 2);
+            textContainer.ChangePosition(rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2);
             textContainer.Update(gt);
             Update(gt);
         }

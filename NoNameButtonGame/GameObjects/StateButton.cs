@@ -95,7 +95,7 @@ namespace NoNameButtonGame.GameObjects
             UpdateHitbox();
             textContainer.ChangeText(CurrentState.ToString());
 
-            textContainer.Position = rec.Center.ToVector2() - textContainer.rec.Size.ToVector2() / 2;
+            textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
             textContainer.Position.Y -= 32;
             textContainer.Update(gt);
             Update(gt);

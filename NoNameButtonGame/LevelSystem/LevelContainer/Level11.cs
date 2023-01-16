@@ -79,7 +79,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         }
 
         private void WallEvent(object sender, EventArgs e) {
-            CallReset(sender, e);
+            CallExit(sender, e);
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -97,7 +97,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             if (!Loaded) {
                 for (int i = 0; i < displayText.Length; i++) {
                     displayText[i].Update(gameTime);
-                    displayText[i].ChangePosition(new Vector2(24, -120 + i * 16) - displayText[i].rec.Size.ToVector2() / 2);
+                    displayText[i].ChangePosition(new Vector2(24, -120 + i * 16) - displayText[i].rectangle.Size.ToVector2() / 2);
 
                 }
                 Loaded = true;

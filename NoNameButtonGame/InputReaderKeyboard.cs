@@ -26,6 +26,8 @@ namespace NoNameButtonGame.Input
                 return false;
             }
 
+            if (!Keyboard.GetState().IsKeyDown(search))
+                return false;
             _currentlyPressedKeys.Add(search);
             return true;
         }

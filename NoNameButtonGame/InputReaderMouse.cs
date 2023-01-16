@@ -18,26 +18,24 @@ namespace NoNameButtonGame.Input
             Right
         }
 
-        static List<MouseKeys> CurrentMouseKeys = new List<MouseKeys>();
+        static List<MouseKeys> _currentMouseKeys = new();
 
         public static bool CheckKey(MouseKeys search, bool onlyOnces)
         {
             MouseState mouseState = Mouse.GetState();
-            if (onlyOnces)
+            if (onlyOnces && _currentMouseKeys.Any(s => s == search))
             {
-                for (int i = 0; i < CurrentMouseKeys.Count; i++)
+                var released = search switch
                 {
-                    var released = search switch
-                    {
-                        MouseKeys.Left => mouseState.LeftButton == ButtonState.Released,
-                        MouseKeys.Middle => mouseState.MiddleButton == ButtonState.Released,
-                        MouseKeys.Right => mouseState.RightButton == ButtonState.Released,
-                        _ => false
-                    };
-                    
-                    if (released)
-                        CurrentMouseKeys.Remove(CurrentMouseKeys[i]);
-                }
+                    MouseKeys.Left => mouseState.LeftButton == ButtonState.Released,
+                    MouseKeys.Middle => mouseState.MiddleButton == ButtonState.Released,
+                    MouseKeys.Right => mouseState.RightButton == ButtonState.Released,
+                    _ => false
+                };
+
+                if (released)
+                    _currentMouseKeys.Remove(search);
+                return false;
             }
 
             var pressed = search switch
@@ -47,9 +45,9 @@ namespace NoNameButtonGame.Input
                 MouseKeys.Right => mouseState.RightButton == ButtonState.Pressed,
                 _ => false
             };
-        
-            if (onlyOnces)
-                CurrentMouseKeys.Add(search);
+
+            if (onlyOnces && pressed)
+                _currentMouseKeys.Add(search);
 
             return pressed;
         }

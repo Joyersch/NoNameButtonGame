@@ -41,7 +41,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             CallFinish(sender, e);
         }
         private void WallEvent(object sender, EventArgs e) {
-            CallReset(sender, e);
+            CallExit(sender, e);
         }
         public override void Draw(SpriteBatch spriteBatch) {
             button.Draw(spriteBatch);

@@ -71,6 +71,7 @@ namespace NoNameButtonGame
 
             levelManager = new LevelManager(_display, _storage);
             levelManager.ChangeWindowName += ChangeTitle;
+            levelManager.CloseGameEventHandler += Exit;
         }
 
         private void ChangeTitle(string NewName)

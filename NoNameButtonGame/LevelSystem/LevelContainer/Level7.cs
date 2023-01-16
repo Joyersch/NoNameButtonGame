@@ -73,14 +73,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Infos[i].Draw(spriteBatch);
             }
             for (int i = 0; i < WallLength; i++) {
-                if (WallLeft[i].rec.Intersects(cameraRectangle))
+                if (WallLeft[i].rectangle.Intersects(cameraRectangle))
                     WallLeft[i].Draw(spriteBatch);
-                if (WallRight[i].rec.Intersects(cameraRectangle))
+                if (WallRight[i].rectangle.Intersects(cameraRectangle))
                     WallRight[i].Draw(spriteBatch);
 
             }
             for (int i = 0; i < Blocks.Length; i++) {
-                if (Blocks[i].rec.Intersects(cameraRectangle))
+                if (Blocks[i].rectangle.Intersects(cameraRectangle))
                     Blocks[i].Draw(spriteBatch);
             }
 

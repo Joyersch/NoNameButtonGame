@@ -140,7 +140,7 @@ class HoldButton : GameObject, IMouseActions, IHitbox
         UpdateHitbox();
         textContainer.ChangeText((((EndHoldTime - HoldTime) / 1000).ToString("0.0") + "s").Replace(',', '.'));
 
-        textContainer.Position = rec.Center.ToVector2() - textContainer.rec.Size.ToVector2() / 2;
+        textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
         textContainer.Position.Y -= 32;
         textContainer.Update(gt);
         Update(gt);

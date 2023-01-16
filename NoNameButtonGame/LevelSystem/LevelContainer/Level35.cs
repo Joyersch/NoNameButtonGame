@@ -79,14 +79,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Infos[i].Draw(spriteBatch);
             }
             for (int i = 0; i < WallLength; i++) {
-                if (WallLeft[i].rec.Intersects(cameraRectangle))
+                if (WallLeft[i].rectangle.Intersects(cameraRectangle))
                     WallLeft[i].Draw(spriteBatch);
-                if (WallRight[i].rec.Intersects(cameraRectangle))
+                if (WallRight[i].rectangle.Intersects(cameraRectangle))
                     WallRight[i].Draw(spriteBatch);
 
             }
             for (int i = 0; i < Blocks.Length; i++) {
-                if (Blocks[i].rec.Intersects(cameraRectangle))
+                if (Blocks[i].rectangle.Intersects(cameraRectangle))
                     Blocks[i].Draw(spriteBatch);
             }
             for (int i = 0; i < Scare.Length; i++) {
@@ -108,26 +108,26 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             while (GT > 8) {
                 GT -= 8;
                 for (int i = 0; i < WallLength; i++) {
-                    if (WallLeft[i].rec.Y > -1000)
+                    if (WallLeft[i].rectangle.Y > -1000)
                         WallLeft[i].Move(new Vector2(0, -3));
-                    if (WallRight[i].rec.Y > -1000)
+                    if (WallRight[i].rectangle.Y > -1000)
                         WallRight[i].Move(new Vector2(0, -3));
                 }
                 for (int i = 0; i < Blocks.Length; i++) {
-                    if (Blocks[i].rec.Y > -1000)
+                    if (Blocks[i].rectangle.Y > -1000)
                         Blocks[i].Move(new Vector2(0, -3));
                 }
             }
             cursor.Position = mousePosition - cursor.Size / 2;
             button.Update(gameTime, cursor.Hitbox[0]);
             for (int i = 0; i < WallLength; i++) {
-                if (WallLeft[i].rec.Y > -1000)
+                if (WallLeft[i].rectangle.Y > -1000)
                     WallLeft[i].Update(gameTime, cursor.Hitbox[0]);
-                if (WallRight[i].rec.Y > -1000)
+                if (WallRight[i].rectangle.Y > -1000)
                     WallRight[i].Update(gameTime, cursor.Hitbox[0]);
             }
             for (int i = 0; i < Blocks.Length; i++) {
-                if (Blocks[i].rec.Y > -1000)
+                if (Blocks[i].rectangle.Y > -1000)
                 Blocks[i].Update(gameTime, cursor.Hitbox[0]);
             }
         }

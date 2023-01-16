@@ -5,8 +5,8 @@ namespace NoNameButtonGame.Interfaces
 {
     interface ILevel
     {
-        public event EventHandler Fail;
-        public event EventHandler Reset;
-        public event EventHandler Finish;
+        public event EventHandler FailEventHandler;
+        public event EventHandler ExitEventHandler;
+        public event EventHandler FinishEventHandler;
     }
 }

@@ -100,11 +100,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             base.Update(gameTime);
             GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             Timer.ChangeText(((GTMax - GT) / 1000).ToString("0.0").Replace(',', '.') + "s");
-            Timer.ChangePosition(-Timer.rec.Size.ToVector2() / 2 + new Vector2(0, -160));
+            Timer.ChangePosition(-Timer.rectangle.Size.ToVector2() / 2 + new Vector2(0, -160));
             Timer.Update(gameTime);
             if (Timer.Text.Contains("-"))
-                CallReset();
-            Questions.ChangePosition(new Vector2(0, -128) - Questions.rec.Size.ToVector2() / 2);
+                CallExit();
+            Questions.ChangePosition(new Vector2(0, -128) - Questions.rectangle.Size.ToVector2() / 2);
             Questions.Update(gameTime);
             for (int i = 0; i < button.Length; i++) {
                 button[i].Update(gameTime, cursor.Hitbox[0]);

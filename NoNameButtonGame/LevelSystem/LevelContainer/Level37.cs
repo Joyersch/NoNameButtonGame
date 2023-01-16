@@ -74,7 +74,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > ShotTime) {
                     GT -= ShotTime;
-                    Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rec.Center.ToVector2();
+                    Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
                     shots[^1].Item1.Enter += CallFail;
                 }
@@ -82,7 +82,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
                 shots[i].Item1.Update(gameTime, cursor.Hitbox[0]);
-                if (!shots[i].Item1.rec.Intersects(cameraRectangle)) {
+                if (!shots[i].Item1.rectangle.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
             }
@@ -100,7 +100,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
 
 
-            Info.ChangePosition(-Info.rec.Size.ToVector2() / 2 + new Vector2(0, -64));
+            Info.ChangePosition(-Info.rectangle.Size.ToVector2() / 2 + new Vector2(0, -64));
             cursor.Position = mousePosition - cursor.Size / 2;
             button.Update(gameTime, cursor.Hitbox[0]);
             Info.Update(gameTime);

@@ -50,7 +50,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         }
 
         private void WallEvent(object sender, EventArgs e) {
-            CallReset(sender, e);
+            CallExit(sender, e);
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -78,7 +78,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 gameTimeUpdateShots += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (gameTimeUpdateShots > shotTime) {
                     gameTimeUpdateShots -= shotTime;
-                    Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - displayGun.rec.Center.ToVector2();
+                    Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - displayGun.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(displayGun.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
                     shots[^1].Item1.Enter += CallFail;
                 }
@@ -86,7 +86,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
                 shots[i].Item1.Update(gameTime, mouseCursor.Hitbox[0]);
-                if (!shots[i].Item1.rec.Intersects(cameraRectangle)) {
+                if (!shots[i].Item1.rectangle.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
             }

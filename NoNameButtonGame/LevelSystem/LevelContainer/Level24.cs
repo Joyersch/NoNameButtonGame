@@ -79,14 +79,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Infos[i].Draw(spriteBatch);
             }
             for (int i = 0; i < WallLength; i++) {
-                if (WallLeft[i].rec.Intersects(cameraRectangle))
+                if (WallLeft[i].rectangle.Intersects(cameraRectangle))
                     WallLeft[i].Draw(spriteBatch);
-                if (WallRight[i].rec.Intersects(cameraRectangle))
+                if (WallRight[i].rectangle.Intersects(cameraRectangle))
                     WallRight[i].Draw(spriteBatch);
 
             }
             for (int i = 0; i < Blocks.Length; i++) {
-                if (Blocks[i].rec.Intersects(cameraRectangle))
+                if (Blocks[i].rectangle.Intersects(cameraRectangle))
                     Blocks[i].Draw(spriteBatch);
             }
             GUN.Draw(spriteBatch);
@@ -124,7 +124,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 GT2 += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT2 > ShotTime) {
                     GT2 -= ShotTime;
-                    Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rec.Center.ToVector2();
+                    Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rectangle.Center.ToVector2();
                     var ls = new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")) {
                         DrawColor = Color.Green
                     };
@@ -135,7 +135,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
                 shots[i].Item1.Update(gameTime, cursor.Hitbox[0]);
-                if (!shots[i].Item1.rec.Intersects(cameraRectangle)) {
+                if (!shots[i].Item1.rectangle.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
             }

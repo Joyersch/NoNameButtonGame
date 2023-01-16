@@ -80,7 +80,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > ShotTime) {
                     GT -= ShotTime;
-                    Vector2 Dir = button.rec.Center.ToVector2() - GUN.rec.Center.ToVector2();
+                    Vector2 Dir = button.rectangle.Center.ToVector2() - GUN.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
                     shots[^1].Item1.Enter += CallFail;
                 }
@@ -88,7 +88,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
                 shots[i].Item1.Update(gameTime, cursor.Hitbox[0]);
-                if (!shots[i].Item1.rec.Intersects(cameraRectangle)) {
+                if (!shots[i].Item1.rectangle.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
             }
@@ -104,15 +104,15 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             } else {
                 UpdateSpeed = MaxUpdateSpeed;
             }
-            if (cursor.rec.Intersects(wallup.rec) || cursor.rec.Intersects(walldown.rec))
+            if (cursor.rectangle.Intersects(wallup.rectangle) || cursor.rectangle.Intersects(walldown.rectangle))
                 EGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 11;
             else
                 EGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             double angle = (EGT % 1000 / 1000F * Math.PI * 2);
             cursor.Position = new Vector2(Multiplier * (float)Math.Sin(angle), Multiplier * (float)Math.Cos(angle));
             button.Position = mousePosition - button.Size / 2;
-            wallup.Update(gameTime, button.rec);
-            walldown.Update(gameTime, button.rec);
+            wallup.Update(gameTime, button.rectangle);
+            walldown.Update(gameTime, button.rectangle);
             button.Update(gameTime, cursor.Hitbox[0]);
 
             OldMPos = mousePosition;
