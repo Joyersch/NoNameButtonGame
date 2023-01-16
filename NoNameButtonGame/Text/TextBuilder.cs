@@ -17,7 +17,7 @@ namespace NoNameButtonGame.Text
 
         public string Text => represent;
 
-
+        public Letter this[int i] => _letters[i];
         public TextBuilder(string text, Vector2 position, Vector2 letterSize, Color[] color, int spacing) : this(text,
             position, letterSize, spacing)
         {
@@ -77,6 +77,7 @@ namespace NoNameButtonGame.Text
 
         public override void Update(GameTime gameTime)
         {
+            represent = BuildString(_letters);
             for (int i = 0; i < _letters.Length; i++)
             {
                 _letters[i].Update(gameTime);
@@ -92,6 +93,16 @@ namespace NoNameButtonGame.Text
             {
                 _letters[i].Draw(spriteBatch);
             }
+        }
+
+        public string BuildString(Letter[] letters)
+        {
+            string build = string.Empty;
+            foreach (var letter in letters)
+            {
+                build += Letter.ReverseParse(letter.RepresentingCharacter);
+            }
+            return build;
         }
     }
 }
