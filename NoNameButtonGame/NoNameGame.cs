@@ -102,7 +102,7 @@ namespace NoNameButtonGame
             GraphicsDevice.Clear(new Color(50, 50, 50));
 
             _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-                transformMatrix: levelManager.CurrentCamera.CamMatrix);
+                transformMatrix: levelManager.CurrentCamera.CameraMatrix);
 
             levelManager.Draw(_spriteBatch);
 

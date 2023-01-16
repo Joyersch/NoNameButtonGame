@@ -12,12 +12,14 @@ class TextBuilder : GameObject
 {
     private Letter[] _letters;
     private int spacing;
-    private int _length;
+    private int _inGameLength;
     private string represent;
 
     public string Text => represent;
 
     public Letter this[int i] => _letters[i];
+
+    public int Length => _letters.Length;
 
     public TextBuilder(string text, Vector2 position, Vector2 letterSize, Color[] color, int spacing) : this(text,
         position, letterSize, spacing)
@@ -70,7 +72,7 @@ class TextBuilder : GameObject
                                    (spacing + 1) * ((int) Size.X / 8);
         }
 
-        _length = currentStringLength;
+        _inGameLength = currentStringLength;
     }
 
     private Letter.Character[] ParseArray(char[] text)
@@ -85,7 +87,7 @@ class TextBuilder : GameObject
         }
 
         rectangle = new Rectangle(Position.ToPoint(),
-            new Point(_length + (spacing + 1) * (_letters.Length - 1), (int) Size.Y));
+            new Point(_inGameLength + (spacing + 1) * (_letters.Length - 1), (int) Size.Y));
     }
 
     public override string ToString()

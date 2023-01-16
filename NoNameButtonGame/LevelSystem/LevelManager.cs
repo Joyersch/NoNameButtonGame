@@ -64,11 +64,8 @@ class LevelManager : MonoObject
         _settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
             _storage.Settings.Resolution.ToVertor2(), _random, storage);
         _settings.ExitEventHandler += SettingsOnExitEventHandler;
-
-        _levelSelect = new LevelSelect((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-            _storage.Settings.Resolution.ToVertor2(), _random, storage);
-        _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
-        _levelSelect.LevelSelectedEventHandler += LevelSelected;
+        _settings.WindowsResizeEventHandler += SettingsOnWindowsResizeEventHandler;
+        InitializeLevelSelect();
     }
 
     public override void Update(GameTime gameTime)
@@ -114,56 +111,56 @@ class LevelManager : MonoObject
         var screen = _storage.Settings.Resolution.ToVertor2();
         _currentLevel = level switch
         {
-            0 => new Level1(width, height, screen, _random),
-            1 => new Level2(width, height, screen, _random),
-            2 => new Level3(width, height, screen, _random),
-            3 => new Level4(width, height, screen, _random),
-            4 => new Level5(width, height, screen, _random),
-            5 => new Level6(width, height, screen, _random),
-            6 => new Level7(width, height, screen, _random),
-            7 => new Level8(width, height, screen, _random),
-            8 => new Level9(width, height, screen, _random),
-            9 => new Level10(width, height, screen, _random),
-            10 => new Level11(width, height, screen, _random),
-            11 => new Level12(width, height, screen, _random),
-            12 => new Level13(width, height, screen, _random),
-            13 => new Level14(width, height, screen, _random),
-            14 => new Level15(width, height, screen, _random),
-            15 => new Level16(width, height, screen, _random),
-            16 => new Level17(width, height, screen, _random),
-            17 => new Level18(width, height, screen, _random),
-            18 => new Level19(width, height, screen, _random),
-            19 => new Level20(width, height, screen, _random),
-            20 => new Level21(width, height, screen, _random),
-            21 => new Level22(width, height, screen, _random),
-            22 => new Level23(width, height, screen, _random),
-            23 => new Level24(width, height, screen, _random),
-            24 => new Level25(width, height, screen, _random),
-            25 => new Level26(width, height, screen, _random),
-            26 => new Level27(width, height, screen, _random),
-            27 => new Level28(width, height, screen, _random),
-            28 => new Level29(width, height, screen, _random),
-            29 => new Level30(width, height, screen, _random),
-            30 => new Level31(width, height, screen, _random),
-            31 => new Level32(width, height, screen, _random),
-            32 => new Level33(width, height, screen, _random),
-            33 => new Level34(width, height, screen, _random),
-            34 => new Level35(width, height, screen, _random),
-            35 => new Level36(width, height, screen, _random),
-            36 => new Level37(width, height, screen, _random),
-            37 => new Level38(width, height, screen, _random),
-            38 => new Level39(width, height, screen, _random),
-            39 => new Level40(width, height, screen, _random),
-            40 => new Level41(width, height, screen, _random),
-            41 => new Level42(width, height, screen, _random),
-            42 => new Level43(width, height, screen, _random),
-            43 => new Level44(width, height, screen, _random),
-            44 => new Level45(width, height, screen, _random),
-            45 => new Level46(width, height, screen, _random),
-            46 => new Level47(width, height, screen, _random),
-            47 => new Level48(width, height, screen, _random),
-            48 => new Level49(width, height, screen, _random),
-            49 => new Level50(width, height, screen, _random),
+            1 => new Level1(width, height, screen, _random),
+            2 => new Level2(width, height, screen, _random),
+            3 => new Level3(width, height, screen, _random),
+            4 => new Level4(width, height, screen, _random),
+            5 => new Level5(width, height, screen, _random),
+            6 => new Level6(width, height, screen, _random),
+            7 => new Level7(width, height, screen, _random),
+            8 => new Level8(width, height, screen, _random),
+            9 => new Level9(width, height, screen, _random),
+            10 => new Level10(width, height, screen, _random),
+            11 => new Level11(width, height, screen, _random),
+            12 => new Level12(width, height, screen, _random),
+            13 => new Level13(width, height, screen, _random),
+            14 => new Level14(width, height, screen, _random),
+            15 => new Level15(width, height, screen, _random),
+            16 => new Level16(width, height, screen, _random),
+            17 => new Level17(width, height, screen, _random),
+            18 => new Level18(width, height, screen, _random),
+            19 => new Level19(width, height, screen, _random),
+            20 => new Level20(width, height, screen, _random),
+            21 => new Level21(width, height, screen, _random),
+            22 => new Level22(width, height, screen, _random),
+            23 => new Level23(width, height, screen, _random),
+            24 => new Level24(width, height, screen, _random),
+            25 => new Level25(width, height, screen, _random),
+            26 => new Level26(width, height, screen, _random),
+            27 => new Level27(width, height, screen, _random),
+            28 => new Level28(width, height, screen, _random),
+            29 => new Level29(width, height, screen, _random),
+            30 => new Level30(width, height, screen, _random),
+            31 => new Level31(width, height, screen, _random),
+            32 => new Level32(width, height, screen, _random),
+            33 => new Level33(width, height, screen, _random),
+            34 => new Level34(width, height, screen, _random),
+            35 => new Level35(width, height, screen, _random),
+            36 => new Level36(width, height, screen, _random),
+            37 => new Level37(width, height, screen, _random),
+            38 => new Level38(width, height, screen, _random),
+            39 => new Level39(width, height, screen, _random),
+            40 => new Level40(width, height, screen, _random),
+            41 => new Level41(width, height, screen, _random),
+            42 => new Level42(width, height, screen, _random),
+            43 => new Level43(width, height, screen, _random),
+            44 => new Level44(width, height, screen, _random),
+            45 => new Level45(width, height, screen, _random),
+            46 => new Level46(width, height, screen, _random),
+            47 => new Level47(width, height, screen, _random),
+            48 => new Level48(width, height, screen, _random),
+            49 => new Level49(width, height, screen, _random),
+            50 => new Level50(width, height, screen, _random),
             _ => new LevelNULL(width, height, screen, _random),
         };
         _currentLevel.FinishEventHandler += LevelFinish;
@@ -191,7 +188,9 @@ class LevelManager : MonoObject
 
         currentSelectLevel++;
         _storage.GameData.MaxLevel = currentSelectLevel;
-        SelectLevel(currentSelectLevel);
+        _storage.Save();
+
+        SelectLevel(currentSelectLevel + 1);
     }
 
     private void LevelFail(object sender, EventArgs e)
@@ -203,7 +202,7 @@ class LevelManager : MonoObject
             return;
         }
 
-        SelectLevel(currentSelectLevel);
+        SelectLevel(currentSelectLevel + 1);
     }
 
     private void LevelExitEventHandler(object sender, EventArgs e)
@@ -225,11 +224,14 @@ class LevelManager : MonoObject
         => _state = MenuState.Settings;
 
     private void StartMenuOnSelectEventHandler()
-        => _state = MenuState.LevelSelect;
+    {
+        InitializeLevelSelect();
+        _state = MenuState.LevelSelect;
+    }
 
     private void StartMenuOnStartEventHandler()
     {
-        SelectLevel(_storage.GameData.MaxLevel);
+        SelectLevel(_storage.GameData.MaxLevel + 1);
         _state = MenuState.Level;
     }
 
@@ -238,4 +240,15 @@ class LevelManager : MonoObject
 
     private void LevelSelectOnExitEventHandler(object sender, EventArgs e)
         => _state = MenuState.StartMenu;
+
+    private void SettingsOnWindowsResizeEventHandler(Vector2 obj)
+        => _startMenu.Window = obj;
+
+    private void InitializeLevelSelect()
+    {
+        _levelSelect = new LevelSelect((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+            _storage.Settings.Resolution.ToVertor2(), _random, _storage);
+        _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
+        _levelSelect.LevelSelectedEventHandler += LevelSelected;
+    }
 }

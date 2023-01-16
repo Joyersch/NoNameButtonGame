@@ -32,7 +32,7 @@ public class Settings : IChangeable
     public Settings()
     {
         Resolution = new Resolution();
-        Resolution.HasChanged += HasChanged;
+        Resolution.HasChanged += (sender, args) => HasChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public Resolution Resolution { get; set; }

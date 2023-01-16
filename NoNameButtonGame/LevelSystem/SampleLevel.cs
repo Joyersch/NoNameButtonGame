@@ -103,36 +103,33 @@ namespace NoNameButtonGame.LevelSystem
                             cameraPosition = Vector2.Zero;
                         }
 
-                        if (!levelStarted)
-                        {
-                            Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
-                            levelStarted = true;
-                        }
+                        
                     }
                 }
             }
 */
+            if (!levelStarted)
+            {
+                Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
+                levelStarted = true;
+            }
 
             Camera.Update(cameraPosition, new Vector2(0, 0));
 
             cameraRectangle = new Rectangle((cameraPosition - new Vector2(defaultWidth, defaultHeight)).ToPoint(),
                 new Point(defaultWidth * 2, defaultHeight * 2));
 
-            MouseState mouseState = Mouse.GetState();
-            Vector2 VecMouse = mouseState.Position.ToVector2();
-            float TargetScreenDifX = Window.X / defaultWidth;
-            float TargetScreenDifY = Window.Y / defaultHeight;
-            Vector2 VMP = new Vector2(VecMouse.X / TargetScreenDifX, VecMouse.Y / TargetScreenDifY);
-            mousePosition =
-                new Vector2(VMP.X / Camera.Zoom + cameraPosition.X - (defaultWidth / Camera.Zoom) / 2,
-                    VMP.Y / Camera.Zoom + cameraPosition.Y - (defaultHeight / Camera.Zoom) / 2);
+            var mouseVector = Mouse.GetState().Position.ToVector2();
+            var screenScale = new Vector2(Window.X / defaultWidth, Window.Y / defaultHeight);
+            var offset = new Vector2(defaultWidth, defaultHeight) / Camera.Zoom / 2;
+            mousePosition = mouseVector / screenScale / Camera.Zoom + cameraPosition - offset;
         }
 
         public virtual void SetScreen(Vector2 Screen) => Window = Screen;
 
         public virtual void CallFail(object s, EventArgs e)
             => FailEventHandler?.Invoke(s, e);
-        
+
         public virtual void CallFail()
             => FailEventHandler?.Invoke(this, EventArgs.Empty);
 

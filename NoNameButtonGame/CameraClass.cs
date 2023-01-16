@@ -7,13 +7,13 @@ namespace NoNameButtonGame.Camera
 {
     class CameraClass
     {
-        public Matrix CamMatrix { get; private set; }
+        public Matrix CameraMatrix { get; private set; }
         public readonly float Zoom = 2f;
-        Vector2 Screen;
+        private Vector2 _screen;
 
         public CameraClass(Vector2 screen)
         {
-            Screen = screen;
+            _screen = screen;
         }
 
         public void Update(Vector2 TargetPos, Vector2 TargetSize)
@@ -21,9 +21,9 @@ namespace NoNameButtonGame.Camera
             var position =
                 Matrix.CreateTranslation(-TargetPos.X - (TargetSize.X / 2), -TargetPos.Y - (TargetSize.Y / 2), 0);
 
-            var offset = Matrix.CreateTranslation(Screen.X / 2, Screen.Y / 2, 0);
+            var offset = Matrix.CreateTranslation(_screen.X / 2, _screen.Y / 2, 0);
 
-            CamMatrix = position * Matrix.CreateScale(Zoom) * offset;
+            CameraMatrix = position * Matrix.CreateScale(Zoom) * offset;
         }
     }
 }

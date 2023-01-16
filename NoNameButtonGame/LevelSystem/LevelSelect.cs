@@ -17,9 +17,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly List<TextButton> _up;
         readonly Cursor mouseCursor;
         public event Action<int> LevelSelectedEventHandler;
-        bool bMove = false;
-        bool bUp = false;
-        int CTicks = 0;
+        bool isInMove = false;
+        bool moveUp = false;
+        int currentTicks = 0;
         public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(
             defaultWidth, defaultHeight, window, rand)
         {
@@ -81,16 +81,16 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         private void MoveDown(object sender, EventArgs e)
         {
-            bMove = true;
-            bUp = false;
-            CTicks = 40;
+            isInMove = true;
+            moveUp = false;
+            currentTicks = 40;
         }
 
         private void MoveUp(object sender, EventArgs e)
         {
-            bMove = true;
-            bUp = true;
-            CTicks = 40;
+            isInMove = true;
+            moveUp = true;
+            currentTicks = 40;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -117,31 +117,31 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor.Draw(spriteBatch);
         }
 
-        float GT;
+        float savedGameTime;
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (bMove)
+            if (isInMove)
             {
-                GT += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-                while (GT > 10)
+                savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+                while (savedGameTime > 10)
                 {
-                    GT -= 10;
-                    Vector2 SinWaveRoute = new Vector2(0, 12.2F * (float) Math.Sin((float) CTicks / 50 * Math.PI));
-                    if (bUp)
-                        cameraPosition -= SinWaveRoute;
+                    savedGameTime -= 10;
+                    Vector2 sinWaveRoute = new Vector2(0, 12.2F * (float) Math.Sin((float) currentTicks / 50 * Math.PI));
+                    if (moveUp)
+                        cameraPosition -= sinWaveRoute;
                     else
-                        cameraPosition += SinWaveRoute;
-                    CTicks--;
-                    if (CTicks == 0)
+                        cameraPosition += sinWaveRoute;
+                    currentTicks--;
+                    if (currentTicks == 0)
                     {
-                        float ftmp = cameraPosition.Y % (defaultHeight / Camera.Zoom);
-                        if (!bUp)
-                            cameraPosition.Y += (defaultHeight / Camera.Zoom) - ftmp;
+                        float alignmentOffset = cameraPosition.Y % (defaultHeight / Camera.Zoom);
+                        if (!moveUp)
+                            cameraPosition.Y += (defaultHeight / Camera.Zoom) - alignmentOffset;
                         else
-                            cameraPosition.Y -= ftmp;
-                        bMove = false;
+                            cameraPosition.Y -= alignmentOffset;
+                        isInMove = false;
                     }
                 }
             }
