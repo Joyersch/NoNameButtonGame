@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LevelSystem;
 using Display = NoNameButtonGame.Display;
@@ -66,10 +68,7 @@ namespace NoNameButtonGame
 
             // will be removed
             Globals.Content = Content;
-            Mapping.AddMappingToCache(typeof(Cursor), Content.GetHitboxMapping("cursor"));
-            
-            
-            
+  
             _display = new(GraphicsDevice);
             _mousePointer = new MousePointer();
 
@@ -86,7 +85,8 @@ namespace NoNameButtonGame
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            MousePointer.TextureHitboxMapping = Content.GetHitboxMapping("mousepoint");
+            Mapping.AddMappingToCache(typeof(Cursor), Content.GetHitboxMapping("cursor"));
+            Mapping.AddMappingToCache(typeof(MousePointer), Content.GetHitboxMapping("mousepoint"));
         }
 
         protected override void Update(GameTime gameTime)
