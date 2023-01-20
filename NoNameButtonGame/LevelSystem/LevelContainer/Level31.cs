@@ -34,7 +34,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("Thin can be penetrated!", new Vector2(80, -132), new Vector2(8, 8), null, 0);
             Infos[1] = new TextBuilder("But this one is not thin its thicc!", new Vector2(80, -100), new Vector2(8, 8), null, 0);
-            wall = new Laserwall(new Vector2(-120, -300), new Vector2(100, 1024), Globals.Content.GetHitboxMapping("zonenew"));
+            wall = new Laserwall(new Vector2(-120, -300), new Vector2(100, 1024));
             wall.EnterEventHandler += WallEvent;
         }
 

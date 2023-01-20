@@ -4,107 +4,72 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.Text;
 
-namespace NoNameButtonGame.GameObjects
+namespace NoNameButtonGame.GameObjects;
+
+public class StateButton : EmptyButton
 {
-    class StateButton : GameObject, IMouseActions, IHitbox
+    int ammoutStates;
+
+    public int States
     {
-        public event EventHandler LeaveEventHandler;
-        public event EventHandler EnterEventHandler;
-        public event EventHandler ClickEventHandler;
-        bool Hover;
-        Rectangle[] frameHitbox;
-        Rectangle[] ingameHitbox;
-        Vector2 Scale;
-        int ammoutStates;
-        public int States { get { return ammoutStates; } set { ammoutStates = value; CurrentState = ammoutStates; } }
-        public int CurrentStates { get { return CurrentState; } }
-        int CurrentState;
-
-        TextBuilder textContainer;
-        public Rectangle[] Hitbox {
-            get => ingameHitbox;
+        get => ammoutStates;
+        set
+        {
+            ammoutStates = value;
+            CurrentStates = ammoutStates;
         }
-        public StateButton(Vector2 Pos, Vector2 Size, TextureHitboxMapping box, int States) {
-            base.Size = Size;
-            Position = Pos;
-            ImageLocation = new Rectangle((int)box.ImageSize.X, 0, (int)box.ImageSize.X, (int)box.ImageSize.Y);
-            FrameSize = box.ImageSize;
-            frameHitbox = new Rectangle[box.Hitboxes.Length];
-            Texture = box.Texture;
-            Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            frameHitbox = box.Hitboxes;
-            textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16), null, 0);
+    }
 
-            ingameHitbox = new Rectangle[frameHitbox.Length];
-            for (int i = 0; i < box.Hitboxes.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(Position.X + (box.Hitboxes[i].X * Scale.X)), (int)(Position.Y + (box.Hitboxes[i].Y * Scale.Y)), (int)(box.Hitboxes[i].Width * Scale.X), (int)(box.Hitboxes[i].Height * Scale.Y));
-            }
-            CurrentState = States;
-            ammoutStates = States;
-        }
+    public int CurrentStates { get; private set; }
+
+    TextBuilder textContainer;
 
 
-        public bool HitboxCheck(Rectangle rec) {
-            for (int i = 0; i < Hitbox.Length; i++) {
-                if (Hitbox[i].Intersects(rec)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        private void UpdateHitbox() {
-            Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-            for (int i = 0; i < frameHitbox.Length; i++) {
-                ingameHitbox[i] = new Rectangle((int)(Position.X + (frameHitbox[i].X * Scale.X)), (int)(Position.Y + (frameHitbox[i].Y * Scale.Y)), (int)(frameHitbox[i].Width * Scale.X), (int)(frameHitbox[i].Height * Scale.Y));
+    public StateButton(Vector2 position, Vector2 size, int states) : base(position, size)
+    {
+        textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16),
+            null, 0);
+
+        CurrentStates = states;
+        ammoutStates = states;
+    }
+
+    public void Update(GameTime gameTime, Rectangle mousePosition)
+    {
+        bool hover = HitboxCheck(mousePosition);
+        if (hover)
+        {
+            if (!_hover)
+                InvokeEnterEventHandler();
+
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
+            {
+                CurrentStates--;
+                if (CurrentStates <= 0)InvokeClickEventHandler();
             }
         }
-        public void Update(GameTime gt, Rectangle MousePos) {
-            MouseState mouseState = Mouse.GetState();
-            if (HitboxCheck(MousePos)) {
-                if (!Hover) {
-                    Hover = true;
-                    if (EnterEventHandler != null)
-                        EnterEventHandler(this, new());
-                }
-                if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true)) {
-                    CurrentState--;
-                    if (CurrentState <= 0)
-                        ClickEventHandler(this, new ());
-                } else {
-                    //HoldTime -= gt.ElapsedGameTime.TotalMilliseconds / 2;
-                }
-            } else {
-                if (Hover)
-                    if (LeaveEventHandler != null)
-                        LeaveEventHandler(this, new ());
-                Hover = false;
-                
+        else if (_hover)
+            InvokeLeaveEventHandler();
 
-            }
+        ImageLocation = new Rectangle(hover ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
+        _hover = hover;
+        textContainer.ChangeText(CurrentStates.ToString());
 
-            if (Hover) {
-                ImageLocation = new Rectangle((int)FrameSize.X, 0, (int)FrameSize.X, (int)FrameSize.Y);
-            } else {
-                ImageLocation = new Rectangle(0, 0, (int)FrameSize.X, (int)FrameSize.Y);
-            }
-            UpdateHitbox();
-            textContainer.ChangeText(CurrentState.ToString());
+        textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
+        textContainer.Position.Y -= 32;
+        textContainer.Update(gameTime);
+        Update(gameTime);
+    }
 
-            textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
-            textContainer.Position.Y -= 32;
-            textContainer.Update(gt);
-            Update(gt);
-        }
-
-        public override void Draw(SpriteBatch spriteBatch) {
-            base.Draw(spriteBatch);
-            textContainer.Draw(spriteBatch);
-
-        }
+    public override void Draw(SpriteBatch spriteBatch)
+    {
+        base.Draw(spriteBatch);
+        textContainer.Draw(spriteBatch);
     }
 }

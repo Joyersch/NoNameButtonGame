@@ -4,7 +4,7 @@ using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Colors
 {
-    class BaseAniColor : MonoObject
+    class BaseAniColor
     {
         public Color[] Color;
         int Index;
@@ -21,11 +21,11 @@ namespace NoNameButtonGame.Colors
             
         }
 
-        public override void Draw(SpriteBatch spriteBatch) {
+        public virtual void Draw(SpriteBatch spriteBatch) {
 
         }
 
-        public override void Update(GameTime gameTime) {
+        public virtual void Update(GameTime gameTime) {
              if (Color.Length != 0 && Speed > 0) {
                 GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > Speed) {

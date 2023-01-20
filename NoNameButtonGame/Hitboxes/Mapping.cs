@@ -27,7 +27,7 @@ public static class Mapping
 
     public static bool AddMappingToCache(Type type, TextureHitboxMapping textureHitboxMapping)
         => cachedMappings.TryAdd(type, textureHitboxMapping);
-        
+
 
     public static TextureHitboxMapping GetHitboxMapping(this ContentManager contentManager, string textureName)
     {
@@ -102,7 +102,10 @@ public static class Mapping
                 map.ImageSize = new Vector2(34, 16);
                 map.Hitboxes = new Rectangle[2] {new Rectangle(1, 2, 32, 12), new Rectangle(2, 1, 30, 14)};
                 break;
-
+            case "font":
+                map.ImageSize = new Vector2(8, 8);
+                map.Hitboxes = Array.Empty<Rectangle>();
+                break;
             default:
                 map.ImageSize = new Vector2(map.Texture.Width, map.Texture.Height);
                 map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, map.Texture.Width, map.Texture.Height)};

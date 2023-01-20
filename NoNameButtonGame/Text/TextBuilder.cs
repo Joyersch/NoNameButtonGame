@@ -5,16 +5,19 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.Text;
 
-public class TextBuilder : GameObject
+public class TextBuilder
 {
     private Letter[] _letters;
     private int spacing;
     private int _inGameLength;
     private string represent;
-
+    public Vector2 Position;
+    public Vector2 Size;
+    public Rectangle rectangle;
     public string Text => represent;
 
     public Letter this[int i] => _letters[i];
@@ -78,7 +81,7 @@ public class TextBuilder : GameObject
     private Letter.Character[] ParseArray(char[] text)
         => text.Select(Letter.Parse).ToArray();
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         represent = BuildString(_letters);
         for (int i = 0; i < _letters.Length; i++)
@@ -86,14 +89,14 @@ public class TextBuilder : GameObject
             _letters[i].Update(gameTime);
         }
 
-        rectangle = new Rectangle(Position.ToPoint(),
+         rectangle = new Rectangle(Position.ToPoint(),
             new Point(_inGameLength + (spacing + 1) * (_letters.Length - 1), (int) Size.Y));
     }
 
     public override string ToString()
         => BuildString(_letters);
 
-    public override void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < _letters.Length; i++)
         {

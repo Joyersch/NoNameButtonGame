@@ -11,7 +11,7 @@ using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.LevelSystem;
 
-class LevelManager : MonoObject
+class LevelManager
 {
     private SampleLevel _currentLevel;
     private StartScreen _startMenu;
@@ -68,7 +68,7 @@ class LevelManager : MonoObject
         InitializeLevelSelect();
     }
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         SampleLevel level = _state switch
         {
@@ -92,7 +92,7 @@ class LevelManager : MonoObject
         level.Update(gameTime);
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch)
     {
         SampleLevel level = _state switch
         {

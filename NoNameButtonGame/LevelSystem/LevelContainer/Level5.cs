@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons.Locked;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -28,7 +29,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level5(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 5 - MORE BUTTONS!";
             this.rand = rand;
-            button = new HoldButton(new Vector2(-220, -100), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton")) {
+            button = new HoldButton(new Vector2(-220, -100), new Vector2(128, 64)) {
                 EndHoldTime = 6900
             };
             button.ClickEventHandler += EmptyBtnEvent;
@@ -43,7 +44,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
                 Infos[i].ChangeColor(c);
             }
-            lockbutton = new LockButton(new Vector2(-220, 0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
+            lockbutton = new LockWinButton(new Vector2(-220, 0), new Vector2(128, 64), true);
             lockbutton.ClickEventHandler += BtnEvent;
             
         }

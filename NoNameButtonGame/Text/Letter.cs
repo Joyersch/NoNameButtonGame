@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.Text;
 
@@ -15,17 +16,21 @@ public class Letter : GameObject
     {
     }
 
-    public Letter(Vector2 position, Vector2 size, Character character, Color color)
+    public Letter(Vector2 position, Vector2 size, Character character, Color color): base(position, size)
     {
-        Texture = Globals.Content.Load<Texture2D>("font");
-        FrameSize = new Vector2(8, 8);
-        Position = position;
-        Size = size;
-        DrawColor = color;
         RepresentingCharacter = character;
         UpdateCharacter(character);
-        rectangle = new Rectangle((position + frameSpace.Location.ToVector2()).ToPoint(),
-            (size + frameSpace.Size.ToVector2()).ToPoint());
+        _textureHitboxMapping.Hitboxes = new[]
+        {
+            new Rectangle((position + frameSpace.Location.ToVector2()).ToPoint(),
+                (size + frameSpace.Size.ToVector2()).ToPoint())
+        };
+        _hitboxes = new Rectangle[1];
+    }
+
+    public override void Initialize()
+    {
+        _textureHitboxMapping = Mapping.GetMappingFromCache<Letter>();
     }
 
     public void ChangeColor(Color color)

@@ -37,7 +37,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         public Level37(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), 333) {
+            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), 333) {
                 DrawColor = Color.White,
             };
             button.ClickEventHandler += BtnEvent;
@@ -75,7 +75,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (GT > ShotTime) {
                     GT -= ShotTime;
                     Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rectangle.Center.ToVector2();
-                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
+                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8)), Dir / Dir.Length()));
                     shots[^1].Item1.EnterEventHandler += CallFail;
                 }
             }

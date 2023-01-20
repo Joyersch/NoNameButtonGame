@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons.Locked;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -34,20 +35,20 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 49 - so close, you can do it!";
 
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-            leftWall = new Laserwall(new Vector2(-512, -512), new Vector2(420, 1024), Globals.Content.GetHitboxMapping("zonenew"));
-            rightWall = new Laserwall(new Vector2(96, -512), new Vector2(420, 1024), Globals.Content.GetHitboxMapping("zonenew"));
-            buttomWall = new Laserwall(new Vector2(-512, 96), new Vector2(1024, 1024), Globals.Content.GetHitboxMapping("zonenew"));
+            leftWall = new Laserwall(new Vector2(-512, -512), new Vector2(420, 1024));
+            rightWall = new Laserwall(new Vector2(96, -512), new Vector2(420, 1024));
+            buttomWall = new Laserwall(new Vector2(-512, 96), new Vector2(1024, 1024));
 
-            firstBlock = new Laserwall(new Vector2(-256, 32), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));
-            secondBlock = new Laserwall(new Vector2(-32, 96), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));
+            firstBlock = new Laserwall(new Vector2(-256, 32), new Vector2(64, 64));
+            secondBlock = new Laserwall(new Vector2(-32, 96), new Vector2(64, 64));
             rightWall.EnterEventHandler += CallFail;
             leftWall.EnterEventHandler += CallFail;
             buttomWall.EnterEventHandler += CallFail;
             firstBlock.EnterEventHandler += CallFail;
             secondBlock.EnterEventHandler += CallFail;
-            winButton = new LockButton(new Vector2(-32, -128), new Vector2(64, 32), Globals.Content.GetHitboxMapping("awesomebutton"), true);
+            winButton = new LockWinButton(new Vector2(-32, -128), new Vector2(64, 32), true);
             winButton.ClickEventHandler += CallFinish;
-            UnlockButton = new HoldButton(new Vector2(-32, 48), new Vector2(64, 32), Globals.Content.GetHitboxMapping("emptybutton")) {
+            UnlockButton = new HoldButton(new Vector2(-32, 48), new Vector2(64, 32)) {
                 EndHoldTime = 2500
             };
             UnlockButton.ClickEventHandler += UnlockBtn;

@@ -47,10 +47,10 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 DrawColor = Color.White,
             };
             button.ClickEventHandler += CallFinish;
-            laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224), Globals.Content.GetHitboxMapping("zonenew"));
-            laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576), Globals.Content.GetHitboxMapping("zonenew"));
-            laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576), Globals.Content.GetHitboxMapping("zonenew"));
-            laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 24), Globals.Content.GetHitboxMapping("zonenew"));
+            laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224));
+            laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576));
+            laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576));
+            laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 24));
             for (int i = 0; i < laserwall.Length; i++) {
                 laserwall[i].EnterEventHandler += LaserEvent;
             }

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.LevelSystem
 {
-    class SampleLevel : MonoObject, ILevel
+    class SampleLevel : ILevel
     {
         public event EventHandler FailEventHandler;
         public event EventHandler ExitEventHandler;
@@ -53,12 +53,12 @@ namespace NoNameButtonGame.LevelSystem
             cameraPosition = Vector2.Zero;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             /*
             if ((animationIn || animationOut) && false)

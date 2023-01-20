@@ -33,7 +33,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("Thin walls can be penetrated!", new Vector2(80,-132),new Vector2(8,8),null,0);
             Infos[1] = new TextBuilder("Just move fast enough!", new Vector2(80, -100), new Vector2(8, 8), null, 0);
-            wall = new Laserwall(new Vector2(-40, -300), new Vector2(24, 1024), Globals.Content.GetHitboxMapping("zonenew"));
+            wall = new Laserwall(new Vector2(-40, -300), new Vector2(24, 1024));
             wall.EnterEventHandler += WallEvent;
         }
 

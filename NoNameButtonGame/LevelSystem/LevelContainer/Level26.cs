@@ -25,7 +25,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         int stat2 = 0;
         public Level26(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), 100000) {
+            button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), 100000) {
                 DrawColor = Color.White,
             };
             button.ClickEventHandler += BtnEvent; 

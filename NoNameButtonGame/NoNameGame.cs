@@ -13,6 +13,7 @@ using NoNameButtonGame.GameObjects.Buttons.StartMenu;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LevelSystem;
+using NoNameButtonGame.Text;
 using Display = NoNameButtonGame.Display;
 
 namespace NoNameButtonGame
@@ -69,11 +70,8 @@ namespace NoNameButtonGame
                 _storage.Settings.HasChanged += SettingsChanged;
             }
 
-            // will be removed
-            Globals.Content = Content;
-            
             _display = new(GraphicsDevice);
-            _mousePointer = new MousePointer();
+            _mousePointer = new MousePointer(Vector2.Zero,Vector2.Zero);
 
             levelManager = new LevelManager(_display, _storage);
             levelManager.ChangeWindowName += ChangeTitle;
@@ -98,7 +96,9 @@ namespace NoNameButtonGame
             Mapping.AddMappingToCache(typeof(FailButton), Content.GetHitboxMapping("failbutton"));
             Mapping.AddMappingToCache(typeof(WinButton), Content.GetHitboxMapping("awesomebutton"));
             Mapping.AddMappingToCache(typeof(MiniTextButton), Content.GetHitboxMapping("minibutton"));
+            Mapping.AddMappingToCache(typeof(Letter), Content.GetHitboxMapping("font"));
 
+            Mapping.AddMappingToCache(typeof(DontTouch), Content.GetHitboxMapping("zonenew"));
         }
 
         protected override void Update(GameTime gameTime)

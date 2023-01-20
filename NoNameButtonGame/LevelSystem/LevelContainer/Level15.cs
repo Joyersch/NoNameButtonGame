@@ -24,7 +24,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         readonly TextBuilder infoText;
         public Level15(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            stateButton = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"),100) {
+            stateButton = new StateButton(new Vector2(-64, -32), new Vector2(128, 64),100) {
                 DrawColor = Color.White,
             };
             stateButton.ClickEventHandler += BtnEvent;

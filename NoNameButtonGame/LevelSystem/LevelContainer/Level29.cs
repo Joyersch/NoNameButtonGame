@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons.Locked;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -21,12 +22,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         float TGT;
         public Level29(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 29 - Get duck";
-            button = new LockButton(new Vector2(-256, -128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
+            button = new LockWinButton(new Vector2(-256, -128), new Vector2(128, 64), true);
             button.ClickEventHandler += BtnEvent;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("RUN! IT FOLLOWs you!", new Vector2(-64, -132), new Vector2(16, 16), null, 0);
 
-            wall = new Laserwall(new Vector2(-32, -200), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));
+            wall = new Laserwall(new Vector2(-32, -200), new Vector2(64, 64));
             wall.EnterEventHandler += WallEvent;
             ButtonStartTimer = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "TimerStart", "Start Timer", new Vector2(8, 8));
             ButtonStartTimer.ClickEventHandler += StartTimer;

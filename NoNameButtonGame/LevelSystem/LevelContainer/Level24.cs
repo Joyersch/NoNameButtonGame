@@ -45,19 +45,19 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             WallRight = new Laserwall[WallLength];
             List<Laserwall> Walls = new List<Laserwall>();
             for (int i = 0; i < WallLength; i++) {
-                WallLeft[i] = new Laserwall(new Vector2(96, 512 * i), new Vector2(416, 512), Globals.Content.GetHitboxMapping("zonenew"));
-                WallRight[i] = new Laserwall(new Vector2(-512, 512 * i), new Vector2(416, 512), Globals.Content.GetHitboxMapping("zonenew"));
+                WallLeft[i] = new Laserwall(new Vector2(96, 512 * i), new Vector2(416, 512));
+                WallRight[i] = new Laserwall(new Vector2(-512, 512 * i), new Vector2(416, 512));
                 WallRight[i].EnterEventHandler += CallFail;
                 WallLeft[i].EnterEventHandler += CallFail;
             }
             for (int i = 0; i < (WallLength - 1) * 8 / 2; i++) {
                 int c = rand.Next(0, 3);
                 if (c != 0)
-                    Walls.Add(new Laserwall(new Vector2(-96, 512 + 128 * i), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew")));
+                    Walls.Add(new Laserwall(new Vector2(-96, 512 + 128 * i), new Vector2(64, 64)));
                 if (c != 1)
-                    Walls.Add(new Laserwall(new Vector2(-32, 512 + 128 * i), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew")));
+                    Walls.Add(new Laserwall(new Vector2(-32, 512 + 128 * i), new Vector2(64, 64)));
                 if (c != 2)
-                    Walls.Add(new Laserwall(new Vector2(32, 512 + 128 * i), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew")));
+                    Walls.Add(new Laserwall(new Vector2(32, 512 + 128 * i), new Vector2(64, 64)));
 
                 // Walls.Add(new Laserwall(new Vector2(-96 + rand.Next(0, 3) * 64, 512 + 128 * i), new Vector2(64, 64), Globals.Content.GetTHBox("zonenew")));
 
@@ -127,7 +127,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (GT2 > ShotTime) {
                     GT2 -= ShotTime;
                     Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rectangle.Center.ToVector2();
-                    var ls = new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")) {
+                    var ls = new Laserwall(GUN.Position, new Vector2(16, 8)) {
                         DrawColor = Color.Green
                     };
                     shots.Add(new Tuple<Laserwall, Vector2>(ls, Dir / Dir.Length()));

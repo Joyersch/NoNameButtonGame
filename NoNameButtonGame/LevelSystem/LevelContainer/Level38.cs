@@ -32,8 +32,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             button.ClickEventHandler += CallFinish;
             cursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
-            wallup = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));
-            walldown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));
+            wallup = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight));
+            walldown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight));
             wallup.EnterEventHandler += CallFail;
             walldown.EnterEventHandler += CallFail;
         }

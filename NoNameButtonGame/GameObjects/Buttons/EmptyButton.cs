@@ -9,84 +9,41 @@ using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class EmptyButton : GameObject, IMouseActions, IHitbox, IMoveable
+public class EmptyButton : GameObject, IMouseActions, IMoveable
 {
     public event EventHandler LeaveEventHandler;
     public event EventHandler EnterEventHandler;
     public event EventHandler ClickEventHandler;
-    private bool _hover;
-
-    public Rectangle[] Hitbox { get; }
-    private Vector2 _scale;
-
-    protected TextureHitboxMapping _textureHitboxMapping;
+    protected bool _hover;
 
 
-    public EmptyButton(Vector2 position, Vector2 size)
+    public EmptyButton(Vector2 position, Vector2 size) : base(position, size)
     {
-        base.Size = size;
-        base.Position = position;
-        DrawColor = Color.White;
-        Initialize();
-        ImageLocation = new Rectangle(
-            (int) _textureHitboxMapping.ImageSize.X
-            , 0
-            , (int) _textureHitboxMapping.ImageSize.X
-            , (int) _textureHitboxMapping.ImageSize.Y);
-        FrameSize = _textureHitboxMapping.ImageSize;
-        Texture = _textureHitboxMapping.Texture;
-        Hitbox = new Rectangle[_textureHitboxMapping.Hitboxes.Length];
-        CalculateHitboxes();
     }
 
-    public virtual void Initialize()
+    public override void Initialize()
     {
         _textureHitboxMapping = Mapping.GetMappingFromCache<EmptyButton>();
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePos)
+    public virtual void Update(GameTime gameTime, Rectangle mousePosition)
     {
-        MouseState mouseState = Mouse.GetState();
-
-        bool hover = HitboxCheck(mousePos);
+        bool hover = HitboxCheck(mousePosition);
         if (hover)
         {
             if (!_hover)
-                EnterEventHandler?.Invoke(this, EventArgs.Empty);
+                InvokeEnterEventHandler();
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
-                ClickEventHandler?.Invoke(this, EventArgs.Empty);
+                InvokeClickEventHandler();
         }
         else if (_hover)
-            LeaveEventHandler?.Invoke(this, EventArgs.Empty);
+            InvokeLeaveEventHandler();
 
+        ImageLocation = new Rectangle(hover ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
         _hover = hover;
-        ImageLocation = new Rectangle(_hover ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
-
-        CalculateHitboxes();
-
-        Update(gameTime);
+        base.Update(gameTime);
     }
-
-    public bool HitboxCheck(Rectangle compareTo)
-        => Hitbox.Any(h => h.Intersects(compareTo));
-
-    private void CalculateHitboxes()
-    {
-        _scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-        var hitboxes = _textureHitboxMapping.Hitboxes;
-
-        for (int i = 0; i < hitboxes.Length; i++)
-        {
-            Hitbox[i] = CalculateInGameHitbox(hitboxes[i]);
-        }
-    }
-
-    private Rectangle CalculateInGameHitbox(Rectangle hitbox)
-        => new((int) (Position.X + hitbox.X * _scale.X)
-            , (int) (Position.Y + hitbox.Y * _scale.Y)
-            , (int) (hitbox.Width * _scale.X)
-            , (int) (hitbox.Height * _scale.Y));
 
 
     public bool Move(Vector2 Direction)
@@ -94,4 +51,13 @@ public class EmptyButton : GameObject, IMouseActions, IHitbox, IMoveable
         Position += Direction;
         return true;
     }
+
+    protected void InvokeClickEventHandler()
+        => ClickEventHandler?.Invoke(this, EventArgs.Empty);
+    
+    protected void InvokeEnterEventHandler()
+        => EnterEventHandler?.Invoke(this, EventArgs.Empty);
+    
+    protected void InvokeLeaveEventHandler()
+        => LeaveEventHandler?.Invoke(this, EventArgs.Empty);
 }
