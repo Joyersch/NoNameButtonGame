@@ -14,12 +14,15 @@ using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
+
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
     class Level3 : SampleLevel
     {
 
-        readonly AwesomeButton button;
+        readonly EmptyButton button;
         readonly Cursor cursor;
         readonly TextBuilder Info;
         readonly Rainbow raincolor;
@@ -40,7 +43,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Offset = 256
             };
             laserwall = new Laserwall[4];
-            button = new AwesomeButton(new Vector2(-64,96), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton")) {
+            button = new WinButton(new Vector2(-64,96), new Vector2(128, 64)) {
                 DrawColor = Color.White,
             };
             button.Click += CallFinish;

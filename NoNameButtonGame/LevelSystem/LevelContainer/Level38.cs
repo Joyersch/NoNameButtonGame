@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -19,7 +21,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     class Level38 : SampleLevel
     {
 
-        readonly AwesomeButton button;
+        readonly EmptyButton button;
         readonly Cursor cursor;
         readonly Laserwall wallup;
         readonly Laserwall walldown;
@@ -27,7 +29,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         float GT;
         public Level38(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 38 - Swap time. again idk";
-            button = new AwesomeButton(new Vector2(-256, -0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"));
+            button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             button.Click += CallFinish;
             cursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
             wallup = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));

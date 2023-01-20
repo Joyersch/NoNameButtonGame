@@ -6,7 +6,7 @@ using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Text;
 
-class Letter : GameObject
+public class Letter : GameObject
 {
     public Rectangle frameSpace;
     public Character RepresentingCharacter;

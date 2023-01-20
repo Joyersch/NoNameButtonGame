@@ -8,7 +8,7 @@ using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Text;
 
-class TextBuilder : GameObject
+public class TextBuilder : GameObject
 {
     private Letter[] _letters;
     private int spacing;

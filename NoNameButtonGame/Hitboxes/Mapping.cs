@@ -22,7 +22,7 @@ public static class Mapping
 {
     private static Dictionary<Type, TextureHitboxMapping> cachedMappings = new();
 
-    public static TextureHitboxMapping GetCachedMapping<T>()
+    public static TextureHitboxMapping GetMappingFromCache<T>()
         => cachedMappings.FirstOrDefault(x => x.Key == typeof(T)).Value;
 
     public static bool AddMappingToCache(Type type, TextureHitboxMapping textureHitboxMapping)

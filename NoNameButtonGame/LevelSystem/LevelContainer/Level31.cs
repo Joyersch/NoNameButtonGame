@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 using NoNameButtonGame.Input;
@@ -12,6 +13,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -19,13 +22,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     class Level31 : SampleLevel
     {
 
-        readonly AwesomeButton button;
+        readonly EmptyButton button;
         readonly Cursor cursor;
         readonly TextBuilder[] Infos;
         readonly Laserwall wall;
         public Level31(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 31 - THICC";
-            button = new AwesomeButton(new Vector2(-256, -0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"));
+            button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             button.Click += BtnEvent;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];

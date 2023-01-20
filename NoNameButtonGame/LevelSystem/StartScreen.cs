@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons.StartMenu;
 using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 class StartScreen : SampleLevel
 {
-    readonly AwesomeButton startButton;
-    readonly AwesomeButton settingsButton;
-    readonly AwesomeButton selectLevelButton;
-    readonly AwesomeButton exitButton;
+    readonly StartButton startButton;
+    readonly SettingsButton settingsButton;
+    readonly SelectButton selectLevelButton;
+    readonly ExitButton exitButton;
     readonly Cursor mouseCursor;
 
     public event Action StartEventHandler;
@@ -28,17 +29,13 @@ class StartScreen : SampleLevel
         Name = "Start Menu";
         int Startpos = -(64 * 2);
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        startButton = new AwesomeButton(new Vector2(-64, Startpos), new Vector2(160, 64),
-            Globals.Content.GetHitboxMapping("startbutton"));
+        startButton = new StartButton(new Vector2(-64, Startpos), new Vector2(160, 64));
         startButton.Click += StartButtonPressed;
-        selectLevelButton = new AwesomeButton(new Vector2(-92, Startpos + 64), new Vector2(216, 64),
-            Globals.Content.GetHitboxMapping("selectbutton"));
+        selectLevelButton = new SelectButton(new Vector2(-92, Startpos + 64), new Vector2(216, 64));
         selectLevelButton.Click += SelectButtonPressed;
-        settingsButton = new AwesomeButton(new Vector2(-130, Startpos + 64 * 2), new Vector2(292, 64),
-            Globals.Content.GetHitboxMapping("settingsbutton"));
+        settingsButton = new SettingsButton(new Vector2(-130, Startpos + 64 * 2), new Vector2(292, 64));
         settingsButton.Click += SettingsButtonPressed;
-        exitButton = new AwesomeButton(new Vector2(-52, Startpos + 64 * 3), new Vector2(136, 64),
-            Globals.Content.GetHitboxMapping("exitbutton"));
+        exitButton = new ExitButton(new Vector2(-52, Startpos + 64 * 3), new Vector2(136, 64));
         exitButton.Click += ExitButtonPressed;
     }
 

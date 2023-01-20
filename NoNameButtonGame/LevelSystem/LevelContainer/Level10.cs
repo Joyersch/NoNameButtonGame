@@ -29,9 +29,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 10 - QnA Time!";
             awnserButtons = new TextButton[3];
             Questions = new TextBuilder("3 + 4 = 5 => 5 + 5 =?", new Vector2(-64, -128), new Vector2(8, 8), null, 0);
-            awnserButtons[0] = new TextButton(new Vector2(-64, -96), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "0", "7", new Vector2(8, 8));
-            awnserButtons[1] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "1", "11", new Vector2(8, 8));
-            awnserButtons[2] = new TextButton(new Vector2(-64, 32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "2", "5", new Vector2(8, 8));
+            awnserButtons[0] = new TextButton(new Vector2(-64, -96), new Vector2(128, 64), "0", "7", new Vector2(8, 8));
+            awnserButtons[1] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "1", "11", new Vector2(8, 8));
+            awnserButtons[2] = new TextButton(new Vector2(-64, 32), new Vector2(128, 64), "2", "5", new Vector2(8, 8));
             for (int i = 0; i < awnserButtons.Length; i++) {
                 awnserButtons[i].Click += BtnEvent;
             }

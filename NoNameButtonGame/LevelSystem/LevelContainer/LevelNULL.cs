@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -10,12 +12,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     class LevelNULL : SampleLevel
     {
 
-        readonly AwesomeButton failButton;
+        readonly EmptyButton failButton;
         readonly Cursor mouseCursor;
         readonly TextBuilder Info;
         public LevelNULL(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            failButton = new AwesomeButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("failbutton")) {
+            failButton = new FailButton(new Vector2(-64, -32), new Vector2(128, 64)) {
                 DrawColor = Color.White,
             };
             failButton.Click += BtnEvent;

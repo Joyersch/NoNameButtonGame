@@ -18,7 +18,7 @@ class Cursor : GameObject, IHitbox
     {
         Size = size;
         Position = position;
-        var textureMapping = Mapping.GetCachedMapping<Cursor>();
+        var textureMapping = Mapping.GetMappingFromCache<Cursor>();
         ImageLocation = new Rectangle(0, 0, 0, 0);
         FrameSize = textureMapping.ImageSize;
         Texture = textureMapping.Texture;

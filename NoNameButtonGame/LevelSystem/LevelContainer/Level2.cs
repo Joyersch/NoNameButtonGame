@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
+using NoNameButtonGame.GameObjects.Buttons.StartMenu;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -19,22 +22,22 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     class Level2 : SampleLevel
     {
 
-        readonly AwesomeButton[] buttonGrid;
+        readonly EmptyButton[] buttonGrid;
         readonly Cursor mouseCursor;
         readonly TextBuilder Info;
         public Level2(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 2 - WHAAT?!? There is more to this Game?!";
-            buttonGrid = new AwesomeButton[16];
+            buttonGrid = new EmptyButton[16];
             int randI64 = rand.Next(0, 16);
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             for (int i = 0; i < buttonGrid.Length; i++) {
                 if (i == randI64) {
-                    buttonGrid[i] = new AwesomeButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton")) {
+                    buttonGrid[i] = new WinButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                         DrawColor = Color.White,
                     };
                     buttonGrid[i].Click += BtnWinEvent;
                 } else {
-                    buttonGrid[i] = new AwesomeButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("failbutton")) {
+                    buttonGrid[i] = new FailButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                         DrawColor = Color.White,
                     };
                     buttonGrid[i].Click += BtnFailEvent;

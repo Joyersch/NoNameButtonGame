@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.StartMenu;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -29,7 +31,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         int PlayedSq;
         readonly int SqMax = 7;
         readonly float ShowTime = 250;
-        AwesomeButton StartBtn;
+        EmptyButton StartBtn;
         readonly Random rand;
         float SSGT;
         bool Display = false;
@@ -37,11 +39,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 25 - Now in fast";
             BobIt = new TextButton[5];
             this.rand = rand;
-            BobIt[0] = new TextButton(new Vector2(-320, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "0", "⬜", new Vector2(16, 16));
-            BobIt[1] = new TextButton(new Vector2(-192, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "1", "⬜", new Vector2(16, 16));
-            BobIt[2] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "2", "⬜", new Vector2(16, 16));
-            BobIt[3] = new TextButton(new Vector2(64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "3", "⬜", new Vector2(16, 16));
-            BobIt[4] = new TextButton(new Vector2(192, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "4", "⬜", new Vector2(16, 16));
+            BobIt[0] = new TextButton(new Vector2(-320, -32), new Vector2(128, 64), "0", "⬜", new Vector2(16, 16));
+            BobIt[1] = new TextButton(new Vector2(-192, -32), new Vector2(128, 64), "1", "⬜", new Vector2(16, 16));
+            BobIt[2] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "2", "⬜", new Vector2(16, 16));
+            BobIt[3] = new TextButton(new Vector2(64, -32), new Vector2(128, 64),"3", "⬜", new Vector2(16, 16));
+            BobIt[4] = new TextButton(new Vector2(192, -32), new Vector2(128, 64), "4", "⬜", new Vector2(16, 16));
             BobIt[0].Text.ChangeColor(new Color[1] { Color.Orange });
             BobIt[1].Text.ChangeColor(new Color[1] { Color.DarkRed });
             BobIt[2].Text.ChangeColor(new Color[1] { Color.Green });
@@ -56,7 +58,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Marker[0] = new TextBuilder("Simon says!", new Vector2(-70, -132), new Vector2(16, 16), null, 0);
             Marker[0].Position = Vector2.Zero - Marker[0].rectangle.Size.ToVector2() / 2;
             Marker[1] = new TextBuilder("", new Vector2(-40, 128), new Vector2(16, 16), null, 0);
-            StartBtn = new AwesomeButton(new Vector2(-80, -32), new Vector2(160, 64), Globals.Content.GetHitboxMapping("startbutton"));
+            StartBtn = new StartButton(new Vector2(-80, -32), new Vector2(160, 64));
             StartBtn.Click += StartEvent;
         }
 

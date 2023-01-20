@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
@@ -37,18 +38,17 @@ class SettingsScreen : SampleLevel
         Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64), new Vector2(16, 16), null, 0);
         Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64), new Vector2(16, 16), null, 0);
         resolutionButton = new TextButton[2];
-        resolutionButton[0] = new TextButton(new Vector2(64, -72), new Vector2(40, 32),
-            Globals.Content.GetHitboxMapping("minibutton"), ">", ">", new Vector2(16, 16));
-        resolutionButton[1] = new TextButton(new Vector2(-108, -72), new Vector2(40, 32),
-            Globals.Content.GetHitboxMapping("minibutton"), "<", "<", new Vector2(16, 16));
+        resolutionButton[0] = new MiniTextButton(new Vector2(64, -72), new Vector2(40, 32), ">", ">", new Vector2(16, 16));
+        resolutionButton[1] = new MiniTextButton(new Vector2(-108, -72), new Vector2(40, 32),
+             "<", "<", new Vector2(16, 16));
         resolutionButton[0].Click += ChangeResolution;
         resolutionButton[1].Click += ChangeResolution;
-        fixedStepButton = new TextButton(new Vector2(-108, -8), new Vector2(40, 32),
-            Globals.Content.GetHitboxMapping("minibutton"), "IsFixedStep", s1, new Vector2(16, 16));
+        fixedStepButton = new MiniTextButton(new Vector2(-108, -8), new Vector2(40, 32),
+             "IsFixedStep", s1, new Vector2(16, 16));
         fixedStepButton.Text.ChangeColor(new Color[1] {s1 == "❌" ? Color.Red : Color.Green});
         fixedStepButton.Click += ChangePressState;
-        fullscreenButton = new TextButton(new Vector2(-108, 56), new Vector2(40, 32),
-            Globals.Content.GetHitboxMapping("minibutton"), "Fullscreen", s2, new Vector2(16, 16));
+        fullscreenButton = new MiniTextButton(new Vector2(-108, 56), new Vector2(40, 32),
+             "Fullscreen", s2, new Vector2(16, 16));
         fullscreenButton.Text.ChangeColor(new Color[1] {s2 == "❌" ? Color.Red : Color.Green});
         fullscreenButton.Click += ChangePressState;
         vectorResolution = window;

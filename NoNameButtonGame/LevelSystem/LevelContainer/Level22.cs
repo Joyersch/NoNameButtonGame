@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -22,12 +23,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         readonly TextBuilder[] text;
         readonly Cursor cursor;
-        readonly AwesomeButton button;
+        readonly EmptyButton button;
         bool Loaded = false;
         public Level22(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 22 - Random.org do be choosing the same levels over and over again! ( I created them based on a random result )";
             text = new TextBuilder[15];
-            button = new AwesomeButton(new Vector2(190, 106), new Vector2(5, 2.5F), Globals.Content.GetHitboxMapping("emptybutton"));
+            button = new EmptyButton(new Vector2(190, 106), new Vector2(5, 2.5F));
             button.Click += CallFinish;
             text[0] = new TextBuilder("this again. why! there needs to be something more to this, it cannot", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             text[1] = new TextBuilder("be the only thing! the first time it was funny", new Vector2(0, 0), new Vector2(8, 8), null, 0);

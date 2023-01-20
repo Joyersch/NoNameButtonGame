@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
             Walls = new Laserwall(new Vector2(-32, -200), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));
             Walls.Enter += WallEvent;
-            ButtonStartTimer = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "TimerStart", "Start Timer", new Vector2(8, 8));
+            ButtonStartTimer = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "TimerStart", "Start Timer", new Vector2(8, 8));
             ButtonStartTimer.Click += StartTimer;
             Timer = new TextBuilder("0.0S", new Vector2(-16, 64), new Vector2(16, 16), null, 0);
 

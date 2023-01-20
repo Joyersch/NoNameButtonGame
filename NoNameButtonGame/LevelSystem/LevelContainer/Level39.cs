@@ -32,9 +32,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new TextButton[3];
             Timer = new TextBuilder("", new Vector2(0, 0), new Vector2(16, 16), null, 0);
             Questions = new TextBuilder("q", new Vector2(-64, -128), new Vector2(8, 8), null, 0);
-            button[0] = new TextButton(new Vector2(-64, -96), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "0", "a", new Vector2(8, 8));
-            button[1] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "1", "b", new Vector2(8, 8));
-            button[2] = new TextButton(new Vector2(-64, 32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton"), "2", "c", new Vector2(8, 8));
+            button[0] = new TextButton(new Vector2(-64, -96), new Vector2(128, 64), "0", "a", new Vector2(8, 8));
+            button[1] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "1", "b", new Vector2(8, 8));
+            button[2] = new TextButton(new Vector2(-64, 32), new Vector2(128, 64), "2", "c", new Vector2(8, 8));
             for (int i = 0; i < button.Length; i++) {
                 button[i].Click += BtnEvent;
             }

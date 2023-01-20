@@ -12,7 +12,7 @@ public class MousePointer : GameObject
 
     public MousePointer()
     {
-        var textureMapping = Mapping.GetCachedMapping<MousePointer>();
+        var textureMapping = Mapping.GetMappingFromCache<MousePointer>();
         Texture = textureMapping.Texture;
     }
     public override void Update(GameTime gameTime)

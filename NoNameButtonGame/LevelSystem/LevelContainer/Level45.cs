@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -19,13 +21,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     class Level45 : SampleLevel
     {
 
-        readonly AwesomeButton button;
+        readonly EmptyButton button;
         readonly Cursor cursor;
         readonly TextBuilder[] Infos;
         readonly Laserwall wall;
         public Level45(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 45 - and the mexicans paid for it!";
-            button = new AwesomeButton(new Vector2(-256, -0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"));
+            button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             button.Click += BtnEvent;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
@@ -34,8 +36,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             wall = new Laserwall(new Vector2(-200, -300), new Vector2(180, 1024), Globals.Content.GetHitboxMapping("zonenew"));
             wall.Enter += WallEvent;
         }
-
-
 
         private void BtnEvent(object sender, EventArgs e) {
             CallFinish(sender, e);

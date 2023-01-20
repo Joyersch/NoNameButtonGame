@@ -6,9 +6,9 @@ using NoNameButtonGame.Input;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Hitboxes;
 
-namespace NoNameButtonGame.GameObjects;
+namespace NoNameButtonGame.GameObjects.Buttons;
 
-class AwesomeButton : GameObject, IMouseActions, IHitbox, IMoveable
+public class EmptyButton : GameObject, IMouseActions, IHitbox, IMoveable
 {
     public event EventHandler Leave;
     public event EventHandler Enter;
@@ -23,25 +23,35 @@ class AwesomeButton : GameObject, IMouseActions, IHitbox, IMoveable
 
     public Rectangle[] Hitbox => ingameHitbox;
 
+    protected TextureHitboxMapping _textureHitboxMapping;
 
-    public AwesomeButton(Vector2 Position, Vector2 Size, TextureHitboxMapping thBox)
+
+    public EmptyButton(Vector2 position, Vector2 size)
     {
-        base.Size = Size;
-        base.Position = Position;
+        base.Size = size;
+        base.Position = position;
         DrawColor = Color.White;
-        ImageLocation = new Rectangle((int) thBox.ImageSize.X, 0, (int) thBox.ImageSize.X, (int) thBox.ImageSize.Y);
-        FrameSize = thBox.ImageSize;
-        textureHitbox = new Rectangle[thBox.Hitboxes.Length];
-        Texture = thBox.Texture;
-        Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-        textureHitbox = thBox.Hitboxes;
+        Initialize();
+        ImageLocation = new Rectangle((int) _textureHitboxMapping.ImageSize.X, 0,
+            (int) _textureHitboxMapping.ImageSize.X, (int) _textureHitboxMapping.ImageSize.Y);
+        FrameSize = _textureHitboxMapping.ImageSize;
+        textureHitbox = new Rectangle[_textureHitboxMapping.Hitboxes.Length];
+        Texture = _textureHitboxMapping.Texture;
+        Scale = new Vector2(size.X / FrameSize.X, size.Y / FrameSize.Y);
+        textureHitbox = _textureHitboxMapping.Hitboxes;
         ingameHitbox = new Rectangle[textureHitbox.Length];
-        for (int i = 0; i < thBox.Hitboxes.Length; i++)
+        for (int i = 0; i < _textureHitboxMapping.Hitboxes.Length; i++)
         {
-            ingameHitbox[i] = new Rectangle((int) (base.Position.X + (thBox.Hitboxes[i].X * Scale.X)),
-                (int) (base.Position.Y + (thBox.Hitboxes[i].Y * Scale.Y)), (int) (thBox.Hitboxes[i].Width * Scale.X),
-                (int) (thBox.Hitboxes[i].Height * Scale.Y));
+            ingameHitbox[i] = new Rectangle((int) (base.Position.X + (_textureHitboxMapping.Hitboxes[i].X * Scale.X)),
+                (int) (base.Position.Y + (_textureHitboxMapping.Hitboxes[i].Y * Scale.Y)),
+                (int) (_textureHitboxMapping.Hitboxes[i].Width * Scale.X),
+                (int) (_textureHitboxMapping.Hitboxes[i].Height * Scale.Y));
         }
+    }
+
+    public virtual void Initialize()
+    {
+        _textureHitboxMapping = Mapping.GetMappingFromCache<EmptyButton>();
     }
 
     public void Update(GameTime gameTime, Rectangle mousePos)

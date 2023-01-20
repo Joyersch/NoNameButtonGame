@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons.StartMenu;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -19,12 +20,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     class Level1 : SampleLevel
     {
 
-        readonly AwesomeButton startButton;
+        readonly StartButton startButton;
         readonly Cursor mouseCursor;
         readonly TextBuilder Info;
         public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
-            startButton = new AwesomeButton(new Vector2(-64, -32), new Vector2(160, 64), Globals.Content.GetHitboxMapping("startbutton")) {
+            startButton = new StartButton(new Vector2(-64, -32), new Vector2(160, 64)) {
                 DrawColor = Color.White,
             };
             startButton.Click += BtnEvent;

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -21,12 +22,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         readonly TextBuilder[] longText;
         readonly Cursor mouseCursor;
-        readonly AwesomeButton finishButton;
+        readonly EmptyButton finishButton;
         bool Loaded = false;
         public Level16(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 16 - ???";
             longText = new TextBuilder[15];
-            finishButton = new AwesomeButton(new Vector2(-(defaultWidth / Camera.Zoom / 2), -(defaultHeight / Camera.Zoom / 2)), new Vector2(4, 2), Globals.Content.GetHitboxMapping("emptybutton"));
+            finishButton = new EmptyButton(new Vector2(-(defaultWidth / Camera.Zoom / 2), -(defaultHeight / Camera.Zoom / 2)), new Vector2(4, 2));
             finishButton.Click += CallFinish;
             longText[0] = new TextBuilder("So this again.... what happened... did the creator go even more", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             longText[1] = new TextBuilder("lazy? now he is just repeating levels. i bet he just used some", new Vector2(0, 0), new Vector2(8, 8), null, 0);

@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework.Content;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.Level;
+using NoNameButtonGame.GameObjects.Buttons.StartMenu;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LevelSystem;
@@ -68,7 +71,7 @@ namespace NoNameButtonGame
 
             // will be removed
             Globals.Content = Content;
-  
+            
             _display = new(GraphicsDevice);
             _mousePointer = new MousePointer();
 
@@ -87,6 +90,15 @@ namespace NoNameButtonGame
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Mapping.AddMappingToCache(typeof(Cursor), Content.GetHitboxMapping("cursor"));
             Mapping.AddMappingToCache(typeof(MousePointer), Content.GetHitboxMapping("mousepoint"));
+            Mapping.AddMappingToCache(typeof(EmptyButton), Content.GetHitboxMapping("emptybutton"));
+            Mapping.AddMappingToCache(typeof(StartButton), Content.GetHitboxMapping("startbutton"));
+            Mapping.AddMappingToCache(typeof(SelectButton), Content.GetHitboxMapping("selectbutton"));
+            Mapping.AddMappingToCache(typeof(SettingsButton), Content.GetHitboxMapping("settingsbutton"));
+            Mapping.AddMappingToCache(typeof(ExitButton), Content.GetHitboxMapping("exitbutton"));
+            Mapping.AddMappingToCache(typeof(FailButton), Content.GetHitboxMapping("failbutton"));
+            Mapping.AddMappingToCache(typeof(WinButton), Content.GetHitboxMapping("awesomebutton"));
+            Mapping.AddMappingToCache(typeof(MiniTextButton), Content.GetHitboxMapping("minibutton"));
+
         }
 
         protected override void Update(GameTime gameTime)

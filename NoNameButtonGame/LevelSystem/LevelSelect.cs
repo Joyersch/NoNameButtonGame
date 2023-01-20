@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -39,7 +40,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 var down = new TextButton(
                     new Vector2(-300, 138 + (defaultHeight / Camera.Zoom) * i)
                     , new Vector2(64, 32)
-                    , Globals.Content.GetHitboxMapping("minibutton")
                     , ""
                     , "⬇"
                     , new Vector2(16, 16));
@@ -48,10 +48,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 
                 _down.Add(down);
 
-                var up = new TextButton(
+                var up = new MiniTextButton(
                     new Vector2(-300, 190 + (defaultHeight / Camera.Zoom) * i)
                     , new Vector2(64, 32)
-                    , Globals.Content.GetHitboxMapping("minibutton")
                     , ""
                     , "⬆"
                     , new Vector2(16, 16));
@@ -65,7 +64,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 var levelButton =  new TextButton(
                     new Vector2(-200 + 100 * (i % 5), -140 + 50 * (i / 5) + 60 * (i / 30))
                     , new Vector2(64, 32)
-                    , Globals.Content.GetHitboxMapping("minibutton")
                     , (i + 1).ToString()
                     , (i + 1).ToString()
                     , new Vector2(16, 16));

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
@@ -21,12 +22,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         readonly TextBuilder[] text;
         readonly Cursor cursor;
-        readonly AwesomeButton button;
+        readonly EmptyButton button;
         bool Loaded = false;
         public Level32(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 32 - THIS ONE AGAIN?! )";
             text = new TextBuilder[15];
-            button = new AwesomeButton(new Vector2(60, 86), new Vector2(5, 2.5F), Globals.Content.GetHitboxMapping("emptybutton"));
+            button = new EmptyButton(new Vector2(60, 86), new Vector2(5, 2.5F));
             button.Click += CallFinish;
             text[0] = new TextBuilder("at this point this seems like a lazy way of getting the level count to", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             text[1] = new TextBuilder("100. wait you want to tell me there are only 50? did the creator", new Vector2(0, 0), new Vector2(8, 8), null, 0);
