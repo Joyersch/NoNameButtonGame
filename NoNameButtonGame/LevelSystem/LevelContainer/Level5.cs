@@ -32,7 +32,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 EndHoldTime = 6900
             };
             button.Click += EmptyBtnEvent;
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("<-- Hold this button till the timer runs out!", new Vector2(-64, -72), new Vector2(8,8), null, 0);
             Infos[1] = new TextBuilder("<-- This one will be unlocked then", new Vector2(-64, 32), new Vector2(8, 8), null, 0);

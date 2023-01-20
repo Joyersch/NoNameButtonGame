@@ -30,7 +30,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             };
             button.Click += BtnEvent; 
             Name = "Level 26 - I hope you have an autoclicker";
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("THiS AGAIN again!!1!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
         }
 

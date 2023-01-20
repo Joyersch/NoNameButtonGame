@@ -51,7 +51,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 BobIt[i].Click += BtnEvent;
             }
             Sequenz = string.Empty;
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Marker = new TextBuilder[2];
             Marker[0] = new TextBuilder("Simon says!", new Vector2(-70, -132), new Vector2(16, 16), null, 0);
             Marker[0].Position = Vector2.Zero - Marker[0].rectangle.Size.ToVector2() / 2;

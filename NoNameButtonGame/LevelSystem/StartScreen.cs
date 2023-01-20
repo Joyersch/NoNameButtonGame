@@ -27,7 +27,7 @@ class StartScreen : SampleLevel
     {
         Name = "Start Menu";
         int Startpos = -(64 * 2);
-        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         startButton = new AwesomeButton(new Vector2(-64, Startpos), new Vector2(160, 64),
             Globals.Content.GetHitboxMapping("startbutton"));
         startButton.Click += StartButtonPressed;

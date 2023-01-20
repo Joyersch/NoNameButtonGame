@@ -32,7 +32,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
 
             Vector2 clustPos = new Vector2(-250, -150);
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
 
             Info = new TextBuilder("this is still bad! ->", new Vector2(-296, -96), new Vector2(16, 16), null, 0);
             rainbowColorTransition = new Rainbow {

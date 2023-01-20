@@ -31,7 +31,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 43 - text here c:";
             button = new AwesomeButton(new Vector2(-256, -0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"));
             button.Click += BtnEvent;
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("wow you did it!", new Vector2(120, -132), new Vector2(8, 8), null, 0);
             Infos[1] = new TextBuilder("gg!", new Vector2(120, -100), new Vector2(8, 8), null, 0);

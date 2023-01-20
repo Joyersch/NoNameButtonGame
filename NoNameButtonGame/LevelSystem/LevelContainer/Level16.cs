@@ -70,7 +70,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
                 longText[i].ChangeColor(c);
             }
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
 
         }
 

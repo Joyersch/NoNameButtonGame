@@ -35,7 +35,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             for (int i = 0; i < awnserButton.Length; i++) {
                 awnserButton[i].Click += BtnEvent;
             }
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         }
 
         private void BtnEvent(object sender, EventArgs e) {

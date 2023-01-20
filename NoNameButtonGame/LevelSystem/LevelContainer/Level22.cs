@@ -71,7 +71,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 }
                 text[i].ChangeColor(c);
             }
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
 
         }
 

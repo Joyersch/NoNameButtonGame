@@ -29,7 +29,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             };
             button.Click += BtnEvent;
             Name = "Level 50 - It's finaly over";
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("NO HELP THIS TIME", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
         }
 

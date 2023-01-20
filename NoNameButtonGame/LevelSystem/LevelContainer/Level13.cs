@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 13 - Swap time.";
             userButton = new AwesomeButton(new Vector2(-256, -0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"));
             userButton.Click += CallFinish;
-            movingCursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            movingCursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
             wallUp = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40),new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));
             wallDown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));
             wallUp.Enter += CallFail;

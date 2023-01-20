@@ -66,6 +66,10 @@ namespace NoNameButtonGame
 
             // will be removed
             Globals.Content = Content;
+            Mapping.AddMappingToCache(typeof(Cursor), Content.GetHitboxMapping("cursor"));
+            
+            
+            
             _display = new(GraphicsDevice);
             _mousePointer = new MousePointer();
 

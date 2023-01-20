@@ -23,7 +23,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 29 - Get duck";
             button = new LockButton(new Vector2(-256, -128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
             button.Click += BtnEvent;
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("RUN! IT FOLLOWs you!", new Vector2(-64, -132), new Vector2(16, 16), null, 0);
 
             wall = new Laserwall(new Vector2(-32, -200), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));

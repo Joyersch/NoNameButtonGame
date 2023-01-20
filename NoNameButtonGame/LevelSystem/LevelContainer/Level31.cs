@@ -27,7 +27,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 31 - THICC";
             button = new AwesomeButton(new Vector2(-256, -0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"));
             button.Click += BtnEvent;
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("Thin can be penetrated!", new Vector2(80, -132), new Vector2(8, 8), null, 0);
             Infos[1] = new TextBuilder("But this one is not thin its thicc!", new Vector2(80, -100), new Vector2(8, 8), null, 0);

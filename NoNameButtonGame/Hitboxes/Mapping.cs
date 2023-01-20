@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Hitboxes;
@@ -18,6 +20,15 @@ public struct TextureHitboxMapping
 
 public static class Mapping
 {
+    private static Dictionary<Type, TextureHitboxMapping> cachedMappings = new();
+
+    public static TextureHitboxMapping GetCachedMapping<T>()
+        => cachedMappings.FirstOrDefault(x => x.Key == typeof(T)).Value;
+
+    public static bool AddMappingToCache(Type type, TextureHitboxMapping textureHitboxMapping)
+        => cachedMappings.TryAdd(type, textureHitboxMapping);
+        
+
     public static TextureHitboxMapping GetHitboxMapping(this ContentManager contentManager, string textureName)
     {
         var map = new TextureHitboxMapping

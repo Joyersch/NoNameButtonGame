@@ -32,7 +32,7 @@ class SettingsScreen : SampleLevel
         if (storage.Settings.IsFullscreen)
             s2 = "✔";
         Name = "Start Menu";
-        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         fixedStep = new TextBuilder("FixedStep", new Vector2(-64, -0), new Vector2(16, 16), null, 0);
         Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64), new Vector2(16, 16), null, 0);
         Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64), new Vector2(16, 16), null, 0);

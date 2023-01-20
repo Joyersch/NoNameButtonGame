@@ -20,7 +20,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new AwesomeButton[16];
             this.rand = rand;
             int randI64 = rand.Next(0, 16);
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             for (int i = 0; i < button.Length; i++) {
                 if (i == randI64) {
                     button[i] = new AwesomeButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton")) {

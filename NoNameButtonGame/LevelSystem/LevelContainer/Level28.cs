@@ -41,7 +41,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 28 - A HOT!";
             Timer = new TextBuilder("", new Vector2(0 - 128), new Vector2(16, 16), null, 0);
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             shots = new List<Tuple<Laserwall, Vector2>>();
         }
 

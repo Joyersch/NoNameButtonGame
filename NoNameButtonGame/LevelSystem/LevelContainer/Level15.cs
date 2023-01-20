@@ -29,7 +29,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             };
             stateButton.Click += BtnEvent;
             Name = "Level 15 - Back to the roots!";
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             infoText = new TextBuilder("THiS AGAIN!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
         }
 

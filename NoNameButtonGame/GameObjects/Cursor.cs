@@ -8,28 +8,29 @@ namespace NoNameButtonGame.GameObjects;
 
 class Cursor : GameObject, IHitbox
 {
-    Rectangle[] textureHitbox;
-    Rectangle[] ingameHitbox;
-    Vector2 Scale;
+    private Rectangle[] textureHitbox;
+    private Rectangle[] ingameHitbox;
+    private Vector2 scale;
 
     public Rectangle[] Hitbox => ingameHitbox;
 
-    public Cursor(Vector2 Position, Vector2 Size, TextureHitboxMapping thBox)
+    public Cursor(Vector2 position, Vector2 size)
     {
-        base.Size = Size;
-        base.Position = Position;
+        Size = size;
+        Position = position;
+        var textureMapping = Mapping.GetCachedMapping<Cursor>();
         ImageLocation = new Rectangle(0, 0, 0, 0);
-        FrameSize = thBox.ImageSize;
-        Texture = thBox.Texture;
+        FrameSize = textureMapping.ImageSize;
+        Texture = textureMapping.Texture;
         DrawColor = Color.White;
-        textureHitbox = thBox.Hitboxes;
+        textureHitbox = textureMapping.Hitboxes;
         ingameHitbox = new Rectangle[textureHitbox.Length];
-        Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-        for (int i = 0; i < thBox.Hitboxes.Length; i++)
+        scale = new Vector2(size.X / FrameSize.X, size.Y / FrameSize.Y);
+        for (int i = 0; i < textureMapping.Hitboxes.Length; i++)
         {
-            ingameHitbox[i] = new Rectangle((int) (base.Position.X + (thBox.Hitboxes[i].X * Scale.X)),
-                (int) (base.Position.Y + (thBox.Hitboxes[i].Y * Scale.Y)), (int) (thBox.Hitboxes[i].Width * Scale.X),
-                (int) (thBox.Hitboxes[i].Height * Scale.Y));
+            ingameHitbox[i] = new Rectangle((int) (base.Position.X + (textureMapping.Hitboxes[i].X * scale.X)),
+                (int) (base.Position.Y + (textureMapping.Hitboxes[i].Y * scale.Y)), (int) (textureMapping.Hitboxes[i].Width * scale.X),
+                (int) (textureMapping.Hitboxes[i].Height * scale.Y));
         }
     }
 
@@ -46,12 +47,12 @@ class Cursor : GameObject, IHitbox
 
     private void UpdateHitbox()
     {
-        Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
+        scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
         for (int i = 0; i < textureHitbox.Length; i++)
         {
-            ingameHitbox[i] = new Rectangle((int) (Position.X + (textureHitbox[i].X * Scale.X)),
-                (int) (Position.Y + (textureHitbox[i].Y * Scale.Y)), (int) (textureHitbox[i].Width * Scale.X),
-                (int) (textureHitbox[i].Height * Scale.Y));
+            ingameHitbox[i] = new Rectangle((int) (Position.X + (textureHitbox[i].X * scale.X)),
+                (int) (Position.Y + (textureHitbox[i].Y * scale.Y)), (int) (textureHitbox[i].Width * scale.X),
+                (int) (textureHitbox[i].Height * scale.Y));
         }
     }
 }

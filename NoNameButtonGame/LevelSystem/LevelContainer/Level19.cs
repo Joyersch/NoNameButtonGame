@@ -43,7 +43,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 EndHoldTime = 25000
             };
             holdButton.Click += EmptyBtnEvent;
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             
             lockButton = new LockButton(new Vector2(-192, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
             lockButton.Click += BtnEvent;

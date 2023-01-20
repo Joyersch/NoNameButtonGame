@@ -23,7 +23,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 48 - THERE IS NO ESCAPE!!";
             lockedButton = new LockButton(new Vector2(-256, -128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
             lockedButton.Click += BtnEvent;
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("RUN! IT FOLLOWs you!", new Vector2(-64, -132), new Vector2(16, 16), null, 0);
 
             Walls = new Laserwall(new Vector2(-32, -200), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));

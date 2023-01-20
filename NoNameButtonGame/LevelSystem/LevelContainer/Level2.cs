@@ -26,7 +26,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 2 - WHAAT?!? There is more to this Game?!";
             buttonGrid = new AwesomeButton[16];
             int randI64 = rand.Next(0, 16);
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             for (int i = 0; i < buttonGrid.Length; i++) {
                 if (i == randI64) {
                     buttonGrid[i] = new AwesomeButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton")) {

@@ -40,7 +40,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 12 - Super GUN!";
             displayTimer = new TextBuilder("", new Vector2(0 - 128), new Vector2(16, 16), null, 0);
 
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             displayGun = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
             shots = new List<Tuple<Laserwall, Vector2>>();
         }

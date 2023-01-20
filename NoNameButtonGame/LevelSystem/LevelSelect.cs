@@ -25,7 +25,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         {
             Name = "Level Selection";
 
-            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
 
             int maxLevel = storage.GameData.MaxLevel;
             int screens = maxLevel / 30;

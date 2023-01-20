@@ -42,7 +42,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             };
             button.Click += BtnEvent;
             Name = "Level 37 - roots with a gun";
-            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10), Globals.Content.GetHitboxMapping("cursor"));
+            cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("THiS AGAIN!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
             shots = new List<Tuple<Laserwall, Vector2>>();
