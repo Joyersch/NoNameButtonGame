@@ -41,16 +41,16 @@ class SettingsScreen : SampleLevel
         resolutionButton[0] = new MiniTextButton(new Vector2(64, -72), new Vector2(40, 32), ">", ">", new Vector2(16, 16));
         resolutionButton[1] = new MiniTextButton(new Vector2(-108, -72), new Vector2(40, 32),
              "<", "<", new Vector2(16, 16));
-        resolutionButton[0].Click += ChangeResolution;
-        resolutionButton[1].Click += ChangeResolution;
+        resolutionButton[0].ClickEventHandler += ChangeResolution;
+        resolutionButton[1].ClickEventHandler += ChangeResolution;
         fixedStepButton = new MiniTextButton(new Vector2(-108, -8), new Vector2(40, 32),
              "IsFixedStep", s1, new Vector2(16, 16));
         fixedStepButton.Text.ChangeColor(new Color[1] {s1 == "❌" ? Color.Red : Color.Green});
-        fixedStepButton.Click += ChangePressState;
+        fixedStepButton.ClickEventHandler += ChangePressState;
         fullscreenButton = new MiniTextButton(new Vector2(-108, 56), new Vector2(40, 32),
              "Fullscreen", s2, new Vector2(16, 16));
         fullscreenButton.Text.ChangeColor(new Color[1] {s2 == "❌" ? Color.Red : Color.Green});
-        fullscreenButton.Click += ChangePressState;
+        fullscreenButton.ClickEventHandler += ChangePressState;
         vectorResolution = window;
     }
 

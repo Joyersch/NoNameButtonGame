@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons.StartMenu;
 
 public class StartButton : EmptyButton
 {
-    public StartButton(Vector2 Position, Vector2 Size) : base(Position, Size)
+    public StartButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
 

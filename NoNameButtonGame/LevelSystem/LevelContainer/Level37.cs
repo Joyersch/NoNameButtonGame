@@ -40,7 +40,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), 333) {
                 DrawColor = Color.White,
             };
-            button.Click += BtnEvent;
+            button.ClickEventHandler += BtnEvent;
             Name = "Level 37 - roots with a gun";
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("THiS AGAIN!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
@@ -76,7 +76,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     GT -= ShotTime;
                     Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
-                    shots[^1].Item1.Enter += CallFail;
+                    shots[^1].Item1.EnterEventHandler += CallFail;
                 }
             }
             removeItem.Clear();

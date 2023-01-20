@@ -13,9 +13,9 @@ namespace NoNameButtonGame.GameObjects;
 
 class HoldButton : GameObject, IMouseActions, IHitbox
 {
-    public event EventHandler Leave;
-    public event EventHandler Enter;
-    public event EventHandler Click;
+    public event EventHandler LeaveEventHandler;
+    public event EventHandler EnterEventHandler;
+    public event EventHandler ClickEventHandler;
 
     bool Hover;
     float HoldTime = 0F;
@@ -88,8 +88,8 @@ class HoldButton : GameObject, IMouseActions, IHitbox
             if (!Hover)
             {
                 Hover = true;
-                if (Enter != null)
-                    Enter(this, new());
+                if (EnterEventHandler != null)
+                    EnterEventHandler(this, new());
             }
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false))
@@ -99,7 +99,7 @@ class HoldButton : GameObject, IMouseActions, IHitbox
                 {
                     if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
                     {
-                        Click(this, new());
+                        ClickEventHandler(this, new());
                         EndHoldTime = 0;
                     }
                 }
@@ -112,8 +112,8 @@ class HoldButton : GameObject, IMouseActions, IHitbox
         else
         {
             if (Hover)
-                if (Leave != null)
-                    Leave(this, new());
+                if (LeaveEventHandler != null)
+                    LeaveEventHandler(this, new());
             Hover = false;
             HoldTime -= (float) gt.ElapsedGameTime.TotalMilliseconds / 2;
         }

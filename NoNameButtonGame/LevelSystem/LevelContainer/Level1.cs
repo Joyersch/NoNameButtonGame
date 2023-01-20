@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             startButton = new StartButton(new Vector2(-64, -32), new Vector2(160, 64)) {
                 DrawColor = Color.White,
             };
-            startButton.Click += BtnEvent;
+            startButton.ClickEventHandler += BtnEvent;
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Name = "Click the Button!";
             Info = new TextBuilder("How hard can it be?", new Vector2(-128, -64), new Vector2(16, 16), null, 0);

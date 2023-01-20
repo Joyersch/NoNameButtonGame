@@ -29,7 +29,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 22 - Random.org do be choosing the same levels over and over again! ( I created them based on a random result )";
             text = new TextBuilder[15];
             button = new EmptyButton(new Vector2(190, 106), new Vector2(5, 2.5F));
-            button.Click += CallFinish;
+            button.ClickEventHandler += CallFinish;
             text[0] = new TextBuilder("this again. why! there needs to be something more to this, it cannot", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             text[1] = new TextBuilder("be the only thing! the first time it was funny", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             text[2] = new TextBuilder("the seconds time it was only sort of  funny but this", new Vector2(0, 0), new Vector2(8, 8), null, 0);

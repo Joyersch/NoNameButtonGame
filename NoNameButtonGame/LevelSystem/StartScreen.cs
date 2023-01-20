@@ -30,13 +30,13 @@ class StartScreen : SampleLevel
         int Startpos = -(64 * 2);
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         startButton = new StartButton(new Vector2(-64, Startpos), new Vector2(160, 64));
-        startButton.Click += StartButtonPressed;
+        startButton.ClickEventHandler += StartButtonPressed;
         selectLevelButton = new SelectButton(new Vector2(-92, Startpos + 64), new Vector2(216, 64));
-        selectLevelButton.Click += SelectButtonPressed;
+        selectLevelButton.ClickEventHandler += SelectButtonPressed;
         settingsButton = new SettingsButton(new Vector2(-130, Startpos + 64 * 2), new Vector2(292, 64));
-        settingsButton.Click += SettingsButtonPressed;
+        settingsButton.ClickEventHandler += SettingsButtonPressed;
         exitButton = new ExitButton(new Vector2(-52, Startpos + 64 * 3), new Vector2(136, 64));
-        exitButton.Click += ExitButtonPressed;
+        exitButton.ClickEventHandler += ExitButtonPressed;
     }
 
     public override void Draw(SpriteBatch spriteBatch)

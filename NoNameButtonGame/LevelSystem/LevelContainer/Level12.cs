@@ -80,7 +80,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     gameTimeUpdateShots -= shotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - displayGun.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(displayGun.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
-                    shots[^1].Item1.Enter += CallFail;
+                    shots[^1].Item1.EnterEventHandler += CallFail;
                 }
             }
             removeItem.Clear();

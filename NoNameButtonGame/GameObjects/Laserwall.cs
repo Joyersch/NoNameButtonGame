@@ -14,9 +14,9 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
     Rectangle[] ingameHitbox;
     public Rectangle[] Hitbox => ingameHitbox;
 
-    public event EventHandler Leave;
-    public event EventHandler Enter;
-    public event EventHandler Click;
+    public event EventHandler LeaveEventHandler;
+    public event EventHandler EnterEventHandler;
+    public event EventHandler ClickEventHandler;
 
     Color OldDrawColor;
 
@@ -39,7 +39,7 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
                 {
                     dontTouchGrid[i * ((int) grid.X) + a] =
                         new DontTouch(new Vector2(Pos.X + a * 32, Pos.Y + i * 32), new Vector2(32, 32), box);
-                    dontTouchGrid[i * ((int) grid.X) + a].Enter += CallEnter;
+                    dontTouchGrid[i * ((int) grid.X) + a].EnterEventHandler += CallEnter;
                 }
             }
         }
@@ -67,7 +67,7 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
                     dontTouchGrid[i * gx + a] =
                         new DontTouch(new Vector2(Pos.X + a * 32, Pos.Y + i * 32), CSize, box);
 
-                    dontTouchGrid[i * gx + a].Enter += CallEnter;
+                    dontTouchGrid[i * gx + a].EnterEventHandler += CallEnter;
                 }
             }
         }
@@ -86,7 +86,7 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
 
     private void CallEnter(object sender, EventArgs e)
     {
-        Enter?.Invoke(sender, e);
+        EnterEventHandler?.Invoke(sender, e);
     }
 
     public void Update(GameTime gt, Rectangle MousePos)
@@ -97,7 +97,7 @@ class Laserwall : GameObject, IHitbox, IMouseActions, IMoveable
         }
 
         if (rectangle.Intersects(MousePos))
-            Enter?.Invoke(this, new EventArgs());
+            EnterEventHandler?.Invoke(this, new EventArgs());
         base.Update(gt);
         if (DrawColor != OldDrawColor)
         {

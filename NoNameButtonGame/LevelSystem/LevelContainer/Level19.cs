@@ -42,11 +42,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             holdButton = new HoldButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton")) {
                 EndHoldTime = 25000
             };
-            holdButton.Click += EmptyBtnEvent;
+            holdButton.ClickEventHandler += EmptyBtnEvent;
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             
             lockButton = new LockButton(new Vector2(-192, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
-            lockButton.Click += BtnEvent;
+            lockButton.ClickEventHandler += BtnEvent;
             shots = new List<Tuple<Laserwall, Vector2>>();
             OldMPos = new Vector2(0, 0);
         }
@@ -94,7 +94,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     gameTimeShotTime -= ShotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - Gun.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(Gun.Position, new Vector2(16, 8), Globals.Content.GetHitboxMapping("zonenew")), Dir / Dir.Length()));
-                    shots[^1].Item1.Enter += CallFail;
+                    shots[^1].Item1.EnterEventHandler += CallFail;
                 }
             }
             removeItem.Clear();

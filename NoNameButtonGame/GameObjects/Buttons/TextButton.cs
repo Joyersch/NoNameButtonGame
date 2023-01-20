@@ -14,28 +14,26 @@ namespace NoNameButtonGame.GameObjects;
 
 public class TextButton : EmptyButton
 {
-    TextBuilder textContainer;
+    public TextBuilder Text { get; }
+    public string Name { get; }
 
-    public TextBuilder Text => textContainer;
-
-    public TextButton(Vector2 Pos, Vector2 Size, string Name, string Text,
-        Vector2 TextSize) : base(Pos, Size)
+    public TextButton(Vector2 position, Vector2 size, string name, string text,
+        Vector2 TextSize) : base(position, size)
     {
-        textContainer = new TextBuilder(Text, Position, TextSize, null, 0);
-        textContainer.ChangeText(Text);
-        this.Name = Name;
+        Text = new TextBuilder(text, Position, TextSize, 0);
+        Name = name;
     }
 
     public void Update(GameTime gt, Rectangle MousePos)
     {
-        textContainer.ChangePosition(rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2);
-        textContainer.Update(gt);
+        Text.ChangePosition(rectangle.Center.ToVector2() - Text.rectangle.Size.ToVector2() / 2);
+        Text.Update(gt);
         base.Update(gt, MousePos);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
-        textContainer.Draw(spriteBatch);
+        Text.Draw(spriteBatch);
     }
 }

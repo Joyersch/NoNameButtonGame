@@ -36,7 +36,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level24(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 24 - now with a gun";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
-            button.Click += BtnEvent;
+            button.ClickEventHandler += BtnEvent;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("wow you did it!", new Vector2(120, -132), new Vector2(8, 8), null, 0);
@@ -47,8 +47,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             for (int i = 0; i < WallLength; i++) {
                 WallLeft[i] = new Laserwall(new Vector2(96, 512 * i), new Vector2(416, 512), Globals.Content.GetHitboxMapping("zonenew"));
                 WallRight[i] = new Laserwall(new Vector2(-512, 512 * i), new Vector2(416, 512), Globals.Content.GetHitboxMapping("zonenew"));
-                WallRight[i].Enter += CallFail;
-                WallLeft[i].Enter += CallFail;
+                WallRight[i].EnterEventHandler += CallFail;
+                WallLeft[i].EnterEventHandler += CallFail;
             }
             for (int i = 0; i < (WallLength - 1) * 8 / 2; i++) {
                 int c = rand.Next(0, 3);
@@ -64,7 +64,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             Blocks = Walls.ToArray();
             for (int i = 0; i < Blocks.Length; i++) {
-                Blocks[i].Enter += CallFail;
+                Blocks[i].EnterEventHandler += CallFail;
             }
             shots = new List<Tuple<Laserwall, Vector2>>();
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
@@ -131,7 +131,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                         DrawColor = Color.Green
                     };
                     shots.Add(new Tuple<Laserwall, Vector2>(ls, Dir / Dir.Length()));
-                    shots[^1].Item1.Enter += CallFail;
+                    shots[^1].Item1.EnterEventHandler += CallFail;
                 }
             }
             removeItem.Clear();

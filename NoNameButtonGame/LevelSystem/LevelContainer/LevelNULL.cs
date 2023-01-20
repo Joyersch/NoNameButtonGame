@@ -20,7 +20,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             failButton = new FailButton(new Vector2(-64, -32), new Vector2(128, 64)) {
                 DrawColor = Color.White,
             };
-            failButton.Click += BtnEvent;
+            failButton.ClickEventHandler += BtnEvent;
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Name = "Level ??? End";
             Info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), null, 0);

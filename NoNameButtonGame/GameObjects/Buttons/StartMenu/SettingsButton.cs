@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons.StartMenu;
 
 public class SettingsButton : EmptyButton
 {
-    public SettingsButton(Vector2 Position, Vector2 Size) : base(Position, Size)
+    public SettingsButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
 

@@ -42,7 +42,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             bobIt[3].Text.ChangeColor(new Color[1] { Color.Blue });
             bobIt[4].Text.ChangeColor(new Color[1] { Color.Purple });
             for (int i = 0; i < bobIt.Length; i++) {
-                bobIt[i].Click += BtnEvent;
+                bobIt[i].ClickEventHandler += BtnEvent;
             }
             Sequenz = string.Empty;
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
@@ -51,7 +51,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Marker[0].Position = Vector2.Zero - Marker[0].rectangle.Size.ToVector2() / 2;
             Marker[1] = new TextBuilder("", new Vector2(-40, 128), new Vector2(16, 16), null, 0);
             startButton = new StartButton(new Vector2(-80, -32), new Vector2(160, 64));
-            startButton.Click += StartEvent;
+            startButton.ClickEventHandler += StartEvent;
         }
 
         private void StartEvent(object sender, EventArgs e) {

@@ -29,12 +29,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level13(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 13 - Swap time.";
             userButton = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
-            userButton.Click += CallFinish;
+            userButton.ClickEventHandler += CallFinish;
             movingCursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
             wallUp = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40),new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));
             wallDown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight), Globals.Content.GetHitboxMapping("zonenew"));
-            wallUp.Enter += CallFail;
-            wallDown.Enter += CallFail;
+            wallUp.EnterEventHandler += CallFail;
+            wallDown.EnterEventHandler += CallFail;
         }
         
         public override void Draw(SpriteBatch spriteBatch) {

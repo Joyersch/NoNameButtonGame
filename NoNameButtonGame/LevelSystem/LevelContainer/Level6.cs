@@ -37,16 +37,16 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             WallRight = new Laserwall(new Vector2(96, -512), new Vector2(420, 1024), Globals.Content.GetHitboxMapping("zonenew"));
             WallButtom = new Laserwall(new Vector2(-512, 96), new Vector2(1024, 1024), Globals.Content.GetHitboxMapping("zonenew"));
             Block = new Laserwall(new Vector2(-256, 32), new Vector2(64, 64), Globals.Content.GetHitboxMapping("zonenew"));
-            WallRight.Enter += CallFail;
-            WallLeft.Enter += CallFail;
-            WallButtom.Enter += CallFail;
-            Block.Enter += CallFail;
+            WallRight.EnterEventHandler += CallFail;
+            WallLeft.EnterEventHandler += CallFail;
+            WallButtom.EnterEventHandler += CallFail;
+            Block.EnterEventHandler += CallFail;
             button = new LockButton(new Vector2(-32, -128), new Vector2(64, 32), Globals.Content.GetHitboxMapping("awesomebutton"),true);
-            button.Click += CallFinish;
+            button.ClickEventHandler += CallFinish;
             UnLockbutton = new HoldButton(new Vector2(-32, 48), new Vector2(64, 32), Globals.Content.GetHitboxMapping("emptybutton")) {
                 EndHoldTime = 5000
             };
-            UnLockbutton.Click += UnlockBtn;
+            UnLockbutton.ClickEventHandler += UnlockBtn;
         }
 
         private void UnlockBtn(object sender, EventArgs e) {

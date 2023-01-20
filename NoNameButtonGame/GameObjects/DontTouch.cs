@@ -23,9 +23,9 @@ class DontTouch : GameObject, IHitbox, IMouseActions
 
     float GT;
 
-    public event EventHandler Enter;
-    public event EventHandler Leave;
-    public event EventHandler Click;
+    public event EventHandler EnterEventHandler;
+    public event EventHandler LeaveEventHandler;
+    public event EventHandler ClickEventHandler;
 
     public DontTouch(Vector2 Pos, Vector2 Size, TextureHitboxMapping box)
     {
@@ -103,7 +103,7 @@ class DontTouch : GameObject, IHitbox, IMouseActions
 
         if (HitboxCheck(MousePos))
         {
-            Enter(this, new());
+            EnterEventHandler(this, new());
         }
 
         UpdateHitbox();

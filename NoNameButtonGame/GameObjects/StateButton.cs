@@ -13,9 +13,9 @@ namespace NoNameButtonGame.GameObjects
 {
     class StateButton : GameObject, IMouseActions, IHitbox
     {
-        public event EventHandler Leave;
-        public event EventHandler Enter;
-        public event EventHandler Click;
+        public event EventHandler LeaveEventHandler;
+        public event EventHandler EnterEventHandler;
+        public event EventHandler ClickEventHandler;
         bool Hover;
         Rectangle[] frameHitbox;
         Rectangle[] ingameHitbox;
@@ -68,20 +68,20 @@ namespace NoNameButtonGame.GameObjects
             if (HitboxCheck(MousePos)) {
                 if (!Hover) {
                     Hover = true;
-                    if (Enter != null)
-                        Enter(this, new());
+                    if (EnterEventHandler != null)
+                        EnterEventHandler(this, new());
                 }
                 if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true)) {
                     CurrentState--;
                     if (CurrentState <= 0)
-                        Click(this, new ());
+                        ClickEventHandler(this, new ());
                 } else {
                     //HoldTime -= gt.ElapsedGameTime.TotalMilliseconds / 2;
                 }
             } else {
                 if (Hover)
-                    if (Leave != null)
-                        Leave(this, new ());
+                    if (LeaveEventHandler != null)
+                        LeaveEventHandler(this, new ());
                 Hover = false;
                 
 

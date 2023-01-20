@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new StateButton(new Vector2(-64, -32), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), 100000) {
                 DrawColor = Color.White,
             };
-            button.Click += BtnEvent; 
+            button.ClickEventHandler += BtnEvent; 
             Name = "Level 26 - I hope you have an autoclicker";
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("THiS AGAIN again!!1!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);

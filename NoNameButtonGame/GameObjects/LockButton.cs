@@ -13,9 +13,9 @@ namespace NoNameButtonGame.GameObjects;
 
 class LockButton : GameObject, IMouseActions, IHitbox
 {
-    public event EventHandler Leave;
-    public event EventHandler Enter;
-    public event EventHandler Click;
+    public event EventHandler LeaveEventHandler;
+    public event EventHandler EnterEventHandler;
+    public event EventHandler ClickEventHandler;
     bool Hover;
     Rectangle[] frameHitbox;
     Rectangle[] ingameHitbox;
@@ -87,14 +87,14 @@ class LockButton : GameObject, IMouseActions, IHitbox
             if (!Hover)
             {
                 Hover = true;
-                if (Enter != null)
-                    Enter(this, new());
+                if (EnterEventHandler != null)
+                    EnterEventHandler(this, new());
             }
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
             {
                 if (!Locked)
-                    Click(this, new());
+                    ClickEventHandler(this, new());
             }
             else
             {
@@ -104,8 +104,8 @@ class LockButton : GameObject, IMouseActions, IHitbox
         else
         {
             if (Hover)
-                if (Leave != null)
-                    Leave(this, new());
+                if (LeaveEventHandler != null)
+                    LeaveEventHandler(this, new());
             Hover = false;
         }
 

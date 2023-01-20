@@ -30,7 +30,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button[1] = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "1", "?", new Vector2(8, 8));
             button[2] = new TextButton(new Vector2(-64, 32), new Vector2(128, 64), "2", "?", new Vector2(8, 8));
             for (int i = 0; i < button.Length; i++) {
-                button[i].Click += BtnEvent;
+                button[i].ClickEventHandler += BtnEvent;
             }
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         }

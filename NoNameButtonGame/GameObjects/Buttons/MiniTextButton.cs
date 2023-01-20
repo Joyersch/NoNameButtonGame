@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class MiniTextButton : TextButton
 {
-    public MiniTextButton(Vector2 Pos, Vector2 Size, string Name, string Text, Vector2 TextSize) : base(Pos, Size, Name, Text, TextSize)
+    public MiniTextButton(Vector2 position, Vector2 Size, string Name, string Text, Vector2 TextSize) : base(position, Size, Name, Text, TextSize)
     {
     }
 

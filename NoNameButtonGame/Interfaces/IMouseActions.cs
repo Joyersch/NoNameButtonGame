@@ -6,8 +6,8 @@ namespace NoNameButtonGame.Interfaces
 {
     interface IMouseActions
     {
-        public event EventHandler Leave;
-        public event EventHandler Enter;
-        public event EventHandler Click;
+        public event EventHandler LeaveEventHandler;
+        public event EventHandler EnterEventHandler;
+        public event EventHandler ClickEventHandler;
     }
 }

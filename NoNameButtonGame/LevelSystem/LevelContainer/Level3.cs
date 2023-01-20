@@ -46,13 +46,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new WinButton(new Vector2(-64,96), new Vector2(128, 64)) {
                 DrawColor = Color.White,
             };
-            button.Click += CallFinish;
+            button.ClickEventHandler += CallFinish;
             laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224), Globals.Content.GetHitboxMapping("zonenew"));
             laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576), Globals.Content.GetHitboxMapping("zonenew"));
             laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576), Globals.Content.GetHitboxMapping("zonenew"));
             laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 24), Globals.Content.GetHitboxMapping("zonenew"));
             for (int i = 0; i < laserwall.Length; i++) {
-                laserwall[i].Enter += LaserEvent;
+                laserwall[i].EnterEventHandler += LaserEvent;
             }
             
         }

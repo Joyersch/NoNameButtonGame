@@ -35,12 +35,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     buttonGrid[i] = new WinButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                         DrawColor = Color.White,
                     };
-                    buttonGrid[i].Click += BtnWinEvent;
+                    buttonGrid[i].ClickEventHandler += BtnWinEvent;
                 } else {
                     buttonGrid[i] = new FailButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                         DrawColor = Color.White,
                     };
-                    buttonGrid[i].Click += BtnFailEvent;
+                    buttonGrid[i].ClickEventHandler += BtnFailEvent;
                 }
             }
             Info = new TextBuilder("Watch out. There Random!", new Vector2(-170, -(defaultHeight / Camera.Zoom / 2) + 32), new Vector2(16, 16), null, 0);

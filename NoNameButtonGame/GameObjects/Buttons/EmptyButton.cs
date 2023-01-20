@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
@@ -10,18 +11,13 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class EmptyButton : GameObject, IMouseActions, IHitbox, IMoveable
 {
-    public event EventHandler Leave;
-    public event EventHandler Enter;
-    public event EventHandler Click;
-    bool Hover;
+    public event EventHandler LeaveEventHandler;
+    public event EventHandler EnterEventHandler;
+    public event EventHandler ClickEventHandler;
+    private bool _hover;
 
-    readonly Rectangle[] textureHitbox;
-    readonly Rectangle[] ingameHitbox;
-    Vector2 Scale;
-
-    public string Name { get; set; }
-
-    public Rectangle[] Hitbox => ingameHitbox;
+    public Rectangle[] Hitbox { get; }
+    private Vector2 _scale;
 
     protected TextureHitboxMapping _textureHitboxMapping;
 
@@ -32,21 +28,15 @@ public class EmptyButton : GameObject, IMouseActions, IHitbox, IMoveable
         base.Position = position;
         DrawColor = Color.White;
         Initialize();
-        ImageLocation = new Rectangle((int) _textureHitboxMapping.ImageSize.X, 0,
-            (int) _textureHitboxMapping.ImageSize.X, (int) _textureHitboxMapping.ImageSize.Y);
+        ImageLocation = new Rectangle(
+            (int) _textureHitboxMapping.ImageSize.X
+            , 0
+            , (int) _textureHitboxMapping.ImageSize.X
+            , (int) _textureHitboxMapping.ImageSize.Y);
         FrameSize = _textureHitboxMapping.ImageSize;
-        textureHitbox = new Rectangle[_textureHitboxMapping.Hitboxes.Length];
         Texture = _textureHitboxMapping.Texture;
-        Scale = new Vector2(size.X / FrameSize.X, size.Y / FrameSize.Y);
-        textureHitbox = _textureHitboxMapping.Hitboxes;
-        ingameHitbox = new Rectangle[textureHitbox.Length];
-        for (int i = 0; i < _textureHitboxMapping.Hitboxes.Length; i++)
-        {
-            ingameHitbox[i] = new Rectangle((int) (base.Position.X + (_textureHitboxMapping.Hitboxes[i].X * Scale.X)),
-                (int) (base.Position.Y + (_textureHitboxMapping.Hitboxes[i].Y * Scale.Y)),
-                (int) (_textureHitboxMapping.Hitboxes[i].Width * Scale.X),
-                (int) (_textureHitboxMapping.Hitboxes[i].Height * Scale.Y));
-        }
+        Hitbox = new Rectangle[_textureHitboxMapping.Hitboxes.Length];
+        CalculateHitboxes();
     }
 
     public virtual void Initialize()
@@ -57,75 +47,51 @@ public class EmptyButton : GameObject, IMouseActions, IHitbox, IMoveable
     public void Update(GameTime gameTime, Rectangle mousePos)
     {
         MouseState mouseState = Mouse.GetState();
-        if (HitboxCheck(mousePos))
+
+        bool hover = HitboxCheck(mousePos);
+        if (hover)
         {
-            if (!Hover)
-            {
-                Hover = true;
-                Enter?.Invoke(this, new());
-            }
+            if (!_hover)
+                EnterEventHandler?.Invoke(this, EventArgs.Empty);
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
-            {
-                Click?.Invoke(this, new());
-            }
+                ClickEventHandler?.Invoke(this, EventArgs.Empty);
         }
-        else
-        {
-            if (Hover)
-                Leave?.Invoke(this, new());
-            Hover = false;
-        }
+        else if (_hover)
+            LeaveEventHandler?.Invoke(this, EventArgs.Empty);
 
-        if (Hover)
-        {
-            ImageLocation = new Rectangle((int) FrameSize.X, 0, (int) FrameSize.X, (int) FrameSize.Y);
-        }
-        else
-        {
-            ImageLocation = new Rectangle(0, 0, (int) FrameSize.X, (int) FrameSize.Y);
-        }
+        _hover = hover;
+        ImageLocation = new Rectangle(_hover ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
 
-        UpdateHitbox();
+        CalculateHitboxes();
 
         Update(gameTime);
     }
 
     public bool HitboxCheck(Rectangle compareTo)
-    {
-        for (int i = 0; i < Hitbox.Length; i++)
-        {
-            if (Hitbox[i].Intersects(compareTo))
-            {
-                return true;
-            }
-        }
+        => Hitbox.Any(h => h.Intersects(compareTo));
 
-        return false;
-    }
-
-    private void UpdateHitbox()
+    private void CalculateHitboxes()
     {
-        Scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
-        for (int i = 0; i < textureHitbox.Length; i++)
+        _scale = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
+        var hitboxes = _textureHitboxMapping.Hitboxes;
+
+        for (int i = 0; i < hitboxes.Length; i++)
         {
-            ingameHitbox[i] = new Rectangle((int) (Position.X + (textureHitbox[i].X * Scale.X)),
-                (int) (Position.Y + (textureHitbox[i].Y * Scale.Y)), (int) (textureHitbox[i].Width * Scale.X),
-                (int) (textureHitbox[i].Height * Scale.Y));
+            Hitbox[i] = CalculateInGameHitbox(hitboxes[i]);
         }
     }
+
+    private Rectangle CalculateInGameHitbox(Rectangle hitbox)
+        => new((int) (Position.X + hitbox.X * _scale.X)
+            , (int) (Position.Y + hitbox.Y * _scale.Y)
+            , (int) (hitbox.Width * _scale.X)
+            , (int) (hitbox.Height * _scale.Y));
 
 
     public bool Move(Vector2 Direction)
     {
-        try
-        {
-            Position += Direction;
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        Position += Direction;
+        return true;
     }
 }

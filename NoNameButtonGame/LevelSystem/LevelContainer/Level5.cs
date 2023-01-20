@@ -31,7 +31,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new HoldButton(new Vector2(-220, -100), new Vector2(128, 64), Globals.Content.GetHitboxMapping("emptybutton")) {
                 EndHoldTime = 6900
             };
-            button.Click += EmptyBtnEvent;
+            button.ClickEventHandler += EmptyBtnEvent;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("<-- Hold this button till the timer runs out!", new Vector2(-64, -72), new Vector2(8,8), null, 0);
@@ -44,7 +44,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Infos[i].ChangeColor(c);
             }
             lockbutton = new LockButton(new Vector2(-220, 0), new Vector2(128, 64), Globals.Content.GetHitboxMapping("awesomebutton"), true);
-            lockbutton.Click += BtnEvent;
+            lockbutton.ClickEventHandler += BtnEvent;
             
         }
 
