@@ -111,7 +111,7 @@ public class Letter : GameObject
                 return new Rectangle(2, 0, 3, 5);
             case Character.Equal:
                 return new Rectangle(1, 0, 6, 3);
-            case Character.Star:
+            case Character.Asterisk:
             case Character.Plus:
                 return new Rectangle(1, 0, 5, 5);
             case Character.Down:
@@ -167,7 +167,7 @@ public class Letter : GameObject
         SmallerAs,
         Equal,
         BiggerAs,
-        Star,
+        Asterisk,
         Plus,
         Percent,
         OpenBracket,
@@ -261,7 +261,7 @@ public class Letter : GameObject
             '<' => Letter.Character.SmallerAs,
             '=' => Letter.Character.Equal,
             '>' => Letter.Character.BiggerAs,
-            '*' => Letter.Character.Star,
+            '*' => Letter.Character.Asterisk,
             '+' => Letter.Character.Plus,
             '%' => Letter.Character.Percent,
             '(' => Letter.Character.OpenBracket,
@@ -330,7 +330,7 @@ public class Letter : GameObject
             Letter.Character.SmallerAs => '<',
             Letter.Character.Equal => '=',
             Letter.Character.BiggerAs => '>',
-            Letter.Character.Star => '*',
+            Letter.Character.Asterisk => '*',
             Letter.Character.Plus => '+',
             Letter.Character.Percent => '%',
             Letter.Character.OpenBracket => '(',

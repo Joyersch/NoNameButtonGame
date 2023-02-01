@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons.Locked;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer

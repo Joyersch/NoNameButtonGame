@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons.StartMenu;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;

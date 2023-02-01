@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects.Buttons.Level;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Hitboxes;
 
-namespace NoNameButtonGame.GameObjects.Buttons.State;
+namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class StateWinButton : StateButton
 {

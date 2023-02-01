@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Hitboxes;
 
-namespace NoNameButtonGame.GameObjects.Buttons.StartMenu;
+namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class StartButton : EmptyButton
 {

@@ -10,7 +10,7 @@ using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.Text;
 
-namespace NoNameButtonGame.GameObjects;
+namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class TextButton : EmptyButton
 {

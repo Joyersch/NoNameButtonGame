@@ -15,7 +15,6 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Buttons.Level;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {

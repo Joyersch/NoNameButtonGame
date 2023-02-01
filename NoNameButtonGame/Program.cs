@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace NoNameButtonGame
+namespace NoNameButtonGame;
+
+public static class Program
 {
-    public static class Program
+    [STAThread]
+    static void Main()
     {
-        [STAThread]
-        static void Main()
-        {
-            using (var game = new NoNameGame())
-                game.Run();
-        }
+        using (var game = new NoNameGame())
+            game.Run();
     }
 }

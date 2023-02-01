@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace NoNameButtonGame
 {
-    static class Globals
+    internal static class Globals
     {
         public static readonly string SaveDirectory =
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/NoNameButtonGame/";

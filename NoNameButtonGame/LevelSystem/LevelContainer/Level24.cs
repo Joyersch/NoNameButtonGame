@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Buttons.Level;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
