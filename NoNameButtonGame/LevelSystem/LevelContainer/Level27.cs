@@ -27,25 +27,18 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     button[i] = new WinButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                         DrawColor = Color.White,
                     };
-                    button[i].ClickEventHandler += BtnWinEvent;
+                    button[i].ClickEventHandler += Finish;
                 } else {
                     button[i] = new FailButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                         DrawColor = Color.White,
                     };
-                    button[i].ClickEventHandler += BtnFailEvent;
+                    button[i].ClickEventHandler += Fail;
                 }
             }
             Info = new TextBuilder("Watch out. There Random!", new Vector2(-170, -(defaultHeight / Camera.Zoom / 2) + 32), new Vector2(16, 16), null, 0);
 
         }
 
-        private void BtnFailEvent(object sender, EventArgs e) {
-            CallFail();
-        }
-
-        private void BtnWinEvent(object sender, EventArgs e) {
-            CallFinish();
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             for (int i = 0; i < button.Length; i++) {
                 button[i].Draw(spriteBatch);
@@ -66,12 +59,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                         button[i] = new WinButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                             DrawColor = Color.White,
                         };
-                        button[i].ClickEventHandler += BtnWinEvent;
+                        button[i].ClickEventHandler += Finish;
                     } else {
                         button[i] = new FailButton(new Vector2(130 * (i % 4) - 256, (i / 4) * 68 - 128), new Vector2(128, 64)) {
                             DrawColor = Color.White,
                         };
-                        button[i].ClickEventHandler += BtnFailEvent;
+                        button[i].ClickEventHandler += Fail;
                     }
                 }
             }

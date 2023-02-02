@@ -45,14 +45,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             shots = new List<Tuple<Laserwall, Vector2>>();
         }
 
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
-
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
-        }
-
         public override void Draw(SpriteBatch spriteBatch) {
 
             displayGun.Draw(spriteBatch);
@@ -80,7 +72,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     gameTimeUpdateShots -= shotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - displayGun.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(displayGun.Position, new Vector2(16, 8)), Dir / Dir.Length()));
-                    shots[^1].Item1.EnterEventHandler += CallFail;
+                    shots[^1].Item1.EnterEventHandler += Fail;
                 }
             }
             removeItem.Clear();
@@ -103,7 +95,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 updateSpeed = maxUpdateSpeed;
             }
             if (TimerC >= TimerMax)
-                CallFinish(this, new EventArgs());
+                Finish();
             displayTimer.ChangeText(((TimerMax - TimerC) / 1000).ToString("0.0") + "S");
             displayTimer.Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;

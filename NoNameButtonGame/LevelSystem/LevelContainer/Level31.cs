@@ -28,23 +28,15 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level31(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 31 - THICC";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
-            button.ClickEventHandler += BtnEvent;
+            button.ClickEventHandler += Finish;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("Thin can be penetrated!", new Vector2(80, -132), new Vector2(8, 8), null, 0);
             Infos[1] = new TextBuilder("But this one is not thin its thicc!", new Vector2(80, -100), new Vector2(8, 8), null, 0);
             wall = new Laserwall(new Vector2(-120, -300), new Vector2(100, 1024));
-            wall.EnterEventHandler += WallEvent;
+            wall.EnterEventHandler += Fail;
         }
 
-
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             button.Draw(spriteBatch);
             for (int i = 0; i < Infos.Length; i++) {

@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 11 - ?";
             displayText = new TextBuilder[15];
             finishButton = new EmptyButton(new Vector2(-1, 8), new Vector2(8, 4));
-            finishButton.ClickEventHandler += CallFinish;
+            finishButton.ClickEventHandler += Finish;
             displayText[0] = new TextBuilder("So this is Level 11. I though there would be more. the creator must has", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             displayText[1] = new TextBuilder("run out of Ideas other wise he would have put some effort", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             displayText[2] = new TextBuilder("into finding an insteresting concept for this level", new Vector2(0, 0), new Vector2(8, 8), null, 0);
@@ -73,14 +73,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             
-        }
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
-
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

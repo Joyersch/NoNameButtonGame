@@ -21,6 +21,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         bool isInMove = false;
         bool moveUp = false;
         int currentTicks = 0;
+
         public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(
             defaultWidth, defaultHeight, window, rand)
         {
@@ -33,8 +34,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             _level = new List<TextButton>();
             _down = new List<TextButton>();
             _up = new List<TextButton>();
-            
-            
+
+
             for (int i = 0; i < screens; i++)
             {
                 var down = new TextButton(
@@ -43,9 +44,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     , ""
                     , "⬇"
                     , new Vector2(16, 16));
-                
+
                 down.ClickEventHandler += MoveDown;
-                
+
                 _down.Add(down);
 
                 var up = new MiniTextButton(
@@ -61,30 +62,31 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
             for (int i = 0; i < maxLevel; i++)
             {
-                var levelButton =  new TextButton(
+                var levelButton = new TextButton(
                     new Vector2(-200 + 100 * (i % 5), -140 + 50 * (i / 5) + 60 * (i / 30))
                     , new Vector2(64, 32)
                     , (i + 1).ToString()
                     , (i + 1).ToString()
                     , new Vector2(16, 16));
-                
+
                 levelButton.ClickEventHandler += SelectLevel;
 
                 _level.Add(levelButton);
             }
         }
 
-        private void SelectLevel(object sender, EventArgs e)
-            => LevelSelectedEventHandler?.Invoke(int.Parse((sender as TextButton).Text.ToString()));
+        private void SelectLevel(object sender)
+            => LevelSelectedEventHandler?.Invoke(
+                _level.IndexOf((TextButton) sender) + 1 /*Index starts with 0 naming starts with 1*/);
 
-        private void MoveDown(object sender, EventArgs e)
+        private void MoveDown(object sender)
         {
             isInMove = true;
             moveUp = false;
             currentTicks = 40;
         }
 
-        private void MoveUp(object sender, EventArgs e)
+        private void MoveUp(object sender)
         {
             isInMove = true;
             moveUp = true;
@@ -105,7 +107,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 if (down.rectangle.Intersects(cameraRectangle))
                     down.Draw(spriteBatch);
             }
-            
+
             foreach (var up in _up)
             {
                 if (up.rectangle.Intersects(cameraRectangle))
@@ -126,7 +128,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (savedGameTime > 10)
                 {
                     savedGameTime -= 10;
-                    Vector2 sinWaveRoute = new Vector2(0, 12.2F * (float) Math.Sin((float) currentTicks / 50 * Math.PI));
+                    Vector2 sinWaveRoute =
+                        new Vector2(0, 12.2F * (float) Math.Sin((float) currentTicks / 50 * Math.PI));
                     if (moveUp)
                         cameraPosition -= sinWaveRoute;
                     else
@@ -146,7 +149,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
             mouseCursor.Update(gameTime);
             mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
-            
+
             // Note: foreach is lower to run than for but as there aren't that many levels yet this should be fine
             foreach (var levelButton in _level)
             {
@@ -159,7 +162,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 if (down.rectangle.Intersects(cameraRectangle))
                     down.Update(gameTime, mouseCursor.Hitbox[0]);
             }
-            
+
             foreach (var up in _up)
             {
                 if (up.rectangle.Intersects(cameraRectangle))

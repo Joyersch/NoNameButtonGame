@@ -38,14 +38,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
 
 
-        private void BtnEvent(object sender, EventArgs e) {
+        private void BtnEvent(object sender) {
 
-            if (RightAwnsers[Awnsered] != int.Parse((sender as TextButton).Name) && RightAwnsers[Awnsered] != -1) {
-                CallFail(this, e);
+            if (RightAwnsers[Awnsered] != 0 && RightAwnsers[Awnsered] != -1) {
+                Fail();
             } else {
                 Awnsered++;
                 if (Awnsered == RightAwnsers.Length)
-                    CallFinish(this, e);
+                    Finish();
                 else {
                     switch (Awnsered) {
                         case 1:
@@ -113,7 +113,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Timer.ChangePosition(-Timer.rectangle.Size.ToVector2() / 2 + new Vector2(0, -160));
             Timer.Update(gameTime);
             if (Timer.Text.Contains("-"))
-                CallExit();
+                Exit();
             Questions.ChangePosition(new Vector2(0, -128) - Questions.rectangle.Size.ToVector2() / 2);
             Questions.Update(gameTime);
             for (int i = 0; i < button.Length; i++) {

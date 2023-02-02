@@ -18,10 +18,10 @@ class StartScreen : SampleLevel
     readonly ExitButton exitButton;
     readonly Cursor mouseCursor;
 
-    public event Action StartEventHandler;
-    public event Action SelectEventHandler;
-    public event Action SettingsEventHandler;
-    public event Action ExitEventHandler;
+    public event Action<object> StartEventHandler;
+    public event Action<object> SelectEventHandler;
+    public event Action<object> SettingsEventHandler;
+    public event Action<object> ExitEventHandler;
 
     public StartScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
@@ -59,15 +59,15 @@ class StartScreen : SampleLevel
         mouseCursor.Update(gameTime);
     }
 
-    private void StartButtonPressed(object sender, EventArgs e)
-        => StartEventHandler?.Invoke();
+    private void StartButtonPressed(object sender)
+        => StartEventHandler?.Invoke(sender);
 
-    private void SelectButtonPressed(object sender, EventArgs e)
-        => SelectEventHandler?.Invoke();
+    private void SelectButtonPressed(object sender)
+        => SelectEventHandler?.Invoke(sender);
 
-    private void SettingsButtonPressed(object sender, EventArgs e)
-        => SettingsEventHandler?.Invoke();
+    private void SettingsButtonPressed(object sender)
+        => SettingsEventHandler?.Invoke(sender);
 
-    private void ExitButtonPressed(object sender, EventArgs e)
-        => ExitEventHandler?.Invoke();
+    private void ExitButtonPressed(object sender)
+        => ExitEventHandler?.Invoke(sender);
 }

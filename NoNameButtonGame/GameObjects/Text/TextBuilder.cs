@@ -29,6 +29,10 @@ public class TextBuilder
     {
     }
 
+    public TextBuilder(string text, Vector2 position) : this(text, position, DefaultLetterSize, 0)
+    {
+    }
+
     public TextBuilder(string text, Vector2 position, Vector2 letterSize, int spacing)
     {
         this.spacing = spacing;
@@ -89,7 +93,7 @@ public class TextBuilder
             _letters[i].Update(gameTime);
         }
 
-         rectangle = new Rectangle(Position.ToPoint(),
+        rectangle = new Rectangle(Position.ToPoint(),
             new Point(_inGameLength + (spacing + 1) * (_letters.Length - 1), (int) Size.Y));
     }
 
@@ -114,4 +118,6 @@ public class TextBuilder
 
         return build;
     }
+
+    public static Vector2 DefaultLetterSize => new Vector2(16, 16);
 }

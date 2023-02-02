@@ -61,18 +61,18 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             StartBtn.ClickEventHandler += StartEvent;
         }
 
-        private void StartEvent(object sender, EventArgs e) {
+        private void StartEvent(object sender) {
             PlayingSequenz = true;
             StartBtn = null;
         }
 
-        private void BtnEvent(object sender, EventArgs e) {
+        private void BtnEvent(object sender) {
             if (PlayingSequenz)
                 return;
-            CurrentSequenz += (sender as TextButton).Name;
+            CurrentSequenz += string.Empty;
             if (CurrentSequenz == Sequenz) {
                 if (SqMax == CurrentSequenz.Length)
-                    CallFinish(this, e);
+                    Finish();
                 else {
                     CurrentSqAmm++;
                     CurrentSequenz = string.Empty;
@@ -115,7 +115,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Marker[1].Position = Vector2.Zero - Marker[1].rectangle.Size.ToVector2() / 2;
                 return;
             }
-            CallFail(sender, e);
+            Fail();
         }
         public override void Draw(SpriteBatch spriteBatch) {
             if (!(StartBtn is null))

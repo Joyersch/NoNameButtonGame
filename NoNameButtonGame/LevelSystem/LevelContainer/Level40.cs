@@ -45,12 +45,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level40(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 40 - 10 Left";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
-            button.ClickEventHandler += CallFinish;
+            button.ClickEventHandler += Finish;
             cursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
             wallup = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight - 40));
             walldown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40 + 40), new Vector2(base.defaultWidth, defaultHeight));
-            wallup.EnterEventHandler += CallFail;
-            walldown.EnterEventHandler += CallFail;
+            wallup.EnterEventHandler += Fail;
+            walldown.EnterEventHandler += Fail;
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
             shots = new List<Tuple<Laserwall, Vector2>>();
         }
@@ -83,7 +83,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     GT -= ShotTime;
                     Vector2 Dir = button.rectangle.Center.ToVector2() - GUN.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8)), Dir / Dir.Length()));
-                    shots[^1].Item1.EnterEventHandler += CallFail;
+                    shots[^1].Item1.EnterEventHandler += Fail;
                 }
             }
             removeItem.Clear();

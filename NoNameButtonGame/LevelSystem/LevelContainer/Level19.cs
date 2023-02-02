@@ -47,22 +47,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             
             lockButton = new LockWinButton(new Vector2(-192, -32), new Vector2(128, 64), true);
-            lockButton.ClickEventHandler += BtnEvent;
+            lockButton.ClickEventHandler += Finish;
             shots = new List<Tuple<Laserwall, Vector2>>();
             OldMPos = new Vector2(0, 0);
         }
 
 
-        private void EmptyBtnEvent(object sender, EventArgs e) {
+        private void EmptyBtnEvent(object sender) {
             lockButton.Locked = !lockButton.Locked;
-        }
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
-
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -95,7 +87,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     gameTimeShotTime -= ShotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - Gun.rectangle.Center.ToVector2();
                     shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(Gun.Position, new Vector2(16, 8)), Dir / Dir.Length()));
-                    shots[^1].Item1.EnterEventHandler += CallFail;
+                    shots[^1].Item1.EnterEventHandler += Fail;
                 }
             }
             removeItem.Clear();

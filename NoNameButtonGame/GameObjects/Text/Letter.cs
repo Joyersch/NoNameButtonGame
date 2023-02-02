@@ -97,7 +97,7 @@ public class Letter : GameObject
             case Character.Semicolon:
                 return new Rectangle(1, 0, 2, 7);
             case Character.M:
-                return new Rectangle(2, 0, 4, 7);
+               return new Rectangle(2, 0, 4, 7);
             case Character.W:
                 return new Rectangle(0, 0, 7, 7);
             case Character.Crossout:

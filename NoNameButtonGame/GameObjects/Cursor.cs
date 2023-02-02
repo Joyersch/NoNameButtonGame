@@ -9,6 +9,10 @@ namespace NoNameButtonGame.GameObjects;
 class Cursor : GameObject
 {
 
+    public Cursor(Vector2 position) : this(position, DefaultSize)
+    {
+    }
+    
     public Cursor(Vector2 position, Vector2 size) : base(position, size)
     {
         ImageLocation = Rectangle.Empty;
@@ -23,4 +27,6 @@ class Cursor : GameObject
     {
         base.Update(gameTime);
     }
+
+    public static Vector2 DefaultSize => new Vector2(7, 10);
 }

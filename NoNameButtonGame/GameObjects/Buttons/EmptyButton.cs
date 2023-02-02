@@ -11,11 +11,14 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class EmptyButton : GameObject, IMouseActions, IMoveable
 {
-    public event EventHandler LeaveEventHandler;
-    public event EventHandler EnterEventHandler;
-    public event EventHandler ClickEventHandler;
+    public event Action<object> LeaveEventHandler;
+    public event Action<object> EnterEventHandler;
+    public event Action<object> ClickEventHandler;
     protected bool _hover;
 
+    public EmptyButton(Vector2 position) : base(position, DefaultSize)
+    {
+    }
 
     public EmptyButton(Vector2 position, Vector2 size) : base(position, size)
     {
@@ -46,6 +49,9 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     }
 
 
+    public Vector2 GetPosition()
+        => Position;
+
     public bool Move(Vector2 Direction)
     {
         Position += Direction;
@@ -53,11 +59,13 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     }
 
     protected void InvokeClickEventHandler()
-        => ClickEventHandler?.Invoke(this, EventArgs.Empty);
-    
+        => ClickEventHandler?.Invoke(this);
+
     protected void InvokeEnterEventHandler()
-        => EnterEventHandler?.Invoke(this, EventArgs.Empty);
-    
+        => EnterEventHandler?.Invoke(this);
+
     protected void InvokeLeaveEventHandler()
-        => LeaveEventHandler?.Invoke(this, EventArgs.Empty);
+        => LeaveEventHandler?.Invoke(this);
+
+    public static Vector2 DefaultSize => new Vector2(128, 64);
 }

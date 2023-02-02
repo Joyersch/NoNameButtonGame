@@ -46,24 +46,17 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new WinButton(new Vector2(-64, 96), new Vector2(128, 64)) {
                 DrawColor = Color.White,
             };
-            button.ClickEventHandler += CallFinish;
+            button.ClickEventHandler += Finish;
             laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224));
             laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576));
             laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576));
             laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 56));
             for (int i = 0; i < laserwall.Length; i++) {
-                laserwall[i].EnterEventHandler += LaserEvent;
+                laserwall[i].EnterEventHandler += Fail;
             }
 
         }
 
-        private void LaserEvent(object sender, EventArgs e) {
-            CallFail(sender, e);
-        }
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             button.Draw(spriteBatch);
             for (int i = 0; i < laserwall.Length; i++) {

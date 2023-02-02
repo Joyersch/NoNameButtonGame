@@ -31,7 +31,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public Level43(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 43 - text here c:";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
-            button.ClickEventHandler += BtnEvent;
+            button.ClickEventHandler += Finish;
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("wow you did it!", new Vector2(120, -132), new Vector2(8, 8), null, 0);
@@ -42,8 +42,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             for (int i = 0; i < WallLength; i++) {
                 WallLeft[i] = new Laserwall(new Vector2(96, 512 * i), new Vector2(416, 512));
                 WallRight[i] = new Laserwall(new Vector2(-512, 512 * i), new Vector2(416, 512));
-                WallRight[i].EnterEventHandler += CallFail;
-                WallLeft[i].EnterEventHandler += CallFail;
+                WallRight[i].EnterEventHandler += Fail;
+                WallLeft[i].EnterEventHandler += Fail;
             }
             for (int i = 0; i < (WallLength - 1) * 8 / 2; i++) {
                 int c = rand.Next(0, 3);
@@ -59,15 +59,10 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             }
             Blocks = Walls.ToArray();
             for (int i = 0; i < Blocks.Length; i++) {
-                Blocks[i].EnterEventHandler += CallFail;
+                Blocks[i].EnterEventHandler += Fail;
             }
         }
 
-
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             button.Draw(spriteBatch);
             for (int i = 0; i < Infos.Length; i++) {

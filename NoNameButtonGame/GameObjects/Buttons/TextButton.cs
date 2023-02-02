@@ -17,6 +17,10 @@ public class TextButton : EmptyButton
     public TextBuilder Text { get; }
     public string Name { get; }
 
+    public TextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text, DefaultTextSize)
+    {
+        
+    }
     public TextButton(Vector2 position, Vector2 size, string name, string text,
         Vector2 TextSize) : base(position, size)
     {
@@ -36,4 +40,7 @@ public class TextButton : EmptyButton
         base.Draw(spriteBatch);
         Text.Draw(spriteBatch);
     }
+
+    public static Vector2 DefaultSize => new Vector2(128, 64);
+    public static Vector2 DefaultTextSize => new Vector2(16, 16);
 }

@@ -17,11 +17,11 @@ class DontTouch : GameObject, IMouseActions
 
     float GT;
 
-    public event EventHandler EnterEventHandler;
-    public event EventHandler LeaveEventHandler;
-    public event EventHandler ClickEventHandler;
+    public event Action<object> EnterEventHandler;
+    public event Action<object> LeaveEventHandler;
+    public event Action<object> ClickEventHandler;
 
-    public DontTouch(Vector2 Pos, Vector2 Size) : base(Pos, Size)
+    public DontTouch(Vector2 position, Vector2 size) : base(position, size)
     {
         FrameMax = _textureHitboxMapping.AnimationsFrames;
         DrawColor = Color.White;
@@ -34,7 +34,7 @@ class DontTouch : GameObject, IMouseActions
         _textureHitboxMapping = Mapping.GetMappingFromCache<DontTouch>();
     }
 
-    public void Update(GameTime gt, Rectangle MousePos)
+    public void Update(GameTime gt, Rectangle mousePosition)
     {
         MouseState mouseState = Mouse.GetState();
         GT += (float) gt.ElapsedGameTime.TotalMilliseconds;
@@ -46,8 +46,8 @@ class DontTouch : GameObject, IMouseActions
             ImageLocation = new Rectangle(0, FramePos * (int) FrameSize.X, (int) FrameSize.X, (int) FrameSize.Y);
         }
 
-        if (HitboxCheck(MousePos))
-            EnterEventHandler(this, EventArgs.Empty);
+        if (HitboxCheck(mousePosition))
+            EnterEventHandler(this);
         base.Update(gt);
     }
 }

@@ -14,18 +14,22 @@ class Laserwall : GameObject, IMouseActions, IMoveable
     Rectangle[] ingameHitbox;
     public Rectangle[] Hitbox => ingameHitbox;
 
-    public event EventHandler LeaveEventHandler;
-    public event EventHandler EnterEventHandler;
-    public event EventHandler ClickEventHandler;
+    public event Action<object> LeaveEventHandler;
+    public event Action<object> EnterEventHandler;
+    public event Action<object> ClickEventHandler;
 
     Color OldDrawColor;
 
-    public Laserwall(Vector2 Pos, Vector2 Size): base(Pos, Size)
+    public Laserwall(Vector2 position, Vector2 size) : base(position, size)
     {
-        Vector2 grid = Size / 32;
+        // Note:
+        // Even though I've done a rework in 2023 I will not touch this stuff.
+        // It works and it is to complicated to redo without breaking something.
+        
+        Vector2 grid = size / 32;
 
 
-        Vector2 gridedge = new Vector2(Size.X % 32, Size.Y % 32);
+        Vector2 gridedge = new Vector2(size.X % 32, size.Y % 32);
         grid = new Vector2((float) (int) grid.X, (float) (int) grid.Y);
 
         if (gridedge.X == 0 && gridedge.Y == 0)
@@ -36,7 +40,7 @@ class Laserwall : GameObject, IMouseActions, IMoveable
                 for (int a = 0; a < grid.X; a++)
                 {
                     dontTouchGrid[i * ((int) grid.X) + a] =
-                        new DontTouch(new Vector2(Pos.X + a * 32, Pos.Y + i * 32), new Vector2(32, 32));
+                        new DontTouch(new Vector2(position.X + a * 32, position.Y + i * 32), new Vector2(32, 32));
                     dontTouchGrid[i * ((int) grid.X) + a].EnterEventHandler += CallEnter;
                 }
             }
@@ -63,7 +67,7 @@ class Laserwall : GameObject, IMouseActions, IMoveable
                     if (i < grid.Y)
                         CSize.Y = 32;
                     dontTouchGrid[i * gx + a] =
-                        new DontTouch(new Vector2(Pos.X + a * 32, Pos.Y + i * 32), CSize);
+                        new DontTouch(new Vector2(position.X + a * 32, position.Y + i * 32), CSize);
 
                     dontTouchGrid[i * gx + a].EnterEventHandler += CallEnter;
                 }
@@ -87,10 +91,8 @@ class Laserwall : GameObject, IMouseActions, IMoveable
         _textureHitboxMapping = Mapping.GetMappingFromCache<DontTouch>();
     }
 
-    private void CallEnter(object sender, EventArgs e)
-    {
-        EnterEventHandler?.Invoke(sender, e);
-    }
+    private void CallEnter(object sender)
+        => EnterEventHandler?.Invoke(sender);
 
     public void Update(GameTime gt, Rectangle MousePos)
     {
@@ -100,7 +102,7 @@ class Laserwall : GameObject, IMouseActions, IMoveable
         }
 
         if (rectangle.Intersects(MousePos))
-            EnterEventHandler?.Invoke(this, EventArgs.Empty);
+            EnterEventHandler?.Invoke(this);
         base.Update(gt);
         if (DrawColor != OldDrawColor)
         {
@@ -121,21 +123,16 @@ class Laserwall : GameObject, IMouseActions, IMoveable
         }
     }
 
+    public Vector2 GetPosition()
+        => Position;
+
     public bool Move(Vector2 Direction)
     {
-        try
+        Position += Direction;
+        for (int i = 0; i < dontTouchGrid.Length; i++)
         {
-            Position += Direction;
-            for (int i = 0; i < dontTouchGrid.Length; i++)
-            {
-                dontTouchGrid[i].Position += Direction;
-            }
+            dontTouchGrid[i].Position += Direction;
         }
-        catch
-        {
-            return false;
-        }
-
         return true;
     }
 }

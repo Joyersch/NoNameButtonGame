@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 32 - THIS ONE AGAIN?! )";
             text = new TextBuilder[15];
             button = new EmptyButton(new Vector2(60, 86), new Vector2(5, 2.5F));
-            button.ClickEventHandler += CallFinish;
+            button.ClickEventHandler += Finish;
             text[0] = new TextBuilder("at this point this seems like a lazy way of getting the level count to", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             text[1] = new TextBuilder("100. wait you want to tell me there are only 50? did the creator", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             text[2] = new TextBuilder("realize that he will not be able to create 100 levels based on the", new Vector2(0, 0), new Vector2(8, 8), null, 0);
@@ -75,14 +75,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         }
 
-
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             button.Draw(spriteBatch);
             for (int i = 0; i < text.Length; i++) {

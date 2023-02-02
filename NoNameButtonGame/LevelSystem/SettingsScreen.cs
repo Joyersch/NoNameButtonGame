@@ -34,7 +34,7 @@ class SettingsScreen : SampleLevel
             s2 = "✔";
         Name = "Start Menu";
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        fixedStep = new TextBuilder("FixedStep", new Vector2(-64, -0), new Vector2(16, 16), null, 0);
+        fixedStep = new TextBuilder("FPS-Limit", new Vector2(-64, -0), new Vector2(16, 16), null, 0);
         Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64), new Vector2(16, 16), null, 0);
         Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64), new Vector2(16, 16), null, 0);
         resolutionButton = new TextButton[2];
@@ -54,9 +54,12 @@ class SettingsScreen : SampleLevel
         vectorResolution = window;
     }
 
-    private void ChangeResolution(object sender, EventArgs e)
+    
+    private void ChangeResolution(object sender)
+        => ChangeResolution((TextButton)sender);
+    
+    private void ChangeResolution(TextButton button)
     {
-        TextButton button = (TextButton) sender;
         if (button.Name == ">")
         {
             vectorResolution = (vectorResolution.X + "x" + vectorResolution.Y) switch
@@ -89,10 +92,11 @@ class SettingsScreen : SampleLevel
         WindowsResizeEventHandler?.Invoke(Window);
     }
 
-    private void ChangePressState(object sender, EventArgs e)
+    private void ChangePressState(object sender)
+        => ChangePressState((TextButton) sender);
+    
+    private void ChangePressState(TextButton button)
     {
-        TextButton button = (TextButton) sender;
-
         string text = button.Text.ToString();
         switch (text)
         {

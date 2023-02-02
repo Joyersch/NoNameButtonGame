@@ -30,6 +30,9 @@ public class StateButton : EmptyButton
 
     TextBuilder textContainer;
 
+    public StateButton(Vector2 position, int states) : this(position, DefaultSize, states)
+    {
+    }
 
     public StateButton(Vector2 position, Vector2 size, int states) : base(position, size)
     {
@@ -51,7 +54,7 @@ public class StateButton : EmptyButton
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
             {
                 CurrentStates--;
-                if (CurrentStates <= 0)InvokeClickEventHandler();
+                if (CurrentStates <= 0) InvokeClickEventHandler();
             }
         }
         else if (_hover)

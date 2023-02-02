@@ -28,14 +28,10 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             stateButton = new StateButton(new Vector2(-64, -32), new Vector2(128, 64),100) {
                 DrawColor = Color.White,
             };
-            stateButton.ClickEventHandler += BtnEvent;
+            stateButton.ClickEventHandler += Finish;
             Name = "Level 15 - Back to the roots!";
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             infoText = new TextBuilder("THiS AGAIN!", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
-        }
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish();
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

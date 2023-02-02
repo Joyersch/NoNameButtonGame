@@ -39,25 +39,22 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             WallRight = new Laserwall(new Vector2(96, -512), new Vector2(420, 1024));
             WallButtom = new Laserwall(new Vector2(-512, 96), new Vector2(1024, 1024));
             Block = new Laserwall(new Vector2(-256, 32), new Vector2(64, 64));
-            WallRight.EnterEventHandler += CallFail;
-            WallLeft.EnterEventHandler += CallFail;
-            WallButtom.EnterEventHandler += CallFail;
-            Block.EnterEventHandler += CallFail;
+            WallRight.EnterEventHandler += Fail;
+            WallLeft.EnterEventHandler += Fail;
+            WallButtom.EnterEventHandler += Fail;
+            Block.EnterEventHandler += Fail;
             lockedButton = new LockWinButton(new Vector2(-32, -128), new Vector2(64, 32), true);
-            lockedButton.ClickEventHandler += CallFinish;
+            lockedButton.ClickEventHandler += Finish;
             unlockButton = new HoldButton(new Vector2(-32, 48), new Vector2(64, 32)) {
                 EndHoldTime = 10000
             };
             unlockButton.ClickEventHandler += UnlockBtn;
         }
 
-        private void UnlockBtn(object sender, EventArgs e) {
+        private void UnlockBtn(object sender) {
             lockedButton.Locked = false;
         }
 
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             lockedButton.Draw(spriteBatch);
             unlockButton.Draw(spriteBatch);

@@ -28,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 16 - ???";
             longText = new TextBuilder[15];
             finishButton = new EmptyButton(new Vector2(-(defaultWidth / Camera.Zoom / 2), -(defaultHeight / Camera.Zoom / 2)), new Vector2(4, 2));
-            finishButton.ClickEventHandler += CallFinish;
+            finishButton.ClickEventHandler += Finish;
             longText[0] = new TextBuilder("So this again.... what happened... did the creator go even more", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             longText[1] = new TextBuilder("lazy? now he is just repeating levels. i bet he just used some", new Vector2(0, 0), new Vector2(8, 8), null, 0);
             longText[2] = new TextBuilder("sort of randomizer like random.org to mix the levels and makes them", new Vector2(0, 0), new Vector2(8, 8), null, 0);
@@ -74,13 +74,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
 
         }
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish(sender, e);
-        }
-        private void WallEvent(object sender, EventArgs e) {
-            CallExit(sender, e);
-        }
+        
         public override void Draw(SpriteBatch spriteBatch) {
             finishButton.Draw(spriteBatch);
             for (int i = 0; i < longText.Length; i++) {

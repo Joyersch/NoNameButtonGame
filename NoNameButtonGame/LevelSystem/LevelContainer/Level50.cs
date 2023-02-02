@@ -28,17 +28,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new StateWinButton(new Vector2(-64, -32), new Vector2(128, 64), 1337) {
                 DrawColor = Color.White,
             };
-            button.ClickEventHandler += BtnEvent;
+            button.ClickEventHandler += Finish;
             Name = "Level 50 - It's finaly over";
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("NO HELP THIS TIME", new Vector2(-128, -0), new Vector2(16, 16), null, 0);
         }
 
-
-
-        private void BtnEvent(object sender, EventArgs e) {
-            CallFinish();
-        }
         public override void Draw(SpriteBatch spriteBatch) {
             Info.Draw(spriteBatch);
             button.Draw(spriteBatch);

@@ -80,14 +80,8 @@ class LevelManager
 
         if (InputReaderKeyboard.CheckKey(Microsoft.Xna.Framework.Input.Keys.Escape, true))
         {
-            level.CallExit();
+            level.Exit();
         }
-
-        if (false)
-            ChangeWindowName((_currentLevel ?? new SampleLevel((int) _display.DefaultWidth,
-                    (int) _display.DefaultHeight,
-                    _storage.Settings.Resolution.ToVertor2(), _random)
-                {Name = "NoNameButtonGame"}).Name);
 
         level.Update(gameTime);
     }
@@ -161,11 +155,12 @@ class LevelManager
             48 => new Level48(width, height, screen, _random),
             49 => new Level49(width, height, screen, _random),
             50 => new Level50(width, height, screen, _random),
-            _ => new LevelNULL(width, height, screen, _random),
+            _ => new LevelNull(width, height, screen, _random),
         };
         _currentLevel.FinishEventHandler += LevelFinish;
         _currentLevel.FailEventHandler += LevelFail;
         _currentLevel.ExitEventHandler += LevelExitEventHandler;
+        ChangeWindowName?.Invoke(_currentLevel.Name);
     }
 
 
@@ -177,7 +172,7 @@ class LevelManager
         _state = MenuState.Level;
     }
 
-    private void LevelFinish(object sender, EventArgs e)
+    private void LevelFinish()
     {
         if (fromSelect)
         {
@@ -193,35 +188,37 @@ class LevelManager
         SelectLevel(currentSelectLevel + 1);
     }
 
-    private void LevelFail(object sender, EventArgs e)
+    private void LevelFail()
+        => SelectLevel(currentSelectLevel);
+
+    private void LevelExitEventHandler()
     {
         if (fromSelect)
         {
             fromSelect = false;
             _state = MenuState.LevelSelect;
-            return;
-        }
-
-        SelectLevel(currentSelectLevel + 1);
-    }
-
-    private void LevelExitEventHandler(object sender, EventArgs e)
-    {
-        if (fromSelect)
-        {
-            fromSelect = false;
-            _state = MenuState.LevelSelect;
+            ChangeWindowName?.Invoke(_levelSelect.Name);
             return;
         }
 
         _state = MenuState.StartMenu;
+        ChangeWindowName?.Invoke(_startMenu.Name);
     }
+
+    private void StartMenuOnExitEventHandler(object sender)
+        => StartMenuOnExitEventHandler();
 
     private void StartMenuOnExitEventHandler()
         => CloseGameEventHandler?.Invoke();
 
+    private void StartMenuOnSettingsEventHandler(object sender)
+        => StartMenuOnSettingsEventHandler();
+
     private void StartMenuOnSettingsEventHandler()
         => _state = MenuState.Settings;
+
+    private void StartMenuOnSelectEventHandler(object sender)
+        => StartMenuOnSelectEventHandler();
 
     private void StartMenuOnSelectEventHandler()
     {
@@ -229,20 +226,29 @@ class LevelManager
         _state = MenuState.LevelSelect;
     }
 
+    private void StartMenuOnStartEventHandler(object sender)
+        => StartMenuOnStartEventHandler();
+
     private void StartMenuOnStartEventHandler()
     {
         SelectLevel(_storage.GameData.MaxLevel + 1);
         _state = MenuState.Level;
     }
 
-    private void SettingsOnExitEventHandler(object sender, EventArgs e)
-        => _state = MenuState.StartMenu;
+    private void SettingsOnExitEventHandler()
+    {
+        _state = MenuState.StartMenu;
+        ChangeWindowName?.Invoke(_settings.Name);
+    }
 
-    private void LevelSelectOnExitEventHandler(object sender, EventArgs e)
-        => _state = MenuState.StartMenu;
+    private void LevelSelectOnExitEventHandler()
+    {
+        _state = MenuState.StartMenu;
+        ChangeWindowName?.Invoke(_levelSelect.Name);
+    }
 
-    private void SettingsOnWindowsResizeEventHandler(Vector2 obj)
-        => _startMenu.Window = obj;
+    private void SettingsOnWindowsResizeEventHandler(Vector2 newSize)
+        => _startMenu.Window = newSize;
 
     private void InitializeLevelSelect()
     {
@@ -250,5 +256,6 @@ class LevelManager
             _storage.Settings.Resolution.ToVertor2(), _random, _storage);
         _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
         _levelSelect.LevelSelectedEventHandler += LevelSelected;
+        ChangeWindowName?.Invoke(_levelSelect.Name);
     }
 }

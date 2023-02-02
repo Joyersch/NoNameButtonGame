@@ -39,14 +39,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         }
 
-        private void BtnEvent(object sender, EventArgs e) {
+        private void BtnEvent(object sender) {
 
-            if (RightAwnsers[Awnsered] != int.Parse((sender as TextButton).Name) && RightAwnsers[Awnsered] != -1) {
-                CallFail(this, e);
+            if (RightAwnsers[Awnsered] != 0 && RightAwnsers[Awnsered] != -1) {
+                Fail();
             } else {
                 Awnsered++;
                 if (Awnsered == RightAwnsers.Length)
-                    CallFinish(this, e);
+                    Finish();
                 else {
                     switch (Awnsered) {
                         case 1:
