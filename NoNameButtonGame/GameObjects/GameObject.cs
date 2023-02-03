@@ -26,6 +26,8 @@ public class GameObject : IHitbox
     protected Rectangle[] _hitboxes;
     protected Vector2 _scale;
 
+    public Vector2 Scale => _scale;
+
     public Rectangle[] Hitbox => _hitboxes;
 
     public GameObject(Vector2 position, Vector2 size)
@@ -51,13 +53,13 @@ public class GameObject : IHitbox
     {
         throw new Exception();
     }
-    
+
     public virtual void Update(GameTime gameTime)
     {
         CalculateHitboxes();
-        rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
+        UpdateRectangle();
     }
-    
+
     public virtual void Draw(SpriteBatch spriteBatch)
     {
         if (ImageLocation == new Rectangle(0, 0, 0, 0))
@@ -65,6 +67,9 @@ public class GameObject : IHitbox
         else
             spriteBatch.Draw(Texture, rectangle, ImageLocation, DrawColor);
     }
+
+    protected void UpdateRectangle()
+        => rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
 
     public bool HitboxCheck(Rectangle compareTo)
         => Hitbox.Any(h => h.Intersects(compareTo));

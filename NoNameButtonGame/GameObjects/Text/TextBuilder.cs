@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
@@ -29,7 +30,7 @@ public class TextBuilder
     {
     }
 
-    public TextBuilder(string text, Vector2 position) : this(text, position, DefaultLetterSize, 0)
+    public TextBuilder(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
     {
     }
 
@@ -66,20 +67,21 @@ public class TextBuilder
 
     private void CreateLetters(Letter.Character[] characters)
     {
-        _letters = new Letter[characters.Length];
-        int currentStringLength = 0;
-        for (int i = 0; i < characters.Length; i++)
-        {
-            _letters[i] = new Letter(new Vector2(Position.X + currentStringLength, Position.Y), Size,
-                characters[i]);
-            currentStringLength += _letters[i].frameSpace.Width * ((int) Size.X / 8)
-                                   +
-                                   _letters[i].frameSpace.X * ((int) Size.X / 8)
-                                   +
-                                   (spacing + 1) * ((int) Size.X / 8);
+        var letters = new List<Letter>();
+
+        int length = 0;
+        float sizeScale = Size.X / 8;
+        foreach (Letter.Character character in characters)
+        { 
+            var letter = new Letter(new Vector2(length, 0) + Position, Size, character);
+            letter.Position += new Vector2(0, 8F * letter.Scale.Y) - new Vector2(0, letter.rectangle.Height);
+            length += (int) ((letter.frameSpacing.Width + spacing) * sizeScale);
+            letters.Add(letter);
         }
 
-        _inGameLength = currentStringLength;
+        _letters = letters.ToArray();
+        _inGameLength = length;
+        UpdateRectangle();
     }
 
     private Letter.Character[] ParseArray(char[] text)
@@ -88,13 +90,23 @@ public class TextBuilder
     public void Update(GameTime gameTime)
     {
         represent = BuildString(_letters);
-        for (int i = 0; i < _letters.Length; i++)
+        int width = 0;
+        
+        foreach (Letter l in _letters)
         {
-            _letters[i].Update(gameTime);
+            l.Update(gameTime);
         }
+        UpdateRectangle();
+    }
 
-        rectangle = new Rectangle(Position.ToPoint(),
-            new Point(_inGameLength + (spacing + 1) * (_letters.Length - 1), (int) Size.Y));
+    private void UpdateRectangle()
+    {
+        Rectangle combination = Rectangle.Empty;
+        foreach (Letter l in _letters)
+        {
+            Rectangle.Union(ref combination,ref l.rectangle, out combination);
+        }
+        rectangle = combination;
     }
 
     public override string ToString()

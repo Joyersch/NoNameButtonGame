@@ -17,76 +17,51 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 class Level3 : SampleLevel
 {
-    private readonly EmptyButton button;
     private readonly Cursor cursor;
-    private readonly TextBuilder Info;
-    private readonly Rainbow raincolor;
-    private readonly Laserwall[] laserwall;
-    private float gameTime;
+    private TextBuilder test;
+    private TextButton generator;
+    private Random random;
+    private Rainbow rainbow;
 
     public Level3(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)
     {
         Name = "Level 3 - Tutorial time!";
-
-
-        Vector2 clustPos = new Vector2(-250, -150);
-        cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-
-        Info = new TextBuilder("this is bad! ->", new Vector2(-296, -96), new Vector2(16, 16), null, 0);
-        raincolor = new Rainbow
-        {
-            Increment = 32,
-            Speed = 32,
-            Offset = 256
-        };
-        laserwall = new Laserwall[4];
-        button = new WinButton(new Vector2(-64, 96), new Vector2(128, 64))
-        {
-            DrawColor = Color.White,
-        };
-        button.ClickEventHandler += Finish;
-        laserwall[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224));
-        laserwall[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576));
-        laserwall[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576));
-        laserwall[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 24));
-        for (int i = 0; i < laserwall.Length; i++)
-        {
-            laserwall[i].EnterEventHandler += Fail;
-        }
+        random = rand;
+        cursor = new Cursor(Vector2.One);
+        test = new TextBuilder("This is a sentence", new Vector2(-280,-32));
+        generator = new TextButton(new Vector2(-32,0), "gen0", "generate");
+        generator.ClickEventHandler += GeneratorOnClickEventHandler;
+        rainbow = new Rainbow();
+        rainbow.Increment = 64;
+        test.ChangeColor(rainbow.GetColor(test.Length));
     }
-    
+
+    private void GeneratorOnClickEventHandler(object obj)
+    {
+        string text = string.Empty;
+
+        for (int i = 0; i < test.Length; i++)
+        {
+            text += Letter.ReverseParse((Letter.Character) random.Next(0, 62)).ToString();
+        }
+        test.ChangeText(text);
+        test.ChangeColor(rainbow.GetColor(test.Length));
+    }
+
     public override void Update(GameTime gameTime)
     {
-        this.gameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (this.gameTime > 125)
-        {
-            this.gameTime -= 125;
-        }
-
         cursor.Update(gameTime);
-        raincolor.Update(gameTime);
-        Info.ChangeColor(raincolor.GetColor(Info.Text.Length));
-        Info.Update(gameTime);
-        base.Update(gameTime);
-        for (int i = 0; i < laserwall.Length; i++)
-        {
-            laserwall[i].Update(gameTime, cursor.Hitbox[0]);
-        }
-
         cursor.Position = mousePosition - cursor.Size / 2;
-        button.Update(gameTime, cursor.Hitbox[0]);
+        generator.Update(gameTime, cursor.rectangle);
+        test.Update(gameTime);
+        base.Update(gameTime);
     }
-    
+
     public override void Draw(SpriteBatch spriteBatch)
     {
-        button.Draw(spriteBatch);
-        for (int i = 0; i < laserwall.Length; i++)
-        {
-            laserwall[i].Draw(spriteBatch);
-        }
-
-        Info.Draw(spriteBatch);
+        test.Draw(spriteBatch);
+        generator.Draw(spriteBatch);
         cursor.Draw(spriteBatch);
     }
 }

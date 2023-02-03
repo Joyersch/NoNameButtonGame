@@ -26,17 +26,11 @@ class Level2 : SampleLevel
         defaultHeight, window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button type: State";
-        _stateButton = new StateButton(new Vector2(-256, -16), 5);
+        _stateButton = new StateButton(new Vector2(-280, -16), 5);
         _stateButton.ClickEventHandler += Finish;
-        _infoAboutButton = new TextBuilder(
-            "This is a StateButton.",
-            new Vector2(-128,-128));
-        _infoAboutButton2 = new TextBuilder(
-            "Pressing it to lower the number.",
-            new Vector2(-48,0), TextBuilder.DefaultLetterSize / 2F, 0);
-        _infoAboutButton3 = new TextBuilder(
-            "On 0, you win!",
-            new Vector2(-48,16), TextBuilder.DefaultLetterSize / 2F, 0);
+        _infoAboutButton = new TextBuilder("This is a \"StateButton\".", new Vector2(-128, -128));
+        _infoAboutButton2 = new TextBuilder("Press the button to lower the number.", new Vector2(-128, 0));
+        _infoAboutButton3 = new TextBuilder("When it hits 0, you win!", new Vector2(-128, 16));
         _mouseCursor = new Cursor(Vector2.One);
     }
 

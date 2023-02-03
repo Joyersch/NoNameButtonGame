@@ -9,21 +9,22 @@ namespace NoNameButtonGame.Text;
 
 public class Letter : GameObject
 {
-    public Rectangle frameSpace;
+    public Rectangle frameSpacing;
     public Character RepresentingCharacter;
+    private Rectangle drawOffset;
 
     public Letter(Vector2 position, Vector2 size, Character character) : this(position, size, character, Color.White)
     {
     }
 
-    public Letter(Vector2 position, Vector2 size, Character character, Color color): base(position, size)
+    public Letter(Vector2 position, Vector2 size, Character character, Color color) : base(position, size)
     {
         RepresentingCharacter = character;
         UpdateCharacter(character);
         _textureHitboxMapping.Hitboxes = new[]
         {
-            new Rectangle((position + frameSpace.Location.ToVector2()).ToPoint(),
-                (size + frameSpace.Size.ToVector2()).ToPoint())
+            new Rectangle((position + frameSpacing.Location.ToVector2()).ToPoint(),
+                (frameSpacing.Size.ToVector2() * _scale).ToPoint())
         };
         _hitboxes = new Rectangle[1];
     }
@@ -40,86 +41,88 @@ public class Letter : GameObject
 
     public void UpdateCharacter(Character character)
     {
-        frameSpace = GetCharacterSpacing(character);
-        ImageLocation = new Rectangle(new Point((int) character % 5 * 8, (int) character / 5 * 8),
+        frameSpacing = GetCharacterSpacing(character);
+        var inImagePosition = new Rectangle(new Point((int) character % 5 * 8, (int) character / 5 * 8),
             (FrameSize).ToPoint());
+        ImageLocation = new Rectangle(
+            inImagePosition.X + frameSpacing.X
+            , inImagePosition.Y + frameSpacing.Y
+            , frameSpacing.Width
+            , frameSpacing.Height
+        );
+        Size = frameSpacing.Size.ToVector2() * _scale;
+        UpdateRectangle();
         RepresentingCharacter = character;
     }
 
     private static Rectangle GetCharacterSpacing(Character character)
     {
-        switch (character)
+        return character switch
         {
-            case Character.Zero:
-            case Character.One:
-            case Character.Two:
-            case Character.Four:
-            case Character.Five:
-            case Character.Six:
-            case Character.Seven:
-            case Character.Eight:
-            case Character.Nine:
-            case Character.B:
-            case Character.D:
-            case Character.E:
-            case Character.F:
-            case Character.G:
-            case Character.H:
-            case Character.N:
-            case Character.O:
-            case Character.P:
-            case Character.Q:
-            case Character.R:
-            case Character.S:
-            case Character.T:
-            case Character.U:
-            case Character.V:
-            case Character.X:
-            case Character.Y:
-            case Character.Z:
-            case Character.Question:
-                return new Rectangle(1, 0, 5, 7);
-            case Character.A:
-                return new Rectangle(1, 0, 6, 7);
-            case Character.Three:
-            case Character.C:
-            case Character.K:
-            case Character.L:
-                return new Rectangle(1, 0, 4, 7);
-            case Character.I:
-            case Character.Exclamation:
-                return new Rectangle(1, 0, 1, 7);
-            case Character.Dot:
-                return new Rectangle(0, 0, 0, 7);
-            case Character.J:
-            case Character.OpenBracket:
-            case Character.CloseBracket:
-            case Character.Semicolon:
-                return new Rectangle(1, 0, 2, 7);
-            case Character.M:
-               return new Rectangle(2, 0, 4, 7);
-            case Character.W:
-                return new Rectangle(0, 0, 7, 7);
-            case Character.Crossout:
-                return new Rectangle(0, 0, 8, 8);
-            case Character.Slash:
-                return new Rectangle(2, 0, 4, 8);
-            case Character.Minus:
-                return new Rectangle(2, 0, 4, 1);
-            case Character.SmallerAs:
-            case Character.BiggerAs:
-                return new Rectangle(2, 0, 3, 5);
-            case Character.Equal:
-                return new Rectangle(1, 0, 6, 3);
-            case Character.Asterisk:
-            case Character.Plus:
-                return new Rectangle(1, 0, 5, 5);
-            case Character.Down:
-            case Character.Up:
-                return new Rectangle(0, 2, 8, 4);
-            default:
-                return new Rectangle(0, 0, 8, 8);
-        }
+            Character.Zero => new Rectangle(1, 0, 5, 7),
+            Character.One => new Rectangle(1, 0, 4, 7),
+            Character.Two => new Rectangle(1, 0, 5, 7),
+            Character.Three => new Rectangle(1, 0, 4, 7),
+            Character.Four => new Rectangle(1, 0, 5, 7),
+            Character.Five => new Rectangle(1, 0, 6, 7),
+            Character.Six => new Rectangle(1, 0, 5, 7),
+            Character.Seven => new Rectangle(1, 0, 6, 7),
+            Character.Eight => new Rectangle(1, 0, 5, 7),
+            Character.Nine => new Rectangle(1, 0, 5, 7),
+            Character.A => new Rectangle(1, 0, 5, 7),
+            Character.B => new Rectangle(1, 0, 5, 7),
+            Character.C => new Rectangle(1, 0, 4, 7),
+            Character.D => new Rectangle(1, 0, 5, 7),
+            Character.E => new Rectangle(1, 0, 5, 7),
+            Character.F => new Rectangle(1, 0, 5, 7),
+            Character.G => new Rectangle(1, 0, 5, 7),
+            Character.H => new Rectangle(1, 0, 5, 7),
+            Character.I => new Rectangle(1, 0, 1, 7),
+            Character.J => new Rectangle(1, 0, 2, 7),
+            Character.K => new Rectangle(1, 0, 4, 7),
+            Character.L => new Rectangle(1, 0, 4, 7),
+            Character.M => new Rectangle(0, 0, 6, 7),
+            Character.N => new Rectangle(1, 0, 5, 7),
+            Character.O => new Rectangle(1, 0, 5, 7),
+            Character.P => new Rectangle(1, 0, 5, 7),
+            Character.Q => new Rectangle(1, 0, 5, 7),
+            Character.R => new Rectangle(1, 0, 5, 7),
+            Character.S => new Rectangle(1, 0, 5, 7),
+            Character.T => new Rectangle(1, 0, 5, 7),
+            Character.U => new Rectangle(1, 0, 5, 7),
+            Character.V => new Rectangle(1, 0, 5, 7),
+            Character.W => new Rectangle(0, 0, 7, 7),
+            Character.X => new Rectangle(1, 0, 5, 7),
+            Character.Y => new Rectangle(1, 0, 5, 7),
+            Character.Z => new Rectangle(1, 0, 5, 7),
+            Character.Exclamation => new Rectangle(1, 0, 1, 7),
+            Character.Question => new Rectangle(1, 0, 5, 7),
+            Character.Slash => new Rectangle(2, 0, 4, 8),
+            Character.Minus => new Rectangle(2, 4, 4, 4),
+            Character.SmallerAs => new Rectangle(1, 1, 3, 6),
+            Character.Equal => new Rectangle(1, 2, 6, 5),
+            Character.BiggerAs => new Rectangle(2, 1, 3, 6),
+            Character.Asterisk => new Rectangle(1, 1, 5, 6),
+            Character.Plus => new Rectangle(1, 1, 5, 6),
+            Character.Percent => new Rectangle(0, 0, 8, 8),
+            Character.OpenBracket => new Rectangle(1, 0, 2, 7),
+            Character.CloseBracket => new Rectangle(1, 0, 2, 7),
+            Character.Semicolon => new Rectangle(1, 2, 2, 5),
+            Character.Dot => new Rectangle(0, 6, 1, 1),
+            Character.Space => new Rectangle(0, 0, 2, 0),
+            Character.Checkmark => new Rectangle(0, 1, 8, 6),
+            Character.Crossout => new Rectangle(0, 1, 7, 7),
+            Character.Down => new Rectangle(0, 2, 8, 4),
+            Character.Up => new Rectangle(0, 2, 8, 4),
+            Character.Line => new Rectangle(0, 7, 8, 1),
+            Character.DoubleDots => new Rectangle(3, 2, 1, 6),
+            Character.Komma => new Rectangle(2, 4, 2, 3),
+            Character.Left => new Rectangle(2, 0, 4, 8),
+            Character.Right => new Rectangle(2, 0, 4, 8),
+            Character.Parentheses => new Rectangle(1, 0, 5, 8),
+            Character.Backslash => new Rectangle(2, 0, 4, 8),
+            _ => new Rectangle(0, 0, 8, 8)
+        };
     }
 
     public enum Character
@@ -283,7 +286,7 @@ public class Letter : GameObject
             '⬜' => Letter.Character.Full,
             _ => Letter.Character.Full,
         };
-    
+
     public static char ReverseParse(Character character)
         => character switch
         {

@@ -23,14 +23,14 @@ class Level1 : SampleLevel
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)
     {
-        startButton = new StartButton(new Vector2(-64, -32), new Vector2(160, 64))
+        startButton = new StartButton(new Vector2(-80, -32), new Vector2(160, 64))
         {
             DrawColor = Color.White,
         };
         startButton.ClickEventHandler += Finish;
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         Name = "Click the Button!";
-        infoText = new TextBuilder("How hard can it be?", new Vector2(-128, -64), new Vector2(16, 16), null, 0);
+        infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
     }
     
     public override void Update(GameTime gameTime)
