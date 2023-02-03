@@ -36,7 +36,7 @@ public class TextButton : EmptyButton
         Name = name;
     }
 
-    public void Update(GameTime gt, Rectangle MousePos)
+    public override void Update(GameTime gt, Rectangle MousePos)
     {
         Text.Update(gt);
         base.Update(gt, MousePos);
@@ -48,6 +48,6 @@ public class TextButton : EmptyButton
         Text.Draw(spriteBatch);
     }
 
-    public static Vector2 DefaultSize => new Vector2(128, 64);
+    public new static Vector2 DefaultSize => new Vector2(128, 64);
     public static Vector2 DefaultTextSize => new Vector2(16, 16);
 }

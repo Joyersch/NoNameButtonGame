@@ -43,7 +43,7 @@ public class StateButton : EmptyButton
         ammoutStates = states;
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePosition)
+    public override void Update(GameTime gameTime, Rectangle mousePosition)
     {
         bool hover = HitboxCheck(mousePosition);
         if (hover)

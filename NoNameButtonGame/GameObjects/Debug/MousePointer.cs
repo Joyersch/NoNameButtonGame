@@ -9,9 +9,15 @@ public class MousePointer : GameObject
 {
     private Vector2 _mousePositionOffset;
     public Color DrawColor => Color.White;
+    private bool draw = false;
 
-    public MousePointer(Vector2 position, Vector2 size) : base(position, size)
+    public MousePointer(Vector2 position, Vector2 size) : this(position, size, false)
     {
+    }
+
+    public MousePointer(Vector2 position, Vector2 size, bool draw) : base(position, size)
+    {
+        this.draw = draw;
     }
 
     public override void Initialize()
@@ -19,19 +25,19 @@ public class MousePointer : GameObject
         _textureHitboxMapping = Mapping.GetMappingFromCache<MousePointer>();
     }
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime, Vector2 mousePosition)
     {
-        MouseState mouse = Mouse.GetState();
-        _mousePositionOffset = mouse.Position.ToVector2() - new Vector2(3, 3);
+        Position = mousePosition;
+        base.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(_textureHitboxMapping.Texture,
-            new Rectangle((int) _mousePositionOffset.X
-                , (int) _mousePositionOffset.Y
-                , 6
-                , 6)
-            , DrawColor);
+        if (!draw)
+            return;
+
+        spriteBatch.Draw(_textureHitboxMapping.Texture, new Rectangle((int) Position.X - 3, (int) Position.Y - 3, 6, 6),
+            DrawColor);
+        base.Draw(spriteBatch);
     }
 }

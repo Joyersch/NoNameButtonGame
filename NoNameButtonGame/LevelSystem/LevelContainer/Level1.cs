@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
@@ -19,6 +21,8 @@ class Level1 : SampleLevel
     private readonly StartButton startButton;
     private readonly Cursor mouseCursor;
     private readonly TextBuilder infoText;
+    private readonly GameObjectLinker gameObjectLinker;
+    private readonly MousePointer mouse;
 
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)
@@ -29,14 +33,18 @@ class Level1 : SampleLevel
         };
         startButton.ClickEventHandler += Finish;
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
+        mouse = new MousePointer(Vector2.One, Vector2.One);
         Name = "Click the Button!";
         infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
+        gameObjectLinker = new GameObjectLinker();
+        gameObjectLinker.Add(mouse, mouseCursor);
     }
     
     public override void Update(GameTime gameTime)
     {
+        mouse.Update(gameTime, mousePosition);
+        gameObjectLinker.Update(gameTime);
         mouseCursor.Update(gameTime);
-        mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
         startButton.Update(gameTime, mouseCursor.Hitbox[0]);
         infoText.Update(gameTime);
         base.Update(gameTime);

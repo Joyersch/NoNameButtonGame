@@ -69,7 +69,7 @@ public class NoNameGame : Game
         }
 
         _display = new(GraphicsDevice);
-        _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero);
+        _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, ShowActualMousePos);
 
         levelManager = new LevelManager(_display, _storage);
         levelManager.ChangeWindowName += ChangeTitle;
@@ -84,6 +84,7 @@ public class NoNameGame : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        
         Mapping.AddMappingToCache(typeof(Cursor), Content.GetHitboxMapping("cursor"));
         Mapping.AddMappingToCache(typeof(MousePointer), Content.GetHitboxMapping("mousepoint"));
         Mapping.AddMappingToCache(typeof(EmptyButton), Content.GetHitboxMapping("emptybutton"));
@@ -102,7 +103,8 @@ public class NoNameGame : Game
     {
         base.Update(gameTime);
 
-        _mousePointer.Update(gameTime);
+        MouseState mouse = Mouse.GetState();
+        _mousePointer.Update(gameTime, mouse.Position.ToVector2());
 
         _display.Update(gameTime);
 
