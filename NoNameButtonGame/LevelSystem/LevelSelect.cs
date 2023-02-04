@@ -13,9 +13,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
     class LevelSelect : SampleLevel
     {
-        readonly List<TextButton> _level;
-        readonly List<TextButton> _down;
-        readonly List<TextButton> _up;
+        readonly List<MiniTextButton> _level;
+        readonly List<MiniTextButton> _down;
+        readonly List<MiniTextButton> _up;
         readonly Cursor mouseCursor;
         public event Action<int> LevelSelectedEventHandler;
         bool isInMove = false;
@@ -31,14 +31,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
             int maxLevel = storage.GameData.MaxLevel;
             int screens = maxLevel / 30;
-            _level = new List<TextButton>();
-            _down = new List<TextButton>();
-            _up = new List<TextButton>();
+            _level = new List<MiniTextButton>();
+            _down = new List<MiniTextButton>();
+            _up = new List<MiniTextButton>();
 
 
             for (int i = 0; i < screens; i++)
             {
-                var down = new TextButton(
+                var down = new MiniTextButton(
                     new Vector2(-300, 138 + (defaultHeight / Camera.Zoom) * i)
                     , new Vector2(64, 32)
                     , ""
@@ -62,7 +62,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
             for (int i = 0; i < maxLevel; i++)
             {
-                var levelButton = new TextButton(
+                var levelButton = new MiniTextButton(
                     new Vector2(-200 + 100 * (i % 5), -140 + 50 * (i / 5) + 60 * (i / 30))
                     , new Vector2(64, 32)
                     , (i + 1).ToString()
@@ -77,7 +77,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         private void SelectLevel(object sender)
             => LevelSelectedEventHandler?.Invoke(
-                _level.IndexOf((TextButton) sender) + 1 /*Index starts with 0 naming starts with 1*/);
+                _level.IndexOf((MiniTextButton) sender) + 1 /*Index starts with 0 naming starts with 1*/);
 
         private void MoveDown(object sender)
         {
@@ -95,7 +95,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            // Note: foreach is lower to run than for but as there aren't that many levels yet this should be fine
+            // Note: foreach is slower to run than for but as there aren't that many levels yet this should be fine
             foreach (var levelButton in _level)
             {
                 if (levelButton.rectangle.Intersects(cameraRectangle))

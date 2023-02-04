@@ -33,22 +33,22 @@ class SettingsScreen : SampleLevel
         if (storage.Settings.IsFullscreen)
             s2 = "✔";
         Name = "Start Menu";
-        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        fixedStep = new TextBuilder("FPS-Limit", new Vector2(-64, -0), new Vector2(16, 16), null, 0);
-        Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64), new Vector2(16, 16), null, 0);
-        Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64), new Vector2(16, 16), null, 0);
+        mouseCursor = new Cursor(Vector2.Zero, new Vector2(7, 10));
+        fixedStep = new TextBuilder("FPS-Limit", new Vector2(-64, -0));
+        Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64));
+        Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64));
         resolutionButton = new TextButton[2];
-        resolutionButton[0] = new MiniTextButton(new Vector2(64, -72), new Vector2(40, 32), ">", ">", new Vector2(16, 16));
+        resolutionButton[0] = new MiniTextButton(new Vector2(64, -72), new Vector2(40, 32), ">", ">", MiniTextButton.DefaultTextSize);
         resolutionButton[1] = new MiniTextButton(new Vector2(-108, -72), new Vector2(40, 32),
-             "<", "<", new Vector2(16, 16));
+             "<", "<", MiniTextButton.DefaultTextSize);
         resolutionButton[0].ClickEventHandler += ChangeResolution;
         resolutionButton[1].ClickEventHandler += ChangeResolution;
         fixedStepButton = new MiniTextButton(new Vector2(-108, -8), new Vector2(40, 32),
-             "IsFixedStep", s1, new Vector2(16, 16));
+             "IsFixedStep", s1, MiniTextButton.DefaultTextSize);
         fixedStepButton.Text.ChangeColor(new Color[1] {s1 == "❌" ? Color.Red : Color.Green});
         fixedStepButton.ClickEventHandler += ChangePressState;
         fullscreenButton = new MiniTextButton(new Vector2(-108, 56), new Vector2(40, 32),
-             "Fullscreen", s2, new Vector2(16, 16));
+             "Fullscreen", s2, MiniTextButton.DefaultTextSize);
         fullscreenButton.Text.ChangeColor(new Color[1] {s2 == "❌" ? Color.Red : Color.Green});
         fullscreenButton.ClickEventHandler += ChangePressState;
         vectorResolution = window;

@@ -72,7 +72,7 @@ public class TextBuilder
         int length = 0;
         float sizeScale = Size.X / 8;
         foreach (Letter.Character character in characters)
-        { 
+        {
             var letter = new Letter(new Vector2(length, 0) + Position, Size, character);
             letter.Position += new Vector2(0, 8F * letter.Scale.Y) - new Vector2(0, letter.rectangle.Height);
             length += (int) ((letter.frameSpacing.Width + spacing) * sizeScale);
@@ -91,11 +91,12 @@ public class TextBuilder
     {
         represent = BuildString(_letters);
         int width = 0;
-        
+
         foreach (Letter l in _letters)
         {
             l.Update(gameTime);
         }
+
         UpdateRectangle();
     }
 
@@ -104,8 +105,12 @@ public class TextBuilder
         Rectangle combination = Rectangle.Empty;
         foreach (Letter l in _letters)
         {
-            Rectangle.Union(ref combination,ref l.rectangle, out combination);
+            if (combination.IsEmpty)
+                combination = l.rectangle;
+            else
+                Rectangle.Union(ref combination, ref l.rectangle, out combination);
         }
+
         rectangle = combination;
     }
 

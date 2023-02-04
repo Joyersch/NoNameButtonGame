@@ -40,6 +40,7 @@ public class TextButton : EmptyButton
     {
         Text.Update(gt);
         base.Update(gt, MousePos);
+        Text.ChangePosition(rectangle.Center.ToVector2() - Text.rectangle.Size.ToVector2() / 2);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -47,6 +48,7 @@ public class TextButton : EmptyButton
         base.Draw(spriteBatch);
         Text.Draw(spriteBatch);
     }
+    
 
     public new static Vector2 DefaultSize => new Vector2(128, 64);
     public static Vector2 DefaultTextSize => new Vector2(16, 16);

@@ -102,7 +102,7 @@ public class NoNameGame : Game
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-
+        Console.SetCursorPosition(0,1);
         MouseState mouse = Mouse.GetState();
         _mousePointer.Update(gameTime, mouse.Position.ToVector2());
 
