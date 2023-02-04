@@ -20,6 +20,11 @@ class SettingsScreen : SampleLevel
     readonly TextButton fixedStepButton;
     readonly TextButton fullscreenButton;
     private Storage storage;
+
+    private readonly string crossout = Letter.ReverseParse(Letter.Character.Crossout).ToString();
+    private readonly string checkmark = Letter.ReverseParse(Letter.Character.Checkmark).ToString();
+    private readonly string left = Letter.ReverseParse(Letter.Character.Left).ToString();
+    private readonly string right = Letter.ReverseParse(Letter.Character.Right).ToString();
     Vector2 vectorResolution;
     public event Action<Vector2> WindowsResizeEventHandler;
 
@@ -27,29 +32,29 @@ class SettingsScreen : SampleLevel
         defaultWidth, defaultHeight, window, rand)
     {
         this.storage = storage;
-        string s1 = "❌", s2 = "❌";
+        string settingOne = crossout, settingTwo = crossout;
         if (storage.Settings.IsFixedStep)
-            s1 = "✔";
+            settingOne = checkmark;
         if (storage.Settings.IsFullscreen)
-            s2 = "✔";
+            settingTwo = checkmark;
         Name = "Start Menu";
         mouseCursor = new Cursor(Vector2.Zero, new Vector2(7, 10));
-        fixedStep = new TextBuilder("FPS-Limit", new Vector2(-64, -0));
-        Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-64, -64));
-        Fullscreen = new TextBuilder("Fullscreen", new Vector2(-64, 64));
+        fixedStep = new TextBuilder("FPS-Limit", new Vector2(-60, -0));
+        Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-60, -64));
+        Fullscreen = new TextBuilder("Fullscreen", new Vector2(-60, 64));
         resolutionButton = new TextButton[2];
-        resolutionButton[0] = new MiniTextButton(new Vector2(64, -72), new Vector2(40, 32), ">", ">", MiniTextButton.DefaultTextSize);
+        resolutionButton[0] = new MiniTextButton(new Vector2(50, -72), new Vector2(40, 32), right, right, MiniTextButton.DefaultTextSize);
         resolutionButton[1] = new MiniTextButton(new Vector2(-108, -72), new Vector2(40, 32),
-             "<", "<", MiniTextButton.DefaultTextSize);
+             left, left, MiniTextButton.DefaultTextSize);
         resolutionButton[0].ClickEventHandler += ChangeResolution;
         resolutionButton[1].ClickEventHandler += ChangeResolution;
         fixedStepButton = new MiniTextButton(new Vector2(-108, -8), new Vector2(40, 32),
-             "IsFixedStep", s1, MiniTextButton.DefaultTextSize);
-        fixedStepButton.Text.ChangeColor(new Color[1] {s1 == "❌" ? Color.Red : Color.Green});
+             "IsFixedStep", settingOne, MiniTextButton.DefaultTextSize);
+        fixedStepButton.Text.ChangeColor(new Color[1] {settingOne == crossout ? Color.Red : Color.Green});
         fixedStepButton.ClickEventHandler += ChangePressState;
         fullscreenButton = new MiniTextButton(new Vector2(-108, 56), new Vector2(40, 32),
-             "Fullscreen", s2, MiniTextButton.DefaultTextSize);
-        fullscreenButton.Text.ChangeColor(new Color[1] {s2 == "❌" ? Color.Red : Color.Green});
+             "Fullscreen", settingTwo, MiniTextButton.DefaultTextSize);
+        fullscreenButton.Text.ChangeColor(new Color[1] {settingTwo == crossout ? Color.Red : Color.Green});
         fullscreenButton.ClickEventHandler += ChangePressState;
         vectorResolution = window;
     }
@@ -60,7 +65,7 @@ class SettingsScreen : SampleLevel
     
     private void ChangeResolution(TextButton button)
     {
-        if (button.Name == ">")
+        if (button.Name == right)
         {
             vectorResolution = (vectorResolution.X + "x" + vectorResolution.Y) switch
             {
@@ -72,7 +77,7 @@ class SettingsScreen : SampleLevel
             };
         }
 
-        if (button.Name == "<")
+        if (button.Name == left)
         {
             vectorResolution = (vectorResolution.X + "x" + vectorResolution.Y) switch
             {
@@ -98,20 +103,20 @@ class SettingsScreen : SampleLevel
     private void ChangePressState(TextButton button)
     {
         string text = button.Text.ToString();
-        switch (text)
+        switch (Letter.Parse(text[0]))
         {
-            case "❌":
-                button.Text.ChangeText("✔");
+            case Letter.Character.Crossout:
+                button.Text.ChangeText(checkmark);
                 button.Text.ChangeColor(new[] {Color.Green});
                 break;
-            case "✔":
-                button.Text.ChangeText("❌");
+            case Letter.Character.Checkmark:
+                button.Text.ChangeText(crossout);
                 button.Text.ChangeColor(new[] {Color.Red});
                 break;
         }
 
-        storage.Settings.IsFixedStep = fixedStepButton.Text.Text == "✔";
-        storage.Settings.IsFullscreen = fullscreenButton.Text.Text == "✔";
+        storage.Settings.IsFixedStep = fixedStepButton.Text.Text == checkmark;
+        storage.Settings.IsFullscreen = fullscreenButton.Text.Text == checkmark;
     }
 
     public override void Update(GameTime gameTime)

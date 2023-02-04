@@ -110,7 +110,7 @@ public class Letter : GameObject
             Character.Semicolon => new Rectangle(1, 2, 2, 5),
             Character.Dot => new Rectangle(0, 6, 1, 1),
             Character.Space => new Rectangle(0, 0, 2, 0),
-            Character.Checkmark => new Rectangle(0, 1, 8, 6),
+            Character.Checkmark => new Rectangle(0, 1, 8, 7),
             Character.Crossout => new Rectangle(0, 1, 7, 7),
             Character.Down => new Rectangle(0, 2, 8, 6),
             Character.Up => new Rectangle(0, 2, 8, 6),
