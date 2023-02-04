@@ -6,17 +6,21 @@ using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 class StartScreen : SampleLevel
 {
-    readonly StartButton startButton;
-    readonly SettingsButton settingsButton;
-    readonly SelectButton selectLevelButton;
-    readonly ExitButton exitButton;
-    readonly Cursor mouseCursor;
+    private readonly StartButton startButton;
+    private readonly SettingsButton settingsButton;
+    private readonly SelectButton selectLevelButton;
+    private readonly ExitButton exitButton;
+    private readonly Cursor mouseCursor;
+    private readonly MousePointer mousePointer;
+    private readonly GameObjectLinker linker;
 
     public event Action<object> StartEventHandler;
     public event Action<object> SelectEventHandler;
@@ -37,6 +41,9 @@ class StartScreen : SampleLevel
         settingsButton.ClickEventHandler += SettingsButtonPressed;
         exitButton = new ExitButton(new Vector2(-52, Startpos + 64 * 3), new Vector2(136, 64));
         exitButton.ClickEventHandler += ExitButtonPressed;
+        mousePointer = new MousePointer();
+        linker = new GameObjectLinker();
+        linker.Add(mousePointer, mouseCursor);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -55,7 +62,8 @@ class StartScreen : SampleLevel
         settingsButton.Update(gameTime, mouseCursor.Hitbox[0]);
         selectLevelButton.Update(gameTime, mouseCursor.Hitbox[0]);
         exitButton.Update(gameTime, mouseCursor.Hitbox[0]);
-        mouseCursor.Position = mousePosition;
+        mousePointer.Update(gameTime, mousePosition);
+        linker.Update(gameTime);
         mouseCursor.Update(gameTime);
     }
 

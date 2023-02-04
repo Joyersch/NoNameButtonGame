@@ -7,16 +7,20 @@ using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
     class LevelSelect : SampleLevel
     {
-        readonly List<MiniTextButton> _level;
-        readonly List<MiniTextButton> _down;
-        readonly List<MiniTextButton> _up;
-        readonly Cursor mouseCursor;
+        private readonly List<MiniTextButton> _level;
+        private readonly List<MiniTextButton> _down;
+        private readonly List<MiniTextButton> _up;
+        private readonly Cursor mouseCursor;
+        private readonly MousePointer mousePointer;
+        private readonly GameObjectLinker linker;
         public event Action<int> LevelSelectedEventHandler;
         bool isInMove = false;
         bool moveUp = false;
@@ -28,7 +32,10 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level Selection";
 
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-
+            mousePointer = new MousePointer();
+            linker = new GameObjectLinker();
+            linker.Add(mousePointer, mouseCursor);
+            
             int maxLevel = storage.GameData.MaxLevel;
             int screens = maxLevel / 30;
             _level = new List<MiniTextButton>();
@@ -146,10 +153,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     }
                 }
             }
-
+            
+            mousePointer.Update(gameTime, mousePosition);
+            linker.Update(gameTime);
             mouseCursor.Update(gameTime);
-            mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
-
+            
             // Note: foreach is lower to run than for but as there aren't that many levels yet this should be fine
             foreach (var levelButton in _level)
             {

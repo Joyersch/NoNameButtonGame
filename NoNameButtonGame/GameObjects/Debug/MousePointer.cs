@@ -11,6 +11,10 @@ public class MousePointer : GameObject
     public Color DrawColor => Color.White;
     private bool draw = false;
 
+    public MousePointer() : this(Vector2.Zero, Vector2.Zero)
+    {
+    }
+    
     public MousePointer(Vector2 position, Vector2 size) : this(position, size, false)
     {
     }

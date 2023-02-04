@@ -33,7 +33,7 @@ class Level1 : SampleLevel
         };
         startButton.ClickEventHandler += Finish;
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        mouse = new MousePointer(Vector2.One, Vector2.One);
+        mouse = new MousePointer();
         Name = "Click the Button!";
         infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
         gameObjectLinker = new GameObjectLinker();
@@ -42,12 +42,12 @@ class Level1 : SampleLevel
     
     public override void Update(GameTime gameTime)
     {
+        base.Update(gameTime);
         mouse.Update(gameTime, mousePosition);
         gameObjectLinker.Update(gameTime);
         mouseCursor.Update(gameTime);
         startButton.Update(gameTime, mouseCursor.Hitbox[0]);
         infoText.Update(gameTime);
-        base.Update(gameTime);
     }
     
     public override void Draw(SpriteBatch spriteBatch)
