@@ -17,19 +17,18 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level18 : SampleLevel
+    internal class Level18 : SampleLevel
     {
+        private readonly Cursor mouseCursor;
+        private readonly Laserwall WallLeft;
+        private readonly Laserwall WallRight;
+        private readonly Laserwall WallButtom;
 
-        readonly Cursor mouseCursor;
-        readonly Laserwall WallLeft;
-        readonly Laserwall WallRight;
-        readonly Laserwall WallButtom;
-
-        readonly Laserwall Block;
-        readonly LockButton lockedButton;
-        readonly HoldButton unlockButton;
-        float gameTimeMoveBlock;
-        bool MoveLeft = false;
+        private readonly Laserwall Block;
+        private readonly LockButton lockedButton;
+        private readonly HoldButton unlockButton;
+        private float gameTimeMoveBlock;
+        private bool MoveLeft = false;
 
         public Level18(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 18 - oh no";
@@ -52,7 +51,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         }
 
         private void UnlockBtn(object sender) {
-            lockedButton.Locked = false;
+            lockedButton.Unlock();
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

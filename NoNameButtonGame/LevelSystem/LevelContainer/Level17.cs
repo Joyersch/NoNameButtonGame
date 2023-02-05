@@ -18,16 +18,15 @@ using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level17 : SampleLevel
+    internal class Level17 : SampleLevel
     {
-
-        readonly EmptyButton finishButton;
-        readonly Cursor mouseCursor;
-        readonly TextBuilder Info;
-        readonly Rainbow rainbowColorTransition;
-        readonly Laserwall[] laserWalls;
-        float gameTimeMoveWalls;
-        bool Left;
+        private readonly EmptyButton finishButton;
+        private readonly Cursor mouseCursor;
+        private readonly TextBuilder Info;
+        private readonly Rainbow rainbowColorTransition;
+        private readonly Laserwall[] laserWalls;
+        private float gameTimeMoveWalls;
+        private bool Left;
         public Level17(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 17 - Tutorial time?";
 
@@ -39,7 +38,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Info = new TextBuilder("this is still bad! ->", new Vector2(-296, -96), new Vector2(16, 16), null, 0);
             rainbowColorTransition = new Rainbow {
                 Increment = 32,
-                Speed = 32,
+                GameTimeStepInterval = 32,
                 Offset = 256
             };
             laserWalls = new Laserwall[4];

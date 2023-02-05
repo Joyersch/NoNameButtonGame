@@ -11,7 +11,7 @@ using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.LevelSystem;
 
-class LevelManager
+internal class LevelManager
 {
     private SampleLevel _currentLevel;
     private StartScreen _startMenu;
@@ -27,7 +27,7 @@ class LevelManager
     private bool fromSelect = false;
     public event Action CloseGameEventHandler;
 
-    enum MenuState
+    private enum MenuState
     {
         Settings,
         StartMenu,
@@ -157,7 +157,7 @@ class LevelManager
             50 => new Level50(width, height, screen, _random),
             _ => new LevelNull(width, height, screen, _random),
         };
-        _currentLevel.FinishEventHandler += LevelFinish;
+        _currentLevel.FinishEventHandler += LevelFinish;    
         _currentLevel.FailEventHandler += LevelFail;
         _currentLevel.ExitEventHandler += LevelExitEventHandler;
         ChangeWindowName?.Invoke(_currentLevel.Name);

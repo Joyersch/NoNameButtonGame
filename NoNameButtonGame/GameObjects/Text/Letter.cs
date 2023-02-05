@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
@@ -190,6 +191,9 @@ public class Letter : GameObject
         Right,
         Parentheses,
         Backslash,
+        LockLocked,
+        LockUnlocked,
+        AmongUsBean
     }
 
     public static Letter.Character Parse(char character)
@@ -284,6 +288,9 @@ public class Letter : GameObject
             '\"' => Letter.Character.Parentheses,
             '\\' => Letter.Character.Backslash,
             '⬜' => Letter.Character.Full,
+            '\u229E' => Letter.Character.LockLocked,
+            '\u229F' => Letter.Character.LockUnlocked,
+            'ඞ' => Letter.Character.AmongUsBean,
             _ => Letter.Character.Full,
         };
 
@@ -353,5 +360,9 @@ public class Letter : GameObject
             Letter.Character.Parentheses => '\"',
             Letter.Character.Backslash => '\\',
             Letter.Character.Full => '⬜',
+            Letter.Character.LockLocked => '\u229E',
+            Letter.Character.LockUnlocked => '\u229F',
+            Letter.Character.AmongUsBean => 'ඞ',
+            _ => '⬜'
         };
 }

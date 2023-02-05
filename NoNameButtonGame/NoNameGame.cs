@@ -97,6 +97,7 @@ public class NoNameGame : Game
         Mapping.AddMappingToCache(typeof(MiniTextButton), Content.GetHitboxMapping("minibutton"));
         Mapping.AddMappingToCache(typeof(Letter), Content.GetHitboxMapping("font"));
         Mapping.AddMappingToCache(typeof(DontTouch), Content.GetHitboxMapping("zonenew"));
+        Mapping.AddMappingToCache(typeof(ButtonLock), Content.GetHitboxMapping("placeholder"));
     }
 
     protected override void Update(GameTime gameTime)

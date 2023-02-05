@@ -8,24 +8,23 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level20 : SampleLevel
+    internal class Level20 : SampleLevel
     {
+        private readonly TextButton[] bobIt;
+        private readonly Cursor mouseCursor;
+        private readonly TextBuilder[] Marker;
+        private EmptyButton startButton;
+        private readonly Random globalRandom;
 
-        readonly TextButton[] bobIt;
-        readonly Cursor mouseCursor;
-        readonly TextBuilder[] Marker;
-        EmptyButton startButton;
-        readonly Random globalRandom;
+        private readonly int sequenzLength = 7;
+        private bool PlayingSequenz = false;
+        private string CurrentSequenz;
+        private string Sequenz;
+        private int currentSequenzAmmount = 1;
+        private int playedSequenz;
 
-        readonly int sequenzLength = 7;
-        bool PlayingSequenz = false;
-        string CurrentSequenz;
-        string Sequenz;
-        int currentSequenzAmmount = 1;
-        int playedSequenz;
-        
-        float SSGT;
-        bool Display = false;
+        private float SSGT;
+        private bool Display = false;
         public Level20(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 20 - I HATE THIS LEVEL MORE";
             bobIt = new TextButton[5];

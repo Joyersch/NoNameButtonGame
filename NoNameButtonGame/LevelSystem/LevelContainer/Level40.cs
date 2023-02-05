@@ -17,30 +17,29 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level40 : SampleLevel
+    internal class Level40 : SampleLevel
     {
+        private readonly EmptyButton button;
+        private readonly Cursor cursor;
+        private readonly Laserwall wallup;
+        private readonly Laserwall walldown;
 
-        readonly EmptyButton button;
-        readonly Cursor cursor;
-        readonly Laserwall wallup;
-        readonly Laserwall walldown;
+        private readonly TextBuilder GUN;
+        private readonly List<Tuple<Laserwall, Vector2>> shots;
 
-        readonly TextBuilder GUN;
-        readonly List<Tuple<Laserwall, Vector2>> shots;
+        private readonly float ShotTime = 500;
+        private readonly float TravelSpeed = 5;
+        private readonly float MaxUpdateSpeed = 32;
+        private readonly float MinUpdateSpeed = 32;
+        private readonly float Multiplier = 185;
 
-        readonly float ShotTime = 500;
-        readonly float TravelSpeed = 5;
-        readonly float MaxUpdateSpeed = 32;
-        readonly float MinUpdateSpeed = 32;
-        readonly float Multiplier = 185;
+        private readonly List<int> removeItem = new List<int>();
+        private float UpdateSpeed = 2;
+        private Vector2 OldMPos;
 
-        readonly List<int> removeItem = new List<int>();
-        float UpdateSpeed = 2;
-        Vector2 OldMPos;
-
-        float EGT;
-        float GT;
-        float MGT;
+        private float EGT;
+        private float GT;
+        private float MGT;
 
         public Level40(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 40 - 10 Left";

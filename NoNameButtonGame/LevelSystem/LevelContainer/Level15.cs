@@ -17,12 +17,11 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level15 : SampleLevel
+    internal class Level15 : SampleLevel
     {
-
-        readonly StateButton stateButton;
-        readonly Cursor mouseCursor;
-        readonly TextBuilder infoText;
+        private readonly StateButton stateButton;
+        private readonly Cursor mouseCursor;
+        private readonly TextBuilder infoText;
         public Level15(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 
             stateButton = new StateButton(new Vector2(-64, -32), new Vector2(128, 64),100) {

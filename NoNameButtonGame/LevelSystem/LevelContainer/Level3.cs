@@ -12,56 +12,88 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level3 : SampleLevel
+internal class Level3 : SampleLevel
 {
-    private readonly Cursor cursor;
-    private TextBuilder test;
-    private TextButton generator;
-    private Random random;
-    private Rainbow rainbow;
+    private Random _random;
 
-    public Level3(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
-        window, rand)
+    private readonly Cursor _cursor;
+    private readonly MousePointer _mousePointer;
+    private readonly GameObjectLinker _objectLinker;
+
+    private readonly TextButton _magicButton;
+    private readonly Rainbow _rainbowMagicColor;
+    private readonly ColorLinker _colorLinker;
+
+    private readonly TextButton _lockButton;
+    private readonly Rainbow _rainbowWinColor;
+    private readonly ButtonLock _buttonLock;
+
+    public Level3(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
+        defaultHeight,
+        window, random)
     {
-        Name = "Level 3 - Tutorial time!";
-        random = rand;
-        cursor = new Cursor(Vector2.One);
-        test = new TextBuilder("This is a sentence", new Vector2(-280,-32));
-        generator = new TextButton(new Vector2(-32,0), "gen0", "generate");
-        generator.ClickEventHandler += GeneratorOnClickEventHandler;
-        rainbow = new Rainbow();
-        rainbow.Increment = 64;
-        test.ChangeColor(rainbow.GetColor(test.Length));
-    }
+        Name = "Level 3 - Tutorial 2 - Button type: locked";
+        _random = random;
+        _rainbowMagicColor = new Rainbow();
 
-    private void GeneratorOnClickEventHandler(object obj)
-    {
-        string text = string.Empty;
+        _cursor = new Cursor(Vector2.One);
+        _mousePointer = new MousePointer();
 
-        for (int i = 0; i < test.Length; i++)
+        _objectLinker = new GameObjectLinker();
+        _objectLinker.Add(_mousePointer, _cursor);
+
+        _magicButton = new TextButton(-Vector2.One * 50, "magicUnlockButton", "magic");
+        _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
+
+        _rainbowMagicColor = new Rainbow
         {
-            text += Letter.ReverseParse((Letter.Character) random.Next(0, 62)).ToString();
-        }
-        test.ChangeText(text);
-        test.ChangeColor(rainbow.GetColor(test.Length));
+            Increment = 10,
+            GameTimeStepInterval = 25
+        };
+
+        _colorLinker = new ColorLinker();
+        _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
+
+        _lockButton = new TextButton(Vector2.One, "win", Letter.ReverseParse(Letter.Character.AmongUsBean).ToString());
+        _rainbowWinColor = new Rainbow()
+        {
+            Increment = 10,
+            GameTimeStepInterval = 25,
+            Offset = 255
+        };
+        _colorLinker.Add(_rainbowWinColor, _lockButton.Text);
+        
+        _buttonLock = new ButtonLock(_lockButton);
+        _buttonLock.Callback += Finish;
     }
+
+    private void MagicButtonOnClickEventHandler(object obj)
+        => _buttonLock.Unlock();
 
     public override void Update(GameTime gameTime)
     {
-        cursor.Update(gameTime);
-        cursor.Position = mousePosition - cursor.Size / 2;
-        generator.Update(gameTime, cursor.rectangle);
-        test.Update(gameTime);
         base.Update(gameTime);
+        _mousePointer.Update(gameTime, mousePosition);
+        _objectLinker.Update(gameTime);
+        _cursor.Update(gameTime);
+
+        _rainbowMagicColor.Update(gameTime);
+        _rainbowWinColor.Update(gameTime);
+        _colorLinker.Update(gameTime);
+        _magicButton.Update(gameTime, _cursor.rectangle);
+
+        _buttonLock.Update(gameTime, _cursor.rectangle);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        test.Draw(spriteBatch);
-        generator.Draw(spriteBatch);
-        cursor.Draw(spriteBatch);
+        _magicButton.Draw(spriteBatch);
+        _buttonLock.Draw(spriteBatch);
+        _cursor.Draw(spriteBatch);
     }
 }

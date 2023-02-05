@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 namespace NoNameButtonGame.Interfaces
 {
-    interface ILevel
+    internal interface ILevel
     {
         public event Action FailEventHandler;
         public event Action ExitEventHandler;

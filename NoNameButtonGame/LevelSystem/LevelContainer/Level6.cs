@@ -14,18 +14,18 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level6 : SampleLevel
+internal class Level6 : SampleLevel
 {
-    readonly Cursor cursor;
-    readonly Laserwall WallLeft;
-    readonly Laserwall WallRight;
-    readonly Laserwall WallButtom;
+    private readonly Cursor cursor;
+    private readonly Laserwall WallLeft;
+    private readonly Laserwall WallRight;
+    private readonly Laserwall WallButtom;
 
-    readonly Laserwall _block;
-    readonly LockButton _lockButton;
-    readonly HoldButton _unlockbutton;
-    float gameTime;
-    bool moveLeft = false;
+    private readonly Laserwall _block;
+    private readonly LockButton _lockButton;
+    private readonly HoldButton _unlockbutton;
+    private float gameTime;
+    private bool moveLeft = false;
 
     public Level6(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
@@ -51,7 +51,7 @@ class Level6 : SampleLevel
     }
 
     private void UnlockButton(object sender)
-        => _lockButton.Locked = false;
+        => _lockButton.Unlock();
 
 
     public override void Update(GameTime gameTime)

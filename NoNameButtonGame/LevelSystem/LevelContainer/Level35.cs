@@ -17,18 +17,17 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level35 : SampleLevel
+    internal class Level35 : SampleLevel
     {
-
-        readonly EmptyButton button;
-        readonly Cursor cursor;
-        readonly TextBuilder[] Infos;
-        readonly TextBuilder[] Scare;
-        readonly Laserwall[] WallLeft;
-        readonly Laserwall[] WallRight;
-        readonly Laserwall[] Blocks;
-        readonly int WallLength = 15;
-        float GT;
+        private readonly EmptyButton button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder[] Infos;
+        private readonly TextBuilder[] Scare;
+        private readonly Laserwall[] WallLeft;
+        private readonly Laserwall[] WallRight;
+        private readonly Laserwall[] Blocks;
+        private readonly int WallLength = 15;
+        private float GT;
         public Level35(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 35 - ITS FASTER AND THERE ARE GUNS!";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));

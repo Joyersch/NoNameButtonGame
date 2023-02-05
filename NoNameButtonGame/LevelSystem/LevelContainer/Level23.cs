@@ -17,18 +17,17 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level23 : SampleLevel
+    internal class Level23 : SampleLevel
     {
+        private readonly TextButton[] button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder Questions;
+        private readonly TextBuilder Timer;
+        private readonly int[] RightAwnsers = new int[6] { 0, -1, 1,2,1,-1 };
+        private readonly float GTMax = 30000;
 
-        readonly TextButton[] button;
-        readonly Cursor cursor;
-        readonly TextBuilder Questions;
-        readonly TextBuilder Timer;
-        readonly int[] RightAwnsers = new int[6] { 0, -1, 1,2,1,-1 };
-        readonly float GTMax = 30000;
-
-        int Awnsered;
-        float GT;
+        private int Awnsered;
+        private float GT;
         public Level23(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 23 - This again wow random.org do be bias!";
             button = new TextButton[3];

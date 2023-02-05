@@ -17,22 +17,21 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level46 : SampleLevel
+    internal class Level46 : SampleLevel
     {
-
-        readonly TextButton[] BobIt;
-        readonly Cursor cursor;
-        readonly TextBuilder[] Marker;
-        readonly Random rand;
-        readonly int SqMax = 15;
-        bool PlayingSequenz = false;
-        string CurrentSequenz;
-        string Sequenz;
-        int CurrentSqAmm = 1;
-        int PlayedSq;
-        EmptyButton StartBtn;
-        float SSGT;
-        bool Display = false;
+        private readonly TextButton[] BobIt;
+        private readonly Cursor cursor;
+        private readonly TextBuilder[] Marker;
+        private readonly Random rand;
+        private readonly int SqMax = 15;
+        private bool PlayingSequenz = false;
+        private string CurrentSequenz;
+        private string Sequenz;
+        private int CurrentSqAmm = 1;
+        private int PlayedSq;
+        private EmptyButton StartBtn;
+        private float SSGT;
+        private bool Display = false;
         public Level46(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 46 - THE FINAL SIMON gl. hf";
             BobIt = new TextButton[5];

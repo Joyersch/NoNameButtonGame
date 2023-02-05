@@ -7,15 +7,15 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.GameObjects;
 
-class DontTouch : GameObject, IMouseActions
+internal class DontTouch : GameObject, IMouseActions
 {
-    Vector2 Scale;
-    int FramePos = 0;
-    int FrameMax = 0;
-    int FrameSpeed = 180;
+    private Vector2 Scale;
+    private int FramePos = 0;
+    private int FrameMax = 0;
+    private int FrameSpeed = 180;
 
 
-    float GT;
+    private float GT;
 
     public event Action<object> EnterEventHandler;
     public event Action<object> LeaveEventHandler;

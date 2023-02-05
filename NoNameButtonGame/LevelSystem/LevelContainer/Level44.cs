@@ -17,14 +17,13 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level44 : SampleLevel
+    internal class Level44 : SampleLevel
     {
-
-        readonly EmptyButton[] button;
-        readonly Cursor cursor;
-        readonly TextBuilder Info;
-        readonly Random rand;
-        float GT;
+        private readonly EmptyButton[] button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder Info;
+        private readonly Random rand;
+        private float GT;
         public Level44(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 44 - we're reaching the tas zone";
             button = new EmptyButton[16];

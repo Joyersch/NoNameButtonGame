@@ -8,27 +8,25 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level47 : SampleLevel
+    internal class Level47 : SampleLevel
     {
+        private readonly Cursor mouseCursor;
+        private readonly TextBuilder Timer;
+        private readonly TextBuilder Gun;
+        private readonly List<Tuple<Laserwall, Vector2>> Shots;
+        private readonly float shotTime = 100;
+        private readonly float travelSpeed = 10;
+        private readonly float maxUpdateSpeed = 64;
+        private readonly float minUpdateSpeed = 4;
+        private float updateSpeed = 2;
+        private Vector2 oldMousePosition;
+        private float GT;
+        private float MGT;
+        private readonly List<int> removeItem = new List<int>();
 
 
-        readonly Cursor mouseCursor;
-        readonly TextBuilder Timer;
-        readonly TextBuilder Gun;
-        readonly List<Tuple<Laserwall, Vector2>> Shots;
-        readonly float shotTime = 100;
-        readonly float travelSpeed = 10;
-        readonly float maxUpdateSpeed = 64;
-        readonly float minUpdateSpeed = 4;
-        float updateSpeed = 2;
-        Vector2 oldMousePosition;
-        float GT;
-        float MGT;
-        readonly List<int> removeItem = new List<int>();
-
-
-        readonly float timerMax = 30000;
-        float timerCurrent = 0;
+        private readonly float timerMax = 30000;
+        private float timerCurrent = 0;
         public Level47(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 47 - MEGA GUN!";
             Timer = new TextBuilder("", new Vector2(0 - 128), new Vector2(16, 16), null, 0);

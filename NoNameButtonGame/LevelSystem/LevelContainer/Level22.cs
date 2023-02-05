@@ -18,13 +18,12 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level22 : SampleLevel
+    internal class Level22 : SampleLevel
     {
-
-        readonly TextBuilder[] text;
-        readonly Cursor cursor;
-        readonly EmptyButton button;
-        bool Loaded = false;
+        private readonly TextBuilder[] text;
+        private readonly Cursor cursor;
+        private readonly EmptyButton button;
+        private bool Loaded = false;
         public Level22(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 22 - Random.org do be choosing the same levels over and over again! ( I created them based on a random result )";
             text = new TextBuilder[15];

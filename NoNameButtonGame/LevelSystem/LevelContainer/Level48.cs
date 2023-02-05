@@ -8,18 +8,17 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level48 : SampleLevel
+    internal class Level48 : SampleLevel
     {
-
-        readonly LockButton lockedButton;
-        readonly Cursor mouseCursor;
-        readonly TextBuilder Info;
-        readonly Laserwall Walls;
-        readonly TextButton ButtonStartTimer;
-        readonly TextBuilder Timer;
-        bool TimerStarted;
-        float GT;
-        float TGT;
+        private readonly LockButton lockedButton;
+        private readonly Cursor mouseCursor;
+        private readonly TextBuilder Info;
+        private readonly Laserwall Walls;
+        private readonly TextButton ButtonStartTimer;
+        private readonly TextBuilder Timer;
+        private bool TimerStarted;
+        private float GT;
+        private float TGT;
         public Level48(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 48 - THERE IS NO ESCAPE!!";
             lockedButton = new LockWinButton(new Vector2(-256, -128), new Vector2(128, 64), true);
@@ -46,7 +45,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Walls.Draw(spriteBatch);
                 Timer.Draw(spriteBatch);
             }
-            if (!TimerStarted && lockedButton.Locked)
+            if (!TimerStarted && lockedButton.IsLocked)
                 ButtonStartTimer.Draw(spriteBatch);
             mouseCursor.Draw(spriteBatch);
         }
@@ -69,12 +68,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 float TL = (50000 - TGT) / 1000;
                 if (TL <= 0) {
                     TimerStarted = false;
-                    lockedButton.Locked = false;
+                    lockedButton.Unlock();
                 }
                 Timer.ChangeText(TL.ToString("0.0").Replace(',', '.') + "S");
                 Timer.Update(gameTime);
             }
-            if (!TimerStarted && lockedButton.Locked)
+            if (!TimerStarted && lockedButton.IsLocked)
                 ButtonStartTimer.Update(gameTime, mouseCursor.Hitbox[0]);
             lockedButton.Update(gameTime, mouseCursor.Hitbox[0]);
 

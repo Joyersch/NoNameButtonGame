@@ -18,7 +18,7 @@ namespace NoNameButtonGame.Input
             Right
         }
 
-        static List<MouseKeys> _currentMouseKeys = new();
+        private static List<MouseKeys> _currentMouseKeys = new();
 
         public static bool CheckKey(MouseKeys search, bool onlyOnces)
         {

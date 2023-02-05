@@ -10,22 +10,22 @@ using NoNameButtonGame.Hitboxes;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class SettingsScreen : SampleLevel
+internal class SettingsScreen : SampleLevel
 {
-    readonly TextBuilder Resolution;
-    readonly TextBuilder fixedStep;
-    readonly TextBuilder Fullscreen;
-    readonly Cursor mouseCursor;
-    readonly TextButton[] resolutionButton;
-    readonly TextButton fixedStepButton;
-    readonly TextButton fullscreenButton;
+    private readonly TextBuilder Resolution;
+    private readonly TextBuilder fixedStep;
+    private readonly TextBuilder Fullscreen;
+    private readonly Cursor mouseCursor;
+    private readonly TextButton[] resolutionButton;
+    private readonly TextButton fixedStepButton;
+    private readonly TextButton fullscreenButton;
     private Storage storage;
 
     private readonly string crossout = Letter.ReverseParse(Letter.Character.Crossout).ToString();
     private readonly string checkmark = Letter.ReverseParse(Letter.Character.Checkmark).ToString();
     private readonly string left = Letter.ReverseParse(Letter.Character.Left).ToString();
     private readonly string right = Letter.ReverseParse(Letter.Character.Right).ToString();
-    Vector2 vectorResolution;
+    private Vector2 vectorResolution;
     public event Action<Vector2> WindowsResizeEventHandler;
 
     public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(

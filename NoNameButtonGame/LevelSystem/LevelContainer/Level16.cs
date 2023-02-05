@@ -17,13 +17,12 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level16 : SampleLevel
+    internal class Level16 : SampleLevel
     {
-
-        readonly TextBuilder[] longText;
-        readonly Cursor mouseCursor;
-        readonly EmptyButton finishButton;
-        bool Loaded = false;
+        private readonly TextBuilder[] longText;
+        private readonly Cursor mouseCursor;
+        private readonly EmptyButton finishButton;
+        private bool Loaded = false;
         public Level16(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 16 - ???";
             longText = new TextBuilder[15];

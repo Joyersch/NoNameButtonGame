@@ -17,13 +17,12 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level32 : SampleLevel
+    internal class Level32 : SampleLevel
     {
-
-        readonly TextBuilder[] text;
-        readonly Cursor cursor;
-        readonly EmptyButton button;
-        bool Loaded = false;
+        private readonly TextBuilder[] text;
+        private readonly Cursor cursor;
+        private readonly EmptyButton button;
+        private bool Loaded = false;
         public Level32(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 32 - THIS ONE AGAIN?! )";
             text = new TextBuilder[15];

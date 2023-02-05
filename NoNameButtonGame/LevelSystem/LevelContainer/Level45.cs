@@ -17,13 +17,12 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level45 : SampleLevel
+    internal class Level45 : SampleLevel
     {
-
-        readonly EmptyButton button;
-        readonly Cursor cursor;
-        readonly TextBuilder[] Infos;
-        readonly Laserwall wall;
+        private readonly EmptyButton button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder[] Infos;
+        private readonly Laserwall wall;
         public Level45(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 45 - and the mexicans paid for it!";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));

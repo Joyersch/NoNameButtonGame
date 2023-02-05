@@ -14,12 +14,12 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level4 : SampleLevel
+internal class Level4 : SampleLevel
 {
-    readonly EmptyButton button;
-    readonly Cursor cursor;
-    readonly TextBuilder[] Infos;
-    readonly Laserwall wall;
+    private readonly EmptyButton button;
+    private readonly Cursor cursor;
+    private readonly TextBuilder[] Infos;
+    private readonly Laserwall wall;
 
     public Level4(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)

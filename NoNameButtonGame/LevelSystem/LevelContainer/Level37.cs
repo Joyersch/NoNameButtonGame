@@ -17,24 +17,23 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level37 : SampleLevel
+    internal class Level37 : SampleLevel
     {
+        private readonly StateButton button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder Info;
 
-        readonly StateButton button;
-        readonly Cursor cursor;
-        readonly TextBuilder Info;
-
-        readonly TextBuilder GUN;
-        readonly List<Tuple<Laserwall, Vector2>> shots;
-        float GT;
-        float MGT;
-        readonly float ShotTime = 333;
-        readonly float TravelSpeed = 7;
-        float UpdateSpeed = 2;
-        readonly float MaxUpdateSpeed = 64;
-        readonly float MinUpdateSpeed = 8;
-        Vector2 OldMPos;
-        readonly List<int> removeItem = new List<int>();
+        private readonly TextBuilder GUN;
+        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private float GT;
+        private float MGT;
+        private readonly float ShotTime = 333;
+        private readonly float TravelSpeed = 7;
+        private float UpdateSpeed = 2;
+        private readonly float MaxUpdateSpeed = 64;
+        private readonly float MinUpdateSpeed = 8;
+        private Vector2 OldMPos;
+        private readonly List<int> removeItem = new List<int>();
 
         public Level37(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
 

@@ -5,7 +5,7 @@ using System;
 
 namespace NoNameButtonGame.Interfaces
 {
-    interface IHitbox
+    internal interface IHitbox
     {
         public Rectangle[] Hitbox { get; }
     }

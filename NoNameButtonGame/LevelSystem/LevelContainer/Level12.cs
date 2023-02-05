@@ -16,25 +16,25 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level12 : SampleLevel
+    internal class Level12 : SampleLevel
     {
-        readonly Cursor mouseCursor;
-        readonly TextBuilder displayTimer;
-        readonly TextBuilder displayGun;
-        readonly List<Tuple<Laserwall, Vector2>> shots;
-        float gameTimeUpdateShots;
-        float gameTimeUpdateOverAll;
-        readonly float shotTime = 200;
-        readonly float travelSpeed = 2;
-        float updateSpeed = 2;
-        readonly float maxUpdateSpeed = 128;
-        readonly float minUpdateSpeed = 4;
-        Vector2 OldMPos;
-        readonly List<int> removeItem = new List<int>();
+        private readonly Cursor mouseCursor;
+        private readonly TextBuilder displayTimer;
+        private readonly TextBuilder displayGun;
+        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private float gameTimeUpdateShots;
+        private float gameTimeUpdateOverAll;
+        private readonly float shotTime = 200;
+        private readonly float travelSpeed = 2;
+        private float updateSpeed = 2;
+        private readonly float maxUpdateSpeed = 128;
+        private readonly float minUpdateSpeed = 4;
+        private Vector2 OldMPos;
+        private readonly List<int> removeItem = new List<int>();
 
 
-        readonly float TimerMax = 30000;
-        float TimerC = 0;
+        private readonly float TimerMax = 30000;
+        private float TimerC = 0;
 
         public Level12(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 12 - Super GUN!";

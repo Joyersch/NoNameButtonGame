@@ -8,17 +8,17 @@ using System.Collections.Generic;
 
 namespace NoNameButtonGame.GameObjects;
 
-class Laserwall : GameObject, IMouseActions, IMoveable
+internal class Laserwall : GameObject, IMouseActions, IMoveable
 {
-    DontTouch[] dontTouchGrid;
-    Rectangle[] ingameHitbox;
+    private DontTouch[] dontTouchGrid;
+    private Rectangle[] ingameHitbox;
     public Rectangle[] Hitbox => ingameHitbox;
 
     public event Action<object> LeaveEventHandler;
     public event Action<object> EnterEventHandler;
     public event Action<object> ClickEventHandler;
 
-    Color OldDrawColor;
+    private Color OldDrawColor;
 
     public Laserwall(Vector2 position, Vector2 size) : base(position, size)
     {

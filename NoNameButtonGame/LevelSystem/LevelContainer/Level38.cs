@@ -17,15 +17,14 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level38 : SampleLevel
+    internal class Level38 : SampleLevel
     {
-
-        readonly EmptyButton button;
-        readonly Cursor cursor;
-        readonly Laserwall wallup;
-        readonly Laserwall walldown;
-        readonly float Multiplier = 200;
-        float GT;
+        private readonly EmptyButton button;
+        private readonly Cursor cursor;
+        private readonly Laserwall wallup;
+        private readonly Laserwall walldown;
+        private readonly float Multiplier = 200;
+        private float GT;
         public Level38(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 38 - Swap time. again idk";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));

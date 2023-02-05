@@ -17,25 +17,24 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level19 : SampleLevel
+    internal class Level19 : SampleLevel
     {
+        private readonly HoldButton holdButton;
+        private readonly Cursor mouseCursor;
+        private readonly LockButton lockButton;
+        private readonly TextBuilder Gun;
+        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private readonly List<int> removeItem = new List<int>();
 
-        readonly HoldButton holdButton;
-        readonly Cursor mouseCursor;
-        readonly LockButton lockButton;
-        readonly TextBuilder Gun;
-        readonly List<Tuple<Laserwall, Vector2>> shots;
-        readonly List<int> removeItem = new List<int>();
+        private float gameTimeShotTime;
+        private float gameTimeUpdate;
+        private readonly float ShotTime = 350;
+        private readonly float TravelSpeed = 5;
+        private readonly float MaxUpdateSpeed = 10;
+        private readonly float MinUpdateSpeed = 10;
 
-        float gameTimeShotTime;
-        float gameTimeUpdate;
-        readonly float ShotTime = 350;
-        readonly float TravelSpeed = 5;
-        readonly float MaxUpdateSpeed = 10;
-        readonly float MinUpdateSpeed = 10;
-
-        float UpdateSpeed = 2;
-        Vector2 OldMPos;
+        private float UpdateSpeed = 2;
+        private Vector2 OldMPos;
         
         public Level19(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 19 - Hold Click Repeat!";
@@ -54,7 +53,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
 
         private void EmptyBtnEvent(object sender) {
-            lockButton.Locked = !lockButton.Locked;
+            lockButton.Unlock();
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

@@ -4,34 +4,33 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace NoNameButtonGame.Colors
+namespace NoNameButtonGame.Colors;
+
+internal class Rainbow : AnimatedColor
 {
-    class Rainbow : BaseAniColor
+    public Rainbow()
     {
-        public Rainbow()
+    }
+
+    public override void Init()
+    {
+        Color = new Color[768];
+        int c = 0;
+        for (int i = 0; i < 256; i++)
         {
+            Color[i + c * 256] = new Color(i, 255 - i, 255);
         }
 
-        public override void Init()
+        c++;
+        for (int i = 0; i < 256; i++)
         {
-            Color = new Color[768];
-            int c = 0;
-            for (int i = 0; i < 256; i++)
-            {
-                Color[i + c * 256] = new Color(i, 255 - i, 255);
-            }
+            Color[i + c * 256] = new Color(255, i, 255 - i);
+        }
 
-            c++;
-            for (int i = 0; i < 256; i++)
-            {
-                Color[i + c * 256] = new Color(255, i, 255 - i);
-            }
-
-            c++;
-            for (int i = 0; i < 256; i++)
-            {
-                Color[i + c * 256] = new Color(255 - i, 255, i);
-            }
+        c++;
+        for (int i = 0; i < 256; i++)
+        {
+            Color[i + c * 256] = new Color(255 - i, 255, i);
         }
     }
 }

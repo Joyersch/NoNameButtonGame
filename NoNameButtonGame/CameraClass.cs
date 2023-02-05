@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace NoNameButtonGame.Camera
 {
-    class CameraClass
+    internal class CameraClass
     {
         public Matrix CameraMatrix { get; private set; }
         public readonly float Zoom = 2f;

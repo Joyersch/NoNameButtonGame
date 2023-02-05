@@ -17,20 +17,19 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level49 : SampleLevel
+    internal class Level49 : SampleLevel
     {
-
-        readonly Cursor mouseCursor;
-        readonly Laserwall leftWall;
-        readonly Laserwall rightWall;
-        readonly Laserwall buttomWall;
-        readonly Laserwall firstBlock;
-        readonly Laserwall secondBlock;
-        readonly LockButton winButton;
-        readonly HoldButton UnlockButton;
-        float GT;
-        bool leftMoveLeft = false;
-        bool upMove = false;
+        private readonly Cursor mouseCursor;
+        private readonly Laserwall leftWall;
+        private readonly Laserwall rightWall;
+        private readonly Laserwall buttomWall;
+        private readonly Laserwall firstBlock;
+        private readonly Laserwall secondBlock;
+        private readonly LockButton winButton;
+        private readonly HoldButton UnlockButton;
+        private float GT;
+        private bool leftMoveLeft = false;
+        private bool upMove = false;
         public Level49(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 49 - so close, you can do it!";
 
@@ -55,7 +54,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         }
 
         private void UnlockBtn(object sender) {
-            winButton.Locked = false;
+            winButton.Unlock();
         }
 
         public override void Draw(SpriteBatch spriteBatch) {

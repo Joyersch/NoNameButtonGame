@@ -17,14 +17,13 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level13 : SampleLevel
+    internal class Level13 : SampleLevel
     {
-
-        readonly EmptyButton userButton;
-        readonly Cursor movingCursor;
-        readonly Laserwall wallUp;
-        readonly Laserwall wallDown;
-        readonly float Multiplier = 100;
+        private readonly EmptyButton userButton;
+        private readonly Cursor movingCursor;
+        private readonly Laserwall wallUp;
+        private readonly Laserwall wallDown;
+        private readonly float Multiplier = 100;
         public Level13(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 13 - Swap time.";
             userButton = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));

@@ -14,7 +14,7 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class StateButton : EmptyButton
 {
-    int ammoutStates;
+    private int ammoutStates;
 
     public int States
     {
@@ -28,7 +28,7 @@ public class StateButton : EmptyButton
 
     public int CurrentStates { get; private set; }
 
-    TextBuilder textContainer;
+    private TextBuilder textContainer;
 
     public StateButton(Vector2 position, int states) : this(position, DefaultSize, states)
     {

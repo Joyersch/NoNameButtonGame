@@ -16,7 +16,7 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level1 : SampleLevel
+internal class Level1 : SampleLevel
 {
     private readonly StartButton startButton;
     private readonly Cursor mouseCursor;
@@ -34,7 +34,7 @@ class Level1 : SampleLevel
         startButton.ClickEventHandler += Finish;
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         mouse = new MousePointer();
-        Name = "Click the Button!";
+        Name = "Level 1 - Click the Button!";
         infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
         gameObjectLinker = new GameObjectLinker();
         gameObjectLinker.Add(mouse, mouseCursor);

@@ -17,23 +17,22 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level25 : SampleLevel
+    internal class Level25 : SampleLevel
     {
-
-        readonly TextButton[] BobIt;
-        readonly Cursor cursor;
-        readonly TextBuilder[] Marker;
-        bool PlayingSequenz = false;
-        string CurrentSequenz;
-        string Sequenz;
-        int CurrentSqAmm = 1;
-        int PlayedSq;
-        readonly int SqMax = 7;
-        readonly float ShowTime = 250;
-        EmptyButton StartBtn;
-        readonly Random rand;
-        float SSGT;
-        bool Display = false;
+        private readonly TextButton[] BobIt;
+        private readonly Cursor cursor;
+        private readonly TextBuilder[] Marker;
+        private bool PlayingSequenz = false;
+        private string CurrentSequenz;
+        private string Sequenz;
+        private int CurrentSqAmm = 1;
+        private int PlayedSq;
+        private readonly int SqMax = 7;
+        private readonly float ShowTime = 250;
+        private EmptyButton StartBtn;
+        private readonly Random rand;
+        private float SSGT;
+        private bool Display = false;
         public Level25(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 25 - Now in fast";
             BobIt = new TextButton[5];

@@ -58,6 +58,14 @@ public class TextBuilder
                 _letters[i].ChangeColor(color[i]);
         }
     }
+    
+    public void ChangeColor(Color color)
+    {
+        for (int i = 0; i < _letters.Length; i++)
+        {
+                _letters[i].ChangeColor(color);
+        }
+    }
 
     public void ChangeText(string text)
     {

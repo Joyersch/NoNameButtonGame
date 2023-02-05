@@ -14,7 +14,7 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level9 : SampleLevel
+internal class Level9 : SampleLevel
 {
     
     private Cursor _cursor;

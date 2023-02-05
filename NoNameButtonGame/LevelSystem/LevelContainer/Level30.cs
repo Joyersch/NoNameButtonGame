@@ -8,19 +8,18 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level30 : SampleLevel
+    internal class Level30 : SampleLevel
     {
+        private readonly TextButton[] button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder Questions;
+        private readonly TextBuilder Timer;
 
-        readonly TextButton[] button;
-        readonly Cursor cursor;
-        readonly TextBuilder Questions;
-        readonly TextBuilder Timer;
-        
-        readonly int[] RightAwnsers = new int[7] { -1, 0, 0, 0, 2, 1,2 };
-        readonly float GTMax = 20000;
+        private readonly int[] RightAwnsers = new int[7] { -1, 0, 0, 0, 2, 1,2 };
+        private readonly float GTMax = 20000;
 
-        int Awnsered;
-        float GT;
+        private int Awnsered;
+        private float GT;
         
         public Level30(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 30 - You now the drill. now it will just get harder(ish)";

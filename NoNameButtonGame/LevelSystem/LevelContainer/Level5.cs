@@ -14,14 +14,14 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level5 : SampleLevel
+internal class Level5 : SampleLevel
 {
-    readonly HoldButton button;
-    readonly Cursor cursor;
-    readonly TextBuilder[] Infos;
-    readonly LockButton lockbutton;
-    readonly Random rand;
-    float gameTime;
+    private readonly HoldButton button;
+    private readonly Cursor cursor;
+    private readonly TextBuilder[] Infos;
+    private readonly LockButton lockbutton;
+    private readonly Random rand;
+    private float gameTime;
 
     public Level5(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
@@ -55,7 +55,7 @@ class Level5 : SampleLevel
     }
 
     private void EmptyBtnEvent(object sender)
-        => lockbutton.Locked = !lockbutton.Locked;
+        => lockbutton.Unlock();
     
     public override void Update(GameTime gameTime)
     {

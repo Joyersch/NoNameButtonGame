@@ -6,7 +6,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects;
 
-class Cursor : GameObject
+internal class Cursor : GameObject
 {
 
     public Cursor(Vector2 position) : this(position, DefaultSize)

@@ -17,18 +17,17 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level42 : SampleLevel
+    internal class Level42 : SampleLevel
     {
-
-        readonly LockButton button;
-        readonly Cursor cursor;
-        readonly TextBuilder Info;
-        readonly Laserwall wall;
-        readonly TextButton ButtonStartTimer;
-        readonly TextBuilder Timer;
-        bool TimerStarted;
-        float GT;
-        float TGT;
+        private readonly LockButton button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder Info;
+        private readonly Laserwall wall;
+        private readonly TextButton ButtonStartTimer;
+        private readonly TextBuilder Timer;
+        private bool TimerStarted;
+        private float GT;
+        private float TGT;
         public Level42(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 42 - RUN AS LONG AS YOU CAN!";
             button = new LockWinButton(new Vector2(-256, -128), new Vector2(128, 64), true);
@@ -53,7 +52,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 wall.Draw(spriteBatch);
                 Timer.Draw(spriteBatch);
             }
-            if (!TimerStarted && button.Locked)
+            if (!TimerStarted && button.IsLocked)
                 ButtonStartTimer.Draw(spriteBatch);
             cursor.Draw(spriteBatch);
         }
@@ -76,12 +75,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 float TL = (60000 - TGT) / 1000;
                 if (TL <= 0) {
                     TimerStarted = false;
-                    button.Locked = false;
+                    button.Unlock();
                 }
                 Timer.ChangeText(TL.ToString("0.0").Replace(',', '.') + "S");
                 Timer.Update(gameTime);
             }
-            if (!TimerStarted && button.Locked)
+            if (!TimerStarted && button.IsLocked)
                 ButtonStartTimer.Update(gameTime, cursor.Hitbox[0]);
             button.Update(gameTime, cursor.Hitbox[0]);
 

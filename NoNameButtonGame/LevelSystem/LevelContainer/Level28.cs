@@ -16,27 +16,25 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level28 : SampleLevel
+    internal class Level28 : SampleLevel
     {
+        private readonly Cursor cursor;
+        private readonly TextBuilder GUN;
+        private readonly TextBuilder Timer;
+        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private float GT;
+        private float MGT;
+        private readonly float ShotTime = 420;
+        private readonly float TravelSpeed = 4;
+        private float UpdateSpeed = 2;
+        private readonly float MaxUpdateSpeed = 56;
+        private readonly float MinUpdateSpeed = 4;
+        private Vector2 OldMPos;
+        private readonly List<int> removeItem = new List<int>();
 
 
-        readonly Cursor cursor;
-        readonly TextBuilder GUN;
-        readonly TextBuilder Timer;
-        readonly List<Tuple<Laserwall, Vector2>> shots;
-        float GT;
-        float MGT;
-        readonly float ShotTime = 420;
-        readonly float TravelSpeed = 4;
-        float UpdateSpeed = 2;
-        readonly float MaxUpdateSpeed = 56;
-        readonly float MinUpdateSpeed = 4;
-        Vector2 OldMPos;
-        readonly List<int> removeItem = new List<int>();
-
-
-        readonly float TimerMax = 42000;
-        float TimerC = 0;
+        private readonly float TimerMax = 42000;
+        private float TimerC = 0;
         public Level28(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 28 - A HOT!";
             Timer = new TextBuilder("", new Vector2(0 - 128), new Vector2(16, 16), null, 0);

@@ -12,12 +12,12 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-class HoldButton : EmptyButton
+internal class HoldButton : EmptyButton
 {
     private float _holdTime = 0F;
     public float EndHoldTime = 10000F;
     private bool _pressed = false;
-    TextBuilder textContainer;
+    private TextBuilder textContainer;
 
 
     public HoldButton(Vector2 Position, Vector2 Size) : base(Position, Size)

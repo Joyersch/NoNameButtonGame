@@ -8,11 +8,11 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class LevelNull : SampleLevel
+internal class LevelNull : SampleLevel
 {
-    readonly EmptyButton failButton;
-    readonly Cursor mouseCursor;
-    readonly TextBuilder Info;
+    private readonly EmptyButton failButton;
+    private readonly Cursor mouseCursor;
+    private readonly TextBuilder Info;
 
     public LevelNull(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)

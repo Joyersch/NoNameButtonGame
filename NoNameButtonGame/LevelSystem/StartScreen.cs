@@ -12,7 +12,7 @@ using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class StartScreen : SampleLevel
+internal class StartScreen : SampleLevel
 {
     private readonly StartButton startButton;
     private readonly SettingsButton settingsButton;

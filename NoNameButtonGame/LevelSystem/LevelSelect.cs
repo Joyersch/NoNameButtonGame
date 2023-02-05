@@ -13,7 +13,7 @@ using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class LevelSelect : SampleLevel
+    internal class LevelSelect : SampleLevel
     {
         private readonly List<MiniTextButton> _level;
         private readonly List<MiniTextButton> _down;
@@ -22,9 +22,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly MousePointer mousePointer;
         private readonly GameObjectLinker linker;
         public event Action<int> LevelSelectedEventHandler;
-        bool isInMove = false;
-        bool moveUp = false;
-        int currentTicks = 0;
+        private bool isInMove = false;
+        private bool moveUp = false;
+        private int currentTicks = 0;
 
         public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(
             defaultWidth, defaultHeight, window, rand)
@@ -124,7 +124,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor.Draw(spriteBatch);
         }
 
-        float savedGameTime;
+        private float savedGameTime;
 
         public override void Update(GameTime gameTime)
         {

@@ -9,29 +9,28 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level24 : SampleLevel
+    internal class Level24 : SampleLevel
     {
+        private readonly EmptyButton button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder[] Infos;
+        private readonly Laserwall[] WallLeft;
+        private readonly Laserwall[] WallRight;
+        private readonly Laserwall[] Blocks;
+        private readonly TextBuilder GUN;
+        private readonly int WallLength = 15;
+        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private float GT;
 
-        readonly EmptyButton button;
-        readonly Cursor cursor;
-        readonly TextBuilder[] Infos;
-        readonly Laserwall[] WallLeft;
-        readonly Laserwall[] WallRight;
-        readonly Laserwall[] Blocks;
-        readonly TextBuilder GUN;
-        readonly int WallLength = 15;
-        readonly List<Tuple<Laserwall, Vector2>> shots;
-        float GT;
-
-        float GT2;
-        float MGT;
-        readonly float ShotTime = 700;
-        readonly float TravelSpeed = 5;
-        float UpdateSpeed = 2;
-        readonly float MaxUpdateSpeed = 80;
-        readonly float MinUpdateSpeed = 80;
-        Vector2 OldMPos;
-        readonly List<int> removeItem = new List<int>();
+        private float GT2;
+        private float MGT;
+        private readonly float ShotTime = 700;
+        private readonly float TravelSpeed = 5;
+        private float UpdateSpeed = 2;
+        private readonly float MaxUpdateSpeed = 80;
+        private readonly float MinUpdateSpeed = 80;
+        private Vector2 OldMPos;
+        private readonly List<int> removeItem = new List<int>();
         public Level24(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 24 - now with a gun";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));

@@ -17,17 +17,16 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
-    class Level39 : SampleLevel
+    internal class Level39 : SampleLevel
     {
-
-        readonly TextButton[] button;
-        readonly Cursor cursor;
-        readonly TextBuilder Questions;
-        readonly TextBuilder Timer;
-        int Awnsered;
-        readonly int[] RightAwnsers = new int[6] { 0, -1, 1, 2, 1, 1 };
-        float GT;
-        readonly float GTMax = 15000;
+        private readonly TextButton[] button;
+        private readonly Cursor cursor;
+        private readonly TextBuilder Questions;
+        private readonly TextBuilder Timer;
+        private int Awnsered;
+        private readonly int[] RightAwnsers = new int[6] { 0, -1, 1, 2, 1, 1 };
+        private float GT;
+        private readonly float GTMax = 15000;
         public Level39(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 39 - Questions!";
             button = new TextButton[3];

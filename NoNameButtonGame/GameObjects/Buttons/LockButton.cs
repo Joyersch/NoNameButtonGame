@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,16 +15,19 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class LockButton : EmptyButton
 {
-    public bool Locked
-    {
-        get => _locked;
-        set => _locked = value;
-    }
-
+    public bool IsLocked => _locked;
     protected bool _locked;
 
-    TextBuilder textContainer;
+    private TextBuilder textContainer;
 
+    public LockButton(Vector2 position) : this(position, true)
+    {
+        
+    }
+    public LockButton(Vector2 position, bool startLocked) : this(position, DefaultSize, startLocked)
+    {
+        
+    }
 
     public LockButton(Vector2 position, Vector2 size, bool startState) : base(position, size)
     {
@@ -37,9 +41,6 @@ public class LockButton : EmptyButton
 
     public override void Update(GameTime gameTime, Rectangle mousePosition)
     {
-        textContainer.ChangeText(_locked ? "Locked" : "Unlocked");
-        textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
-        textContainer.Position.Y -= 32;
         textContainer.Update(gameTime);
         bool hover = HitboxCheck(mousePosition);
         if (hover)
@@ -63,5 +64,25 @@ public class LockButton : EmptyButton
     {
         base.Draw(spriteBatch);
         textContainer.Draw(spriteBatch);
+    }
+
+    public void Unlock()
+    {
+        _locked = false;
+        UpdateText();
+    }
+
+    public void Lock()
+    {
+        _locked = true;
+        UpdateText();
+    }
+
+    public void UpdateText()
+    {
+        textContainer.ChangeText(_locked ? "Locked" : "Unlocked");
+        textContainer.ChangeColor(_locked ? Color.Red : Color.Green);
+        textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
+        textContainer.Position.Y -= 32;
     }
 }

@@ -16,7 +16,7 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
-class Level2 : SampleLevel
+internal class Level2 : SampleLevel
 {
     private readonly StateButton _stateButton;
     private readonly Cursor _mouseCursor;

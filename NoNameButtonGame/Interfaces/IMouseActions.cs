@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NoNameButtonGame.Interfaces
 {
-    interface IMouseActions
+    internal interface IMouseActions
     {
         public event Action<object> LeaveEventHandler;
         public event Action<object> EnterEventHandler;
