@@ -33,6 +33,9 @@ internal class Level3 : SampleLevel
     private readonly Rainbow _rainbowWinColor;
     private readonly ButtonLock _buttonLock;
 
+    private readonly TextBuilder _info1;
+    private readonly TextBuilder _info2;
+
     public Level3(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
         defaultHeight,
         window, random)
@@ -47,7 +50,7 @@ internal class Level3 : SampleLevel
         _objectLinker = new GameObjectLinker();
         _objectLinker.Add(_mousePointer, _cursor);
 
-        _magicButton = new TextButton(-Vector2.One * 50, "magicUnlockButton", "magic");
+        _magicButton = new TextButton(new Vector2(-316,112), "magicUnlockButton", "magic");
         _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
 
         _rainbowMagicColor = new Rainbow
@@ -59,7 +62,7 @@ internal class Level3 : SampleLevel
         _colorLinker = new ColorLinker();
         _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
 
-        _lockButton = new TextButton(Vector2.One, "win", Letter.ReverseParse(Letter.Character.AmongUsBean).ToString());
+        _lockButton = new TextButton(new Vector2(-64,-96), "win", "Finish Level");
         _rainbowWinColor = new Rainbow()
         {
             Increment = 10,
@@ -70,10 +73,21 @@ internal class Level3 : SampleLevel
         
         _buttonLock = new ButtonLock(_lockButton);
         _buttonLock.Callback += Finish;
+
+        _info1 = new TextBuilder("This button here is Locked",
+            new Vector2(-80, -128), TextBuilder.DefaultLetterSize / 2, 2);
+        
+        _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Left) + "This button will unlock the other button",
+            new Vector2(-176, 140), TextBuilder.DefaultLetterSize / 2, 2);
     }
 
     private void MagicButtonOnClickEventHandler(object obj)
-        => _buttonLock.Unlock();
+    {
+        if (_buttonLock.IsLocked)
+            _buttonLock.Unlock();
+        else
+            _buttonLock.Lock();
+    }
 
     public override void Update(GameTime gameTime)
     {
@@ -88,12 +102,18 @@ internal class Level3 : SampleLevel
         _magicButton.Update(gameTime, _cursor.rectangle);
 
         _buttonLock.Update(gameTime, _cursor.rectangle);
+        _info1.Update(gameTime);
+        _info2.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         _magicButton.Draw(spriteBatch);
         _buttonLock.Draw(spriteBatch);
+        
+        _info1.Draw(spriteBatch);
+        _info2.Draw(spriteBatch);
+        
         _cursor.Draw(spriteBatch);
     }
 }
