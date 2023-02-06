@@ -23,7 +23,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly Cursor mouseCursor;
         private readonly LockButton lockButton;
         private readonly TextBuilder Gun;
-        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private readonly List<Tuple<GlitchBlockCollection, Vector2>> shots;
         private readonly List<int> removeItem = new List<int>();
 
         private float gameTimeShotTime;
@@ -47,7 +47,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             
             lockButton = new LockWinButton(new Vector2(-192, -32), new Vector2(128, 64), true);
             lockButton.ClickEventHandler += Finish;
-            shots = new List<Tuple<Laserwall, Vector2>>();
+            shots = new List<Tuple<GlitchBlockCollection, Vector2>>();
             OldMPos = new Vector2(0, 0);
         }
 
@@ -85,7 +85,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (gameTimeShotTime > ShotTime) {
                     gameTimeShotTime -= ShotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - Gun.rectangle.Center.ToVector2();
-                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(Gun.Position, new Vector2(16, 8)), Dir / Dir.Length()));
+                    shots.Add(new Tuple<GlitchBlockCollection, Vector2>(new GlitchBlockCollection(Gun.Position, new Vector2(16, 8)), Dir / Dir.Length()));
                     shots[^1].Item1.EnterEventHandler += Fail;
                 }
             }

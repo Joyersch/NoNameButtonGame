@@ -13,7 +13,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly LockButton button;
         private readonly Cursor cursor;
         private readonly TextBuilder Info;
-        private readonly Laserwall wall;
+        private readonly GlitchBlockCollection wall;
         private readonly TextButton ButtonStartTimer;
         private readonly TextBuilder Timer;
         private bool TimerStarted;
@@ -26,7 +26,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Info = new TextBuilder("RUN! IT FOLLOWs you!", new Vector2(-64, -132), new Vector2(16, 16), null, 0);
 
-            wall = new Laserwall(new Vector2(-32, -200), new Vector2(64, 64));
+            wall = new GlitchBlockCollection(new Vector2(-32, -200), new Vector2(64, 64));
             wall.EnterEventHandler += Fail;
             ButtonStartTimer = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "TimerStart", "Start Timer", new Vector2(8, 8));
             ButtonStartTimer.ClickEventHandler += StartTimer;

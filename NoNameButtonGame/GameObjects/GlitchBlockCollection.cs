@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace NoNameButtonGame.GameObjects;
 
-internal class Laserwall : GameObject, IMouseActions, IMoveable
+internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable
 {
-    private DontTouch[] dontTouchGrid;
+    private GlitchBlock[] glitchBlocksGrid;
     private Rectangle[] ingameHitbox;
     public Rectangle[] Hitbox => ingameHitbox;
 
@@ -20,7 +20,7 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
 
     private Color OldDrawColor;
 
-    public Laserwall(Vector2 position, Vector2 size) : base(position, size)
+    public GlitchBlockCollection(Vector2 position, Vector2 size) : base(position, size)
     {
         // Note:
         // Even though I've done a rework in 2023 I will not touch this stuff.
@@ -34,14 +34,14 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
 
         if (gridedge.X == 0 && gridedge.Y == 0)
         {
-            dontTouchGrid = new DontTouch[((int) grid.X) * ((int) grid.Y)];
+            glitchBlocksGrid = new GlitchBlock[((int) grid.X) * ((int) grid.Y)];
             for (int i = 0; i < grid.Y; i++)
             {
                 for (int a = 0; a < grid.X; a++)
                 {
-                    dontTouchGrid[i * ((int) grid.X) + a] =
-                        new DontTouch(new Vector2(position.X + a * 32, position.Y + i * 32), new Vector2(32, 32));
-                    dontTouchGrid[i * ((int) grid.X) + a].EnterEventHandler += CallEnter;
+                    glitchBlocksGrid[i * ((int) grid.X) + a] =
+                        new GlitchBlock(new Vector2(position.X + a * 32, position.Y + i * 32), new Vector2(32, 32));
+                    glitchBlocksGrid[i * ((int) grid.X) + a].EnterEventHandler += CallEnter;
                 }
             }
         }
@@ -56,7 +56,7 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
                 gy = (int) grid.Y + 1;
             else
                 gy = (int) grid.Y;
-            dontTouchGrid = new DontTouch[gx * gy];
+            glitchBlocksGrid = new GlitchBlock[gx * gy];
             for (int i = 0; i < gy; i++)
             {
                 for (int a = 0; a < gx; a++)
@@ -66,20 +66,20 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
                         CSize.X = 32;
                     if (i < grid.Y)
                         CSize.Y = 32;
-                    dontTouchGrid[i * gx + a] =
-                        new DontTouch(new Vector2(position.X + a * 32, position.Y + i * 32), CSize);
+                    glitchBlocksGrid[i * gx + a] =
+                        new GlitchBlock(new Vector2(position.X + a * 32, position.Y + i * 32), CSize);
 
-                    dontTouchGrid[i * gx + a].EnterEventHandler += CallEnter;
+                    glitchBlocksGrid[i * gx + a].EnterEventHandler += CallEnter;
                 }
             }
         }
 
         List<Rectangle> Hitboxes = new List<Rectangle>();
-        for (int i = 0; i < dontTouchGrid.Length; i++)
+        for (int i = 0; i < glitchBlocksGrid.Length; i++)
         {
-            for (int a = 0; a < dontTouchGrid[i].Hitbox.Length; a++)
+            for (int a = 0; a < glitchBlocksGrid[i].Hitbox.Length; a++)
             {
-                Hitboxes.Add(dontTouchGrid[i].Hitbox[a]);
+                Hitboxes.Add(glitchBlocksGrid[i].Hitbox[a]);
             }
         }
 
@@ -88,7 +88,7 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<DontTouch>();
+        _textureHitboxMapping = Mapping.GetMappingFromCache<GlitchBlock>();
     }
 
     private void CallEnter(object sender)
@@ -96,9 +96,9 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
 
     public void Update(GameTime gt, Rectangle MousePos)
     {
-        for (int i = 0; i < dontTouchGrid.Length; i++)
+        for (int i = 0; i < glitchBlocksGrid.Length; i++)
         {
-            dontTouchGrid[i].Update(gt, MousePos);
+            glitchBlocksGrid[i].Update(gt, MousePos);
         }
 
         if (rectangle.Intersects(MousePos))
@@ -106,9 +106,9 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
         base.Update(gt);
         if (DrawColor != OldDrawColor)
         {
-            for (int i = 0; i < dontTouchGrid.Length; i++)
+            for (int i = 0; i < glitchBlocksGrid.Length; i++)
             {
-                dontTouchGrid[i].DrawColor = DrawColor;
+                glitchBlocksGrid[i].DrawColor = DrawColor;
             }
         }
 
@@ -117,9 +117,9 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        for (int i = 0; i < dontTouchGrid.Length; i++)
+        for (int i = 0; i < glitchBlocksGrid.Length; i++)
         {
-            dontTouchGrid[i].Draw(spriteBatch);
+            glitchBlocksGrid[i].Draw(spriteBatch);
         }
     }
 
@@ -129,9 +129,9 @@ internal class Laserwall : GameObject, IMouseActions, IMoveable
     public bool Move(Vector2 Direction)
     {
         Position += Direction;
-        for (int i = 0; i < dontTouchGrid.Length; i++)
+        for (int i = 0; i < glitchBlocksGrid.Length; i++)
         {
-            dontTouchGrid[i].Position += Direction;
+            glitchBlocksGrid[i].Position += Direction;
         }
         return true;
     }

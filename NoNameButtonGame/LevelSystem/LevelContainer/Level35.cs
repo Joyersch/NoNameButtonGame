@@ -23,9 +23,9 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly Cursor cursor;
         private readonly TextBuilder[] Infos;
         private readonly TextBuilder[] Scare;
-        private readonly Laserwall[] WallLeft;
-        private readonly Laserwall[] WallRight;
-        private readonly Laserwall[] Blocks;
+        private readonly GlitchBlockCollection[] WallLeft;
+        private readonly GlitchBlockCollection[] WallRight;
+        private readonly GlitchBlockCollection[] Blocks;
         private readonly int WallLength = 15;
         private float GT;
         public Level35(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
@@ -36,23 +36,23 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("wow you did it!", new Vector2(120, -132), new Vector2(8, 8), null, 0);
             Infos[1] = new TextBuilder("gg!", new Vector2(120, -100), new Vector2(8, 8), null, 0);
-            WallLeft = new Laserwall[WallLength];
-            WallRight = new Laserwall[WallLength];
-            List<Laserwall> Walls = new List<Laserwall>();
+            WallLeft = new GlitchBlockCollection[WallLength];
+            WallRight = new GlitchBlockCollection[WallLength];
+            List<GlitchBlockCollection> Walls = new List<GlitchBlockCollection>();
             for (int i = 0; i < WallLength; i++) {
-                WallLeft[i] = new Laserwall(new Vector2(96, 512 * i), new Vector2(416, 512));
-                WallRight[i] = new Laserwall(new Vector2(-512, 512 * i), new Vector2(416, 512));
+                WallLeft[i] = new GlitchBlockCollection(new Vector2(96, 512 * i), new Vector2(416, 512));
+                WallRight[i] = new GlitchBlockCollection(new Vector2(-512, 512 * i), new Vector2(416, 512));
                 WallRight[i].EnterEventHandler += Fail;
                 WallLeft[i].EnterEventHandler += Fail;
             }
             for (int i = 0; i < (WallLength - 1) * 8 / 2; i++) {
                 int c = rand.Next(0, 3);
                 if (c != 0)
-                    Walls.Add(new Laserwall(new Vector2(-96, 512 + 128 * i), new Vector2(64, 64)));
+                    Walls.Add(new GlitchBlockCollection(new Vector2(-96, 512 + 128 * i), new Vector2(64, 64)));
                 if (c != 1)
-                    Walls.Add(new Laserwall(new Vector2(-32, 512 + 128 * i), new Vector2(64, 64)));
+                    Walls.Add(new GlitchBlockCollection(new Vector2(-32, 512 + 128 * i), new Vector2(64, 64)));
                 if (c != 2)
-                    Walls.Add(new Laserwall(new Vector2(32, 512 + 128 * i), new Vector2(64, 64)));
+                    Walls.Add(new GlitchBlockCollection(new Vector2(32, 512 + 128 * i), new Vector2(64, 64)));
 
                 // Walls.Add(new Laserwall(new Vector2(-96 + rand.Next(0, 3) * 64, 512 + 128 * i), new Vector2(64, 64), Globals.Content.GetTHBox("zonenew")));
 

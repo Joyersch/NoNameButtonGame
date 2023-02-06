@@ -21,11 +21,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     {
         private readonly EmptyButton button;
         private readonly Cursor cursor;
-        private readonly Laserwall wallup;
-        private readonly Laserwall walldown;
+        private readonly GlitchBlockCollection wallup;
+        private readonly GlitchBlockCollection walldown;
 
         private readonly TextBuilder GUN;
-        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private readonly List<Tuple<GlitchBlockCollection, Vector2>> shots;
 
         private readonly float ShotTime = 500;
         private readonly float TravelSpeed = 5;
@@ -46,12 +46,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             button.ClickEventHandler += Finish;
             cursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
-            wallup = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight - 40));
-            walldown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40 + 40), new Vector2(base.defaultWidth, defaultHeight));
+            wallup = new GlitchBlockCollection(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight - 40));
+            walldown = new GlitchBlockCollection(new Vector2(-(defaultWidth / Camera.Zoom), 40 + 40), new Vector2(base.defaultWidth, defaultHeight));
             wallup.EnterEventHandler += Fail;
             walldown.EnterEventHandler += Fail;
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
-            shots = new List<Tuple<Laserwall, Vector2>>();
+            shots = new List<Tuple<GlitchBlockCollection, Vector2>>();
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -81,7 +81,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (GT > ShotTime) {
                     GT -= ShotTime;
                     Vector2 Dir = button.rectangle.Center.ToVector2() - GUN.rectangle.Center.ToVector2();
-                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(GUN.Position, new Vector2(16, 8)), Dir / Dir.Length()));
+                    shots.Add(new Tuple<GlitchBlockCollection, Vector2>(new GlitchBlockCollection(GUN.Position, new Vector2(16, 8)), Dir / Dir.Length()));
                     shots[^1].Item1.EnterEventHandler += Fail;
                 }
             }

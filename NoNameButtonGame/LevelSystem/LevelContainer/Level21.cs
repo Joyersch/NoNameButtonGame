@@ -20,11 +20,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     internal class Level21 : SampleLevel
     {
         private readonly Cursor cursor;
-        private readonly Laserwall WallLeft;
-        private readonly Laserwall WallRight;
-        private readonly Laserwall WallButtom;
-        private readonly Laserwall Block;
-        private readonly Laserwall Block2;
+        private readonly GlitchBlockCollection WallLeft;
+        private readonly GlitchBlockCollection WallRight;
+        private readonly GlitchBlockCollection WallButtom;
+        private readonly GlitchBlockCollection Block;
+        private readonly GlitchBlockCollection Block2;
         private readonly LockButton button;
         private readonly HoldButton UnLockbutton;
         private float GT;
@@ -34,12 +34,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 21 - this again? cmon!";
 
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-            WallLeft = new Laserwall(new Vector2(-512, -512), new Vector2(420, 1024));
-            WallRight = new Laserwall(new Vector2(96, -512), new Vector2(420, 1024));
-            WallButtom = new Laserwall(new Vector2(-512, 96), new Vector2(1024, 1024));
+            WallLeft = new GlitchBlockCollection(new Vector2(-512, -512), new Vector2(420, 1024));
+            WallRight = new GlitchBlockCollection(new Vector2(96, -512), new Vector2(420, 1024));
+            WallButtom = new GlitchBlockCollection(new Vector2(-512, 96), new Vector2(1024, 1024));
             
-            Block = new Laserwall(new Vector2(-256, 32), new Vector2(64, 64));
-            Block2 = new Laserwall(new Vector2(-32, 96), new Vector2(64, 64));
+            Block = new GlitchBlockCollection(new Vector2(-256, 32), new Vector2(64, 64));
+            Block2 = new GlitchBlockCollection(new Vector2(-32, 96), new Vector2(64, 64));
             WallRight.EnterEventHandler += Fail;
             WallLeft.EnterEventHandler += Fail;
             WallButtom.EnterEventHandler += Fail;

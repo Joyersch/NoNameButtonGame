@@ -20,11 +20,11 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     internal class Level49 : SampleLevel
     {
         private readonly Cursor mouseCursor;
-        private readonly Laserwall leftWall;
-        private readonly Laserwall rightWall;
-        private readonly Laserwall buttomWall;
-        private readonly Laserwall firstBlock;
-        private readonly Laserwall secondBlock;
+        private readonly GlitchBlockCollection leftWall;
+        private readonly GlitchBlockCollection rightWall;
+        private readonly GlitchBlockCollection buttomWall;
+        private readonly GlitchBlockCollection firstBlock;
+        private readonly GlitchBlockCollection secondBlock;
         private readonly LockButton winButton;
         private readonly HoldButton UnlockButton;
         private float GT;
@@ -34,12 +34,12 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Name = "Level 49 - so close, you can do it!";
 
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-            leftWall = new Laserwall(new Vector2(-512, -512), new Vector2(420, 1024));
-            rightWall = new Laserwall(new Vector2(96, -512), new Vector2(420, 1024));
-            buttomWall = new Laserwall(new Vector2(-512, 96), new Vector2(1024, 1024));
+            leftWall = new GlitchBlockCollection(new Vector2(-512, -512), new Vector2(420, 1024));
+            rightWall = new GlitchBlockCollection(new Vector2(96, -512), new Vector2(420, 1024));
+            buttomWall = new GlitchBlockCollection(new Vector2(-512, 96), new Vector2(1024, 1024));
 
-            firstBlock = new Laserwall(new Vector2(-256, 32), new Vector2(64, 64));
-            secondBlock = new Laserwall(new Vector2(-32, 96), new Vector2(64, 64));
+            firstBlock = new GlitchBlockCollection(new Vector2(-256, 32), new Vector2(64, 64));
+            secondBlock = new GlitchBlockCollection(new Vector2(-32, 96), new Vector2(64, 64));
             rightWall.EnterEventHandler += Fail;
             leftWall.EnterEventHandler += Fail;
             buttomWall.EnterEventHandler += Fail;

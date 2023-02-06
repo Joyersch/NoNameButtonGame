@@ -21,8 +21,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     {
         private readonly EmptyButton button;
         private readonly Cursor cursor;
-        private readonly Laserwall wallup;
-        private readonly Laserwall walldown;
+        private readonly GlitchBlockCollection wallup;
+        private readonly GlitchBlockCollection walldown;
         private readonly float Multiplier = 200;
         private float GT;
         public Level38(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
@@ -30,8 +30,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             button.ClickEventHandler += Finish;
             cursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
-            wallup = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight));
-            walldown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight));
+            wallup = new GlitchBlockCollection(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40), new Vector2(base.defaultWidth, defaultHeight));
+            walldown = new GlitchBlockCollection(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight));
             wallup.EnterEventHandler += Fail;
             walldown.EnterEventHandler += Fail;
         }

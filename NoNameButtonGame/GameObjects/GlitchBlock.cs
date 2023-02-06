@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.GameObjects;
 
-internal class DontTouch : GameObject, IMouseActions
+internal class GlitchBlock : GameObject, IMouseActions
 {
     private Vector2 Scale;
     private int FramePos = 0;
@@ -21,7 +21,7 @@ internal class DontTouch : GameObject, IMouseActions
     public event Action<object> LeaveEventHandler;
     public event Action<object> ClickEventHandler;
 
-    public DontTouch(Vector2 position, Vector2 size) : base(position, size)
+    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size)
     {
         FrameMax = _textureHitboxMapping.AnimationsFrames;
         DrawColor = Color.White;
@@ -31,7 +31,7 @@ internal class DontTouch : GameObject, IMouseActions
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<DontTouch>();
+        _textureHitboxMapping = Mapping.GetMappingFromCache<GlitchBlock>();
     }
 
     public void Update(GameTime gt, Rectangle mousePosition)

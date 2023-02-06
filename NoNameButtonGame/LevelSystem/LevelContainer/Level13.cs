@@ -21,16 +21,16 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
     {
         private readonly EmptyButton userButton;
         private readonly Cursor movingCursor;
-        private readonly Laserwall wallUp;
-        private readonly Laserwall wallDown;
+        private readonly GlitchBlockCollection wallUp;
+        private readonly GlitchBlockCollection wallDown;
         private readonly float Multiplier = 100;
         public Level13(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 13 - Swap time.";
             userButton = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
             userButton.ClickEventHandler += Finish;
             movingCursor = new Cursor(new Vector2(0, 32), new Vector2(7, 10));
-            wallUp = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40),new Vector2(base.defaultWidth, defaultHeight));
-            wallDown = new Laserwall(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight));
+            wallUp = new GlitchBlockCollection(new Vector2(-(defaultWidth / Camera.Zoom), -defaultHeight - 40),new Vector2(base.defaultWidth, defaultHeight));
+            wallDown = new GlitchBlockCollection(new Vector2(-(defaultWidth / Camera.Zoom), 40), new Vector2(base.defaultWidth, defaultHeight));
             wallUp.EnterEventHandler += Fail;
             wallDown.EnterEventHandler += Fail;
         }

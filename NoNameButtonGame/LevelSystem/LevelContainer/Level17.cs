@@ -24,7 +24,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly Cursor mouseCursor;
         private readonly TextBuilder Info;
         private readonly Rainbow rainbowColorTransition;
-        private readonly Laserwall[] laserWalls;
+        private readonly GlitchBlockCollection[] laserWalls;
         private float gameTimeMoveWalls;
         private bool Left;
         public Level17(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
@@ -41,15 +41,15 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 GameTimeStepInterval = 32,
                 Offset = 256
             };
-            laserWalls = new Laserwall[4];
+            laserWalls = new GlitchBlockCollection[4];
             finishButton = new WinButton(new Vector2(-64, 96), new Vector2(128, 64)) {
                 DrawColor = Color.White,
             };
             finishButton.ClickEventHandler += Finish;
-            laserWalls[0] = new Laserwall(new Vector2(-320, -256), new Vector2(576, 224));
-            laserWalls[1] = new Laserwall(new Vector2(-320, -256), new Vector2(224, 576));
-            laserWalls[2] = new Laserwall(new Vector2(96, -256), new Vector2(224, 576));
-            laserWalls[3] = new Laserwall(new Vector2(-128, 64), new Vector2(200, 48));
+            laserWalls[0] = new GlitchBlockCollection(new Vector2(-320, -256), new Vector2(576, 224));
+            laserWalls[1] = new GlitchBlockCollection(new Vector2(-320, -256), new Vector2(224, 576));
+            laserWalls[2] = new GlitchBlockCollection(new Vector2(96, -256), new Vector2(224, 576));
+            laserWalls[3] = new GlitchBlockCollection(new Vector2(-128, 64), new Vector2(200, 48));
             for (int i = 0; i < laserWalls.Length; i++) {
                 laserWalls[i].EnterEventHandler += Fail;
             }

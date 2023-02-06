@@ -21,7 +21,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly Cursor mouseCursor;
         private readonly TextBuilder displayTimer;
         private readonly TextBuilder displayGun;
-        private readonly List<Tuple<Laserwall, Vector2>> shots;
+        private readonly List<Tuple<GlitchBlockCollection, Vector2>> shots;
         private float gameTimeUpdateShots;
         private float gameTimeUpdateOverAll;
         private readonly float shotTime = 200;
@@ -42,7 +42,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
             mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             displayGun = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
-            shots = new List<Tuple<Laserwall, Vector2>>();
+            shots = new List<Tuple<GlitchBlockCollection, Vector2>>();
         }
 
         public override void Draw(SpriteBatch spriteBatch) {
@@ -71,7 +71,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 while (gameTimeUpdateShots > shotTime) {
                     gameTimeUpdateShots -= shotTime;
                     Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - displayGun.rectangle.Center.ToVector2();
-                    shots.Add(new Tuple<Laserwall, Vector2>(new Laserwall(displayGun.Position, new Vector2(16, 8)), Dir / Dir.Length()));
+                    shots.Add(new Tuple<GlitchBlockCollection, Vector2>(new GlitchBlockCollection(displayGun.Position, new Vector2(16, 8)), Dir / Dir.Length()));
                     shots[^1].Item1.EnterEventHandler += Fail;
                 }
             }

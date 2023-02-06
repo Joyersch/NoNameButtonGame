@@ -96,7 +96,7 @@ public class NoNameGame : Game
         Mapping.AddMappingToCache(typeof(WinButton), Content.GetHitboxMapping("awesomebutton"));
         Mapping.AddMappingToCache(typeof(MiniTextButton), Content.GetHitboxMapping("minibutton"));
         Mapping.AddMappingToCache(typeof(Letter), Content.GetHitboxMapping("font"));
-        Mapping.AddMappingToCache(typeof(DontTouch), Content.GetHitboxMapping("zonenew"));
+        Mapping.AddMappingToCache(typeof(GlitchBlock), Content.GetHitboxMapping("zonenew"));
         Mapping.AddMappingToCache(typeof(ButtonLock), Content.GetHitboxMapping("placeholder"));
     }
 

@@ -22,7 +22,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private readonly EmptyButton button;
         private readonly Cursor cursor;
         private readonly TextBuilder[] Infos;
-        private readonly Laserwall wall;
+        private readonly GlitchBlockCollection wall;
         public Level45(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight, window, rand) {
             Name = "Level 45 - and the mexicans paid for it!";
             button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
@@ -31,7 +31,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Infos = new TextBuilder[2];
             Infos[0] = new TextBuilder("Thicc walls can be penetrated!", new Vector2(80, -132), new Vector2(8, 8), null, 0);
             Infos[1] = new TextBuilder("Just move fast enough!", new Vector2(80, -100), new Vector2(8, 8), null, 0);
-            wall = new Laserwall(new Vector2(-200, -300), new Vector2(180, 1024));
+            wall = new GlitchBlockCollection(new Vector2(-200, -300), new Vector2(180, 1024));
             wall.EnterEventHandler += Fail;
         }
 
