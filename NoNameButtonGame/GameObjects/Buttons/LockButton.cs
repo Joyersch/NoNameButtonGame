@@ -81,7 +81,7 @@ public class LockButton : EmptyButton
     public void UpdateText()
     {
         textContainer.ChangeText(_locked ? "Locked" : "Unlocked");
-        textContainer.ChangeColor(_locked ? Color.Red : Color.Green);
+        textContainer.ChangeColor(_locked ? Color.DarkGray : Color.Gray);
         textContainer.Position = rectangle.Center.ToVector2() - textContainer.rectangle.Size.ToVector2() / 2;
         textContainer.Position.Y -= 32;
     }
