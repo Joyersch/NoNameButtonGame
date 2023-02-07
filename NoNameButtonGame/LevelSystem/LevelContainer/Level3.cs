@@ -74,11 +74,11 @@ internal class Level3 : SampleLevel
         _buttonLock = new ButtonLock(_lockButton);
         _buttonLock.Callback += Finish;
 
-        _info1 = new TextBuilder("This button here is Locked",
-            new Vector2(-160, -128), TextBuilder.DefaultLetterSize, 2);
+        _info1 = new TextBuilder("This button here is locked!",
+            new Vector2(-160, -128));
         
         _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Down) + "This button will unlock the other button",
-            new Vector2(-256, 86), TextBuilder.DefaultLetterSize, 2);
+            new Vector2(-256, 86));
     }
 
     private void MagicButtonOnClickEventHandler(object obj)

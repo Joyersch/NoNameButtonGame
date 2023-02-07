@@ -9,55 +9,111 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Text;
+using NoNameButtonGame.Colors;
+using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level4 : SampleLevel
 {
-    private readonly EmptyButton button;
-    private readonly Cursor cursor;
-    private readonly TextBuilder[] Infos;
-    private readonly GlitchBlockCollection wall;
+    private Random _random;
 
-    public Level4(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
-        window, rand)
+    private readonly Cursor _cursor;
+    private readonly MousePointer _mousePointer;
+    private readonly GameObjectLinker _objectLinker;
+
+    private readonly TextButton _magicButton;
+    private readonly Rainbow _rainbowMagicColor;
+    private readonly ColorLinker _colorLinker;
+
+    private readonly TextButton _lockButton;
+    private readonly Rainbow _rainbowWinColor;
+    private readonly ButtonLock _buttonLock;
+
+    private readonly TextBuilder _info1;
+    private readonly TextBuilder _info2;
+
+    public Level4(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
+        defaultHeight,
+        window, random)
     {
-        Name = "Level 4 - Tutorial 3 - ??????? type : bad stuff";
-        button = new WinButton(new Vector2(-256, -0), new Vector2(128, 64));
-        button.ClickEventHandler += Finish;
-        cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        Infos = new TextBuilder[2];
-        Infos[0] = new TextBuilder("Thin walls can be penetrated!", new Vector2(80, -132), new Vector2(8, 8), null, 0);
-        Infos[1] = new TextBuilder("Just move fast enough!", new Vector2(80, -100), new Vector2(8, 8), null, 0);
-        wall = new GlitchBlockCollection(new Vector2(-40, -300), new Vector2(24, 1024));
-        wall.EnterEventHandler += Fail;
+        Name = "Level 4 - Tutorial 3 - ????? = ??????";
+        _random = random;
+        _rainbowMagicColor = new Rainbow();
+
+        _cursor = new Cursor(Vector2.One);
+        _mousePointer = new MousePointer();
+
+        _objectLinker = new GameObjectLinker();
+        _objectLinker.Add(_mousePointer, _cursor);
+
+        _magicButton = new TextButton(new Vector2(-316,112), "magicUnlockButton", "Magic");
+        _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
+
+        _rainbowMagicColor = new Rainbow
+        {
+            Increment = 10,
+            GameTimeStepInterval = 25
+        };
+
+        _colorLinker = new ColorLinker();
+        _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
+
+        _lockButton = new TextButton(new Vector2(-64,-96), "win", "Finish Level");
+        _rainbowWinColor = new Rainbow()
+        {
+            Increment = 10,
+            GameTimeStepInterval = 25,
+            Offset = 255
+        };
+        _colorLinker.Add(_rainbowWinColor, _lockButton.Text);
+        
+        _buttonLock = new ButtonLock(_lockButton);
+        _buttonLock.Callback += Finish;
+
+        _info1 = new TextBuilder("CabcdefghijklmnopqrstuvwxyzM",
+            new Vector2(-160, -128));
+        
+        _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Down) + "This button will unlock the other button",
+            new Vector2(-256, 86));
+    }
+
+    private void MagicButtonOnClickEventHandler(object obj)
+    {
+        if (_buttonLock.IsLocked)
+            _buttonLock.Unlock();
+        else
+            _buttonLock.Lock();
     }
 
     public override void Update(GameTime gameTime)
     {
-        cursor.Update(gameTime);
         base.Update(gameTime);
-        for (int i = 0; i < Infos.Length; i++)
-        {
-            Infos[i].Update(gameTime);
-        }
+        _mousePointer.Update(gameTime, mousePosition);
+        _objectLinker.Update(gameTime);
+        _cursor.Update(gameTime);
 
-        cursor.Position = mousePosition - cursor.Size / 2;
-        button.Update(gameTime, cursor.Hitbox[0]);
-        wall.Update(gameTime, cursor.Hitbox[0]);
+        _rainbowMagicColor.Update(gameTime);
+        _rainbowWinColor.Update(gameTime);
+        _colorLinker.Update(gameTime);
+        _magicButton.Update(gameTime, _cursor.rectangle);
+
+        _buttonLock.Update(gameTime, _cursor.rectangle);
+        _info1.Update(gameTime);
+        _info2.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        button.Draw(spriteBatch);
-        for (int i = 0; i < Infos.Length; i++)
-        {
-            Infos[i].Draw(spriteBatch);
-        }
-
-        wall.Draw(spriteBatch);
-        cursor.Draw(spriteBatch);
+        _magicButton.Draw(spriteBatch);
+        _buttonLock.Draw(spriteBatch);
+        
+        _info1.Draw(spriteBatch);
+        _info2.Draw(spriteBatch);
+        
+        _cursor.Draw(spriteBatch);
     }
 }
