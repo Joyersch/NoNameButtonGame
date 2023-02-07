@@ -18,7 +18,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level1 : SampleLevel
 {
-    private readonly StartButton startButton;
+    private readonly TextButton startButton;
     private readonly Cursor mouseCursor;
     private readonly TextBuilder infoText;
     private readonly GameObjectLinker gameObjectLinker;
@@ -27,7 +27,7 @@ internal class Level1 : SampleLevel
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)
     {
-        startButton = new StartButton(new Vector2(-80, -32), new Vector2(160, 64))
+        startButton = new TextButton(new Vector2(-80, -32), "Start","Start")
         {
             DrawColor = Color.White,
         };
