@@ -66,6 +66,6 @@ public class ButtonLock : GameObject
         text.ChangeText(_locked
             ? Letter.ReverseParse(Letter.Character.LockLocked).ToString()
             : Letter.ReverseParse(Letter.Character.LockUnlocked).ToString());
-        text.ChangeColor(_locked ? Color.Red : Color.Green);
+        text.ChangeColor(_locked ? Color.Gray : Color.DarkGray);
     }
 }
