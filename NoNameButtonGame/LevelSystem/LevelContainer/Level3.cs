@@ -50,7 +50,7 @@ internal class Level3 : SampleLevel
         _objectLinker = new GameObjectLinker();
         _objectLinker.Add(_mousePointer, _cursor);
 
-        _magicButton = new TextButton(new Vector2(-316,112), "magicUnlockButton", "magic");
+        _magicButton = new TextButton(new Vector2(-316,112), "magicUnlockButton", "Magic");
         _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
 
         _rainbowMagicColor = new Rainbow
@@ -75,10 +75,10 @@ internal class Level3 : SampleLevel
         _buttonLock.Callback += Finish;
 
         _info1 = new TextBuilder("This button here is Locked",
-            new Vector2(-80, -128), TextBuilder.DefaultLetterSize / 2, 2);
+            new Vector2(-80, -128));
         
         _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Left) + "This button will unlock the other button",
-            new Vector2(-176, 140), TextBuilder.DefaultLetterSize / 2, 2);
+            new Vector2(-176, 140));
     }
 
     private void MagicButtonOnClickEventHandler(object obj)
