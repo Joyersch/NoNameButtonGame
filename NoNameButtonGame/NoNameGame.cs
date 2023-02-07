@@ -10,6 +10,7 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Input;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.Text;
 using Display = NoNameButtonGame.Display;
@@ -110,6 +111,8 @@ public class NoNameGame : Game
         _display.Update(gameTime);
 
         levelManager.Update(gameTime);
+        // This will store the last key states
+        InputReaderMouse.UpdateLast();
     }
 
     protected override void Draw(GameTime gameTime)

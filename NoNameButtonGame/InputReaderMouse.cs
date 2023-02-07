@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,49 +8,37 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace NoNameButtonGame.Input
+namespace NoNameButtonGame.Input;
+
+public static class InputReaderMouse
 {
-    public static class InputReaderMouse
+    public enum MouseKeys
     {
-        public enum MouseKeys
-        {
-            Left,
-            Middle,
-            Right
-        }
-
-        private static List<MouseKeys> _currentMouseKeys = new();
-
-        public static bool CheckKey(MouseKeys search, bool onlyOnces)
-        {
-            MouseState mouseState = Mouse.GetState();
-            if (onlyOnces && _currentMouseKeys.Any(s => s == search))
-            {
-                var released = search switch
-                {
-                    MouseKeys.Left => mouseState.LeftButton == ButtonState.Released,
-                    MouseKeys.Middle => mouseState.MiddleButton == ButtonState.Released,
-                    MouseKeys.Right => mouseState.RightButton == ButtonState.Released,
-                    _ => false
-                };
-
-                if (released)
-                    _currentMouseKeys.Remove(search);
-                return false;
-            }
-
-            var pressed = search switch
-            {
-                MouseKeys.Left => mouseState.LeftButton == ButtonState.Pressed,
-                MouseKeys.Middle => mouseState.MiddleButton == ButtonState.Pressed,
-                MouseKeys.Right => mouseState.RightButton == ButtonState.Pressed,
-                _ => false
-            };
-
-            if (onlyOnces && pressed)
-                _currentMouseKeys.Add(search);
-
-            return pressed;
-        }
+        Left,
+        Middle,
+        Right
     }
+
+    private static Dictionary<MouseKeys, ButtonState> _lastMouseKeys = new();
+
+    public static void UpdateLast()
+    {
+        MouseState mouseState = Mouse.GetState();
+        _lastMouseKeys = new()
+        {
+            {MouseKeys.Left, mouseState.LeftButton},
+            {MouseKeys.Middle, mouseState.MiddleButton},
+            {MouseKeys.Right, mouseState.RightButton}
+        };
+    }
+
+    public static bool CheckKey(MouseKeys search, bool onlyOnces)
+        => !(onlyOnces && _lastMouseKeys.Any(s => s.Key == search && s.Value == ButtonState.Pressed))
+           && search switch
+           {
+               MouseKeys.Left => Mouse.GetState().LeftButton == ButtonState.Pressed,
+               MouseKeys.Middle => Mouse.GetState().MiddleButton == ButtonState.Pressed,
+               MouseKeys.Right => Mouse.GetState().RightButton == ButtonState.Pressed,
+               _ => false
+           };
 }
