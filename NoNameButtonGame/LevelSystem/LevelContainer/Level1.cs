@@ -27,19 +27,19 @@ internal class Level1 : SampleLevel
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)
     {
-        startButton = new TextButton(new Vector2(-80, -32), "Start","Start")
-        {
-            DrawColor = Color.White,
-        };
+        startButton = new TextButton(-TextButton.DefaultSize / 2, "Start", "Start");
         startButton.ClickEventHandler += Finish;
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         mouse = new MousePointer();
         Name = "Level 1 - Click the Button!";
         infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
+        infoText.ChangePosition(Vector2.Zero -
+                                new Vector2(infoText.rectangle.Width,
+                                    infoText.rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
         gameObjectLinker = new GameObjectLinker();
         gameObjectLinker.Add(mouse, mouseCursor);
     }
-    
+
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
@@ -49,7 +49,7 @@ internal class Level1 : SampleLevel
         startButton.Update(gameTime, mouseCursor.Hitbox[0]);
         infoText.Update(gameTime);
     }
-    
+
     public override void Draw(SpriteBatch spriteBatch)
     {
         infoText.Draw(spriteBatch);

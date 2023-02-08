@@ -9,111 +9,58 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Text;
-using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level3 : SampleLevel
 {
-    private Random _random;
-
-    private readonly Cursor _cursor;
+    private readonly EmptyButton _stateButton;
+    private readonly Cursor _mouseCursor;
+    private readonly TextBuilder _infoAboutButton;
+    private readonly TextBuilder _infoAboutButton2;
+    private readonly TextBuilder _infoAboutButton3;
     private readonly MousePointer _mousePointer;
-    private readonly GameObjectLinker _objectLinker;
-
-    private readonly TextButton _magicButton;
-    private readonly Rainbow _rainbowMagicColor;
-    private readonly ColorLinker _colorLinker;
-
-    private readonly TextButton _lockButton;
-    private readonly Rainbow _rainbowWinColor;
-    private readonly ButtonLock _buttonLock;
-
-    private readonly TextBuilder _info1;
-    private readonly TextBuilder _info2;
+    private readonly GameObjectLinker _linker;
+    private readonly ButtonStateAddon _buttonStateAddon;
 
     public Level3(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
-        defaultHeight,
-        window, random)
+        defaultHeight, window, random)
     {
-        Name = "Level 3 - Tutorial 2 - Button type: locked";
-        _random = random;
-        _rainbowMagicColor = new Rainbow();
-
-        _cursor = new Cursor(Vector2.One);
+        Name = "Level 2 - Tutorial 1 - Button type: State";
+        _stateButton = new EmptyButton(new Vector2(-280, -16));
+        _infoAboutButton = new TextBuilder("This is a \"StateButton\".", new Vector2(-128, -128));
+        _infoAboutButton2 = new TextBuilder("Press the button to lower the number.", new Vector2(-128, 0));
+        _infoAboutButton3 = new TextBuilder("When it hits 0, you win!", new Vector2(-128, 16));
+        _mouseCursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
-
-        _objectLinker = new GameObjectLinker();
-        _objectLinker.Add(_mousePointer, _cursor);
-
-        _magicButton = new TextButton(new Vector2(-316,112), "magicUnlockButton", "Magic");
-        _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
-
-        _rainbowMagicColor = new Rainbow
-        {
-            Increment = 10,
-            GameTimeStepInterval = 25
-        };
-
-        _colorLinker = new ColorLinker();
-        _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
-
-        _lockButton = new TextButton(new Vector2(-64,-96), "win", "Finish Level");
-        _rainbowWinColor = new Rainbow()
-        {
-            Increment = 10,
-            GameTimeStepInterval = 25,
-            Offset = 255
-        };
-        _colorLinker.Add(_rainbowWinColor, _lockButton.Text);
-        
-        _buttonLock = new ButtonLock(_lockButton);
-        _buttonLock.Callback += Finish;
-
-        _info1 = new TextBuilder("This button here is locked!",
-            new Vector2(-160, -128));
-        
-        _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Down) + "This button will unlock the other button",
-            new Vector2(-256, 86));
-    }
-
-    private void MagicButtonOnClickEventHandler(object obj)
-    {
-        if (_buttonLock.IsLocked)
-            _buttonLock.Unlock();
-        else
-            _buttonLock.Lock();
+        _linker = new GameObjectLinker();
+        _linker.Add(_mousePointer, _mouseCursor);
+        _buttonStateAddon = new ButtonStateAddon(_stateButton, 5);
+        _buttonStateAddon.StateReachedZero += Finish;
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         _mousePointer.Update(gameTime, mousePosition);
-        _objectLinker.Update(gameTime);
-        _cursor.Update(gameTime);
-
-        _rainbowMagicColor.Update(gameTime);
-        _rainbowWinColor.Update(gameTime);
-        _colorLinker.Update(gameTime);
-        _magicButton.Update(gameTime, _cursor.rectangle);
-
-        _buttonLock.Update(gameTime, _cursor.rectangle);
-        _info1.Update(gameTime);
-        _info2.Update(gameTime);
+        _linker.Update(gameTime);
+        _mouseCursor.Update(gameTime);
+        _buttonStateAddon.Update(gameTime, _mouseCursor.rectangle);
+        _infoAboutButton.Update(gameTime);
+        _infoAboutButton2.Update(gameTime);
+        _infoAboutButton3.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        _magicButton.Draw(spriteBatch);
-        _buttonLock.Draw(spriteBatch);
-        
-        _info1.Draw(spriteBatch);
-        _info2.Draw(spriteBatch);
-        
-        _cursor.Draw(spriteBatch);
+        _buttonStateAddon.Draw(spriteBatch);
+        _infoAboutButton.Draw(spriteBatch);
+        _infoAboutButton2.Draw(spriteBatch);
+        _infoAboutButton3.Draw(spriteBatch);
+        _mouseCursor.Draw(spriteBatch);
     }
 }

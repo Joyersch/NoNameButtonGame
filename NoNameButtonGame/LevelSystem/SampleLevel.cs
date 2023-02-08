@@ -33,7 +33,6 @@ internal class SampleLevel : ILevel
     {
         this.defaultWidth = defaultWidth;
         this.defaultHeight = defaultHeight;
-        cameraPosition = new Vector2(0, -2291.5984F); //Dont ask why it just needs to be
         Window = window;
         Camera = new CameraClass(new Vector2(defaultWidth, defaultHeight));
         cameraPosition = Vector2.Zero;

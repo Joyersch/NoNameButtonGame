@@ -99,6 +99,7 @@ public class NoNameGame : Game
         Mapping.AddMappingToCache(typeof(Letter), Content.GetHitboxMapping("font"));
         Mapping.AddMappingToCache(typeof(GlitchBlock), Content.GetHitboxMapping("zonenew"));
         Mapping.AddMappingToCache(typeof(ButtonLock), Content.GetHitboxMapping("placeholder"));
+        Mapping.AddMappingToCache(typeof(ButtonStateAddon), Content.GetHitboxMapping("placeholder"));
     }
 
     protected override void Update(GameTime gameTime)

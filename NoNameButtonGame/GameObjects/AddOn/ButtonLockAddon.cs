@@ -17,6 +17,7 @@ public class ButtonLock : GameObject
 
     public event Action<object> Callback;
 
+    
     public ButtonLock(EmptyButton button) : base(button.rectangle.Center.ToVector2(), new Vector2(2, 2))
     {
         this.button = button;

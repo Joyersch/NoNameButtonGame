@@ -67,7 +67,7 @@ public static class Mapping
 
             case "cursor":
                 map.ImageSize = new Vector2(map.Texture.Width, map.Texture.Height);
-                map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, 2, 2)};
+                map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, 1, 1)};
                 break;
 
             case "zone":

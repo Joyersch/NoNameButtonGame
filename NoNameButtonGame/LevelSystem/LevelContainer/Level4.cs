@@ -74,7 +74,7 @@ internal class Level4 : SampleLevel
         _buttonLock = new ButtonLock(_lockButton);
         _buttonLock.Callback += Finish;
 
-        _info1 = new TextBuilder("CabcdefghijklmnopqrstuvwxyzM",
+        _info1 = new TextBuilder("A-+.,;:_!?=*/\\\"x(x)x",
             new Vector2(-160, -128));
         
         _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Down) + "This button will unlock the other button",
