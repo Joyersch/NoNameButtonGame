@@ -43,7 +43,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public override void Update(GameTime gameTime) {
             cursor.Update(gameTime);
             base.Update(gameTime);
-            Info.ChangePosition(-Info.rectangle.Size.ToVector2() / 2 + new Vector2(0, -64));
+            Info.ChangePosition(-Info.Rectangle.Size.ToVector2() / 2 + new Vector2(0, -64));
             if (button.CurrentStates < 99950 && stat2 == 0) {
                 stat2++;
                 Info.ChangeText("this is not a trick its real!");

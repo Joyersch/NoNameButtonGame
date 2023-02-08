@@ -80,7 +80,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 GT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > ShotTime) {
                     GT -= ShotTime;
-                    Vector2 Dir = button.rectangle.Center.ToVector2() - GUN.rectangle.Center.ToVector2();
+                    Vector2 Dir = button.rectangle.Center.ToVector2() - GUN.Rectangle.Center.ToVector2();
                     shots.Add(new Tuple<GlitchBlockCollection, Vector2>(new GlitchBlockCollection(GUN.Position, new Vector2(16, 8)), Dir / Dir.Length()));
                     shots[^1].Item1.EnterEventHandler += Fail;
                 }

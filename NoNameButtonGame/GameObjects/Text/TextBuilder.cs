@@ -7,10 +7,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.Text;
 
-public class TextBuilder
+public class TextBuilder : IColorable
 {
     private Letter[] _letters;
     private int spacing;
@@ -18,7 +19,7 @@ public class TextBuilder
     private string represent;
     public Vector2 Position;
     public Vector2 Size;
-    public Rectangle rectangle;
+    public Rectangle Rectangle;
     public string Text => represent;
 
     public Letter this[int i] => _letters[i];
@@ -58,7 +59,10 @@ public class TextBuilder
                 _letters[i].ChangeColor(color[i]);
         }
     }
-    
+
+    public int ColorLength()
+        => Length;
+
     public void ChangeColor(Color color)
     {
         for (int i = 0; i < _letters.Length; i++)
@@ -119,7 +123,7 @@ public class TextBuilder
                 Rectangle.Union(ref combination, ref l.rectangle, out combination);
         }
 
-        rectangle = combination;
+        Rectangle = combination;
     }
 
     public override string ToString()

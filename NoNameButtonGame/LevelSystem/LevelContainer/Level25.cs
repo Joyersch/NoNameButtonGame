@@ -54,7 +54,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             cursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             Marker = new TextBuilder[2];
             Marker[0] = new TextBuilder("Simon says!", new Vector2(-70, -132), new Vector2(16, 16), null, 0);
-            Marker[0].Position = Vector2.Zero - Marker[0].rectangle.Size.ToVector2() / 2;
+            Marker[0].Position = Vector2.Zero - Marker[0].Rectangle.Size.ToVector2() / 2;
             Marker[1] = new TextBuilder("", new Vector2(-40, 128), new Vector2(16, 16), null, 0);
             StartBtn = new StartButton(new Vector2(-80, -32), new Vector2(160, 64));
             StartBtn.ClickEventHandler += StartEvent;
@@ -79,7 +79,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     PlayingSequenz = true;
                     PlayedSq = 0;
                     Marker[1] = new TextBuilder("", new Vector2(-40, 128), new Vector2(16, 16), null, 0);
-                    Marker[1].Position = Vector2.Zero - Marker[1].rectangle.Size.ToVector2() / 2;
+                    Marker[1].Position = Vector2.Zero - Marker[1].Rectangle.Size.ToVector2() / 2;
                 }
                 return;
             }
@@ -111,7 +111,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     }
                 }
                 Marker[1] = new TextBuilder(mk, new Vector2(-40, 128), new Vector2(16, 16), mkc, 0);
-                Marker[1].Position = Vector2.Zero - Marker[1].rectangle.Size.ToVector2() / 2;
+                Marker[1].Position = Vector2.Zero - Marker[1].Rectangle.Size.ToVector2() / 2;
                 return;
             }
             Fail();

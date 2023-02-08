@@ -30,8 +30,8 @@ internal class Level4 : SampleLevel
     private readonly ColorLinker _colorLinker;
 
     private readonly TextButton _lockButton;
-    private readonly Rainbow _rainbowWinColor;
-    private readonly ButtonLock _buttonLock;
+    private readonly PulsatingRed _rainbowWinColor;
+    private readonly LockButtonAddon _lockButtonAddon;
 
     private readonly TextBuilder _info1;
     private readonly TextBuilder _info2;
@@ -40,7 +40,7 @@ internal class Level4 : SampleLevel
         defaultHeight,
         window, random)
     {
-        Name = "Level 4 - Tutorial 3 - ????? = ??????";
+        Name = "Level 4 - Tutorial 3 - The big bad";
         _random = random;
         _rainbowMagicColor = new Rainbow();
 
@@ -50,43 +50,43 @@ internal class Level4 : SampleLevel
         _objectLinker = new GameObjectLinker();
         _objectLinker.Add(_mousePointer, _cursor);
 
-        _magicButton = new TextButton(new Vector2(-316,112), "magicUnlockButton", "Magic");
+        _magicButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y),
+            "magicUnlockButton", "Magic");
         _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
 
         _rainbowMagicColor = new Rainbow
         {
-            Increment = 10,
-            GameTimeStepInterval = 25
+            GameTimeStepInterval = 1
         };
 
         _colorLinker = new ColorLinker();
         _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
 
-        _lockButton = new TextButton(new Vector2(-64,-96), "win", "Finish Level");
-        _rainbowWinColor = new Rainbow()
+        _lockButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y), "win",
+            "Finish Level");
+        _rainbowWinColor = new PulsatingRed()
         {
-            Increment = 10,
             GameTimeStepInterval = 25,
-            Offset = 255
         };
         _colorLinker.Add(_rainbowWinColor, _lockButton.Text);
-        
-        _buttonLock = new ButtonLock(_lockButton);
-        _buttonLock.Callback += Finish;
 
-        _info1 = new TextBuilder("A-+.,;:_!?=*/\\\"x(x)x",
+        _lockButtonAddon = new LockButtonAddon(_lockButton);
+        _lockButtonAddon.Callback += Finish;
+
+        _info1 = new TextBuilder("This button here is locked!",
             new Vector2(-160, -128));
-        
-        _info2 = new TextBuilder(Letter.ReverseParse(Letter.Character.Down) + "This button will unlock the other button",
-            new Vector2(-256, 86));
+        _info1.ChangePosition(new Vector2(-_info1.Rectangle.Width / 2, -128));
+
+        _info2 = new TextBuilder("The button below will unlock the button above!", Vector2.One);
+        _info2.ChangePosition(new Vector2(-_info2.Rectangle.Width / 2, -TextBuilder.DefaultLetterSize.Y / 2));
     }
 
     private void MagicButtonOnClickEventHandler(object obj)
     {
-        if (_buttonLock.IsLocked)
-            _buttonLock.Unlock();
+        if (_lockButtonAddon.IsLocked)
+            _lockButtonAddon.Unlock();
         else
-            _buttonLock.Lock();
+            _lockButtonAddon.Lock();
     }
 
     public override void Update(GameTime gameTime)
@@ -101,7 +101,7 @@ internal class Level4 : SampleLevel
         _colorLinker.Update(gameTime);
         _magicButton.Update(gameTime, _cursor.rectangle);
 
-        _buttonLock.Update(gameTime, _cursor.rectangle);
+        _lockButtonAddon.Update(gameTime, _cursor.rectangle);
         _info1.Update(gameTime);
         _info2.Update(gameTime);
     }
@@ -109,11 +109,11 @@ internal class Level4 : SampleLevel
     public override void Draw(SpriteBatch spriteBatch)
     {
         _magicButton.Draw(spriteBatch);
-        _buttonLock.Draw(spriteBatch);
-        
+        _lockButtonAddon.Draw(spriteBatch);
+
         _info1.Draw(spriteBatch);
         _info2.Draw(spriteBatch);
-        
+
         _cursor.Draw(spriteBatch);
     }
 }

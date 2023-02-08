@@ -34,8 +34,8 @@ internal class Level1 : SampleLevel
         Name = "Level 1 - Click the Button!";
         infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
         infoText.ChangePosition(Vector2.Zero -
-                                new Vector2(infoText.rectangle.Width,
-                                    infoText.rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
+                                new Vector2(infoText.Rectangle.Width,
+                                    infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
         gameObjectLinker = new GameObjectLinker();
         gameObjectLinker.Add(mouse, mouseCursor);
     }

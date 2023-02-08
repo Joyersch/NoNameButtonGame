@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace NoNameButtonGame.GameObjects;
 
-internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable
+internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable
 {
     private GlitchBlock[] glitchBlocksGrid;
     private Rectangle[] ingameHitbox;
@@ -135,4 +135,15 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable
         }
         return true;
     }
+
+    public void ChangeColor(Color[] input)
+    {
+        foreach (var glitchBlock in glitchBlocksGrid)
+        {
+            glitchBlock.ChangeColor(input);
+        }
+    }
+
+    public int ColorLength()
+        => 1;
 }

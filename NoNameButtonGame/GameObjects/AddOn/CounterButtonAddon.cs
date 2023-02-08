@@ -7,7 +7,7 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects;
 
-public class ButtonStateAddon : GameObject
+public class CounterButtonAddon : GameObject
 {
     public event Action StateReachedZero;
 
@@ -15,14 +15,14 @@ public class ButtonStateAddon : GameObject
     private EmptyButton button;
     private TextBuilder text;
 
-    public ButtonStateAddon(EmptyButton button, int startStates) : base(
+    public CounterButtonAddon(EmptyButton button, int startStates) : base(
         button.Position, button.Size)
     {
         this.button = button;
         _states = startStates;
         button.ClickEventHandler += ClickHandler;
         text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
-            button.Position + new Vector2(TextButton.DefaultTextSize.X, 0));
+            button.Position);
         UpdateText();
     }
 
@@ -46,7 +46,7 @@ public class ButtonStateAddon : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<ButtonLock>();
+        _textureHitboxMapping = Mapping.GetMappingFromCache<LockButtonAddon>();
     }
 
     private void ClickHandler(object obj)

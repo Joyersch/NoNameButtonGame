@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.GameObjects;
 
-internal class GlitchBlock : GameObject, IMouseActions
+internal class GlitchBlock : GameObject, IMouseActions, IColorable
 {
     private Vector2 Scale;
     private int FramePos = 0;
@@ -50,4 +50,9 @@ internal class GlitchBlock : GameObject, IMouseActions
             EnterEventHandler(this);
         base.Update(gt);
     }
+
+    public void ChangeColor(Color[] input)
+        => DrawColor = input[0];
+
+    public int ColorLength() => 1;
 }

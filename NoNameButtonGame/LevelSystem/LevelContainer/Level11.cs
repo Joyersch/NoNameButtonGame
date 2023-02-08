@@ -90,7 +90,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             if (!Loaded) {
                 for (int i = 0; i < displayText.Length; i++) {
                     displayText[i].Update(gameTime);
-                    displayText[i].ChangePosition(new Vector2(24, -120 + i * 16) - displayText[i].rectangle.Size.ToVector2() / 2);
+                    displayText[i].ChangePosition(new Vector2(24, -120 + i * 16) - displayText[i].Rectangle.Size.ToVector2() / 2);
 
                 }
                 Loaded = true;

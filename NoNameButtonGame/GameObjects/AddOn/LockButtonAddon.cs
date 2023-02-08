@@ -7,7 +7,7 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects;
 
-public class ButtonLock : GameObject
+public class LockButtonAddon : GameObject
 {
     public bool IsLocked => _locked;
 
@@ -18,7 +18,7 @@ public class ButtonLock : GameObject
     public event Action<object> Callback;
 
     
-    public ButtonLock(EmptyButton button) : base(button.rectangle.Center.ToVector2(), new Vector2(2, 2))
+    public LockButtonAddon(EmptyButton button) : base(button.rectangle.Center.ToVector2(), new Vector2(2, 2))
     {
         this.button = button;
         button.ClickEventHandler += ClickHandler;
@@ -28,7 +28,7 @@ public class ButtonLock : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<ButtonLock>();
+        _textureHitboxMapping = Mapping.GetMappingFromCache<LockButtonAddon>();
     }
 
     private void ClickHandler(object sender)

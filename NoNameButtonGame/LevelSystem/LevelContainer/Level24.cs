@@ -41,12 +41,15 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Infos[1] = new TextBuilder("gg!", new Vector2(120, -100), new Vector2(8, 8), null, 0);
             WallLeft = new GlitchBlockCollection[WallLength];
             WallRight = new GlitchBlockCollection[WallLength];
+            var color = Color.Crimson;
             List<GlitchBlockCollection> Walls = new List<GlitchBlockCollection>();
             for (int i = 0; i < WallLength; i++) {
                 WallLeft[i] = new GlitchBlockCollection(new Vector2(96, 512 * i), new Vector2(416, 512));
                 WallRight[i] = new GlitchBlockCollection(new Vector2(-512, 512 * i), new Vector2(416, 512));
                 WallRight[i].EnterEventHandler += Fail;
                 WallLeft[i].EnterEventHandler += Fail;
+                WallLeft[i].DrawColor = color;
+                WallRight[i].DrawColor = color;
             }
             for (int i = 0; i < (WallLength - 1) * 8 / 2; i++) {
                 int c = rand.Next(0, 3);
@@ -63,6 +66,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             Blocks = Walls.ToArray();
             for (int i = 0; i < Blocks.Length; i++) {
                 Blocks[i].EnterEventHandler += Fail;
+                Blocks[i].DrawColor = color;
             }
             shots = new List<Tuple<GlitchBlockCollection, Vector2>>();
             GUN = new TextBuilder("AGUN", new Vector2(-256, 0), new Vector2(16, 16), null, 0);
@@ -121,7 +125,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 GT2 += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT2 > ShotTime) {
                     GT2 -= ShotTime;
-                    Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.rectangle.Center.ToVector2();
+                    Vector2 Dir = cursor.Hitbox[0].Center.ToVector2() - GUN.Rectangle.Center.ToVector2();
                     var ls = new GlitchBlockCollection(GUN.Position, new Vector2(16, 8)) {
                         DrawColor = Color.Green
                     };

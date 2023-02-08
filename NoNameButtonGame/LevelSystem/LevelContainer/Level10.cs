@@ -79,7 +79,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public override void Update(GameTime gameTime) {
             mouseCursor.Update(gameTime);
             base.Update(gameTime);
-            Questions.ChangePosition(new Vector2(0, -128) - Questions.rectangle.Size.ToVector2() / 2);
+            Questions.ChangePosition(new Vector2(0, -128) - Questions.Rectangle.Size.ToVector2() / 2);
             Questions.Update(gameTime);
             for (int i = 0; i < awnserButtons.Length; i++) {
                 awnserButtons[i].Update(gameTime, mouseCursor.Hitbox[0]);

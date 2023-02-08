@@ -32,7 +32,7 @@ public class TextButton : EmptyButton
         Vector2 textSize, int spacing) : base(position, size)
     {
         Text = new TextBuilder(text, Position, textSize, spacing);
-        Text.ChangePosition(rectangle.Center.ToVector2() - Text.rectangle.Size.ToVector2() / 2);
+        Text.ChangePosition(rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
         Name = name;
     }
 
@@ -40,7 +40,6 @@ public class TextButton : EmptyButton
     {
         Text.Update(gt);
         base.Update(gt, MousePos);
-        Text.ChangePosition(rectangle.Center.ToVector2() - Text.rectangle.Size.ToVector2() / 2);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
