@@ -6,6 +6,7 @@ using System.Text;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Groups;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.LogicObjects;
 
@@ -16,6 +17,14 @@ internal class SettingsScreen : SampleLevel
     private readonly TextBuilder _resolution;
     private readonly SquareTextButton _decreaseResolutionButton;
     private readonly SquareTextButton _increaseResolutionButton;
+    
+    private readonly TextBuilder _volumeMusic;
+    private readonly SquareTextButton _decreaseVolumeMusicButton;
+    private readonly SquareTextButton _increaseVolumeMusicButton;
+    
+    private readonly TextBuilder _volumeSFX;
+    private readonly SquareTextButton _decreaseVolumeSFXButton;
+    private readonly SquareTextButton _increaseVolumeSFXButton;
 
     private readonly TextBuilder _fixedStepText;
     private readonly SquareTextButton _fixedStepButton;
@@ -25,6 +34,8 @@ internal class SettingsScreen : SampleLevel
 
     private readonly Cursor mouseCursor;
     private readonly TextButton[] resolutionButton;
+
+    private readonly ValueSelection _musicVolume;
 
 
     private Storage storage;
@@ -41,27 +52,28 @@ internal class SettingsScreen : SampleLevel
     {
         this.storage = storage;
         string settingOne = crossout, settingTwo = crossout;
+        int volume = 0;
         if (storage.Settings.IsFixedStep)
             settingOne = checkmark;
         if (storage.Settings.IsFullscreen)
             settingTwo = checkmark;
 
-        var leftAnchor = new Vector2(-304, -(64 * 2));
-        var rightAnchor = new Vector2(304, -(64 * 2));
-        var centerAnchor = new Vector2(0, -(64 * 2));
+        var leftAnchor = new Vector2(-196, -64);
+        var rightAnchor = new Vector2(16, -64);
 
         Name = "Start Menu";
         mouseCursor = new Cursor(Vector2.Zero);
 
-
-        resolutionButton = new TextButton[2];
-        resolutionButton[0] = new MiniTextButton(new Vector2(50, -72), new Vector2(40, 32), right, right,
-            MiniTextButton.DefaultTextSize);
-        resolutionButton[1] = new MiniTextButton(new Vector2(-108, -72), new Vector2(40, 32),
-            left, left, MiniTextButton.DefaultTextSize);
-        resolutionButton[0].ClickEventHandler += ChangeResolution;
-        resolutionButton[1].ClickEventHandler += ChangeResolution;
-
+        _decreaseResolutionButton = new SquareTextButton(leftAnchor, left, left);
+        _decreaseResolutionButton.ClickEventHandler += ChangeResolution;
+        _resolution = new TextBuilder(window.X + "x" + window.Y, Vector2.One);
+        
+        _increaseResolutionButton = new SquareTextButton(Vector2.Zero, right, right);
+        _increaseResolutionButton.ClickEventHandler += ChangeResolution;
+        
+        CalculateResolutionPositions();
+        
+        leftAnchor += new Vector2(0, _decreaseResolutionButton.Rectangle.Height + 4);
 
         _fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
         _fullscreenButton.Text.ChangeColor(new Color[1] {settingTwo == crossout ? Color.Red : Color.Green});
@@ -79,16 +91,12 @@ internal class SettingsScreen : SampleLevel
         _fixedStepText.Move(leftAnchor + new Vector2(_fixedStepButton.Rectangle.Width + 4,
             _fixedStepButton.Rectangle.Height / 2 - _fixedStepText.Rectangle.Height / 2));
 
-        leftAnchor += new Vector2(0, _fixedStepButton.Rectangle.Height + 4);
 
-        _decreaseResolutionButton = new SquareTextButton(leftAnchor, left, left);
-        _decreaseResolutionButton.ClickEventHandler += ChangeResolution;
-        _resolution = new TextBuilder(window.X + "x" + window.Y, Vector2.One);
+        List<string> volumeValues = new List<string>();
+        for (int i = 0; i < 10; i++)
+            volumeValues.Add(i.ToString());
+        _musicVolume = new ValueSelection(rightAnchor, Vector2.Zero, volumeValues, 9);
         
-        _increaseResolutionButton = new SquareTextButton(Vector2.Zero, right, right);
-        _increaseResolutionButton.ClickEventHandler += ChangeResolution;
-        
-        CalculateResolutionPositions();
 
         vectorResolution = window;
     }
@@ -177,6 +185,10 @@ internal class SettingsScreen : SampleLevel
        
         _fullscreenText.Update(gameTime);
         _fullscreenButton.Update(gameTime, mouseCursor.Hitbox[0]);
+        
+        _musicVolume.Update(gameTime, mouseCursor.Hitbox[0]);
+        
+        //_volumeMusic.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -190,6 +202,10 @@ internal class SettingsScreen : SampleLevel
         _resolution.Draw(spriteBatch);
         _decreaseResolutionButton.Draw(spriteBatch);
         _increaseResolutionButton.Draw(spriteBatch);
+        
+        //_volumeMusic.Draw(spriteBatch);
+        
+        _musicVolume.Draw(spriteBatch);
 
         mouseCursor.Draw(spriteBatch);
     }

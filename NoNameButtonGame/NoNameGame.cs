@@ -11,6 +11,7 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Empty;
 using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.GameObjects.Groups;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.LevelSystem;
@@ -105,6 +106,7 @@ public class NoNameGame : Game
         Mapping.AddMappingToCache(typeof(MiniButton), Content.GetHitboxMapping("minibutton"));
         Mapping.AddMappingToCache(typeof(SquareButton), Content.GetHitboxMapping("squarebutton"));
         Mapping.AddMappingToCache(typeof(SquareTextButton), Content.GetHitboxMapping("squarebutton"));
+        Mapping.AddMappingToCache(typeof(ValueSelection), Content.GetHitboxMapping("placeholder"));
     }
 
     protected override void Update(GameTime gameTime)
