@@ -12,7 +12,7 @@ using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class TextButton : EmptyButton
+public class TextButton : EmptyButton, IMoveable
 {
     public TextBuilder Text { get; }
     public string Name { get; }
@@ -34,6 +34,13 @@ public class TextButton : EmptyButton
         Text = new TextBuilder(text, Position, textSize, spacing);
         Text.ChangePosition(rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
         Name = name;
+    }
+
+    public override bool Move(Vector2 newPosition)
+    {
+        var relativ = newPosition - Position;
+        Text.Move(Text.Position + relativ);
+        return base.Move(newPosition);
     }
 
     public override void Update(GameTime gt, Rectangle MousePos)

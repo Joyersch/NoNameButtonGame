@@ -52,9 +52,9 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 Direction)
+    public virtual bool Move(Vector2 newPosition)
     {
-        Position += Direction;
+        Position += newPosition;
         return true;
     }
 

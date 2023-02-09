@@ -7,18 +7,26 @@ using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class SettingsScreen : SampleLevel
 {
     private readonly TextBuilder Resolution;
+    private readonly MiniTextButton _decreaseResolutionButton;
+    private readonly MiniTextButton _increaseResolutionButton;
+    
     private readonly TextBuilder fixedStep;
+    private readonly SquareTextButton fixedStepButton;
+    
     private readonly TextBuilder Fullscreen;
+    private readonly SquareTextButton fullscreenButton;
+    
     private readonly Cursor mouseCursor;
     private readonly TextButton[] resolutionButton;
-    private readonly TextButton fixedStepButton;
-    private readonly TextButton fullscreenButton;
+    
+   
     private Storage storage;
 
     private readonly string crossout = Letter.ReverseParse(Letter.Character.Crossout).ToString();
@@ -37,25 +45,34 @@ internal class SettingsScreen : SampleLevel
             settingOne = checkmark;
         if (storage.Settings.IsFullscreen)
             settingTwo = checkmark;
+        
+        var leftAnchor = new Vector2(-304,-(64 * 2));
+        var rightAnchor = new Vector2(304, -(64 * 2));
+        var centerAnchor = new Vector2(0, -(64 * 2));
+        
         Name = "Start Menu";
-        mouseCursor = new Cursor(Vector2.Zero, new Vector2(7, 10));
+        mouseCursor = new Cursor(Vector2.Zero);
         fixedStep = new TextBuilder("FPS-Limit", new Vector2(-60, -0));
         Resolution = new TextBuilder(window.X + "x" + window.Y, new Vector2(-60, -64));
-        Fullscreen = new TextBuilder("Fullscreen", new Vector2(-60, 64));
+        
         resolutionButton = new TextButton[2];
         resolutionButton[0] = new MiniTextButton(new Vector2(50, -72), new Vector2(40, 32), right, right, MiniTextButton.DefaultTextSize);
         resolutionButton[1] = new MiniTextButton(new Vector2(-108, -72), new Vector2(40, 32),
              left, left, MiniTextButton.DefaultTextSize);
         resolutionButton[0].ClickEventHandler += ChangeResolution;
         resolutionButton[1].ClickEventHandler += ChangeResolution;
-        fixedStepButton = new MiniTextButton(new Vector2(-108, -8), new Vector2(40, 32),
-             "IsFixedStep", settingOne, MiniTextButton.DefaultTextSize);
+
+        
+        
+        fixedStepButton = new SquareTextButton(new Vector2(-108, -8), "IsFixedStep", settingOne);
         fixedStepButton.Text.ChangeColor(new Color[1] {settingOne == crossout ? Color.Red : Color.Green});
         fixedStepButton.ClickEventHandler += ChangePressState;
-        fullscreenButton = new MiniTextButton(new Vector2(-108, 56), new Vector2(40, 32),
-             "Fullscreen", settingTwo, MiniTextButton.DefaultTextSize);
+        
+        fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
         fullscreenButton.Text.ChangeColor(new Color[1] {settingTwo == crossout ? Color.Red : Color.Green});
         fullscreenButton.ClickEventHandler += ChangePressState;
+        Fullscreen = new TextBuilder("Fullscreen", leftAnchor);
+        
         vectorResolution = window;
     }
 

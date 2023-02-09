@@ -126,12 +126,12 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 Direction)
+    public bool Move(Vector2 newPosition)
     {
-        Position += Direction;
+        Position += newPosition;
         for (int i = 0; i < glitchBlocksGrid.Length; i++)
         {
-            glitchBlocksGrid[i].Position += Direction;
+            glitchBlocksGrid[i].Position += newPosition;
         }
         return true;
     }

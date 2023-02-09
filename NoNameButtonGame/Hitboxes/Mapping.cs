@@ -86,13 +86,19 @@ public static class Mapping
 
             case "minibutton":
                 map.ImageSize = new Vector2(16, 8);
-                map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, 16, 8)};
+                map.Hitboxes = new Rectangle[2] {new Rectangle(0, 1, 16, 6), new Rectangle(1, 0, 14, 8)};
+                break;
+
+            case "squarebutton":
+                map.ImageSize = new Vector2(8, 8);
+                map.Hitboxes = new Rectangle[2] {new Rectangle(1, 0, 6, 8), new Rectangle(0, 1, 8, 6)};
                 break;
 
             case "settingsbutton":
                 map.ImageSize = new Vector2(73, 16);
                 map.Hitboxes = new Rectangle[2] {new Rectangle(1, 2, 71, 12), new Rectangle(2, 1, 69, 14)};
                 break;
+
             case "selectbutton":
                 map.ImageSize = new Vector2(54, 16);
                 map.Hitboxes = new Rectangle[2] {new Rectangle(1, 2, 52, 12), new Rectangle(2, 1, 50, 14)};

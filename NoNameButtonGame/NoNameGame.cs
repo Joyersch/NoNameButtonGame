@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Empty;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Hitboxes;
 using NoNameButtonGame.Input;
@@ -101,6 +102,9 @@ public class NoNameGame : Game
         Mapping.AddMappingToCache(typeof(GlitchBlock), Content.GetHitboxMapping("zonenew"));
         Mapping.AddMappingToCache(typeof(LockButtonAddon), Content.GetHitboxMapping("placeholder"));
         Mapping.AddMappingToCache(typeof(CounterButtonAddon), Content.GetHitboxMapping("placeholder"));
+        Mapping.AddMappingToCache(typeof(MiniButton), Content.GetHitboxMapping("minibutton"));
+        Mapping.AddMappingToCache(typeof(SquareButton), Content.GetHitboxMapping("squarebutton"));
+        Mapping.AddMappingToCache(typeof(SquareTextButton), Content.GetHitboxMapping("squarebutton"));
     }
 
     protected override void Update(GameTime gameTime)

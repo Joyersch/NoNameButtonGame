@@ -11,7 +11,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.Text;
 
-public class TextBuilder : IColorable
+public class TextBuilder : IColorable, IMoveable
 {
     private Letter[] _letters;
     private int spacing;
@@ -149,4 +149,13 @@ public class TextBuilder : IColorable
     }
 
     public static Vector2 DefaultLetterSize => new Vector2(16, 16);
+
+    public Vector2 GetPosition()
+        => Position;
+
+    public bool Move(Vector2 newPosition)
+    {
+        Position = newPosition;
+        return true;
+    }
 }

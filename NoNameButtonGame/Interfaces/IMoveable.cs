@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 namespace NoNameButtonGame.Interfaces
 {
-    internal interface IMoveable
+    public interface IMoveable
     {
         public Vector2 GetPosition();
-        public bool Move(Vector2 Direction);
+        public bool Move(Vector2 newPosition);
     }
 }
