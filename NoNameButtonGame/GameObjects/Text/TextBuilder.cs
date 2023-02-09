@@ -86,7 +86,7 @@ public class TextBuilder : IColorable, IMoveable
         foreach (Letter.Character character in characters)
         {
             var letter = new Letter(new Vector2(length, 0) + Position, Size, character);
-            letter.Position += new Vector2(0, 8F * letter.Scale.Y) - new Vector2(0, letter.rectangle.Height);
+            letter.Position += new Vector2(0, 8F * letter.Scale.Y) - new Vector2(0, letter.Rectangle.Height);
             length += (int) ((letter.frameSpacing.Width + spacing) * sizeScale);
             letters.Add(letter);
         }
@@ -118,9 +118,9 @@ public class TextBuilder : IColorable, IMoveable
         foreach (Letter l in _letters)
         {
             if (combination.IsEmpty)
-                combination = l.rectangle;
+                combination = l.Rectangle;
             else
-                Rectangle.Union(ref combination, ref l.rectangle, out combination);
+                Rectangle.Union(ref combination, ref l.Rectangle, out combination);
         }
 
         Rectangle = combination;
@@ -155,7 +155,7 @@ public class TextBuilder : IColorable, IMoveable
 
     public bool Move(Vector2 newPosition)
     {
-        Position = newPosition;
+       ChangePosition(newPosition);
         return true;
     }
 }

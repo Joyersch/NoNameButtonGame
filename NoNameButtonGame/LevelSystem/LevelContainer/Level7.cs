@@ -76,15 +76,15 @@ internal class Level7 : SampleLevel
 
         for (int i = 0; i < WallLength; i++)
         {
-            if (WallLeft[i].rectangle.Intersects(cameraRectangle))
+            if (WallLeft[i].Rectangle.Intersects(cameraRectangle))
                 WallLeft[i].Draw(spriteBatch);
-            if (WallRight[i].rectangle.Intersects(cameraRectangle))
+            if (WallRight[i].Rectangle.Intersects(cameraRectangle))
                 WallRight[i].Draw(spriteBatch);
         }
 
         for (int i = 0; i < Blocks.Length; i++)
         {
-            if (Blocks[i].rectangle.Intersects(cameraRectangle))
+            if (Blocks[i].Rectangle.Intersects(cameraRectangle))
                 Blocks[i].Draw(spriteBatch);
         }
 

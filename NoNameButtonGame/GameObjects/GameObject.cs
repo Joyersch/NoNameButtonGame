@@ -20,7 +20,7 @@ public class GameObject : IHitbox
     public Vector2 FrameSize;
     public Rectangle ImageLocation;
     public Color DrawColor;
-    public Rectangle rectangle;
+    public Rectangle Rectangle;
 
     protected TextureHitboxMapping _textureHitboxMapping;
     protected Rectangle[] _hitboxes;
@@ -35,7 +35,7 @@ public class GameObject : IHitbox
         Size = size;
         Position = position;
         DrawColor = Color.White;
-        rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
+        Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
         Initialize();
         ImageLocation = new Rectangle(
             (int) _textureHitboxMapping.ImageSize.X
@@ -46,7 +46,7 @@ public class GameObject : IHitbox
         Texture = _textureHitboxMapping.Texture;
         _hitboxes = new Rectangle[_textureHitboxMapping.Hitboxes.Length];
         CalculateHitboxes();
-        rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
+        Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
     }
 
     public virtual void Initialize()
@@ -63,13 +63,13 @@ public class GameObject : IHitbox
     public virtual void Draw(SpriteBatch spriteBatch)
     {
         if (ImageLocation == new Rectangle(0, 0, 0, 0))
-            spriteBatch.Draw(Texture, rectangle, DrawColor);
+            spriteBatch.Draw(Texture, Rectangle, DrawColor);
         else
-            spriteBatch.Draw(Texture, rectangle, ImageLocation, DrawColor);
+            spriteBatch.Draw(Texture, Rectangle, ImageLocation, DrawColor);
     }
 
     protected void UpdateRectangle()
-        => rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
+        => Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
 
     public bool HitboxCheck(Rectangle compareTo)
         => Hitbox.Any(h => h.Intersects(compareTo));

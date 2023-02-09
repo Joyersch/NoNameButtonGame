@@ -60,7 +60,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 TGT += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                 while (GT > 32) {
                     GT -= 32;
-                    Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - Walls.rectangle.Center.ToVector2();
+                    Vector2 Dir = mouseCursor.Hitbox[0].Center.ToVector2() - Walls.Rectangle.Center.ToVector2();
 
                     Walls.Move(Dir / Dir.Length() * (TGT / 1000));
                 }

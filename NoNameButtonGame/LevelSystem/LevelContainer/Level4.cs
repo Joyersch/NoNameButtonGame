@@ -99,9 +99,9 @@ internal class Level4 : SampleLevel
         _rainbowMagicColor.Update(gameTime);
         _rainbowWinColor.Update(gameTime);
         _colorLinker.Update(gameTime);
-        _magicButton.Update(gameTime, _cursor.rectangle);
+        _magicButton.Update(gameTime, _cursor.Rectangle);
 
-        _lockButtonAddon.Update(gameTime, _cursor.rectangle);
+        _lockButtonAddon.Update(gameTime, _cursor.Rectangle);
         _info1.Update(gameTime);
         _info2.Update(gameTime);
     }

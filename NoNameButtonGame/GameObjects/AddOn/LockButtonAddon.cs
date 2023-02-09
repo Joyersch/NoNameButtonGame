@@ -18,7 +18,7 @@ public class LockButtonAddon : GameObject
     public event Action<object> Callback;
 
     
-    public LockButtonAddon(EmptyButton button) : base(button.rectangle.Center.ToVector2(), new Vector2(2, 2))
+    public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2))
     {
         this.button = button;
         button.ClickEventHandler += ClickHandler;
@@ -40,7 +40,7 @@ public class LockButtonAddon : GameObject
     public void Update(GameTime gameTime, Rectangle mousePosition)
     {
         base.Update(gameTime);
-        button.Update(gameTime, !_locked ? mousePosition : rectangle);
+        button.Update(gameTime, !_locked ? mousePosition : Rectangle);
         text.Update(gameTime);
     }
 

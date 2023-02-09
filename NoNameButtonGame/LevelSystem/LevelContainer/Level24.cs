@@ -80,14 +80,14 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Infos[i].Draw(spriteBatch);
             }
             for (int i = 0; i < WallLength; i++) {
-                if (WallLeft[i].rectangle.Intersects(cameraRectangle))
+                if (WallLeft[i].Rectangle.Intersects(cameraRectangle))
                     WallLeft[i].Draw(spriteBatch);
-                if (WallRight[i].rectangle.Intersects(cameraRectangle))
+                if (WallRight[i].Rectangle.Intersects(cameraRectangle))
                     WallRight[i].Draw(spriteBatch);
 
             }
             for (int i = 0; i < Blocks.Length; i++) {
-                if (Blocks[i].rectangle.Intersects(cameraRectangle))
+                if (Blocks[i].Rectangle.Intersects(cameraRectangle))
                     Blocks[i].Draw(spriteBatch);
             }
             GUN.Draw(spriteBatch);
@@ -136,7 +136,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
                 shots[i].Item1.Update(gameTime, cursor.Hitbox[0]);
-                if (!shots[i].Item1.rectangle.Intersects(cameraRectangle)) {
+                if (!shots[i].Item1.Rectangle.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
             }

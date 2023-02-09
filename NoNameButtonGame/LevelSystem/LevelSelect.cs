@@ -105,19 +105,19 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             // Note: foreach is slower to run than for but as there aren't that many levels yet this should be fine
             foreach (var levelButton in _level)
             {
-                if (levelButton.rectangle.Intersects(cameraRectangle))
+                if (levelButton.Rectangle.Intersects(cameraRectangle))
                     levelButton.Draw(spriteBatch);
             }
 
             foreach (var down in _down)
             {
-                if (down.rectangle.Intersects(cameraRectangle))
+                if (down.Rectangle.Intersects(cameraRectangle))
                     down.Draw(spriteBatch);
             }
 
             foreach (var up in _up)
             {
-                if (up.rectangle.Intersects(cameraRectangle))
+                if (up.Rectangle.Intersects(cameraRectangle))
                     up.Draw(spriteBatch);
             }
 
@@ -161,19 +161,19 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             // Note: foreach is lower to run than for but as there aren't that many levels yet this should be fine
             foreach (var levelButton in _level)
             {
-                if (levelButton.rectangle.Intersects(cameraRectangle))
+                if (levelButton.Rectangle.Intersects(cameraRectangle))
                     levelButton.Update(gameTime, mouseCursor.Hitbox[0]);
             }
 
             foreach (var down in _down)
             {
-                if (down.rectangle.Intersects(cameraRectangle))
+                if (down.Rectangle.Intersects(cameraRectangle))
                     down.Update(gameTime, mouseCursor.Hitbox[0]);
             }
 
             foreach (var up in _up)
             {
-                if (up.rectangle.Intersects(cameraRectangle))
+                if (up.Rectangle.Intersects(cameraRectangle))
                     up.Update(gameTime, mouseCursor.Hitbox[0]);
             }
         }

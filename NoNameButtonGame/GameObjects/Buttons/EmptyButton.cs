@@ -54,7 +54,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     public virtual bool Move(Vector2 newPosition)
     {
-        Position += newPosition;
+        Position = newPosition;
         return true;
     }
 

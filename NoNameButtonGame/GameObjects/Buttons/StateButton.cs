@@ -64,7 +64,7 @@ public class StateButton : EmptyButton
         _hover = hover;
         textContainer.ChangeText(CurrentStates.ToString());
 
-        textContainer.Position = rectangle.Center.ToVector2() - textContainer.Rectangle.Size.ToVector2() / 2;
+        textContainer.Position = Rectangle.Center.ToVector2() - textContainer.Rectangle.Size.ToVector2() / 2;
         textContainer.Position.Y -= 32;
         textContainer.Update(gameTime);
         Update(gameTime);

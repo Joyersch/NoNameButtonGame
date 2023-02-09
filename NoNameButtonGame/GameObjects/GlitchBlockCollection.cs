@@ -101,7 +101,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
             glitchBlocksGrid[i].Update(gt, MousePos);
         }
 
-        if (rectangle.Intersects(MousePos))
+        if (Rectangle.Intersects(MousePos))
             EnterEventHandler?.Invoke(this);
         base.Update(gt);
         if (DrawColor != OldDrawColor)

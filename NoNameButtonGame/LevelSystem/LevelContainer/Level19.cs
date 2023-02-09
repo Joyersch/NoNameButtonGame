@@ -92,7 +92,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             removeItem.Clear();
             for (int i = 0; i < shots.Count; i++) {
                 shots[i].Item1.Update(gameTime, mouseCursor.Hitbox[0]);
-                if (!shots[i].Item1.rectangle.Intersects(cameraRectangle)) {
+                if (!shots[i].Item1.Rectangle.Intersects(cameraRectangle)) {
                     removeItem.Add(i);
                 }
             }

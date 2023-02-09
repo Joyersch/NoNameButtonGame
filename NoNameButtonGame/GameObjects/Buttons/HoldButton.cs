@@ -30,7 +30,7 @@ internal class HoldButton : EmptyButton
     {
         textContainer.ChangeText((((EndHoldTime - _holdTime) / 1000).ToString("0.0") + "s").Replace(',', '.'));
 
-        textContainer.Position = rectangle.Center.ToVector2() - textContainer.Rectangle.Size.ToVector2() / 2;
+        textContainer.Position = Rectangle.Center.ToVector2() - textContainer.Rectangle.Size.ToVector2() / 2;
         textContainer.Position.Y -= 32;
         textContainer.Update(gameTime);
         bool hover = HitboxCheck(mousePosition);

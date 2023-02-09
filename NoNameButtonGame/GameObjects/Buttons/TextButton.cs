@@ -32,15 +32,16 @@ public class TextButton : EmptyButton, IMoveable
         Vector2 textSize, int spacing) : base(position, size)
     {
         Text = new TextBuilder(text, Position, textSize, spacing);
-        Text.ChangePosition(rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
+        Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
         Name = name;
     }
 
     public override bool Move(Vector2 newPosition)
     {
-        var relativ = newPosition - Position;
-        Text.Move(Text.Position + relativ);
-        return base.Move(newPosition);
+        var success = base.Move(newPosition);
+        UpdateRectangle();
+        Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
+        return success;
     }
 
     public override void Update(GameTime gt, Rectangle MousePos)
