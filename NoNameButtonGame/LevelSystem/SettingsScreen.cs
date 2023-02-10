@@ -68,7 +68,7 @@ internal class SettingsScreen : SampleLevel
         if (index == -1)
             index++;
         
-        _resolution = new ValueSelection(leftAnchor, SquareTextButton.DefaultSize, resolutions,index);
+        _resolution = new ValueSelection(leftAnchor, 1, resolutions,index);
         _resolution.ValueChanged += ChangeResolution;
 
         leftAnchor += new Vector2(0, _resolution.Rectangle.Height + 4);
@@ -93,7 +93,7 @@ internal class SettingsScreen : SampleLevel
         List<string> volumeValues = new List<string>();
         for (int i = 0; i < 10; i++)
             volumeValues.Add(i.ToString());
-        _musicVolume = new ValueSelection(rightAnchor,SquareTextButton.DefaultSize, volumeValues, 9);
+        _musicVolume = new ValueSelection(rightAnchor,1, volumeValues, 9);
 
         vectorResolution = window;
     }

@@ -26,12 +26,22 @@ public class TextBuilder : IColorable, IMoveable
 
     public int Length => _letters.Length;
 
+    public static Vector2 DefaultLetterSize => new Vector2(16, 16);
+
     public TextBuilder(string text, Vector2 position, Vector2 letterSize, Color[] color, int spacing) : this(text,
         position, letterSize, spacing)
     {
     }
 
     public TextBuilder(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
+    {
+    }
+    
+    public TextBuilder(string text, Vector2 position, float scale) : this(text, position, DefaultLetterSize * scale, 1)
+    {
+    }
+    
+    public TextBuilder(string text, Vector2 position, float scale, int spacing) : this(text, position, DefaultLetterSize * scale, spacing)
     {
     }
 
@@ -67,7 +77,7 @@ public class TextBuilder : IColorable, IMoveable
     {
         for (int i = 0; i < _letters.Length; i++)
         {
-                _letters[i].ChangeColor(color);
+            _letters[i].ChangeColor(color);
         }
     }
 
@@ -148,14 +158,12 @@ public class TextBuilder : IColorable, IMoveable
         return build;
     }
 
-    public static Vector2 DefaultLetterSize => new Vector2(16, 16);
-
     public Vector2 GetPosition()
         => Position;
 
     public bool Move(Vector2 newPosition)
     {
-       ChangePosition(newPosition);
+        ChangePosition(newPosition);
         return true;
     }
 }

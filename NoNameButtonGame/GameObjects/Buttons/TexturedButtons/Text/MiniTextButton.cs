@@ -8,6 +8,11 @@ public class MiniTextButton : TextButton
     public MiniTextButton(Vector2 position, string Name, string Text) : this(position, DefaultSize, Name, Text, DefaultTextSize)
     {
     }
+    
+    public MiniTextButton(Vector2 position, float scale, string Name, string Text) : this(position, DefaultSize * scale, Name, Text, DefaultTextSize * scale)
+    {
+    }
+    
     public MiniTextButton(Vector2 position, Vector2 Size, string Name, string Text, Vector2 TextSize) : base(position, Size, Name, Text, TextSize)
     {
     }

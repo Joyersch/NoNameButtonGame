@@ -25,18 +25,17 @@ public class ValueSelection : GameObject, IMoveable
     public string Value => ValidValues[_pointer];
 
     private int _pointer;
-
-
-    public ValueSelection(Vector2 position, Vector2 size, List<string> validValues, int startValueIndex) : base(
-        position, size)
+    
+    public ValueSelection(Vector2 position, float scale, List<string> validValues, int startValueIndex) : base(
+        position, SquareTextButton.DefaultSize * scale)
     {
         ValidValues = validValues;
         _pointer = startValueIndex;
-        _decreaseButton = new SquareTextButton(position, size, left, left);
+        _decreaseButton = new SquareTextButton(position, scale, left, left);
         _decreaseButton.ClickEventHandler += DecreaseClicked;
-        _display = new TextBuilder(validValues[_pointer], Vector2.One);
+        _display = new TextBuilder(validValues[_pointer], Vector2.One, scale);
 
-        _increaseButton = new SquareTextButton(Vector2.Zero, size, right, right);
+        _increaseButton = new SquareTextButton(Vector2.Zero, scale, right, right);
         _increaseButton.ClickEventHandler += IncreaseClicked;
         Move(Position);
     }

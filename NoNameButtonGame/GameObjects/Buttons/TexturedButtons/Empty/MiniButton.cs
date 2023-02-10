@@ -9,6 +9,10 @@ public class MiniButton : EmptyButton
     {
     }
 
+    public MiniButton(Vector2 position, float scale) : this(position, DefaultSize * scale)
+    {
+    }
+
     public MiniButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }

@@ -8,8 +8,13 @@ namespace NoNameButtonGame.GameObjects;
 
 internal class Cursor : GameObject
 {
-
+    public static Vector2 DefaultSize => new Vector2(7, 10);
+    
     public Cursor(Vector2 position) : this(position, DefaultSize)
+    {
+    }
+    
+    public Cursor(Vector2 position, float scale) : this(position, DefaultSize * scale)
     {
     }
     
@@ -27,6 +32,4 @@ internal class Cursor : GameObject
     {
         base.Update(gameTime);
     }
-
-    public static Vector2 DefaultSize => new Vector2(7, 10);
 }

@@ -19,6 +19,10 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public EmptyButton(Vector2 position) : base(position, DefaultSize)
     {
     }
+    
+    public EmptyButton(Vector2 position, float scale) : base(position, DefaultSize * scale)
+    {
+    }
 
     public EmptyButton(Vector2 position, Vector2 size) : base(position, size)
     {

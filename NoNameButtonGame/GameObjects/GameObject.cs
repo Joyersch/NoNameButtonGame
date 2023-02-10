@@ -30,6 +30,16 @@ public class GameObject : IHitbox
 
     public Rectangle[] Hitbox => _hitboxes;
 
+    public static Vector2 DefaultSize => new Vector2(0, 0);
+
+    public GameObject(Vector2 position) : this(position, DefaultSize)
+    {
+    }
+
+    public GameObject(Vector2 position, float scale) : this(position, DefaultSize * scale)
+    {
+    }
+
     public GameObject(Vector2 position, Vector2 size)
     {
         Size = size;
