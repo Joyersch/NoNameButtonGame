@@ -12,6 +12,10 @@ public class SquareTextButton : TextButton
     {
     }
 
+    public SquareTextButton(Vector2 position, Vector2 size, string name, string text) : base(position, size, name, text)
+    {
+    }
+
     public override void Initialize()
     {
         _textureHitboxMapping = Mapping.GetMappingFromCache<SquareTextButton>();

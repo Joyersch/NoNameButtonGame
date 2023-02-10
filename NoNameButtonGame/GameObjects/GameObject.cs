@@ -68,7 +68,7 @@ public class GameObject : IHitbox
             spriteBatch.Draw(Texture, Rectangle, ImageLocation, DrawColor);
     }
 
-    protected void UpdateRectangle()
+    protected virtual void UpdateRectangle()
         => Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
 
     public bool HitboxCheck(Rectangle compareTo)

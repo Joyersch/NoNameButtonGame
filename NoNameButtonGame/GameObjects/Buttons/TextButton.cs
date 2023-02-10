@@ -17,7 +17,11 @@ public class TextButton : EmptyButton, IMoveable
     public TextBuilder Text { get; }
     public string Name { get; }
 
-    public TextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text,
+    public TextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text)
+    {
+    }
+    
+    public TextButton(Vector2 position, Vector2 size, string name, string text) : this(position, size, name, text,
         DefaultTextSize)
     {
     }
