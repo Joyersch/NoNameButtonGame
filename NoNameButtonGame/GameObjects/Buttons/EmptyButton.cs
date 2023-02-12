@@ -28,7 +28,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     {
     }
 
-    public EmptyButton(Vector2 position, Vector2 canvas) : base(position, canvas)
+    public EmptyButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
 

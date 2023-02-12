@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class FailButton : EmptyButton
 {
-    public FailButton(Vector2 position, Vector2 canvas) : base(position, canvas)
+    public FailButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
     

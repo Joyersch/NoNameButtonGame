@@ -13,7 +13,7 @@ public class SquareButton : EmptyButton
     {
     }
 
-    public SquareButton(Vector2 position, Vector2 canvas) : base(position, canvas)
+    public SquareButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
 

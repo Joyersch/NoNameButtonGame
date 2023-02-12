@@ -34,7 +34,7 @@ public class StateButton : EmptyButton
     {
     }
 
-    public StateButton(Vector2 position, Vector2 canvas, int states) : base(position, canvas)
+    public StateButton(Vector2 position, Vector2 size, int states) : base(position, size)
     {
         textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16),
             null, 0);

@@ -20,7 +20,7 @@ internal class HoldButton : EmptyButton
     private TextBuilder textContainer;
 
 
-    public HoldButton(Vector2 Position, Vector2 canvas) : base(Position, canvas)
+    public HoldButton(Vector2 Position, Vector2 size) : base(Position, size)
     {
         textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16), null,
             0);

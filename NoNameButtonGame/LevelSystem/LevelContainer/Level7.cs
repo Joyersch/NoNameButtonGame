@@ -116,7 +116,7 @@ internal class Level7 : SampleLevel
             }
         }
 
-        cursor.Position = mousePosition - cursor.Canvas / 2;
+        cursor.Position = mousePosition - cursor.Size / 2;
         button.Update(gameTime, cursor.Hitbox[0]);
         for (int i = 0; i < WallLength; i++)
         {

@@ -97,7 +97,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             } else
                 for (int i = 0; i < displayText.Length; i++)
                     displayText[i].Update(gameTime);
-            mouseCursor.Position = mousePosition - mouseCursor.Canvas / 2;
+            mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class WinButton : EmptyButton
 {
-    public WinButton(Vector2 position, Vector2 canvas) : base(position, canvas)
+    public WinButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
 

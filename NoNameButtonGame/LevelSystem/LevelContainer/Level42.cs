@@ -59,7 +59,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
-            cursor.Position = mousePosition - cursor.Canvas / 2;
+            cursor.Position = mousePosition - cursor.Size / 2;
             cursor.Update(gameTime);
             if (TimerStarted) {
                 Info.Update(gameTime);

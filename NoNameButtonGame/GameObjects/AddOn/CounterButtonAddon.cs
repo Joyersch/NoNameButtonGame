@@ -16,7 +16,7 @@ public class CounterButtonAddon : GameObject
     private TextBuilder text;
 
     public CounterButtonAddon(EmptyButton button, int startStates) : base(
-        button.Position, button.Canvas)
+        button.Position, button.Size)
     {
         this.button = button;
         _states = startStates;

@@ -58,7 +58,7 @@ internal class Level6 : SampleLevel
     {
         cursor.Update(gameTime);
         base.Update(gameTime);
-        cursor.Position = mousePosition - cursor.Canvas / 2;
+        cursor.Position = mousePosition - cursor.Size / 2;
         this.gameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
 
         while (this.gameTime > 8)

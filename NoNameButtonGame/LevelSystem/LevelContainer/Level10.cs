@@ -84,7 +84,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             for (int i = 0; i < awnserButtons.Length; i++) {
                 awnserButtons[i].Update(gameTime, mouseCursor.Hitbox[0]);
             }
-            mouseCursor.Position = mousePosition - mouseCursor.Canvas / 2;
+            mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
         }
     }
 }

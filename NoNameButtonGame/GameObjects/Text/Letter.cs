@@ -14,18 +14,18 @@ public class Letter : GameObject
     public Character RepresentingCharacter;
     private Rectangle drawOffset;
 
-    public Letter(Vector2 position, Vector2 canvas, Character character) : this(position, canvas, character, Color.White)
+    public Letter(Vector2 position, Vector2 size, Character character) : this(position, size, character, Color.White)
     {
     }
 
-    public Letter(Vector2 position, Vector2 canvas, Character character, Color color) : base(position, canvas)
+    public Letter(Vector2 position, Vector2 size, Character character, Color color) : base(position, size)
     {
         RepresentingCharacter = character;
         UpdateCharacter(character);
         _textureHitboxMapping.Hitboxes = new[]
         {
             new Rectangle((position + frameSpacing.Location.ToVector2()).ToPoint(),
-                (frameSpacing.Size.ToVector2() * _scale).ToPoint())
+                (frameSpacing.Size.ToVector2() * _scaleToTexture).ToPoint())
         };
         _hitboxes = new Rectangle[1];
     }
@@ -51,7 +51,7 @@ public class Letter : GameObject
             , frameSpacing.Width
             , frameSpacing.Height
         );
-        Canvas = frameSpacing.Size.ToVector2() * _scale;
+        Size = frameSpacing.Size.ToVector2() * _scaleToTexture;
         UpdateRectangle();
         RepresentingCharacter = character;
     }

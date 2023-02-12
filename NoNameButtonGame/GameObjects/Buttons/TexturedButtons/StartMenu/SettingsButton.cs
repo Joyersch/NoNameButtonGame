@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class SettingsButton : EmptyButton
 {
-    public SettingsButton(Vector2 position, Vector2 canvas) : base(position, canvas)
+    public SettingsButton(Vector2 position, Vector2 size) : base(position, size)
     {
     }
 

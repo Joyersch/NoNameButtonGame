@@ -98,7 +98,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
 
 
             Info.ChangePosition(-Info.Rectangle.Size.ToVector2() / 2 + new Vector2(0, -64));
-            cursor.Position = mousePosition - cursor.Canvas / 2;
+            cursor.Position = mousePosition - cursor.Size / 2;
             button.Update(gameTime, cursor.Hitbox[0]);
             Info.Update(gameTime);
             OldMPos = mousePosition;

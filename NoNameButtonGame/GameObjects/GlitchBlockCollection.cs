@@ -23,37 +23,42 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     private Color OldDrawColor;
 
-    public GlitchBlockCollection(Vector2 position, Vector2 canvas) : this(position, canvas, GlitchBlock.DefaultSize)
+    public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.DefaultSize)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 canvas, float singleScale) : this(position, canvas,
+    public GlitchBlockCollection(Vector2 position, Vector2 size, float singleScale) : this(position, size,
         GlitchBlock.DefaultSize * singleScale)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 canvas, Vector2 singleSize) : base(position, canvas)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size)
     {
-        var grid = canvas / singleSize;
-        var gridEdge = new Vector2(canvas.X % singleSize.X, canvas.Y % singleSize.Y);
+        var grid = size / singleSize;
+        var gridEdge = new Vector2(size.X % singleSize.X, size.Y % singleSize.Y);
 
         grid.Floor();
         grid += Vector2.Ceiling(gridEdge / singleSize);
 
 
         glitchBlocksGrid = new GlitchBlock[(int) grid.X * (int) grid.Y];
-        for (int i = 0; i < grid.Y; i++)
+        for (int y = 0; y < grid.Y; y++)
         {
-            for (int a = 0; a < grid.X; a++)
+            for (int x = 0; x < grid.X; x++)
             {
+                var newSize = singleSize;
+                if (gridEdge.X > 0 && x + 1 == grid.X)
+                    newSize.X = gridEdge.X;
+                if (gridEdge.Y > 0 && y + 1 == grid.Y)
+                    newSize.Y = gridEdge.Y;
+
                 var block = new GlitchBlock(
-                    new Vector2(position.X + a * singleSize.X, position.Y + i * singleSize.Y)
-                    , a < grid.X || i < grid.Y ? singleSize : gridEdge);
-                glitchBlocksGrid[i * ((int) grid.X) + a] = block;
+                    new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y), newSize);
+                glitchBlocksGrid[y * (int) grid.X + x] = block;
             }
         }
-
-        _hitboxes = glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
+        
+        CalculateHitboxes();
     }
 
     public override void Initialize()
@@ -80,7 +85,6 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
             LeaveEventHandler?.Invoke(this);
             hover = false;
         }
-        
         base.Update(gameTime);
         if (DrawColor != OldDrawColor)
         {
@@ -101,6 +105,13 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         }
     }
 
+    protected override void CalculateHitboxes()
+    {
+        if (glitchBlocksGrid is null)
+            return;
+        _hitboxes = glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
+    }
+
     public Vector2 GetPosition()
         => Position;
 
@@ -112,6 +123,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         {
             block.Move(block.Position + offset);
         }
+
         return true;
     }
 

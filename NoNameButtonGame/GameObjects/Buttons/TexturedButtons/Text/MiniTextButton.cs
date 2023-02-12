@@ -13,7 +13,7 @@ public class MiniTextButton : TextButton
     {
     }
     
-    public MiniTextButton(Vector2 position, Vector2 canvas, string Name, string Text, Vector2 TextSize) : base(position, canvas, Name, Text, TextSize)
+    public MiniTextButton(Vector2 position, Vector2 size, string Name, string Text, Vector2 TextSize) : base(position, size, Name, Text, TextSize)
     {
     }
 

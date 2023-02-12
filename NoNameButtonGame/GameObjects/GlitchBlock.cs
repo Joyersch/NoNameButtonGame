@@ -31,7 +31,7 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
     {
     }
 
-    public GlitchBlock(Vector2 position, Vector2 canvas) : base(position, canvas)
+    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size)
     {
         FrameMax = _textureHitboxMapping.AnimationsFrames;
         DrawColor = Color.White;

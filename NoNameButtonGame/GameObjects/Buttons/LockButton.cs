@@ -29,7 +29,7 @@ public class LockButton : EmptyButton
         
     }
 
-    public LockButton(Vector2 position, Vector2 canvas, bool startState) : base(position, canvas)
+    public LockButton(Vector2 position, Vector2 size, bool startState) : base(position, size)
     {
         textContainer = new TextBuilder(
             string.Empty

@@ -49,7 +49,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             GT += (float) gameTime.ElapsedGameTime.TotalMilliseconds * 10;
             double angle = (GT % 1000  / 1000F * Math.PI * 2);
             cursor.Position = new Vector2(Multiplier * (float)Math.Cos(angle), Multiplier * (float)Math.Sin(angle));
-            button.Position = mousePosition - button.Canvas / 2;
+            button.Position = mousePosition - button.Size / 2;
             wallup.Update(gameTime, button.Rectangle);
             walldown.Update(gameTime, button.Rectangle);
             button.Update(gameTime, cursor.Hitbox[0]);

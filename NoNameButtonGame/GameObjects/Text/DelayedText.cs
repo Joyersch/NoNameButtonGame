@@ -33,8 +33,9 @@ public class DelayedText : TextBuilder
 
     public override void Update(GameTime gameTime)
     {
-        _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (_savedGameTime > DisplayDelay && _textPointer < _toDisplayText.Length)
+        if (_textPointer < _toDisplayText.Length)
+            _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+        while (_savedGameTime > DisplayDelay)
         {
             _savedGameTime -= DisplayDelay;
             _currentlyDisplayed += _toDisplayText[_textPointer];
@@ -43,7 +44,7 @@ public class DelayedText : TextBuilder
 
         if (Text != _currentlyDisplayed)
             ChangeText(_currentlyDisplayed);
-        
+
         base.Update(gameTime);
     }
 

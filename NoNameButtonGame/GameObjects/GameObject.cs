@@ -16,7 +16,7 @@ public class GameObject : IHitbox
 {
     public Texture2D Texture;
     public Vector2 Position;
-    public Vector2 Canvas;
+    public Vector2 Size;
     public Vector2 FrameSize;
     public Rectangle ImageLocation;
     public Color DrawColor;
@@ -24,9 +24,9 @@ public class GameObject : IHitbox
 
     protected TextureHitboxMapping _textureHitboxMapping;
     protected Rectangle[] _hitboxes;
-    protected Vector2 _scale;
+    protected Vector2 _scaleToTexture;
 
-    public Vector2 Scale => _scale;
+    public Vector2 ScaleToTexture => _scaleToTexture;
 
     public Rectangle[] Hitbox => _hitboxes;
 
@@ -40,12 +40,12 @@ public class GameObject : IHitbox
     {
     }
 
-    public GameObject(Vector2 position, Vector2 canvas)
+    public GameObject(Vector2 position, Vector2 size)
     {
-        Canvas = canvas;
+        Size = size;
         Position = position;
         DrawColor = Color.White;
-        Rectangle = new Rectangle(Position.ToPoint(), Canvas.ToPoint());
+        Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
         Initialize();
         ImageLocation = new Rectangle(
             (int) _textureHitboxMapping.ImageSize.X
@@ -56,7 +56,7 @@ public class GameObject : IHitbox
         Texture = _textureHitboxMapping.Texture;
         _hitboxes = new Rectangle[_textureHitboxMapping.Hitboxes.Length];
         CalculateHitboxes();
-        Rectangle = new Rectangle(Position.ToPoint(), Canvas.ToPoint());
+        Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
     }
 
     public virtual void Initialize()
@@ -79,14 +79,14 @@ public class GameObject : IHitbox
     }
 
     protected virtual void UpdateRectangle()
-        => Rectangle = new Rectangle(Position.ToPoint(), Canvas.ToPoint());
+        => Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
 
     public bool HitboxCheck(Rectangle compareTo)
         => Hitbox.Any(h => h.Intersects(compareTo));
 
-    protected void CalculateHitboxes()
+    protected virtual void CalculateHitboxes()
     {
-        _scale = new Vector2(Canvas.X / FrameSize.X, Canvas.Y / FrameSize.Y);
+        _scaleToTexture = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
         var hitboxes = _textureHitboxMapping.Hitboxes;
 
         for (int i = 0; i < hitboxes.Length; i++)
@@ -96,8 +96,8 @@ public class GameObject : IHitbox
     }
 
     private Rectangle CalculateInGameHitbox(Rectangle hitbox)
-        => new((int) (Position.X + hitbox.X * _scale.X)
-            , (int) (Position.Y + hitbox.Y * _scale.Y)
-            , (int) (hitbox.Width * _scale.X)
-            , (int) (hitbox.Height * _scale.Y));
+        => new((int) (Position.X + hitbox.X * _scaleToTexture.X)
+            , (int) (Position.Y + hitbox.Y * _scaleToTexture.Y)
+            , (int) (hitbox.Width * _scaleToTexture.X)
+            , (int) (hitbox.Height * _scaleToTexture.Y));
 }

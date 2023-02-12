@@ -26,19 +26,19 @@ public class TextButton : EmptyButton, IMoveable
     {
     }
 
-    public TextButton(Vector2 position, Vector2 canvas, string name, string text) : this(position, canvas, name, text,
+    public TextButton(Vector2 position, Vector2 size, string name, string text) : this(position, size, name, text,
         DefaultTextSize)
     {
     }
 
-    public TextButton(Vector2 position, Vector2 canvas, string name, string text, Vector2 textSize) : this(position, canvas,
+    public TextButton(Vector2 position, Vector2 size, string name, string text, Vector2 textSize) : this(position, size,
         name,
         text, textSize, 1)
     {
     }
 
-    public TextButton(Vector2 position, Vector2 canvas, string name, string text,
-        Vector2 textSize, int spacing) : base(position, canvas)
+    public TextButton(Vector2 position, Vector2 size, string name, string text,
+        Vector2 textSize, int spacing) : base(position, size)
     {
         Text = new TextBuilder(text, Position, textSize, spacing);
         Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);

@@ -51,7 +51,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Infos[i].Update(gameTime);
             }
 
-            cursor.Position = mousePosition - cursor.Canvas / 2;
+            cursor.Position = mousePosition - cursor.Size / 2;
             button.Update(gameTime, cursor.Hitbox[0]);
             wall.Update(gameTime, cursor.Hitbox[0]);
         }
