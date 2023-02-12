@@ -29,6 +29,30 @@ public class Settings : IChangeable
         }
     }
 
+    private int _musicVolume;
+    
+    public int MusicVolume
+    {
+        get => _musicVolume;
+        set
+        {
+            _musicVolume = value;
+            HasChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    
+    private int _SFXVolume;
+    
+    public int SFXVolume
+    {
+        get => _SFXVolume;
+        set
+        {
+            _SFXVolume = value;
+            HasChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    
     public Settings()
     {
         Resolution = new Resolution();

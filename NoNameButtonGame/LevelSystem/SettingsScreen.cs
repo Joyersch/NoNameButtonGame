@@ -14,6 +14,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class SettingsScreen : SampleLevel
 {
+    private readonly TextBuilder _resolutionInfo;
     private readonly ValueSelection _resolution;
 
     private readonly TextBuilder _fixedStepText;
@@ -23,9 +24,12 @@ internal class SettingsScreen : SampleLevel
     private readonly SquareTextButton _fullscreenButton;
 
     private readonly Cursor mouseCursor;
-    private readonly TextButton[] resolutionButton;
 
+    private readonly TextBuilder _musicInfo;
     private readonly ValueSelection _musicVolume;
+    
+    private readonly TextBuilder _SFXInfo;
+    private readonly ValueSelection _SFXVolume;
 
 
     private Storage storage;
@@ -61,14 +65,19 @@ internal class SettingsScreen : SampleLevel
             "2560x1440",
             "3840x2160"
         };
-        
-        var s = settingOne + "x" + settingTwo;
-        var index = resolutions.IndexOf(s);
-        
+
+        var savedResolution = storage.Settings.Resolution;
+        var saved = savedResolution.Width + "x" + savedResolution.Height;
+        var index = resolutions.IndexOf(saved);
+
         if (index == -1)
             index++;
-        
-        _resolution = new ValueSelection(leftAnchor, 1, resolutions,index);
+
+        _resolutionInfo = new TextBuilder("Resolution", leftAnchor);
+
+        leftAnchor += new Vector2(0, _resolutionInfo.Rectangle.Height + 4);
+
+        _resolution = new ValueSelection(leftAnchor, 1, resolutions, index);
         _resolution.ValueChanged += ChangeResolution;
 
         leftAnchor += new Vector2(0, _resolution.Rectangle.Height + 4);
@@ -93,10 +102,31 @@ internal class SettingsScreen : SampleLevel
         List<string> volumeValues = new List<string>();
         for (int i = 0; i < 10; i++)
             volumeValues.Add(i.ToString());
-        _musicVolume = new ValueSelection(rightAnchor,1, volumeValues, 9);
+
+        _musicInfo = new TextBuilder("Music Volume", rightAnchor);
+
+        rightAnchor += new Vector2(0, _musicInfo.Rectangle.Height + 4);
+
+        _musicVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.MusicVolume);
+        _musicVolume.ValueChanged += MusicVolumeChanged;
+        
+        rightAnchor += new Vector2(0, _musicVolume.Rectangle.Height + 4);
+        
+        _SFXInfo = new TextBuilder("SFX Volume", rightAnchor);
+
+        rightAnchor += new Vector2(0, _SFXInfo.Rectangle.Height + 4);
+
+        _SFXVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.SFXVolume);
+        _SFXVolume.ValueChanged += SFXVolumeOnValueChanged;
 
         vectorResolution = window;
     }
+
+    private void SFXVolumeOnValueChanged(string obj)
+        => storage.Settings.SFXVolume = int.Parse(obj);
+
+    private void MusicVolumeChanged(string obj)
+        => storage.Settings.MusicVolume = int.Parse(obj);
 
     private void ChangeResolution(object sender)
         => ChangeResolution((TextButton) sender);
@@ -142,6 +172,7 @@ internal class SettingsScreen : SampleLevel
         mouseCursor.Position = mousePosition;
         mouseCursor.Update(gameTime);
 
+        _resolutionInfo.Update(gameTime);
         _resolution.Update(gameTime, mouseCursor.Hitbox[0]);
 
         _fixedStepText.Update(gameTime);
@@ -150,7 +181,11 @@ internal class SettingsScreen : SampleLevel
         _fullscreenText.Update(gameTime);
         _fullscreenButton.Update(gameTime, mouseCursor.Hitbox[0]);
 
+        _musicInfo.Update(gameTime);
         _musicVolume.Update(gameTime, mouseCursor.Hitbox[0]);
+        
+        _SFXInfo.Update(gameTime);
+        _SFXVolume.Update(gameTime, mouseCursor.Hitbox[0]);
 
         //_volumeMusic.Update(gameTime);
     }
@@ -163,11 +198,16 @@ internal class SettingsScreen : SampleLevel
         _fullscreenText.Draw(spriteBatch);
         _fullscreenButton.Draw(spriteBatch);
 
+        _resolutionInfo.Draw(spriteBatch);
         _resolution.Draw(spriteBatch);
 
         //_volumeMusic.Draw(spriteBatch);
 
+        _musicInfo.Draw(spriteBatch);
         _musicVolume.Draw(spriteBatch);
+        
+        _SFXInfo.Draw(spriteBatch);
+        _SFXVolume.Draw(spriteBatch);
 
         mouseCursor.Draw(spriteBatch);
     }

@@ -55,7 +55,7 @@ internal class StartScreen : SampleLevel
         exitButton = new TextButton(new Vector2(x, StartPositionY + 64 * 4), string.Empty, "Exit");
         exitButton.ClickEventHandler += ExitButtonPressed;
 
-        header = new TextBuilder("NoNameButtonGame", Vector2.Zero, TextBuilder.DefaultLetterSize * 2.5F, 1);
+        header = new TextBuilder("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
         header.ChangePosition(-header.Rectangle.Size.ToVector2() / 2 +
                               new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
 

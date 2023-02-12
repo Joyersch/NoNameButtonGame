@@ -24,6 +24,8 @@ public class ValueSelection : GameObject, IMoveable
 
     public string Value => ValidValues[_pointer];
 
+    public bool LoopOverValues = false;
+
     private int _pointer;
     
     public ValueSelection(Vector2 position, float scale, List<string> validValues, int startValueIndex) : base(
@@ -44,7 +46,7 @@ public class ValueSelection : GameObject, IMoveable
     {
         _pointer++;
         if (_pointer > ValidValues.Count - 1)
-            _pointer = 0;
+            _pointer = LoopOverValues ? 0 : ValidValues.Count - 1;
         UpdateTextValue();
     }
 
@@ -52,7 +54,7 @@ public class ValueSelection : GameObject, IMoveable
     {
         _pointer--;
         if (_pointer < 0)
-            _pointer = ValidValues.Count - 1;
+            _pointer = LoopOverValues ? ValidValues.Count - 1 : 0;
         UpdateTextValue();
     }
 
