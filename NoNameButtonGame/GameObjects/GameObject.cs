@@ -48,7 +48,7 @@ public class GameObject : IHitbox
         Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
         Initialize();
         ImageLocation = new Rectangle(
-            (int) _textureHitboxMapping.ImageSize.X
+            0
             , 0
             , (int) _textureHitboxMapping.ImageSize.X
             , (int) _textureHitboxMapping.ImageSize.Y);

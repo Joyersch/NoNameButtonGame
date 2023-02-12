@@ -74,8 +74,6 @@ internal class Level4 : SampleLevel
         _pulsatingRed.Update(gameTime);
         _info.Update(gameTime);
         bigBad.Update(gameTime, _cursor.Hitbox[0]);
-        Console.WriteLine(bigBad.Rectangle);
-        Console.WriteLine(_cursor.Hitbox[0]);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

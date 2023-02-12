@@ -34,9 +34,8 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
     public GlitchBlock(Vector2 position, Vector2 size) : base(position, size)
     {
         FrameMax = _textureHitboxMapping.AnimationsFrames;
-        DrawColor = Color.White;
-        ImageLocation = new Rectangle(0, 0
-            , (int) _textureHitboxMapping.ImageSize.X, (int) _textureHitboxMapping.ImageSize.Y);
+        FrameSize = _scaleToTexture / (_scaleToTexture.X > _scaleToTexture.Y ? _scaleToTexture.X : _scaleToTexture.Y) *
+                    FrameSize;
     }
 
     public override void Initialize()
