@@ -5,7 +5,7 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class ExitButton : EmptyButton
 {
-    public ExitButton(Vector2 position, Vector2 size) : base(position, size)
+    public ExitButton(Vector2 position, Vector2 canvas) : base(position, canvas)
     {
     }
 

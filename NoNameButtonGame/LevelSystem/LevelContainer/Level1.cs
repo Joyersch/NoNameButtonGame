@@ -29,7 +29,7 @@ internal class Level1 : SampleLevel
     {
         startButton = new TextButton(-TextButton.DefaultSize / 2, "Start", "Start");
         startButton.ClickEventHandler += Finish;
-        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
+        mouseCursor = new Cursor(new Vector2(0, 0));
         mouse = new MousePointer();
         Name = "Level 1 - Click the Button!";
         infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));

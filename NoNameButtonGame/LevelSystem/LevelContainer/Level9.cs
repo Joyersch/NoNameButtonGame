@@ -78,7 +78,7 @@ internal class Level9 : SampleLevel
         }
 
         _cursor.Update(gameTime);
-        _cursor.Position = mousePosition - _cursor.Size / 2;
+        _cursor.Position = mousePosition - _cursor.Canvas / 2;
     }
     
     public override void Draw(SpriteBatch spriteBatch)

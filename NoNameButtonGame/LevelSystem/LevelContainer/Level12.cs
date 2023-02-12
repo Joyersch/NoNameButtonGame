@@ -98,7 +98,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Finish();
             displayTimer.ChangeText(((TimerMax - TimerC) / 1000).ToString("0.0") + "S");
             displayTimer.Update(gameTime);
-            mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
+            mouseCursor.Position = mousePosition - mouseCursor.Canvas / 2;
             OldMPos = mousePosition;
         }
     }

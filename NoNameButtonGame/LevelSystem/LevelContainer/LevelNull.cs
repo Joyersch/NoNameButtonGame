@@ -38,7 +38,7 @@ internal class LevelNull : SampleLevel
     {
         mouseCursor.Update(gameTime);
         base.Update(gameTime);
-        mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
+        mouseCursor.Position = mousePosition - mouseCursor.Canvas / 2;
         failButton.Update(gameTime, mouseCursor.Hitbox[0]);
         Info.Update(gameTime);
     }

@@ -61,7 +61,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                 Info.ChangeText("ok let me help you");
                 button.States = 100;
             }
-            cursor.Position = mousePosition - cursor.Size / 2;
+            cursor.Position = mousePosition - cursor.Canvas / 2;
             button.Update(gameTime, cursor.Hitbox[0]);
             Info.Update(gameTime);
         }

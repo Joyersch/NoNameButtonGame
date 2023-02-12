@@ -15,11 +15,11 @@ public class MousePointer : GameObject
     {
     }
     
-    public MousePointer(Vector2 position, Vector2 size) : this(position, size, false)
+    public MousePointer(Vector2 position, Vector2 canvas) : this(position, canvas, false)
     {
     }
 
-    public MousePointer(Vector2 position, Vector2 size, bool draw) : base(position, size)
+    public MousePointer(Vector2 position, Vector2 canvas, bool draw) : base(position, canvas)
     {
         this.draw = draw;
     }

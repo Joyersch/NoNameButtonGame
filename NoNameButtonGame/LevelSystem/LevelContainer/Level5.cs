@@ -82,7 +82,7 @@ internal class Level5 : SampleLevel
             Infos[i].Update(gameTime);
         }
 
-        cursor.Position = mousePosition - cursor.Size / 2;
+        cursor.Position = mousePosition - cursor.Canvas / 2;
         button.Update(gameTime, cursor.Hitbox[0]);
         lockbutton.Update(gameTime, cursor.Hitbox[0]);
     }

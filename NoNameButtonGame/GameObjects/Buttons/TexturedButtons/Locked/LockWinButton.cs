@@ -14,7 +14,7 @@ public class LockWinButton : LockButton
     {
     }
     
-    public LockWinButton(Vector2 position, Vector2 size, bool startState) : base(position, size, startState)
+    public LockWinButton(Vector2 position, Vector2 canvas, bool startState) : base(position, canvas, startState)
     {
     }
 

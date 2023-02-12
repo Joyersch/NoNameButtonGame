@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Cache;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NoNameButtonGame.GameObjects;
 
@@ -20,70 +21,38 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     private Color OldDrawColor;
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size) : base(position, size)
+    public GlitchBlockCollection(Vector2 position, Vector2 canvas) : this(position, canvas, GlitchBlock.DefaultSize)
     {
-        // Note:
-        // Even though I've done a rework in 2023 I will not touch this stuff.
-        // It works and it is to complicated to redo without breaking something.
-        
-        Vector2 grid = size / 32;
+    }
+
+    public GlitchBlockCollection(Vector2 position, Vector2 canvas, float singleScale) : this(position, canvas,
+        GlitchBlock.DefaultSize * singleScale)
+    {
+    }
+
+    public GlitchBlockCollection(Vector2 position, Vector2 canvas, Vector2 singleSize) : base(position, canvas)
+    {
+        var grid = canvas / singleSize;
+        var gridEdge = new Vector2(canvas.X % singleSize.X, canvas.Y % singleSize.Y);
+
+        grid.Floor();
+        grid += Vector2.Ceiling(gridEdge / singleSize);
 
 
-        Vector2 gridedge = new Vector2(size.X % 32, size.Y % 32);
-        grid = new Vector2((float) (int) grid.X, (float) (int) grid.Y);
-
-        if (gridedge.X == 0 && gridedge.Y == 0)
+        glitchBlocksGrid = new GlitchBlock[(int) grid.X * (int) grid.Y];
+        for (int i = 0; i < grid.Y; i++)
         {
-            glitchBlocksGrid = new GlitchBlock[((int) grid.X) * ((int) grid.Y)];
-            for (int i = 0; i < grid.Y; i++)
+            for (int a = 0; a < grid.X; a++)
             {
-                for (int a = 0; a < grid.X; a++)
-                {
-                    glitchBlocksGrid[i * ((int) grid.X) + a] =
-                        new GlitchBlock(new Vector2(position.X + a * 32, position.Y + i * 32), new Vector2(32, 32));
-                    glitchBlocksGrid[i * ((int) grid.X) + a].EnterEventHandler += CallEnter;
-                }
-            }
-        }
-        else
-        {
-            int gx = 0, gy = 0;
-            if (gridedge.X != 0)
-                gx = (int) grid.X + 1;
-            else
-                gx = (int) grid.X;
-            if (gridedge.Y != 0)
-                gy = (int) grid.Y + 1;
-            else
-                gy = (int) grid.Y;
-            glitchBlocksGrid = new GlitchBlock[gx * gy];
-            for (int i = 0; i < gy; i++)
-            {
-                for (int a = 0; a < gx; a++)
-                {
-                    Vector2 CSize = new Vector2(gridedge.X, gridedge.Y);
-                    if (a < grid.X)
-                        CSize.X = 32;
-                    if (i < grid.Y)
-                        CSize.Y = 32;
-                    glitchBlocksGrid[i * gx + a] =
-                        new GlitchBlock(new Vector2(position.X + a * 32, position.Y + i * 32), CSize);
-
-                    glitchBlocksGrid[i * gx + a].EnterEventHandler += CallEnter;
-                }
+                var block = new GlitchBlock(
+                    new Vector2(position.X + a * singleSize.X, position.Y + i * singleSize.Y)
+                    , a < grid.X || i < grid.Y ? singleSize : gridEdge);
+                block.EnterEventHandler += CallEnter;
+                glitchBlocksGrid[i * ((int) grid.X) + a] = block;
             }
         }
 
-        List<Rectangle> Hitboxes = new List<Rectangle>();
-        for (int i = 0; i < glitchBlocksGrid.Length; i++)
-        {
-            for (int a = 0; a < glitchBlocksGrid[i].Hitbox.Length; a++)
-            {
-                Hitboxes.Add(glitchBlocksGrid[i].Hitbox[a]);
-            }
-        }
-
-        _hitboxes = Hitboxes.ToArray();
+        _hitboxes = glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
     public override void Initialize()
@@ -133,6 +102,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         {
             glitchBlocksGrid[i].Position += newPosition;
         }
+
         return true;
     }
 

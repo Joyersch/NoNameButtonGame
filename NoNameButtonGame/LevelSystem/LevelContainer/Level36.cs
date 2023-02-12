@@ -192,7 +192,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
                     BobIt[i].Update(gameTime, cursor.Hitbox[0]);
                 }
             }
-            cursor.Position = mousePosition - cursor.Size / 2;
+            cursor.Position = mousePosition - cursor.Canvas / 2;
         }
     }
 }

@@ -13,7 +13,7 @@ public class MiniButton : EmptyButton
     {
     }
 
-    public MiniButton(Vector2 position, Vector2 size) : base(position, size)
+    public MiniButton(Vector2 position, Vector2 canvas) : base(position, canvas)
     {
     }
 

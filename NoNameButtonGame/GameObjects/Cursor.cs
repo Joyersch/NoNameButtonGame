@@ -18,7 +18,7 @@ internal class Cursor : GameObject
     {
     }
     
-    public Cursor(Vector2 position, Vector2 size) : base(position, size)
+    public Cursor(Vector2 position, Vector2 canvas) : base(position, canvas)
     {
         ImageLocation = Rectangle.Empty;
     }

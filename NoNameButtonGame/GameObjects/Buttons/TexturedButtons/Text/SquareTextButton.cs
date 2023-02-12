@@ -11,11 +11,11 @@ public class SquareTextButton : TextButton
     public SquareTextButton(Vector2 position,float scale, string Name, string Text) : this(position, DefaultSize * scale, Name, Text, DefaultTextSize * scale)
     {
     }
-    public SquareTextButton(Vector2 position, Vector2 Size, string Name, string Text, Vector2 TextSize) : base(position, Size, Name, Text, TextSize)
+    public SquareTextButton(Vector2 position, Vector2 canvas, string Name, string Text, Vector2 TextSize) : base(position, canvas, Name, Text, TextSize)
     {
     }
 
-    public SquareTextButton(Vector2 position, Vector2 size, string name, string text) : base(position, size, name, text)
+    public SquareTextButton(Vector2 position, Vector2 canvas, string name, string text) : base(position, canvas, name, text)
     {
     }
 

@@ -72,7 +72,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             mouseCursor.Update(gameTime);
             base.Update(gameTime);
             Gun.Update(gameTime);
-            mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
+            mouseCursor.Position = mousePosition - mouseCursor.Canvas / 2;
             holdButton.Update(gameTime, mouseCursor.Hitbox[0]);
             lockButton.Update(gameTime, mouseCursor.Hitbox[0]);
             gameTimeUpdate += (float)gameTime.ElapsedGameTime.TotalMilliseconds;

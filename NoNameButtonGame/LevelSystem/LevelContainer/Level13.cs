@@ -48,7 +48,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
             base.Update(gameTime);
             double angle = gameTime.TotalGameTime.Milliseconds / 1000F * Math.PI * 2;
             movingCursor.Position = new Vector2(Multiplier * (float)Math.Sin(angle), Multiplier * (float)Math.Cos(angle));
-            userButton.Position = mousePosition - userButton.Size / 2;
+            userButton.Position = mousePosition - userButton.Canvas / 2;
             wallUp.Update(gameTime, userButton.Rectangle);
             wallDown.Update(gameTime, userButton.Rectangle);
             userButton.Update(gameTime, movingCursor.Hitbox[0]);

@@ -9,7 +9,6 @@ namespace NoNameButtonGame.GameObjects;
 
 internal class GlitchBlock : GameObject, IMouseActions, IColorable
 {
-    private Vector2 Scale;
     private int FramePos = 0;
     private int FrameMax = 0;
     private int FrameSpeed = 180;
@@ -21,7 +20,17 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable
     public event Action<object> LeaveEventHandler;
     public event Action<object> ClickEventHandler;
 
-    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size)
+    public new static Vector2 DefaultSize = new Vector2(32, 32);
+
+    public GlitchBlock(Vector2 position) : this(position, DefaultSize)
+    {
+    }
+    
+    public GlitchBlock(Vector2 position, float scale) : this(position, DefaultSize * scale)
+    {
+    }
+
+    public GlitchBlock(Vector2 position, Vector2 canvas) : base(position, canvas)
     {
         FrameMax = _textureHitboxMapping.AnimationsFrames;
         DrawColor = Color.White;

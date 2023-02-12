@@ -14,11 +14,11 @@ public class Letter : GameObject
     public Character RepresentingCharacter;
     private Rectangle drawOffset;
 
-    public Letter(Vector2 position, Vector2 size, Character character) : this(position, size, character, Color.White)
+    public Letter(Vector2 position, Vector2 canvas, Character character) : this(position, canvas, character, Color.White)
     {
     }
 
-    public Letter(Vector2 position, Vector2 size, Character character, Color color) : base(position, size)
+    public Letter(Vector2 position, Vector2 canvas, Character character, Color color) : base(position, canvas)
     {
         RepresentingCharacter = character;
         UpdateCharacter(character);
@@ -51,7 +51,7 @@ public class Letter : GameObject
             , frameSpacing.Width
             , frameSpacing.Height
         );
-        Size = frameSpacing.Size.ToVector2() * _scale;
+        Canvas = frameSpacing.Size.ToVector2() * _scale;
         UpdateRectangle();
         RepresentingCharacter = character;
     }
