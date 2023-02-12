@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Input;
 
@@ -31,7 +31,7 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<GlitchBlock>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
     public void Update(GameTime gt, Rectangle mousePosition)

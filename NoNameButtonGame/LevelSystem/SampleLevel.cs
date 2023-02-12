@@ -16,6 +16,8 @@ internal class SampleLevel : ILevel
     public event Action ExitEventHandler;
     public event Action FinishEventHandler;
 
+    public event Action<string> CurrentMusicEventHandler;
+
     public CameraClass Camera;
     public Vector2 Window;
     public Vector2 cameraPosition;
@@ -76,4 +78,7 @@ internal class SampleLevel : ILevel
 
     public virtual void Exit()
         => ExitEventHandler?.Invoke();
+    
+    public virtual void CurrentMusic(string music)
+        => CurrentMusicEventHandler?.Invoke(music);
 }

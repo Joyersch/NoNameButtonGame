@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects;
@@ -25,7 +25,7 @@ internal class Cursor : GameObject
 
     public override void Initialize()
     {
-       _textureHitboxMapping = Mapping.GetMappingFromCache<Cursor>();
+       _textureHitboxMapping = Globals.Textures.GetMappingFromCache<Cursor>();
     }
 
     public override void Update(GameTime gameTime)

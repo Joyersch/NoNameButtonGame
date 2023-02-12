@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -11,6 +11,6 @@ public class FailButton : EmptyButton
     
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<FailButton>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<FailButton>();
     }
 }

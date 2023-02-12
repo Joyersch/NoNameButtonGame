@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects;
@@ -46,7 +46,7 @@ public class CounterButtonAddon : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<LockButtonAddon>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<LockButtonAddon>();
     }
 
     private void ClickHandler(object obj)

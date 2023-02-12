@@ -7,7 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects;

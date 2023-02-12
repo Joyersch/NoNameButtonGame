@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.Text;
 

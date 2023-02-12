@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Debug;
 
@@ -26,7 +26,7 @@ public class MousePointer : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<MousePointer>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<MousePointer>();
     }
 
     public void Update(GameTime gameTime, Vector2 mousePosition)

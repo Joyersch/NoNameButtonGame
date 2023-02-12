@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Empty;
 
@@ -19,7 +19,7 @@ public class SquareButton : EmptyButton
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<SquareButton>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<SquareButton>();
     }
 
     public new static Vector2 DefaultSize => new Vector2(64, 32);

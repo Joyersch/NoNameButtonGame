@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -30,7 +30,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<EmptyButton>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<EmptyButton>();
     }
 
     public virtual void Update(GameTime gameTime, Rectangle mousePosition)

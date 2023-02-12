@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -20,6 +20,6 @@ public class LockWinButton : LockButton
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<WinButton>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<WinButton>();
     }
 }

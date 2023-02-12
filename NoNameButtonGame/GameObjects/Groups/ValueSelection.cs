@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Text;
 
@@ -94,7 +94,7 @@ public class ValueSelection : GameObject, IMoveable
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<ValueSelection>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<ValueSelection>();
     }
 
     public void Update(GameTime gameTime, Rectangle mousePointer)

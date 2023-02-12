@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Camera;
 using NoNameButtonGame.LevelSystem.LevelContainer;
@@ -25,6 +26,9 @@ internal class LevelManager
     private MenuState _state;
     private int currentSelectLevel = 0;
     private bool fromSelect = false;
+
+    private string currentMusicName;
+    private SoundEffectInstance currentMusic;
     public event Action CloseGameEventHandler;
 
     private enum MenuState
@@ -60,11 +64,13 @@ internal class LevelManager
         _startMenu.SelectEventHandler += StartMenuOnSelectEventHandler;
         _startMenu.SettingsEventHandler += StartMenuOnSettingsEventHandler;
         _startMenu.ExitEventHandler += StartMenuOnExitEventHandler;
+        _startMenu.CurrentMusicEventHandler += ALevelOnCurrentMusic;
 
         _settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
             _storage.Settings.Resolution.ToVertor2(), _random, storage);
         _settings.ExitEventHandler += SettingsOnExitEventHandler;
         _settings.WindowsResizeEventHandler += SettingsOnWindowsResizeEventHandler;
+        _settings.CurrentMusicEventHandler += ALevelOnCurrentMusic;
         InitializeLevelSelect();
     }
 
@@ -157,10 +163,37 @@ internal class LevelManager
             50 => new Level50(width, height, screen, _random),
             _ => new LevelNull(width, height, screen, _random),
         };
-        _currentLevel.FinishEventHandler += LevelFinish;    
+        _currentLevel.FinishEventHandler += LevelFinish;
         _currentLevel.FailEventHandler += LevelFail;
         _currentLevel.ExitEventHandler += LevelExitEventHandler;
+        _currentLevel.CurrentMusicEventHandler += ALevelOnCurrentMusic;
         ChangeWindowName?.Invoke(_currentLevel.Name);
+    }
+
+    private void ALevelOnCurrentMusic(string newMusic)
+    {
+        // updates music volume on settings change!
+
+        if (currentMusic is not null)
+            currentMusic.Volume = (_storage.Settings.MusicVolume + 1F) / 10F;
+
+        if (currentMusicName == newMusic)
+            return;
+        
+        if (currentMusic is not null)
+        {
+            currentMusic.Stop();
+            currentMusic.Dispose();
+        }
+        
+        if (newMusic == String.Empty)
+            return;
+
+        currentMusic = Globals.SoundEffects.GetInstance(newMusic);
+        currentMusicName = newMusic;
+        currentMusic.Volume = (_storage.Settings.MusicVolume + 1F) / 10F;
+        currentMusic.IsLooped = true;
+        currentMusic.Play();
     }
 
 
@@ -256,6 +289,7 @@ internal class LevelManager
             _storage.Settings.Resolution.ToVertor2(), _random, _storage);
         _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
         _levelSelect.LevelSelectedEventHandler += LevelSelected;
+        _levelSelect.CurrentMusicEventHandler += ALevelOnCurrentMusic;
         ChangeWindowName?.Invoke(_levelSelect.Name);
     }
 }

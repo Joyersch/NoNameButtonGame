@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -21,7 +21,7 @@ public class SquareTextButton : TextButton
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<SquareTextButton>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<SquareTextButton>();
     }
 
     public new static Vector2 DefaultSize => new Vector2(32, 32);

@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -19,7 +19,7 @@ public class MiniTextButton : TextButton
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<MiniTextButton>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<MiniTextButton>();
     }
 
     public new static Vector2 DefaultSize => new Vector2(64, 32);

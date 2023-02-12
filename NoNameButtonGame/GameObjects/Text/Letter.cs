@@ -4,7 +4,7 @@ using System.Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.Text;
 
@@ -32,7 +32,7 @@ public class Letter : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<Letter>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<Letter>();
     }
 
     public void ChangeColor(Color color)

@@ -7,7 +7,7 @@ using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.LogicObjects;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -82,6 +82,7 @@ internal class StartScreen : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+        base.CurrentMusic("TitleMusic");
         mousePointer.Update(gameTime, mousePosition);
         linker.Update(gameTime);
 

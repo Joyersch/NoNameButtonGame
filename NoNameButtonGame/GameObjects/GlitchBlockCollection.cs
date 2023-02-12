@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using System.Collections.Generic;
 
 namespace NoNameButtonGame.GameObjects;
@@ -88,7 +88,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Mapping.GetMappingFromCache<GlitchBlock>();
+        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
     private void CallEnter(object sender)

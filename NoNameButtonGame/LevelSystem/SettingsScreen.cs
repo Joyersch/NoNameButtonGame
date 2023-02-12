@@ -7,7 +7,7 @@ using NoNameButtonGame.Text;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Groups;
-using NoNameButtonGame.Hitboxes;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
@@ -169,6 +169,7 @@ internal class SettingsScreen : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+        CurrentMusic("TitleMusic");
         mouseCursor.Position = mousePosition;
         mouseCursor.Update(gameTime);
 
@@ -200,8 +201,6 @@ internal class SettingsScreen : SampleLevel
 
         _resolutionInfo.Draw(spriteBatch);
         _resolution.Draw(spriteBatch);
-
-        //_volumeMusic.Draw(spriteBatch);
 
         _musicInfo.Draw(spriteBatch);
         _musicVolume.Draw(spriteBatch);
