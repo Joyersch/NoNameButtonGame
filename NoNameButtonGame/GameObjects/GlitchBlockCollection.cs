@@ -15,6 +15,8 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     private Rectangle[] ingameHitbox;
     public Rectangle[] Hitbox => ingameHitbox;
 
+    private bool hover;
+
     public event Action<object> LeaveEventHandler;
     public event Action<object> EnterEventHandler;
     public event Action<object> ClickEventHandler;
@@ -47,7 +49,6 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
                 var block = new GlitchBlock(
                     new Vector2(position.X + a * singleSize.X, position.Y + i * singleSize.Y)
                     , a < grid.X || i < grid.Y ? singleSize : gridEdge);
-                block.EnterEventHandler += CallEnter;
                 glitchBlocksGrid[i * ((int) grid.X) + a] = block;
             }
         }
@@ -60,19 +61,27 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         _textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
-    private void CallEnter(object sender)
-        => EnterEventHandler?.Invoke(sender);
 
-    public void Update(GameTime gt, Rectangle MousePos)
+    public void Update(GameTime gameTime, Rectangle mousePosition)
     {
         for (int i = 0; i < glitchBlocksGrid.Length; i++)
         {
-            glitchBlocksGrid[i].Update(gt, MousePos);
+            glitchBlocksGrid[i].Update(gameTime, mousePosition);
         }
 
-        if (Rectangle.Intersects(MousePos))
-            EnterEventHandler?.Invoke(this);
-        base.Update(gt);
+        if (HitboxCheck(mousePosition))
+        {
+            if (!hover)
+                EnterEventHandler?.Invoke(this);
+            hover = true;
+        }
+        else if (hover)
+        {
+            LeaveEventHandler?.Invoke(this);
+            hover = false;
+        }
+        
+        base.Update(gameTime);
         if (DrawColor != OldDrawColor)
         {
             for (int i = 0; i < glitchBlocksGrid.Length; i++)
@@ -97,12 +106,12 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     public bool Move(Vector2 newPosition)
     {
-        Position += newPosition;
-        for (int i = 0; i < glitchBlocksGrid.Length; i++)
+        var offset = newPosition - Position;
+        Position += offset;
+        foreach (var block in glitchBlocksGrid)
         {
-            glitchBlocksGrid[i].Position += newPosition;
+            block.Move(block.Position + offset);
         }
-
         return true;
     }
 

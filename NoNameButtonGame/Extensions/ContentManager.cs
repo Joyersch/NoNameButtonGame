@@ -92,6 +92,12 @@ public static class ContentManager
                 map.ImageSize = new Vector2(8, 8);
                 map.Hitboxes = Array.Empty<Rectangle>();
                 break;
+            case "glitch":
+                map.ImageSize = new Vector2(16, 16);
+                map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, 16, 16)};
+                map.AnimationsFrames = 8;
+                map.AnimationFromTop = true;
+                break;
             default:
                 map.ImageSize = new Vector2(map.Texture.Width, map.Texture.Height);
                 map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, map.Texture.Width, map.Texture.Height)};

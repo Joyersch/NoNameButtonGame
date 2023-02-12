@@ -29,6 +29,10 @@ internal class Level4 : SampleLevel
     private readonly PulsatingRed _pulsatingRed;
     private readonly GlitchBlockCollection bigBad;
 
+    private readonly EmptyButton _button;
+    
+    private readonly DelayedText _info;
+
 
     public Level4(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
         defaultHeight,
@@ -45,27 +49,37 @@ internal class Level4 : SampleLevel
 
         _colorLinker = new ColorLinker();
         _pulsatingRed = new PulsatingRed();
-        bigBad = new GlitchBlockCollection(new Vector2(32,32), new Vector2(64,96), 2F);
-        bigBad.EnterEventHandler += Fail;
+        bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(64, 96), 2F);
+        bigBad.Move(new Vector2(128, -bigBad.Rectangle.Height / 2));
+        bigBad.EnterEventHandler += BigBadOnEnterEventHandler;
+        bigBad.DrawColor = Color.DarkRed;
         _colorLinker.Add(_pulsatingRed, bigBad);
+        _info = new DelayedText("This is a long text to test the delayed text", Vector2.One, 0.5F);
+    }
+
+    private void BigBadOnEnterEventHandler(object obj)
+    {
+        _info.Start();
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        
+
         _mousePointer.Update(gameTime, mousePosition);
         _objectLinker.Update(gameTime);
         _cursor.Update(gameTime);
-        
+
         _colorLinker.Update(gameTime);
         _pulsatingRed.Update(gameTime);
+        _info.Update(gameTime);
         bigBad.Update(gameTime, _cursor.Hitbox[0]);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         bigBad.Draw(spriteBatch);
+        _info.Draw(spriteBatch);
         _cursor.Draw(spriteBatch);
     }
 }

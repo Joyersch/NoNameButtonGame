@@ -103,7 +103,7 @@ public class NoNameGame : Game
         Globals.Textures.AddMappingToCache(typeof(WinButton), Content.GetHitboxMapping("awesomebutton"));
         Globals.Textures.AddMappingToCache(typeof(MiniTextButton), Content.GetHitboxMapping("minibutton"));
         Globals.Textures.AddMappingToCache(typeof(Letter), Content.GetHitboxMapping("font"));
-        Globals.Textures.AddMappingToCache(typeof(GlitchBlock), Content.GetHitboxMapping("zonenew"));
+        Globals.Textures.AddMappingToCache(typeof(GlitchBlock), Content.GetHitboxMapping("glitch"));
         Globals.Textures.AddMappingToCache(typeof(LockButtonAddon), Content.GetHitboxMapping("placeholder"));
         Globals.Textures.AddMappingToCache(typeof(CounterButtonAddon), Content.GetHitboxMapping("placeholder"));
         Globals.Textures.AddMappingToCache(typeof(MiniButton), Content.GetHitboxMapping("minibutton"));
@@ -112,6 +112,7 @@ public class NoNameGame : Game
         Globals.Textures.AddMappingToCache(typeof(ValueSelection), Content.GetHitboxMapping("placeholder"));
         Globals.SoundEffects.AddMappingToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
         Globals.SoundEffects.AddMappingToCache("ButtonSound", Content.GetSFX("NoNameButtonSound"));
+        Globals.SoundEffects.AddMappingToCache("Talking", Content.GetSFX("NoNameButtonSound"));
     }
 
     protected override void Update(GameTime gameTime)

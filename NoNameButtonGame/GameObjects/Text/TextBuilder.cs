@@ -28,20 +28,21 @@ public class TextBuilder : IColorable, IMoveable
 
     public static Vector2 DefaultLetterSize => new Vector2(16, 16);
 
-    public TextBuilder(string text, Vector2 position, Vector2 letterSize, Color[] color, int spacing) : this(text,
-        position, letterSize, spacing)
-    {
-    }
-
     public TextBuilder(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
     {
     }
-    
+
     public TextBuilder(string text, Vector2 position, float scale) : this(text, position, DefaultLetterSize * scale, 1)
     {
     }
-    
-    public TextBuilder(string text, Vector2 position, float scale, int spacing) : this(text, position, DefaultLetterSize * scale, spacing)
+
+    public TextBuilder(string text, Vector2 position, float scale, int spacing) : this(text, position,
+        DefaultLetterSize * scale, spacing)
+    {
+    }
+
+    public TextBuilder(string text, Vector2 position, Vector2 letterSize, Color[] color, int spacing) : this(text,
+        position, letterSize, spacing)
     {
     }
 
@@ -109,7 +110,7 @@ public class TextBuilder : IColorable, IMoveable
     private Letter.Character[] ParseArray(char[] text)
         => text.Select(Letter.Parse).ToArray();
 
-    public void Update(GameTime gameTime)
+    public virtual void Update(GameTime gameTime)
     {
         represent = BuildString(_letters);
         int width = 0;
@@ -139,7 +140,7 @@ public class TextBuilder : IColorable, IMoveable
     public override string ToString()
         => BuildString(_letters);
 
-    public void Draw(SpriteBatch spriteBatch)
+    public virtual void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < _letters.Length; i++)
         {

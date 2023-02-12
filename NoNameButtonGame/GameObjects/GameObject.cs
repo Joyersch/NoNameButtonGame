@@ -84,7 +84,7 @@ public class GameObject : IHitbox
     public bool HitboxCheck(Rectangle compareTo)
         => Hitbox.Any(h => h.Intersects(compareTo));
 
-    private void CalculateHitboxes()
+    protected void CalculateHitboxes()
     {
         _scale = new Vector2(Canvas.X / FrameSize.X, Canvas.Y / FrameSize.Y);
         var hitboxes = _textureHitboxMapping.Hitboxes;
