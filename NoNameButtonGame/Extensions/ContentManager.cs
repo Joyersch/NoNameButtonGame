@@ -103,4 +103,7 @@ public static class ContentManager
 
     public static SoundEffect GetMusic(this Microsoft.Xna.Framework.Content.ContentManager contentManager, string name)
         => contentManager.Load<SoundEffect>("Music/" + name);
+    
+    public static SoundEffect GetSFX(this Microsoft.Xna.Framework.Content.ContentManager contentManager, string name)
+        => contentManager.Load<SoundEffect>("SFX/" + name);
 }

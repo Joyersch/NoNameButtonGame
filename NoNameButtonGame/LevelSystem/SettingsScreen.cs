@@ -100,7 +100,7 @@ internal class SettingsScreen : SampleLevel
 
 
         List<string> volumeValues = new List<string>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i <= 10; i++)
             volumeValues.Add(i.ToString());
 
         _musicInfo = new TextBuilder("Music Volume", rightAnchor);

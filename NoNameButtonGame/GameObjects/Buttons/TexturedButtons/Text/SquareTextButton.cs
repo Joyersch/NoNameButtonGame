@@ -22,6 +22,7 @@ public class SquareTextButton : TextButton
     public override void Initialize()
     {
         _textureHitboxMapping = Globals.Textures.GetMappingFromCache<SquareTextButton>();
+        clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 
     public new static Vector2 DefaultSize => new Vector2(32, 32);

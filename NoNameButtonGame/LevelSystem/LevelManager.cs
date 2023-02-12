@@ -9,6 +9,7 @@ using NoNameButtonGame.Camera;
 using NoNameButtonGame.LevelSystem.LevelContainer;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -28,6 +29,7 @@ internal class LevelManager
     private bool fromSelect = false;
 
     private string currentMusicName;
+    private MusicSettingsLinker _musicSettingsLinker;
     private SoundEffectInstance currentMusic;
     public event Action CloseGameEventHandler;
 
@@ -57,6 +59,7 @@ internal class LevelManager
         _random = new Random(seed ?? DateTime.Now.Millisecond);
         _state = MenuState.StartMenu;
         currentSelectLevel = storage.GameData.MaxLevel;
+        _musicSettingsLinker = new MusicSettingsLinker(_storage.Settings);
 
         _startMenu = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
             _storage.Settings.Resolution.ToVertor2(), _random);
@@ -174,8 +177,6 @@ internal class LevelManager
     {
         // updates music volume on settings change!
 
-        if (currentMusic is not null)
-            currentMusic.Volume = (_storage.Settings.MusicVolume + 1F) / 10F;
 
         if (currentMusicName == newMusic)
             return;
@@ -184,14 +185,16 @@ internal class LevelManager
         {
             currentMusic.Stop();
             currentMusic.Dispose();
+            currentMusic = null;
         }
+        
+        currentMusicName = newMusic;
         
         if (newMusic == String.Empty)
             return;
 
         currentMusic = Globals.SoundEffects.GetInstance(newMusic);
-        currentMusicName = newMusic;
-        currentMusic.Volume = (_storage.Settings.MusicVolume + 1F) / 10F;
+        _musicSettingsLinker.AddSettingsLink(currentMusic);
         currentMusic.IsLooped = true;
         currentMusic.Play();
     }

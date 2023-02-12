@@ -16,6 +16,7 @@ using NoNameButtonGame.Cache;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.LevelSystem;
+using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.Text;
 using Display = NoNameButtonGame.Display;
 
@@ -72,6 +73,7 @@ public class NoNameGame : Game
             SettingsChanged(_storage.Settings, EventArgs.Empty);
             _storage.Settings.HasChanged += SettingsChanged;
         }
+        Globals.SoundSettingsLinker = new SoundSettingsLinker(_storage.Settings);
 
         _display = new(GraphicsDevice);
         _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, ShowActualMousePos);
@@ -109,6 +111,7 @@ public class NoNameGame : Game
         Globals.Textures.AddMappingToCache(typeof(SquareTextButton), Content.GetHitboxMapping("squarebutton"));
         Globals.Textures.AddMappingToCache(typeof(ValueSelection), Content.GetHitboxMapping("placeholder"));
         Globals.SoundEffects.AddMappingToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
+        Globals.SoundEffects.AddMappingToCache("ButtonSound", Content.GetSFX("NoNameButtonSound"));
     }
 
     protected override void Update(GameTime gameTime)

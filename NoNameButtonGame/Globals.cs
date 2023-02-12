@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using NoNameButtonGame.Cache;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame
 {
@@ -14,5 +15,7 @@ namespace NoNameButtonGame
         public static readonly TextureCache Textures = new();
 
         public static readonly SoundEffectsCache SoundEffects = new();
+
+        public static SoundSettingsLinker SoundSettingsLinker;
     }
 }

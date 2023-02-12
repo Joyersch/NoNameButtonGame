@@ -198,3 +198,9 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Music/NoNameTitleMusic.wav
+
+#begin SFX/NoNameButtonSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/NoNameButtonSound.wav

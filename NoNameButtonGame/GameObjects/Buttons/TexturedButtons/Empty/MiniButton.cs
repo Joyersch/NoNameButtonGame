@@ -20,6 +20,7 @@ public class MiniButton : EmptyButton
     public override void Initialize()
     {
         _textureHitboxMapping = Globals.Textures.GetMappingFromCache<MiniButton>();
+        clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 
     public new static Vector2 DefaultSize => new Vector2(64, 32);

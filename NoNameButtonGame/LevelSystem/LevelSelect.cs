@@ -129,6 +129,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            base.CurrentMusic(string.Empty);
             if (isInMove)
             {
                 savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
