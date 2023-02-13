@@ -86,12 +86,12 @@ public class GameObject : IHitbox
 
     protected virtual void CalculateHitboxes()
     {
-        _scaleToTexture = new Vector2(Size.X / FrameSize.X, Size.Y / FrameSize.Y);
+        _scaleToTexture = Size / _textureHitboxMapping.ImageSize;
         var hitboxes = _textureHitboxMapping.Hitboxes;
 
         for (int i = 0; i < hitboxes.Length; i++)
         {
-            Hitbox[i] = CalculateInGameHitbox(hitboxes[i]);
+            _hitboxes[i] = CalculateInGameHitbox(hitboxes[i]);
         }
     }
 

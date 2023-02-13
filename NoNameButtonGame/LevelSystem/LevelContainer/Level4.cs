@@ -26,7 +26,7 @@ internal class Level4 : SampleLevel
     private readonly GameObjectLinker _objectLinker;
 
     private readonly ColorLinker _colorLinker;
-    private readonly PulsatingRed _pulsatingRed;
+    private readonly Rainbow _pulsatingRed;
     private readonly GlitchBlockCollection bigBad;
 
     private readonly EmptyButton _button;
@@ -48,8 +48,8 @@ internal class Level4 : SampleLevel
         _objectLinker.Add(_mousePointer, _cursor);
 
         _colorLinker = new ColorLinker();
-        _pulsatingRed = new PulsatingRed();
-        bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(64, 96), 2F);
+        _pulsatingRed = new Rainbow();
+        bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(96, 64), 2F);
         bigBad.Move(new Vector2(128, -bigBad.Rectangle.Height / 2));
         bigBad.EnterEventHandler += BigBadOnEnterEventHandler;
         bigBad.DrawColor = Color.DarkRed;

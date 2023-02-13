@@ -11,7 +11,7 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 {
     private int FramePos = 0;
     private int FrameMax = 0;
-    private int FrameSpeed = 125;
+    private int FrameSpeed = 1000 / 64 * 2;
 
     private float GT;
 
@@ -52,7 +52,14 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
             GT -= FrameSpeed;
             FramePos++;
             if (FramePos == FrameMax) FramePos = 0;
-            ImageLocation = new Rectangle(0, FramePos * (int) FrameSize.X, (int) FrameSize.X, (int) FrameSize.Y);
+            ImageLocation = new Rectangle(
+                !_textureHitboxMapping.AnimationFromTop ?? false
+                    ? FramePos * (int) _textureHitboxMapping.ImageSize.Y
+                    : 0
+                , _textureHitboxMapping.AnimationFromTop ?? true
+                    ? FramePos * (int) _textureHitboxMapping.ImageSize.X
+                    : 0
+                , (int) FrameSize.X, (int) FrameSize.Y);
         }
 
         if (HitboxCheck(mousePosition))

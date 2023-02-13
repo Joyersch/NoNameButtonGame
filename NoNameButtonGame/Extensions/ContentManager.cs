@@ -95,7 +95,7 @@ public static class ContentManager
             case "glitch":
                 map.ImageSize = new Vector2(16, 16);
                 map.Hitboxes = new Rectangle[1] {new Rectangle(0, 0, 16, 16)};
-                map.AnimationsFrames = 8;
+                map.AnimationsFrames = 64;
                 map.AnimationFromTop = true;
                 break;
             default:
