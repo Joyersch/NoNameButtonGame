@@ -51,15 +51,13 @@ internal class Level4 : SampleLevel
         _pulsatingRed = new Rainbow();
         bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(96, 64), 2F);
         bigBad.Move(new Vector2(128, -bigBad.Rectangle.Height / 2));
-        bigBad.EnterEventHandler += BigBadOnEnterEventHandler;
+        bigBad.EnterEventHandler += FakeReset;
         bigBad.DrawColor = Color.DarkRed;
         _colorLinker.Add(_pulsatingRed, bigBad);
-        _info = new DelayedText("This is a long text to test the delayed text", Vector2.One, 0.5F);
-    }
-
-    private void BigBadOnEnterEventHandler(object obj)
-    {
-        _info.Start();
+        _info = new DelayedText("This is a long text to test the delayed text", new Vector2(-128,-64), 0.5F)
+        {
+            StartAfter = 5000
+        };
     }
 
     public override void Update(GameTime gameTime)
@@ -81,5 +79,13 @@ internal class Level4 : SampleLevel
         bigBad.Draw(spriteBatch);
         _info.Draw(spriteBatch);
         _cursor.Draw(spriteBatch);
+    }
+
+    private void FakeReset(object sender)
+    {
+        SetMousePositionToCenter();
+        if (_info.IsPlaying || _info.HasPlayed)
+            return;
+        _info.Start();
     }
 }

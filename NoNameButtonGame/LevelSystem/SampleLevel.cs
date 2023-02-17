@@ -38,8 +38,12 @@ internal class SampleLevel : ILevel
         Window = window;
         Camera = new CameraClass(new Vector2(defaultWidth, defaultHeight));
         cameraPosition = Vector2.Zero;
-        Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
+        SetMousePositionToCenter();
     }
+
+    protected void SetMousePositionToCenter()
+        => Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
+
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
@@ -78,7 +82,7 @@ internal class SampleLevel : ILevel
 
     public virtual void Exit()
         => ExitEventHandler?.Invoke();
-    
+
     public virtual void CurrentMusic(string music)
         => CurrentMusicEventHandler?.Invoke(music);
 }
