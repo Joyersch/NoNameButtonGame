@@ -1,7 +1,7 @@
 using System;
 using NoNameButtonGame.Interfaces;
 
-namespace NoNameButtonGame;
+namespace NoNameButtonGame.Storage;
 
 public class GameData : IChangeable
 {

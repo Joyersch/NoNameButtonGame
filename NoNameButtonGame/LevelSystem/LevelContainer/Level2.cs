@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Input;
-using NoNameButtonGame.Camera;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -11,16 +10,17 @@ using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
+using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level2 : SampleLevel
 {
-    private Random _random;
-
     private readonly Cursor _cursor;
     private readonly MousePointer _mousePointer;
     private readonly GameObjectLinker _objectLinker;
@@ -41,7 +41,7 @@ internal class Level2 : SampleLevel
         window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
-        _random = random;
+        base.random = random;
         _rainbowMagicColor = new Rainbow();
 
         _cursor = new Cursor(Vector2.One);

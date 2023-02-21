@@ -2,18 +2,18 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Text;
 
-namespace NoNameButtonGame.GameObjects;
+namespace NoNameButtonGame.GameObjects.AddOn;
 
 public class CounterButtonAddon : GameObject
 {
     public event Action StateReachedZero;
 
-    public int _states;
-    private EmptyButton button;
-    private TextBuilder text;
+    private int _states;
+    private readonly EmptyButton button;
+    private readonly TextBuilder text;
 
     public CounterButtonAddon(EmptyButton button, int startStates) : base(
         button.Position, button.Size)
@@ -46,7 +46,7 @@ public class CounterButtonAddon : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<LockButtonAddon>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<LockButtonAddon>();
     }
 
     private void ClickHandler(object obj)

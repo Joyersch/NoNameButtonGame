@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
+using NoNameButtonGame.Text;
 
-namespace NoNameButtonGame.Text;
+namespace NoNameButtonGame.GameObjects.Text;
 
 public class TextBuilder : IColorable, IMoveable
 {
     private Letter[] _letters;
     private int spacing;
-    private int _inGameLength;
     private string represent;
     public Vector2 Position;
     public Vector2 Size;
@@ -38,11 +33,6 @@ public class TextBuilder : IColorable, IMoveable
 
     public TextBuilder(string text, Vector2 position, float scale, int spacing) : this(text, position,
         DefaultLetterSize * scale, spacing)
-    {
-    }
-
-    public TextBuilder(string text, Vector2 position, Vector2 letterSize, Color[] color, int spacing) : this(text,
-        position, letterSize, spacing)
     {
     }
 
@@ -103,7 +93,6 @@ public class TextBuilder : IColorable, IMoveable
         }
 
         _letters = letters.ToArray();
-        _inGameLength = length;
         UpdateRectangle();
     }
 
@@ -113,7 +102,6 @@ public class TextBuilder : IColorable, IMoveable
     public virtual void Update(GameTime gameTime)
     {
         represent = BuildString(_letters);
-        int width = 0;
 
         foreach (Letter l in _letters)
         {

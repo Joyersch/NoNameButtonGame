@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Input;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Cache;
-using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -16,7 +11,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public event Action<object> LeaveEventHandler;
     public event Action<object> EnterEventHandler;
     public event Action<object> ClickEventHandler;
-    protected bool _hover;
+    protected bool hover;
     protected SoundEffect clickEffect;
     private SoundEffectInstance soundEffectInstance;
 
@@ -34,26 +29,26 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<EmptyButton>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<EmptyButton>();
         clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 
     public virtual void Update(GameTime gameTime, Rectangle mousePosition)
     {
-        bool hover = HitboxCheck(mousePosition);
-        if (hover)
+        bool isMouseHovering = HitboxCheck(mousePosition);
+        if (isMouseHovering)
         {
-            if (!_hover)
+            if (!this.hover)
                 InvokeEnterEventHandler();
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
                 InvokeClickEventHandler();
         }
-        else if (_hover)
+        else if (this.hover)
             InvokeLeaveEventHandler();
 
-        ImageLocation = new Rectangle(hover ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
-        _hover = hover;
+        ImageLocation = new Rectangle(isMouseHovering ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
+        this.hover = isMouseHovering;
         base.Update(gameTime);
     }
 
@@ -87,5 +82,5 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     protected void InvokeLeaveEventHandler()
         => LeaveEventHandler?.Invoke(this);
 
-    public static Vector2 DefaultSize => new Vector2(128, 64);
+    public new static Vector2 DefaultSize => new Vector2(128, 64);
 }

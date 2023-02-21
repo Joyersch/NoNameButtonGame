@@ -1,52 +1,48 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using NoNameButtonGame.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
 using NoNameButtonGame.GameObjects.Groups;
-using NoNameButtonGame.Cache;
-using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.Text;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer;
+namespace NoNameButtonGame.LevelSystem;
 
 internal class SettingsScreen : SampleLevel
 {
-    private readonly TextBuilder _resolutionInfo;
-    private readonly ValueSelection _resolution;
+    private readonly TextBuilder resolutionInfo;
+    private readonly ValueSelection resolution;
 
-    private readonly TextBuilder _fixedStepText;
-    private readonly SquareTextButton _fixedStepButton;
+    private readonly TextBuilder fixedStepText;
+    private readonly SquareTextButton fixedStepButton;
 
-    private readonly TextBuilder _fullscreenText;
-    private readonly SquareTextButton _fullscreenButton;
+    private readonly TextBuilder fullscreenText;
+    private readonly SquareTextButton fullscreenButton;
 
     private readonly Cursor mouseCursor;
 
-    private readonly TextBuilder _musicInfo;
-    private readonly ValueSelection _musicVolume;
+    private readonly TextBuilder musicInfo;
+    private readonly ValueSelection musicVolume;
     
-    private readonly TextBuilder _SFXInfo;
-    private readonly ValueSelection _SFXVolume;
+    private readonly TextBuilder sfxInfo;
+    private readonly ValueSelection sfxVolume;
 
 
-    private Storage storage;
+    private readonly Storage.Storage storage;
 
     private readonly string crossout = Letter.ReverseParse(Letter.Character.Crossout).ToString();
     private readonly string checkmark = Letter.ReverseParse(Letter.Character.Checkmark).ToString();
-    private readonly string left = Letter.ReverseParse(Letter.Character.Left).ToString();
-    private readonly string right = Letter.ReverseParse(Letter.Character.Right).ToString();
     private Vector2 vectorResolution;
     public event Action<Vector2> WindowsResizeEventHandler;
 
-    public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(
+    public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage.Storage storage) : base(
         defaultWidth, defaultHeight, window, rand)
     {
         this.storage = storage;
         string settingOne = crossout, settingTwo = crossout;
-        int volume = 0;
         if (storage.Settings.IsFixedStep)
             settingOne = checkmark;
         if (storage.Settings.IsFullscreen)
@@ -73,63 +69,60 @@ internal class SettingsScreen : SampleLevel
         if (index == -1)
             index++;
 
-        _resolutionInfo = new TextBuilder("Resolution", leftAnchor);
+        resolutionInfo = new TextBuilder("Resolution", leftAnchor);
 
-        leftAnchor += new Vector2(0, _resolutionInfo.Rectangle.Height + 4);
+        leftAnchor += new Vector2(0, resolutionInfo.Rectangle.Height + 4);
 
-        _resolution = new ValueSelection(leftAnchor, 1, resolutions, index);
-        _resolution.ValueChanged += ChangeResolution;
+        resolution = new ValueSelection(leftAnchor, 1, resolutions, index);
+        resolution.ValueChanged += ChangeResolution;
 
-        leftAnchor += new Vector2(0, _resolution.Rectangle.Height + 4);
+        leftAnchor += new Vector2(0, resolution.Rectangle.Height + 4);
 
-        _fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
-        _fullscreenButton.Text.ChangeColor(new Color[1] {settingTwo == crossout ? Color.Red : Color.Green});
-        _fullscreenButton.ClickEventHandler += ChangePressState;
-        _fullscreenText = new TextBuilder("Fullscreen", Vector2.Zero);
-        _fullscreenText.Move(leftAnchor + new Vector2(_fullscreenButton.Rectangle.Width + 4,
-            _fullscreenButton.Rectangle.Height / 2 - _fullscreenText.Rectangle.Height / 2));
+        fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
+        fullscreenButton.Text.ChangeColor(new[] {settingTwo == crossout ? Color.Red : Color.Green});
+        fullscreenButton.ClickEventHandler += ChangePressState;
+        fullscreenText = new TextBuilder("Fullscreen", Vector2.Zero);
+        fullscreenText.Move(leftAnchor + new Vector2(fullscreenButton.Rectangle.Width + 4,
+            fullscreenButton.Rectangle.Height / 2 - fullscreenText.Rectangle.Height / 2));
 
-        leftAnchor += new Vector2(0, _fullscreenButton.Rectangle.Height + 4);
+        leftAnchor += new Vector2(0, fullscreenButton.Rectangle.Height + 4);
 
-        _fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne);
-        _fixedStepButton.Text.ChangeColor(new Color[1] {settingOne == crossout ? Color.Red : Color.Green});
-        _fixedStepButton.ClickEventHandler += ChangePressState;
-        _fixedStepText = new TextBuilder("FPS-Limit", Vector2.Zero);
-        _fixedStepText.Move(leftAnchor + new Vector2(_fixedStepButton.Rectangle.Width + 4,
-            _fixedStepButton.Rectangle.Height / 2 - _fixedStepText.Rectangle.Height / 2));
+        fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne);
+        fixedStepButton.Text.ChangeColor(new[] {settingOne == crossout ? Color.Red : Color.Green});
+        fixedStepButton.ClickEventHandler += ChangePressState;
+        fixedStepText = new TextBuilder("FPS-Limit", Vector2.Zero);
+        fixedStepText.Move(leftAnchor + new Vector2(fixedStepButton.Rectangle.Width + 4,
+            fixedStepButton.Rectangle.Height / 2 - fixedStepText.Rectangle.Height / 2));
 
 
         List<string> volumeValues = new List<string>();
         for (int i = 0; i <= 10; i++)
             volumeValues.Add(i.ToString());
 
-        _musicInfo = new TextBuilder("Music Volume", rightAnchor);
+        musicInfo = new TextBuilder("Music Volume", rightAnchor);
 
-        rightAnchor += new Vector2(0, _musicInfo.Rectangle.Height + 4);
+        rightAnchor += new Vector2(0, musicInfo.Rectangle.Height + 4);
 
-        _musicVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.MusicVolume);
-        _musicVolume.ValueChanged += MusicVolumeChanged;
+        musicVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.MusicVolume);
+        musicVolume.ValueChanged += MusicVolumeChanged;
         
-        rightAnchor += new Vector2(0, _musicVolume.Rectangle.Height + 4);
+        rightAnchor += new Vector2(0, musicVolume.Rectangle.Height + 4);
         
-        _SFXInfo = new TextBuilder("SFX Volume", rightAnchor);
+        sfxInfo = new TextBuilder("SFX Volume", rightAnchor);
 
-        rightAnchor += new Vector2(0, _SFXInfo.Rectangle.Height + 4);
+        rightAnchor += new Vector2(0, sfxInfo.Rectangle.Height + 4);
 
-        _SFXVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.SFXVolume);
-        _SFXVolume.ValueChanged += SFXVolumeOnValueChanged;
+        sfxVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.SfxVolume);
+        sfxVolume.ValueChanged += SFXVolumeOnValueChanged;
 
         vectorResolution = window;
     }
 
     private void SFXVolumeOnValueChanged(string obj)
-        => storage.Settings.SFXVolume = int.Parse(obj);
+        => storage.Settings.SfxVolume = int.Parse(obj);
 
     private void MusicVolumeChanged(string obj)
         => storage.Settings.MusicVolume = int.Parse(obj);
-
-    private void ChangeResolution(object sender)
-        => ChangeResolution((TextButton) sender);
 
     private void ChangeResolution(string newValue)
     {
@@ -162,8 +155,8 @@ internal class SettingsScreen : SampleLevel
                 break;
         }
 
-        storage.Settings.IsFixedStep = _fixedStepButton.Text.Text == checkmark;
-        storage.Settings.IsFullscreen = _fullscreenButton.Text.Text == checkmark;
+        storage.Settings.IsFixedStep = fixedStepButton.Text.Text == checkmark;
+        storage.Settings.IsFullscreen = fullscreenButton.Text.Text == checkmark;
     }
 
     public override void Update(GameTime gameTime)
@@ -173,40 +166,40 @@ internal class SettingsScreen : SampleLevel
         mouseCursor.Position = mousePosition;
         mouseCursor.Update(gameTime);
 
-        _resolutionInfo.Update(gameTime);
-        _resolution.Update(gameTime, mouseCursor.Hitbox[0]);
+        resolutionInfo.Update(gameTime);
+        resolution.Update(gameTime, mouseCursor.Hitbox[0]);
 
-        _fixedStepText.Update(gameTime);
-        _fixedStepButton.Update(gameTime, mouseCursor.Hitbox[0]);
+        fixedStepText.Update(gameTime);
+        fixedStepButton.Update(gameTime, mouseCursor.Hitbox[0]);
 
-        _fullscreenText.Update(gameTime);
-        _fullscreenButton.Update(gameTime, mouseCursor.Hitbox[0]);
+        fullscreenText.Update(gameTime);
+        fullscreenButton.Update(gameTime, mouseCursor.Hitbox[0]);
 
-        _musicInfo.Update(gameTime);
-        _musicVolume.Update(gameTime, mouseCursor.Hitbox[0]);
+        musicInfo.Update(gameTime);
+        musicVolume.Update(gameTime, mouseCursor.Hitbox[0]);
         
-        _SFXInfo.Update(gameTime);
-        _SFXVolume.Update(gameTime, mouseCursor.Hitbox[0]);
+        sfxInfo.Update(gameTime);
+        sfxVolume.Update(gameTime, mouseCursor.Hitbox[0]);
 
         //_volumeMusic.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        _fixedStepText.Draw(spriteBatch);
-        _fixedStepButton.Draw(spriteBatch);
+        fixedStepText.Draw(spriteBatch);
+        fixedStepButton.Draw(spriteBatch);
 
-        _fullscreenText.Draw(spriteBatch);
-        _fullscreenButton.Draw(spriteBatch);
+        fullscreenText.Draw(spriteBatch);
+        fullscreenButton.Draw(spriteBatch);
 
-        _resolutionInfo.Draw(spriteBatch);
-        _resolution.Draw(spriteBatch);
+        resolutionInfo.Draw(spriteBatch);
+        resolution.Draw(spriteBatch);
 
-        _musicInfo.Draw(spriteBatch);
-        _musicVolume.Draw(spriteBatch);
+        musicInfo.Draw(spriteBatch);
+        musicVolume.Draw(spriteBatch);
         
-        _SFXInfo.Draw(spriteBatch);
-        _SFXVolume.Draw(spriteBatch);
+        sfxInfo.Draw(spriteBatch);
+        sfxVolume.Draw(spriteBatch);
 
         mouseCursor.Draw(spriteBatch);
     }

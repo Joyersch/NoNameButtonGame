@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using NoNameButtonGame.Input;
-using NoNameButtonGame.Camera;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,9 @@ using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.LogicObjects.Linker;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;

@@ -2,18 +2,17 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Text;
 
-namespace NoNameButtonGame.GameObjects;
+namespace NoNameButtonGame.GameObjects.AddOn;
 
 public class LockButtonAddon : GameObject
 {
-    public bool IsLocked => _locked;
+    public bool IsLocked { get; private set; } = true;
 
-    private bool _locked = true;
-    private EmptyButton button;
-    private TextBuilder text;
+    private readonly EmptyButton button;
+    private readonly TextBuilder text;
 
     public event Action<object> Callback;
 
@@ -28,19 +27,19 @@ public class LockButtonAddon : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<LockButtonAddon>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<LockButtonAddon>();
     }
 
     private void ClickHandler(object sender)
     {
-        if (!_locked)
-            Callback(sender);
+        if (!IsLocked)
+            Callback?.Invoke(sender);
     }
 
     public void Update(GameTime gameTime, Rectangle mousePosition)
     {
         base.Update(gameTime);
-        button.Update(gameTime, !_locked ? mousePosition : Rectangle);
+        button.Update(gameTime, !IsLocked ? mousePosition : Rectangle);
         text.Update(gameTime);
     }
 
@@ -52,21 +51,21 @@ public class LockButtonAddon : GameObject
 
     public void Unlock()
     {
-        _locked = false;
+        IsLocked = false;
         UpdateText();
     }
 
     public void Lock()
     {
-        _locked = true;
+        IsLocked = true;
         UpdateText();
     }
 
     private void UpdateText()
     {
-        text.ChangeText(_locked
+        text.ChangeText(IsLocked
             ? Letter.ReverseParse(Letter.Character.LockLocked).ToString()
             : Letter.ReverseParse(Letter.Character.LockUnlocked).ToString());
-        text.ChangeColor(_locked ? Color.Gray : Color.DarkGray);
+        text.ChangeColor(IsLocked ? Color.Gray : Color.DarkGray);
     }
 }

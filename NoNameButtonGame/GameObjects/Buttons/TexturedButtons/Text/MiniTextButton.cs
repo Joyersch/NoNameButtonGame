@@ -1,25 +1,24 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Cache;
 
-namespace NoNameButtonGame.GameObjects.Buttons;
+namespace NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
 
 public class MiniTextButton : TextButton
 {
-    public MiniTextButton(Vector2 position, string Name, string Text) : this(position, DefaultSize, Name, Text, DefaultTextSize)
+    public MiniTextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text, DefaultTextSize)
     {
     }
     
-    public MiniTextButton(Vector2 position, float scale, string Name, string Text) : this(position, DefaultSize * scale, Name, Text, DefaultTextSize * scale)
+    public MiniTextButton(Vector2 position, float scale, string name, string text) : this(position, DefaultSize * scale, name, text, DefaultTextSize * scale)
     {
     }
     
-    public MiniTextButton(Vector2 position, Vector2 size, string Name, string Text, Vector2 TextSize) : base(position, size, Name, Text, TextSize)
+    public MiniTextButton(Vector2 position, Vector2 size, string name, string text, Vector2 textSize) : base(position, size, name, text, textSize)
     {
     }
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<MiniTextButton>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<MiniTextButton>();
         clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 

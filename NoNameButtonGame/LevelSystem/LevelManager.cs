@@ -5,11 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Camera;
 using NoNameButtonGame.LevelSystem.LevelContainer;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -21,7 +21,7 @@ internal class LevelManager
     private LevelSelect _levelSelect;
 
     private Display.Display _display;
-    private Storage _storage;
+    private Storage.Storage _storage;
 
     private Random _random;
     private MenuState _state;
@@ -52,7 +52,7 @@ internal class LevelManager
 
     public event Action<string> ChangeWindowName;
 
-    public LevelManager(Display.Display display, Storage storage, int? seed = null)
+    public LevelManager(Display.Display display, Storage.Storage storage, int? seed = null)
     {
         _display = display;
         _storage = storage;
@@ -112,58 +112,13 @@ internal class LevelManager
         var width = (int) _display.DefaultWidth;
         var height = (int) _display.DefaultHeight;
         var screen = _storage.Settings.Resolution.ToVertor2();
+        // ToDo: LevelFactory
         _currentLevel = level switch
         {
             1 => new Level1(width, height, screen, _random),
             2 => new Level2(width, height, screen, _random),
             3 => new Level3(width, height, screen, _random),
             4 => new Level4(width, height, screen, _random),
-            5 => new Level5(width, height, screen, _random),
-            6 => new Level6(width, height, screen, _random),
-            7 => new Level7(width, height, screen, _random),
-            8 => new Level8(width, height, screen, _random),
-            9 => new Level9(width, height, screen, _random),
-            10 => new Level10(width, height, screen, _random),
-            11 => new Level11(width, height, screen, _random),
-            12 => new Level12(width, height, screen, _random),
-            13 => new Level13(width, height, screen, _random),
-            14 => new Level14(width, height, screen, _random),
-            15 => new Level15(width, height, screen, _random),
-            16 => new Level16(width, height, screen, _random),
-            17 => new Level17(width, height, screen, _random),
-            18 => new Level18(width, height, screen, _random),
-            19 => new Level19(width, height, screen, _random),
-            20 => new Level20(width, height, screen, _random),
-            21 => new Level21(width, height, screen, _random),
-            22 => new Level22(width, height, screen, _random),
-            23 => new Level23(width, height, screen, _random),
-            24 => new Level24(width, height, screen, _random),
-            25 => new Level25(width, height, screen, _random),
-            26 => new Level26(width, height, screen, _random),
-            27 => new Level27(width, height, screen, _random),
-            28 => new Level28(width, height, screen, _random),
-            29 => new Level29(width, height, screen, _random),
-            30 => new Level30(width, height, screen, _random),
-            31 => new Level31(width, height, screen, _random),
-            32 => new Level32(width, height, screen, _random),
-            33 => new Level33(width, height, screen, _random),
-            34 => new Level34(width, height, screen, _random),
-            35 => new Level35(width, height, screen, _random),
-            36 => new Level36(width, height, screen, _random),
-            37 => new Level37(width, height, screen, _random),
-            38 => new Level38(width, height, screen, _random),
-            39 => new Level39(width, height, screen, _random),
-            40 => new Level40(width, height, screen, _random),
-            41 => new Level41(width, height, screen, _random),
-            42 => new Level42(width, height, screen, _random),
-            43 => new Level43(width, height, screen, _random),
-            44 => new Level44(width, height, screen, _random),
-            45 => new Level45(width, height, screen, _random),
-            46 => new Level46(width, height, screen, _random),
-            47 => new Level47(width, height, screen, _random),
-            48 => new Level48(width, height, screen, _random),
-            49 => new Level49(width, height, screen, _random),
-            50 => new Level50(width, height, screen, _random),
             _ => new LevelNull(width, height, screen, _random),
         };
         _currentLevel.FinishEventHandler += LevelFinish;

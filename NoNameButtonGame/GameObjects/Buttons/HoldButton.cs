@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Input;
 using NoNameButtonGame.Text;
 
@@ -14,15 +8,15 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 internal class HoldButton : EmptyButton
 {
-    private float _holdTime = 0F;
+    private float _holdTime;
     public float EndHoldTime = 10000F;
-    private bool _pressed = false;
-    private TextBuilder textContainer;
+    private bool _pressed;
+    private readonly TextBuilder textContainer;
 
 
-    public HoldButton(Vector2 Position, Vector2 size) : base(Position, size)
+    public HoldButton(Vector2 position, Vector2 size) : base(position, size)
     {
-        textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16), null,
+        textContainer = new TextBuilder("test", new Vector2(float.MinValue, float.MinValue), new Vector2(16, 16),
             0);
     }
 
@@ -33,10 +27,10 @@ internal class HoldButton : EmptyButton
         textContainer.Position = Rectangle.Center.ToVector2() - textContainer.Rectangle.Size.ToVector2() / 2;
         textContainer.Position.Y -= 32;
         textContainer.Update(gameTime);
-        bool hover = HitboxCheck(mousePosition);
-        if (hover)
+        bool isMouseHovering = HitboxCheck(mousePosition);
+        if (isMouseHovering)
         {
-            if (!_hover)
+            if (!hover)
                 InvokeEnterEventHandler();
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false) && !_pressed)
@@ -55,7 +49,7 @@ internal class HoldButton : EmptyButton
         }
         else
         {
-            if (_hover)
+            if (hover)
                 InvokeLeaveEventHandler();
             if (!_pressed)
                 _holdTime -= (float) gameTime.ElapsedGameTime.TotalMilliseconds / 2;
@@ -63,8 +57,8 @@ internal class HoldButton : EmptyButton
 
         if (_holdTime < 0) _holdTime = 0;
         
-        ImageLocation = new Rectangle(hover ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
-        _hover = hover;
+        ImageLocation = new Rectangle(isMouseHovering ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
+        hover = isMouseHovering;
         base.Update(gameTime);
     }
 

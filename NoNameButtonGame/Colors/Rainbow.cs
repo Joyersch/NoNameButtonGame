@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace NoNameButtonGame.Colors;
 
 internal class Rainbow : AnimatedColor
 {
-    public Rainbow()
-    {
-    }
-
-    public override void Init()
+    protected override void Init()
     {
         Color = new Color[768];
         int c = 0;

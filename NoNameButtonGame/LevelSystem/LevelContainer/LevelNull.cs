@@ -4,27 +4,28 @@ using Microsoft.Xna.Framework;
 using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class LevelNull : SampleLevel
 {
-    private readonly EmptyButton failButton;
+    private readonly TextButton failButton;
     private readonly Cursor mouseCursor;
     private readonly TextBuilder Info;
 
     public LevelNull(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
     {
-        failButton = new FailButton(new Vector2(-64, -32), new Vector2(128, 64))
+        failButton = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "end", "Restart")
         {
             DrawColor = Color.White,
         };
         failButton.ClickEventHandler += Fail;
         mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         Name = "Level ??? End";
-        Info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), null, 0);
+        Info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), 0);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

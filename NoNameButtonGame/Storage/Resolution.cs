@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Interfaces;
 
-namespace NoNameButtonGame;
+namespace NoNameButtonGame.Storage;
 
 public class Resolution : IChangeable
 {

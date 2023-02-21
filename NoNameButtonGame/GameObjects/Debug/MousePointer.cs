@@ -1,15 +1,11 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Debug;
 
 public class MousePointer : GameObject
 {
-    private Vector2 _mousePositionOffset;
-    public Color DrawColor => Color.White;
-    private bool draw = false;
+    private readonly bool draw;
 
     public MousePointer() : this(Vector2.Zero, Vector2.Zero)
     {
@@ -26,7 +22,7 @@ public class MousePointer : GameObject
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<MousePointer>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<MousePointer>();
     }
 
     public void Update(GameTime gameTime, Vector2 mousePosition)
@@ -40,7 +36,7 @@ public class MousePointer : GameObject
         if (!draw)
             return;
 
-        spriteBatch.Draw(_textureHitboxMapping.Texture, new Rectangle((int) Position.X - 3, (int) Position.Y - 3, 6, 6),
+        spriteBatch.Draw(textureHitboxMapping.Texture, new Rectangle((int) Position.X - 3, (int) Position.Y - 3, 6, 6),
             DrawColor);
         base.Draw(spriteBatch);
     }

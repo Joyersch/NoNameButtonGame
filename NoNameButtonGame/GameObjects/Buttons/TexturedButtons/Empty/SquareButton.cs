@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Empty;
 
@@ -19,7 +18,7 @@ public class SquareButton : EmptyButton
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<SquareButton>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<SquareButton>();
         clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 

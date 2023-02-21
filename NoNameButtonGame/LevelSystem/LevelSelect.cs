@@ -9,7 +9,9 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
 using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer
 {
@@ -26,7 +28,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer
         private bool moveUp = false;
         private int currentTicks = 0;
 
-        public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage storage) : base(
+        public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage.Storage storage) : base(
             defaultWidth, defaultHeight, window, rand)
         {
             Name = "Level Selection";

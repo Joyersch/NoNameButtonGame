@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using System.Xml.Schema;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 
-namespace NoNameButtonGame.LogicObjects;
+namespace NoNameButtonGame.LogicObjects.Linker;
 
 public class GameObjectLinker
 {

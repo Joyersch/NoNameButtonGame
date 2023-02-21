@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
+using NoNameButtonGame.Storage;
 
-namespace NoNameButtonGame.LogicObjects;
+namespace NoNameButtonGame.LogicObjects.Linker;
 
 public class MusicSettingsLinker
 {
-    private List<SoundEffectInstance> instances;
+    private readonly List<SoundEffectInstance> instances;
 
-    private Settings _settings;
+    private readonly Settings settings;
 
     public MusicSettingsLinker(Settings settings)
     {
         instances = new List<SoundEffectInstance>();
-        _settings = settings;
-        _settings.HasChanged += SettingsOnHasChanged;
+        this.settings = settings;
+        this.settings.HasChanged += SettingsOnHasChanged;
     }
 
     private void SettingsOnHasChanged(object sender, EventArgs e)
@@ -28,7 +29,7 @@ public class MusicSettingsLinker
                 continue;
             }
 
-            effect.Volume = _settings.MusicVolume / 10F;
+            effect.Volume = settings.MusicVolume / 10F;
         }
 
         foreach (var effect in toRemove)
@@ -38,6 +39,6 @@ public class MusicSettingsLinker
     public void AddSettingsLink(SoundEffectInstance soundEffect)
     {
         instances.Add(soundEffect);
-        SettingsOnHasChanged(_settings, EventArgs.Empty);
+        SettingsOnHasChanged(settings, EventArgs.Empty);
     }
 }

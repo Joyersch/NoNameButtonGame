@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Cache;
-using NoNameButtonGame.Input;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class TextButton : EmptyButton, IMoveable
+public class TextButton : EmptyButton
 {
     public TextBuilder Text { get; }
     public string Name { get; }
@@ -31,9 +24,8 @@ public class TextButton : EmptyButton, IMoveable
     {
     }
 
-    public TextButton(Vector2 position, Vector2 size, string name, string text, Vector2 textSize) : this(position, size,
-        name,
-        text, textSize, 1)
+    public TextButton(Vector2 position, Vector2 size, string name, string text, Vector2 textSize) :
+        this(position, size, name, text, textSize, 1)
     {
     }
 
@@ -53,10 +45,10 @@ public class TextButton : EmptyButton, IMoveable
         return success;
     }
 
-    public override void Update(GameTime gt, Rectangle MousePos)
+    public override void Update(GameTime gameTime, Rectangle mousePos)
     {
-        Text.Update(gt);
-        base.Update(gt, MousePos);
+        Text.Update(gameTime);
+        base.Update(gameTime, mousePos);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

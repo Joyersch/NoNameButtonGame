@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.Text;
 
@@ -22,17 +17,17 @@ public class Letter : GameObject
     {
         RepresentingCharacter = character;
         UpdateCharacter(character);
-        _textureHitboxMapping.Hitboxes = new[]
+        textureHitboxMapping.Hitboxes = new[]
         {
             new Rectangle((position + frameSpacing.Location.ToVector2()).ToPoint(),
-                (frameSpacing.Size.ToVector2() * _scaleToTexture).ToPoint())
+                (frameSpacing.Size.ToVector2() * scaleToTexture).ToPoint())
         };
-        _hitboxes = new Rectangle[1];
+        hitboxes = new Rectangle[1];
     }
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<Letter>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<Letter>();
     }
 
     public void ChangeColor(Color color)
@@ -51,7 +46,7 @@ public class Letter : GameObject
             , frameSpacing.Width
             , frameSpacing.Height
         );
-        Size = frameSpacing.Size.ToVector2() * _scaleToTexture;
+        Size = frameSpacing.Size.ToVector2() * scaleToTexture;
         UpdateRectangle();
         RepresentingCharacter = character;
     }

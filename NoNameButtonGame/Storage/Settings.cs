@@ -1,54 +1,54 @@
 using System;
 using NoNameButtonGame.Interfaces;
 
-namespace NoNameButtonGame;
+namespace NoNameButtonGame.Storage;
 
 public class Settings : IChangeable
 {
-    private bool _isFixedStep;
+    private bool isFixedStep;
 
     public bool IsFixedStep
     {
-        get => _isFixedStep;
+        get => isFixedStep;
         set
         {
-            _isFixedStep = value;
+            isFixedStep = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    private bool _isFullscreen;
+    private bool isFullscreen;
     
     public bool IsFullscreen
     {
-        get => _isFullscreen;
+        get => isFullscreen;
         set
         {
-            _isFullscreen = value;
+            isFullscreen = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    private int _musicVolume;
+    private int musicVolume;
     
     public int MusicVolume
     {
-        get => _musicVolume;
+        get => musicVolume;
         set
         {
-            _musicVolume = value;
+            musicVolume = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     
-    private int _SFXVolume;
+    private int sfxVolume;
     
-    public int SFXVolume
+    public int SfxVolume
     {
-        get => _SFXVolume;
+        get => sfxVolume;
         set
         {
-            _SFXVolume = value;
+            sfxVolume = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -56,7 +56,7 @@ public class Settings : IChangeable
     public Settings()
     {
         Resolution = new Resolution();
-        Resolution.HasChanged += (sender, args) => HasChanged?.Invoke(this, EventArgs.Empty);
+        Resolution.HasChanged += (_, _) => HasChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public Resolution Resolution { get; set; }

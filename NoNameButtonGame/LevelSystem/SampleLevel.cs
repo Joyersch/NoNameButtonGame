@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Camera;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.GameObjects;
 using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -18,23 +14,21 @@ internal class SampleLevel : ILevel
 
     public event Action<string> CurrentMusicEventHandler;
 
-    public CameraClass Camera;
+    public readonly CameraClass Camera;
     public Vector2 Window;
-    public Vector2 cameraPosition;
-    public Vector2 mousePosition;
-    public Rectangle cameraRectangle;
-    public int defaultWidth;
-    public int defaultHeight;
+    protected Vector2 cameraPosition;
+    protected Vector2 mousePosition;
+    protected Rectangle cameraRectangle;
+    protected readonly int defaultWidth;
+    protected readonly int defaultHeight;
     public string Name;
+    protected Random random;
 
-    private bool animationIn = true;
-    private bool animationOut = false;
-    private bool levelStarted = false;
-
-    public SampleLevel(int defaultWidth, int defaultHeight, Vector2 window, Random random)
+    protected SampleLevel(int defaultWidth, int defaultHeight, Vector2 window, Random random)
     {
         this.defaultWidth = defaultWidth;
         this.defaultHeight = defaultHeight;
+        this.random = random;
         Window = window;
         Camera = new CameraClass(new Vector2(defaultWidth, defaultHeight));
         cameraPosition = Vector2.Zero;
@@ -63,7 +57,7 @@ internal class SampleLevel : ILevel
         mousePosition = mouseVector / screenScale / Camera.Zoom + cameraPosition - offset;
     }
 
-    public virtual void SetScreen(Vector2 Screen) => Window = Screen;
+    public virtual void SetScreen(Vector2 screen) => Window = screen;
 
     protected virtual void Fail(object sender)
         => Fail();
@@ -83,6 +77,6 @@ internal class SampleLevel : ILevel
     public virtual void Exit()
         => ExitEventHandler?.Invoke();
 
-    public virtual void CurrentMusic(string music)
+    protected virtual void CurrentMusic(string music)
         => CurrentMusicEventHandler?.Invoke(music);
 }

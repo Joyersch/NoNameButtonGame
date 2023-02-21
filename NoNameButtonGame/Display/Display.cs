@@ -12,7 +12,7 @@ public class Display
     public Rectangle Window;
     
     //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-    private Rectangle BackbufferBounds;
+    private Rectangle backbufferBounds;
     private float backbufferAspectRatio;
     private float screenAspectRatio;
     
@@ -26,24 +26,24 @@ public class Display
     public void Update(GameTime gameTime)
     {
         //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-        BackbufferBounds = device.PresentationParameters.Bounds;
-        backbufferAspectRatio = (float) BackbufferBounds.Width / BackbufferBounds.Height;
+        backbufferBounds = device.PresentationParameters.Bounds;
+        backbufferAspectRatio = (float) backbufferBounds.Width / backbufferBounds.Height;
         screenAspectRatio = (float) Target.Width / Target.Height;
         
         float x, y, w, h; 
         x = 0f;
         y = 0f;
-        w = BackbufferBounds.Width;
-        h = BackbufferBounds.Height;
+        w = backbufferBounds.Width;
+        h = backbufferBounds.Height;
         if (backbufferAspectRatio > screenAspectRatio)
         {
             w = h * screenAspectRatio;
-            x = (BackbufferBounds.Width - w) / 2f;
+            x = (backbufferBounds.Width - w) / 2f;
         }
         else if (backbufferAspectRatio < screenAspectRatio)
         {
             h = w / screenAspectRatio;
-            y = (BackbufferBounds.Height - h) / 2f;
+            y = (backbufferBounds.Height - h) / 2f;
         }
         Window = new Rectangle((int) x, (int) y, (int) w, (int) h);
     }

@@ -1,26 +1,23 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Colors;
 
 public class AnimatedColor
 {
-    public Color[] Color;
-    private int Index;
+    protected Color[] Color;
+    private int index;
     private float storedGameTime;
     public int Increment = 1;
     public float GameTimeStepInterval = 25;
     public int Offset;
 
-    public AnimatedColor()
-    {
-        Init();
-    }
+    protected AnimatedColor()
+        => Init();
 
-    public virtual void Init()
+    protected virtual void Init()
     {
-        Color = new Color[0];
+        Color = Array.Empty<Color>();
     }
 
     public virtual void Update(GameTime gameTime)
@@ -32,19 +29,19 @@ public class AnimatedColor
         while (storedGameTime > GameTimeStepInterval)
         {
             storedGameTime -= GameTimeStepInterval;
-            Index += Increment;
-            Index %= Color.Length;
+            index += Increment;
+            index %= Color.Length;
         }
     }
 
-    public Color[] GetColor(int Length)
+    public Color[] GetColor(int length)
     {
-        Color[] rc = new Color[Length];
-        for (int i = 0; i < Length; i++)
+        var getColor = new Color[length];
+        for (int i = 0; i < length; i++)
         {
-            rc[i] = Color[(i * Increment + Index + Offset) % Color.Length];
+            getColor[i] = Color[(i * Increment + index + Offset) % Color.Length];
         }
 
-        return rc;
+        return getColor;
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,11 +7,11 @@ namespace NoNameButtonGame.GameObjects;
 
 internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 {
-    private int FramePos = 0;
-    private int FrameMax = 0;
-    private int FrameSpeed = 1000 / 64 * 2;
+    private int framePos;
+    private readonly int frameMax;
+    private const int FrameSpeed = 1000 / 64 * 2;
 
-    private float GT;
+    private float savedGameTime;
 
     private bool hover;
 
@@ -33,31 +31,31 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 
     public GlitchBlock(Vector2 position, Vector2 size) : base(position, size)
     {
-        FrameMax = _textureHitboxMapping.AnimationsFrames;
-        FrameSize = _scaleToTexture / (_scaleToTexture.X > _scaleToTexture.Y ? _scaleToTexture.X : _scaleToTexture.Y) *
+        frameMax = textureHitboxMapping.AnimationsFrames;
+        FrameSize = scaleToTexture / (scaleToTexture.X > scaleToTexture.Y ? scaleToTexture.X : scaleToTexture.Y) *
                     FrameSize;
     }
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
     public void Update(GameTime gameTime, Rectangle mousePosition)
     {
-        MouseState mouseState = Mouse.GetState();
-        GT += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (GT > FrameSpeed)
+        Mouse.GetState();
+        savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+        while (savedGameTime > FrameSpeed)
         {
-            GT -= FrameSpeed;
-            FramePos++;
-            if (FramePos == FrameMax) FramePos = 0;
+            savedGameTime -= FrameSpeed;
+            framePos++;
+            if (framePos == frameMax) framePos = 0;
             ImageLocation = new Rectangle(
-                !_textureHitboxMapping.AnimationFromTop ?? false
-                    ? FramePos * (int) _textureHitboxMapping.ImageSize.Y
+                !textureHitboxMapping.AnimationFromTop ?? false
+                    ? framePos * (int) textureHitboxMapping.ImageSize.Y
                     : 0
-                , _textureHitboxMapping.AnimationFromTop ?? true
-                    ? FramePos * (int) _textureHitboxMapping.ImageSize.X
+                , textureHitboxMapping.AnimationFromTop ?? true
+                    ? framePos * (int) textureHitboxMapping.ImageSize.X
                     : 0
                 , (int) FrameSize.X, (int) FrameSize.Y);
         }

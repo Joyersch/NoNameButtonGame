@@ -1,9 +1,6 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using NoNameButtonGame.Cache;
-using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame
 {

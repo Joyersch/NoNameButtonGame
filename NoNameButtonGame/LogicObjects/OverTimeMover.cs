@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Interfaces;
 
@@ -7,9 +6,9 @@ namespace NoNameButtonGame.LogicObjects;
 public class OverTimeMover
 {
     private float savedGameTime;
-    private IMoveable _moveable;
+    private IMoveable moveable;
     private int currentTicks;
-    private bool inMove = false;
+    private readonly bool inMove = false;
     
     public void Update(GameTime gameTime)
     {
@@ -17,7 +16,7 @@ public class OverTimeMover
             return;
         
         savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        var position = _moveable.GetPosition();
+        var position = moveable.GetPosition();
         while (savedGameTime > 10)
         {
             /*

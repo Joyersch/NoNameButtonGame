@@ -1,27 +1,21 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Cache;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace NoNameButtonGame.GameObjects;
 
 internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable
 {
-    private GlitchBlock[] glitchBlocksGrid;
-    private Rectangle[] ingameHitbox;
-    public Rectangle[] Hitbox => ingameHitbox;
-
+    private readonly GlitchBlock[] glitchBlocksGrid;
     private bool hover;
 
     public event Action<object> LeaveEventHandler;
     public event Action<object> EnterEventHandler;
     public event Action<object> ClickEventHandler;
 
-    private Color OldDrawColor;
+    private Color oldDrawColor;
 
     public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.DefaultSize)
     {
@@ -47,9 +41,9 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
             for (int x = 0; x < grid.X; x++)
             {
                 var newSize = singleSize;
-                if (gridEdge.X > 0 && x + 1 == grid.X)
+                if (gridEdge.X > 0 && x + 1 == (int)grid.X)
                     newSize.X = gridEdge.X;
-                if (gridEdge.Y > 0 && y + 1 == grid.Y)
+                if (gridEdge.Y > 0 && y + 1 == (int)grid.Y)
                     newSize.Y = gridEdge.Y;
 
                 var block = new GlitchBlock(
@@ -63,7 +57,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
 
@@ -86,7 +80,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
             hover = false;
         }
         base.Update(gameTime);
-        if (DrawColor != OldDrawColor)
+        if (DrawColor != oldDrawColor)
         {
             for (int i = 0; i < glitchBlocksGrid.Length; i++)
             {
@@ -94,7 +88,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
             }
         }
 
-        OldDrawColor = DrawColor;
+        oldDrawColor = DrawColor;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -109,7 +103,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
         if (glitchBlocksGrid is null)
             return;
-        _hitboxes = glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
+        hitboxes = glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
     public Vector2 GetPosition()

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Text;
 
@@ -94,7 +94,7 @@ public class ValueSelection : GameObject, IMoveable
 
     public override void Initialize()
     {
-        _textureHitboxMapping = Globals.Textures.GetMappingFromCache<ValueSelection>();
+        textureHitboxMapping = Globals.Textures.GetMappingFromCache<ValueSelection>();
     }
 
     public void Update(GameTime gameTime, Rectangle mousePointer)

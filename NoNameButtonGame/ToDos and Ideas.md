@@ -1,14 +1,6 @@
 # ToDo
 ## Recode // Refactor
-- Add Comments in case code is not self explaining
-- Add transitions between "levels" back
-- Rename Events as there are currently following different naming-schemas
-- Rename Methods called by event (same as above)
-- Check IMoveables as some seem to still do the operation weird
-
-# Ideas 
-
-Type: Level
-Name: Cursor swarm
-Description:
-You are a fail button, cursor are coming at you trying to click you and there is a timer
+- Add Comments to code to better explain what stuff does
+- Update naming schemas to have a consistent names
+- Remove unused old code
+- Check if there is a way to implement the holdbutton as an addon

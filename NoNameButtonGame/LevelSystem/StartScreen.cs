@@ -8,7 +8,9 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.LogicObjects;
+using NoNameButtonGame.LogicObjects.Linker;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
