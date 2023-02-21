@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace NoNameButtonGame.Cache;
+namespace NoNameButtonGame.GameObjects.Texture;
 
 public struct TextureHitboxMapping
 {

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Cache;
+using NoNameButtonGame.GameObjects.Texture;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
