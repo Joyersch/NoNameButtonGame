@@ -17,17 +17,12 @@ public class LockButtonAddon : GameObject
     public event Action<object> Callback;
 
     
-    public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2))
+    public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2), DefaultTexture, DefaultMapping)
     {
         this.button = button;
         button.ClickEventHandler += ClickHandler;
         text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
-    }
-
-    public override void Initialize()
-    {
-        textureHitboxMapping = Globals.Textures.GetMappingFromCache<LockButtonAddon>();
     }
 
     private void ClickHandler(object sender)

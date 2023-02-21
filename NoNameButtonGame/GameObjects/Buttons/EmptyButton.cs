@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Input;
 
@@ -15,6 +17,20 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     protected SoundEffect clickEffect;
     private SoundEffectInstance soundEffectInstance;
 
+    public new static Vector2 DefaultSize => DefaultMapping.ImageSize * 4;
+
+    public new static Texture2D DefaultTexture;
+
+    public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
+    {
+        ImageSize = new Vector2(32, 16),
+        Hitboxes = new[]
+        {
+            new Rectangle(2, 1, 28, 14),
+            new Rectangle(1, 2, 30, 12)
+        }
+    };
+
     public EmptyButton(Vector2 position) : this(position, DefaultSize)
     {
     }
@@ -23,13 +39,13 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     {
     }
 
-    public EmptyButton(Vector2 position, Vector2 size) : base(position, size)
+    public EmptyButton(Vector2 position, Vector2 size) : this(position, size, DefaultTexture, DefaultMapping)
     {
     }
 
-    public override void Initialize()
+    public EmptyButton(Vector2 position, Vector2 size, Texture2D texture, TextureHitboxMapping mapping) :
+        base(position, size, texture, mapping)
     {
-        textureHitboxMapping = Globals.Textures.GetMappingFromCache<EmptyButton>();
         clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 
@@ -70,6 +86,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
             soundEffectInstance.Dispose();
             soundEffectInstance = null;
         }
+
         soundEffectInstance = clickEffect.CreateInstance();
         Globals.SoundSettingsLinker.AddSettingsLink(soundEffectInstance);
         soundEffectInstance.Play();
@@ -81,6 +98,4 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     protected void InvokeLeaveEventHandler()
         => LeaveEventHandler?.Invoke(this);
-
-    public new static Vector2 DefaultSize => new Vector2(128, 64);
 }

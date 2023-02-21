@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.Cache;
 
 namespace NoNameButtonGame.GameObjects;
 
@@ -15,11 +17,25 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 
     private bool hover;
 
+    private Vector2 initialScale;
+
     public event Action<object> EnterEventHandler;
     public event Action<object> LeaveEventHandler;
     public event Action<object> ClickEventHandler;
 
-    public new static Vector2 DefaultSize = new Vector2(32, 32);
+    public new static Vector2 DefaultSize = DefaultMapping.ImageSize * 2;
+    
+    public new static Texture2D DefaultTexture;
+    public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
+    {
+        ImageSize = new Vector2(16, 16),
+        Hitboxes = new[]
+        {
+            new Rectangle(0, 0, 16, 16)
+        },
+        AnimationsFrames = 64,
+        AnimationFromTop = true
+    };
 
     public GlitchBlock(Vector2 position) : this(position, DefaultSize)
     {
@@ -29,16 +45,12 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
     {
     }
 
-    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size)
+    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size, DefaultTexture, DefaultMapping)
     {
+        initialScale = size / DefaultMapping.ImageSize;
         frameMax = textureHitboxMapping.AnimationsFrames;
-        FrameSize = scaleToTexture / (scaleToTexture.X > scaleToTexture.Y ? scaleToTexture.X : scaleToTexture.Y) *
+        FrameSize = initialScale / (initialScale.X > initialScale.Y ? initialScale.X : initialScale.Y) *
                     FrameSize;
-    }
-
-    public override void Initialize()
-    {
-        textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
     public void Update(GameTime gameTime, Rectangle mousePosition)

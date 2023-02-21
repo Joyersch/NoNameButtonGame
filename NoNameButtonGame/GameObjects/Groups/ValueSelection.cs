@@ -29,7 +29,7 @@ public class ValueSelection : GameObject, IMoveable
     private int _pointer;
     
     public ValueSelection(Vector2 position, float scale, List<string> validValues, int startValueIndex) : base(
-        position, SquareTextButton.DefaultSize * scale)
+        position, SquareTextButton.DefaultSize * scale, DefaultTexture, DefaultMapping)
     {
         ValidValues = validValues;
         _pointer = startValueIndex;
@@ -90,11 +90,6 @@ public class ValueSelection : GameObject, IMoveable
         }
 
         return x1 && x2 && x3;
-    }
-
-    public override void Initialize()
-    {
-        textureHitboxMapping = Globals.Textures.GetMappingFromCache<ValueSelection>();
     }
 
     public void Update(GameTime gameTime, Rectangle mousePointer)

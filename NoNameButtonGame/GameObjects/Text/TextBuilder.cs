@@ -87,7 +87,7 @@ public class TextBuilder : IColorable, IMoveable
         foreach (Letter.Character character in characters)
         {
             var letter = new Letter(new Vector2(length, 0) + Position, Size, character);
-            letter.Position += new Vector2(0, 8F * letter.ScaleToTexture.Y) - new Vector2(0, letter.Rectangle.Height);
+            letter.Position += new Vector2(0, 8F * letter.InitialScale.Y) - new Vector2(0, letter.Rectangle.Height);
             length += (int) ((letter.frameSpacing.Width + spacing) * sizeScale);
             letters.Add(letter);
         }

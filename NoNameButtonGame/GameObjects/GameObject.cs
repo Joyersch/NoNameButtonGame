@@ -9,7 +9,7 @@ namespace NoNameButtonGame.GameObjects;
 
 public class GameObject : IHitbox
 {
-    private readonly Texture2D texture;
+    protected readonly Texture2D texture;
     public Vector2 Position;
     public Vector2 Size;
     protected Vector2 FrameSize;
@@ -21,42 +21,44 @@ public class GameObject : IHitbox
     protected Rectangle[] hitboxes;
     protected Vector2 scaleToTexture;
 
-    public Vector2 ScaleToTexture => scaleToTexture;
-
     public Rectangle[] Hitbox => hitboxes;
 
     public static Vector2 DefaultSize => new Vector2(0, 0);
+    public static Texture2D DefaultTexture;
 
-    public GameObject(Vector2 position) : this(position, DefaultSize)
+    public static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
+    {
+        ImageSize = new Vector2(16, 16),
+        Hitboxes = new[]
+        {
+            new Rectangle(0, 0, 16, 16)
+        }
+    };
+
+    public GameObject(Vector2 position) : this(position, 1)
     {
     }
 
-    public GameObject(Vector2 position, float scale) : this(position, DefaultSize * scale)
+    public GameObject(Vector2 position, float scale) : this(position, DefaultSize * scale, DefaultTexture,
+        DefaultMapping)
     {
     }
 
-    public GameObject(Vector2 position, Vector2 size)
+    public GameObject(Vector2 position, Vector2 size, Texture2D texture, TextureHitboxMapping mapping)
     {
         Size = size;
         Position = position;
         DrawColor = Color.White;
-        Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
-        Initialize();
+        this.texture = texture;
+        this.textureHitboxMapping = mapping;
         ImageLocation = new Rectangle(
             0
             , 0
             , (int) textureHitboxMapping.ImageSize.X
             , (int) textureHitboxMapping.ImageSize.Y);
         FrameSize = textureHitboxMapping.ImageSize;
-        texture = textureHitboxMapping.Texture;
         hitboxes = new Rectangle[textureHitboxMapping.Hitboxes.Length];
-        CalculateHitboxes();
         Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
-    }
-
-    public virtual void Initialize()
-    {
-        throw new Exception();
     }
 
     public virtual void Update(GameTime gameTime)

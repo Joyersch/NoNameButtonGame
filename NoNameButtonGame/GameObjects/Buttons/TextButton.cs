@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Text;
 
@@ -9,6 +10,8 @@ public class TextButton : EmptyButton
 {
     public TextBuilder Text { get; }
     public string Name { get; }
+    public new static Vector2 DefaultSize => new Vector2(128, 64);
+    public static Vector2 DefaultTextSize => new Vector2(16, 16);
 
     public TextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text)
     {
@@ -30,7 +33,13 @@ public class TextButton : EmptyButton
     }
 
     public TextButton(Vector2 position, Vector2 size, string name, string text,
-        Vector2 textSize, int spacing) : base(position, size)
+        Vector2 textSize, int spacing) : this(position, size, name, text, textSize, spacing, DefaultTexture, DefaultMapping)
+    {
+    }
+
+    public TextButton(Vector2 position, Vector2 size, string name, string text,
+        Vector2 textSize, int spacing, Texture2D texture, TextureHitboxMapping mapping) :
+        base(position, size, texture, mapping)
     {
         Text = new TextBuilder(text, Position, textSize, spacing);
         Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
@@ -56,8 +65,4 @@ public class TextButton : EmptyButton
         base.Draw(spriteBatch);
         Text.Draw(spriteBatch);
     }
-
-
-    public new static Vector2 DefaultSize => new Vector2(128, 64);
-    public static Vector2 DefaultTextSize => new Vector2(16, 16);
 }

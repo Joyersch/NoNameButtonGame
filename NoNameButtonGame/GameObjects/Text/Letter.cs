@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.Text;
@@ -8,26 +10,29 @@ public class Letter : GameObject
     public Rectangle frameSpacing;
     public Character RepresentingCharacter;
     private Rectangle drawOffset;
+    public Vector2 InitialScale { get; private set; }
+    public new static Texture2D DefaultTexture;
 
-    public Letter(Vector2 position, Vector2 size, Character character) : this(position, size, character, Color.White)
+    public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
     {
-    }
+        ImageSize = new Vector2(8, 8),
+        Hitboxes = new[]
+        {
+            new Rectangle(0, 0, 8, 8)
+        }
+    };
 
-    public Letter(Vector2 position, Vector2 size, Character character, Color color) : base(position, size)
+    public Letter(Vector2 position, Vector2 size, Character character) : base(position, size,
+        DefaultTexture, DefaultMapping)
     {
+        InitialScale = size / DefaultMapping.ImageSize;
         RepresentingCharacter = character;
-        UpdateCharacter(character);
         textureHitboxMapping.Hitboxes = new[]
         {
             new Rectangle((position + frameSpacing.Location.ToVector2()).ToPoint(),
                 (frameSpacing.Size.ToVector2() * scaleToTexture).ToPoint())
         };
-        hitboxes = new Rectangle[1];
-    }
-
-    public override void Initialize()
-    {
-        textureHitboxMapping = Globals.Textures.GetMappingFromCache<Letter>();
+        UpdateCharacter(character);
     }
 
     public void ChangeColor(Color color)
@@ -46,7 +51,7 @@ public class Letter : GameObject
             , frameSpacing.Width
             , frameSpacing.Height
         );
-        Size = frameSpacing.Size.ToVector2() * scaleToTexture;
+        Size = frameSpacing.Size.ToVector2() * InitialScale;
         UpdateRectangle();
         RepresentingCharacter = character;
     }

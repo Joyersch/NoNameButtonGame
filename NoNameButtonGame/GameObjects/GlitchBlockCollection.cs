@@ -26,7 +26,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size, DefaultTexture, DefaultMapping)
     {
         var grid = size / singleSize;
         var gridEdge = new Vector2(size.X % singleSize.X, size.Y % singleSize.Y);
@@ -53,11 +53,6 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         }
         
         CalculateHitboxes();
-    }
-
-    public override void Initialize()
-    {
-        textureHitboxMapping = Globals.Textures.GetMappingFromCache<GlitchBlock>();
     }
 
 

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Empty;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Groups;
 using NoNameButtonGame.Extensions;
@@ -43,6 +42,7 @@ public class NoNameGame : Game
 
     protected override void Initialize()
     {
+        // This will also call LoadContent
         base.Initialize();
 
         // Read argument(s)
@@ -89,19 +89,16 @@ public class NoNameGame : Game
     protected override void LoadContent()
     {
         spriteBatch = new SpriteBatch(GraphicsDevice);
+
+        GameObject.DefaultTexture = Content.GetTexture("placeholder");
+        Cursor.DefaultTexture = Content.GetTexture("cursor");
+        MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
+        EmptyButton.DefaultTexture = Content.GetTexture("emptybutton");
+        MiniTextButton.DefaultTexture = Content.GetTexture("minibutton");
+        SquareTextButton.DefaultTexture = Content.GetTexture("squarebutton");
+        GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
+        Letter.DefaultTexture = Content.GetTexture("font");
         
-        Globals.Textures.AddMappingToCache(typeof(Cursor), Content.GetHitboxMapping("cursor"));
-        Globals.Textures.AddMappingToCache(typeof(MousePointer), Content.GetHitboxMapping("mousepoint"));
-        Globals.Textures.AddMappingToCache(typeof(EmptyButton), Content.GetHitboxMapping("emptybutton"));
-        Globals.Textures.AddMappingToCache(typeof(MiniTextButton), Content.GetHitboxMapping("minibutton"));
-        Globals.Textures.AddMappingToCache(typeof(Letter), Content.GetHitboxMapping("font"));
-        Globals.Textures.AddMappingToCache(typeof(GlitchBlock), Content.GetHitboxMapping("glitch"));
-        Globals.Textures.AddMappingToCache(typeof(LockButtonAddon), Content.GetHitboxMapping("placeholder"));
-        Globals.Textures.AddMappingToCache(typeof(CounterButtonAddon), Content.GetHitboxMapping("placeholder"));
-        Globals.Textures.AddMappingToCache(typeof(MiniButton), Content.GetHitboxMapping("minibutton"));
-        Globals.Textures.AddMappingToCache(typeof(SquareButton), Content.GetHitboxMapping("squarebutton"));
-        Globals.Textures.AddMappingToCache(typeof(SquareTextButton), Content.GetHitboxMapping("squarebutton"));
-        Globals.Textures.AddMappingToCache(typeof(ValueSelection), Content.GetHitboxMapping("placeholder"));
         Globals.SoundEffects.AddMappingToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
         Globals.SoundEffects.AddMappingToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
         Globals.SoundEffects.AddMappingToCache("Talking", Content.GetSfx("NoNameButtonSound"));
