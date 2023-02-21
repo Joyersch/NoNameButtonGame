@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.Interfaces;
 
-namespace NoNameButtonGame.LogicObjects.Linker;
+namespace NoNameButtonGame.LogicObjects.Listener;
 
-public class ColorLinker
+public class ColorListener
 {
     private readonly List<(AnimatedColor color, IColorable colorable)> _mappings;
 
-    public ColorLinker()
+    public ColorListener()
     {
         _mappings = new List<(AnimatedColor color, IColorable colorable)>();
     }

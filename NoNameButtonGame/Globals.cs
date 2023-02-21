@@ -1,6 +1,6 @@
 ﻿using System;
 using NoNameButtonGame.Cache;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame
 {
@@ -11,6 +11,6 @@ namespace NoNameButtonGame
 
         public static readonly SoundEffectsCache SoundEffects = new();
 
-        public static SoundSettingsLinker SoundSettingsLinker;
+        public static SoundSettingsListener SoundSettingsListener;
     }
 }

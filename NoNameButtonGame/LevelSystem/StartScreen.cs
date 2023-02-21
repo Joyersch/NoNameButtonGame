@@ -5,7 +5,7 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -19,7 +19,7 @@ internal class StartScreen : SampleLevel
     private readonly TextButton _creditButton;
     private readonly Cursor _mouseCursor;
     private readonly MousePointer _mousePointer;
-    private readonly GameObjectLinker _linker;
+    private readonly PositionListener _linker;
     private readonly TextBuilder _header;
 
     public event Action<object> StartEventHandler;
@@ -58,7 +58,7 @@ internal class StartScreen : SampleLevel
 
         _mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         _mousePointer = new MousePointer();
-        _linker = new GameObjectLinker();
+        _linker = new PositionListener();
         _linker.Add(_mousePointer, _mouseCursor);
     }
 

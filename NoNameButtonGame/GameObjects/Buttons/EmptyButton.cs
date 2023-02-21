@@ -87,7 +87,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
         }
 
         _soundEffectInstance = ClickEffect.CreateInstance();
-        Globals.SoundSettingsLinker.AddSettingsLink(_soundEffectInstance);
+        Globals.SoundSettingsListener.AddSettingsLink(_soundEffectInstance);
         _soundEffectInstance.Play();
         ClickEventHandler?.Invoke(this);
     }

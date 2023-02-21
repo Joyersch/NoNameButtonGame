@@ -5,7 +5,7 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
@@ -14,7 +14,7 @@ internal class Level1 : SampleLevel
     private readonly TextButton _startButton;
     private readonly Cursor _mouseCursor;
     private readonly TextBuilder _infoText;
-    private readonly GameObjectLinker _gameObjectLinker;
+    private readonly PositionListener _positionListener;
     private readonly MousePointer _mouse;
 
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
@@ -29,15 +29,15 @@ internal class Level1 : SampleLevel
         _infoText.ChangePosition(Vector2.Zero -
                                 new Vector2(_infoText.Rectangle.Width,
                                     _infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
-        _gameObjectLinker = new GameObjectLinker();
-        _gameObjectLinker.Add(_mouse, _mouseCursor);
+        _positionListener = new PositionListener();
+        _positionListener.Add(_mouse, _mouseCursor);
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         _mouse.Update(gameTime, MousePosition);
-        _gameObjectLinker.Update(gameTime);
+        _positionListener.Update(gameTime);
         _mouseCursor.Update(gameTime);
         _startButton.Update(gameTime, _mouseCursor.Hitbox[0]);
         _infoText.Update(gameTime);

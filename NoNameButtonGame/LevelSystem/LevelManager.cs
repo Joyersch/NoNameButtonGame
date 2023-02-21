@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.LevelSystem.LevelContainer;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -23,7 +23,7 @@ internal class LevelManager
     private bool _fromSelect;
 
     private string _currentMusicName;
-    private MusicSettingsLinker _musicSettingsLinker;
+    private MusicSettingsListener _musicSettingsListener;
     private SoundEffectInstance _currentMusic;
     public event Action CloseGameEventHandler;
 
@@ -53,7 +53,7 @@ internal class LevelManager
         _random = new Random(seed ?? DateTime.Now.Millisecond);
         _state = MenuState.StartMenu;
         _currentSelectLevel = storage.GameData.MaxLevel;
-        _musicSettingsLinker = new MusicSettingsLinker(_storage.Settings);
+        _musicSettingsListener = new MusicSettingsListener(_storage.Settings);
 
         _startMenu = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
             _storage.Settings.Resolution.ToVertor2(), _random);
@@ -143,7 +143,7 @@ internal class LevelManager
             return;
 
         _currentMusic = Globals.SoundEffects.GetInstance(newMusic);
-        _musicSettingsLinker.AddSettingsLink(_currentMusic);
+        _musicSettingsListener.AddSettingsLink(_currentMusic);
         _currentMusic.IsLooped = true;
         _currentMusic.Play();
     }

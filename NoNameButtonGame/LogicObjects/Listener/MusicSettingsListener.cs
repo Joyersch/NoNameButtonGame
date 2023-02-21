@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
 using NoNameButtonGame.Storage;
 
-namespace NoNameButtonGame.LogicObjects.Linker;
+namespace NoNameButtonGame.LogicObjects.Listener;
 
-public class SoundSettingsLinker
+public class MusicSettingsListener
 {
     private readonly List<SoundEffectInstance> _instances;
 
-    private Settings _settings;
+    private readonly Settings _settings;
 
-    public SoundSettingsLinker(Settings settings)
+    public MusicSettingsListener(Settings settings)
     {
         _instances = new List<SoundEffectInstance>();
         _settings = settings;
@@ -28,7 +28,8 @@ public class SoundSettingsLinker
                 toRemove.Add(effect);
                 continue;
             }
-            effect.Volume = _settings.SfxVolume / 10F;
+
+            effect.Volume = _settings.MusicVolume / 10F;
         }
 
         foreach (var effect in toRemove)

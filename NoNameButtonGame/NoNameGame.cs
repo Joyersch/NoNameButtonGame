@@ -11,7 +11,7 @@ using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.LevelSystem;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 using NoNameButtonGame.Storage;
 
 namespace NoNameButtonGame;
@@ -68,7 +68,7 @@ public class NoNameGame : Game
             SettingsChanged(_storage.Settings, EventArgs.Empty);
             _storage.Settings.HasChanged += SettingsChanged;
         }
-        Globals.SoundSettingsLinker = new SoundSettingsLinker(_storage.Settings);
+        Globals.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
 
         _display = new(GraphicsDevice);
         _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, _showActualMousePos);

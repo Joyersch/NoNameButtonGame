@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 
-namespace NoNameButtonGame.LogicObjects.Linker;
+namespace NoNameButtonGame.LogicObjects.Listener;
 
-public class GameObjectLinker
+public class PositionListener
 {
     private readonly List<(GameObject main, GameObject sub)> _mappings;
 
-    public GameObjectLinker()
+    public PositionListener()
     {
         _mappings = new List<(GameObject main, GameObject sub)>();
     }

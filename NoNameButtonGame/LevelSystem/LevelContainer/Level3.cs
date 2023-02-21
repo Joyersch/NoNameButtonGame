@@ -6,7 +6,7 @@ using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
@@ -16,7 +16,7 @@ internal class Level3 : SampleLevel
     private readonly TextBuilder _infoAboutButton;
     private readonly TextBuilder _infoAboutButton2;
     private readonly MousePointer _mousePointer;
-    private readonly GameObjectLinker _linker;
+    private readonly PositionListener _linker;
     private readonly CounterButtonAddon _counterButtonAddon;
 
     public Level3(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
@@ -33,7 +33,7 @@ internal class Level3 : SampleLevel
             64 - _infoAboutButton2.Rectangle.Height));
         _mouseCursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
-        _linker = new GameObjectLinker();
+        _linker = new PositionListener();
         _linker.Add(_mousePointer, _mouseCursor);
         _counterButtonAddon = new CounterButtonAddon(stateButton, 5);
         _counterButtonAddon.StateReachedZero += Finish;

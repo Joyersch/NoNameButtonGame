@@ -6,7 +6,7 @@ using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
@@ -14,9 +14,9 @@ internal class Level4 : SampleLevel
 {
     private readonly Cursor _cursor;
     private readonly MousePointer _mousePointer;
-    private readonly GameObjectLinker _objectLinker;
+    private readonly PositionListener _objectLinker;
 
-    private readonly ColorLinker _colorLinker;
+    private readonly ColorListener _colorListener;
     private readonly Rainbow _pulsatingRed;
     private readonly GlitchBlockCollection _bigBad;
 
@@ -34,16 +34,16 @@ internal class Level4 : SampleLevel
         _cursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
 
-        _objectLinker = new GameObjectLinker();
+        _objectLinker = new PositionListener();
         _objectLinker.Add(_mousePointer, _cursor);
 
-        _colorLinker = new ColorLinker();
+        _colorListener = new ColorListener();
         _pulsatingRed = new Rainbow();
         _bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(96, 64), 2F);
         _bigBad.Move(new Vector2(128, -_bigBad.Rectangle.Height / 2F));
         _bigBad.EnterEventHandler += FakeReset;
         _bigBad.DrawColor = Color.DarkRed;
-        _colorLinker.Add(_pulsatingRed, _bigBad);
+        _colorListener.Add(_pulsatingRed, _bigBad);
         _info = new DelayedText("This is a long text to test the delayed text", new Vector2(-128,-64), 0.5F)
         {
             StartAfter = 5000
@@ -58,7 +58,7 @@ internal class Level4 : SampleLevel
         _objectLinker.Update(gameTime);
         _cursor.Update(gameTime);
 
-        _colorLinker.Update(gameTime);
+        _colorListener.Update(gameTime);
         _pulsatingRed.Update(gameTime);
         _info.Update(gameTime);
         _bigBad.Update(gameTime, _cursor.Hitbox[0]);

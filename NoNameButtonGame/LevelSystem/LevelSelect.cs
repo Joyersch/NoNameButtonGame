@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem
 {
@@ -16,7 +16,7 @@ namespace NoNameButtonGame.LevelSystem
         private readonly List<MiniTextButton> _up;
         private readonly Cursor _mouseCursor;
         private readonly MousePointer _mousePointer;
-        private readonly GameObjectLinker _linker;
+        private readonly PositionListener _linker;
         public event Action<int> LevelSelectedEventHandler;
         private bool _isInMove;
         private bool _moveUp;
@@ -29,7 +29,7 @@ namespace NoNameButtonGame.LevelSystem
 
             _mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
             _mousePointer = new MousePointer();
-            _linker = new GameObjectLinker();
+            _linker = new PositionListener();
             _linker.Add(_mousePointer, _mouseCursor);
             
             int maxLevel = storage.GameData.MaxLevel;

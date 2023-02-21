@@ -7,7 +7,7 @@ using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects.Linker;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
@@ -15,11 +15,11 @@ internal class Level2 : SampleLevel
 {
     private readonly Cursor _cursor;
     private readonly MousePointer _mousePointer;
-    private readonly GameObjectLinker _objectLinker;
+    private readonly PositionListener _objectLinker;
 
     private readonly TextButton _magicButton;
     private readonly Rainbow _rainbowMagicColor;
-    private readonly ColorLinker _colorLinker;
+    private readonly ColorListener _colorListener;
 
     private readonly Rainbow _rainbowWinColor;
     private readonly LockButtonAddon _lockButtonAddon;
@@ -37,7 +37,7 @@ internal class Level2 : SampleLevel
         _cursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
 
-        _objectLinker = new GameObjectLinker();
+        _objectLinker = new PositionListener();
         _objectLinker.Add(_mousePointer, _cursor);
 
         _magicButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y),
@@ -50,8 +50,8 @@ internal class Level2 : SampleLevel
             GameTimeStepInterval = 25
         };
 
-        _colorLinker = new ColorLinker();
-        _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
+        _colorListener = new ColorListener();
+        _colorListener.Add(_rainbowMagicColor, _magicButton.Text);
 
         var lockButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y), "win",
             "Finish Level");
@@ -61,7 +61,7 @@ internal class Level2 : SampleLevel
             GameTimeStepInterval = 25,
             Offset = 255
         };
-        _colorLinker.Add(_rainbowWinColor, lockButton.Text);
+        _colorListener.Add(_rainbowWinColor, lockButton.Text);
 
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Callback += Finish;
@@ -91,7 +91,7 @@ internal class Level2 : SampleLevel
 
         _rainbowMagicColor.Update(gameTime);
         _rainbowWinColor.Update(gameTime);
-        _colorLinker.Update(gameTime);
+        _colorListener.Update(gameTime);
         _magicButton.Update(gameTime, _cursor.Hitbox[0]);
 
         _lockButtonAddon.Update(gameTime, _cursor.Hitbox[0]);
