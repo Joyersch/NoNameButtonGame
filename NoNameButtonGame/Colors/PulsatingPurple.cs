@@ -5,7 +5,7 @@ namespace NoNameButtonGame.Colors;
 
 public class PulsatingPurple : AnimatedColor
 {
-    protected override void Init()
+    public PulsatingPurple()
     {
         var color = new List<Color>();
         int r = 128, g = 10, b = 255;

@@ -16,22 +16,22 @@ internal class SampleLevel : ILevel
 
     public readonly CameraClass Camera;
     public Vector2 Window;
-    protected Vector2 cameraPosition;
-    protected Vector2 mousePosition;
-    protected Rectangle cameraRectangle;
-    protected readonly int defaultWidth;
-    protected readonly int defaultHeight;
+    protected Vector2 CameraPosition;
+    protected Vector2 MousePosition;
+    protected Rectangle CameraRectangle;
+    protected readonly int DefaultWidth;
+    protected readonly int DefaultHeight;
     public string Name;
-    protected Random random;
+    protected Random Random;
 
     protected SampleLevel(int defaultWidth, int defaultHeight, Vector2 window, Random random)
     {
-        this.defaultWidth = defaultWidth;
-        this.defaultHeight = defaultHeight;
-        this.random = random;
+        this.DefaultWidth = defaultWidth;
+        this.DefaultHeight = defaultHeight;
+        this.Random = random;
         Window = window;
         Camera = new CameraClass(new Vector2(defaultWidth, defaultHeight));
-        cameraPosition = Vector2.Zero;
+        CameraPosition = Vector2.Zero;
         SetMousePositionToCenter();
     }
 
@@ -46,15 +46,15 @@ internal class SampleLevel : ILevel
 
     public virtual void Update(GameTime gameTime)
     {
-        Camera.Update(cameraPosition, new Vector2(0, 0));
+        Camera.Update(CameraPosition, new Vector2(0, 0));
 
-        cameraRectangle = new Rectangle((cameraPosition - new Vector2(defaultWidth, defaultHeight)).ToPoint(),
-            new Point(defaultWidth * 2, defaultHeight * 2));
+        CameraRectangle = new Rectangle((CameraPosition - new Vector2(DefaultWidth, DefaultHeight)).ToPoint(),
+            new Point(DefaultWidth * 2, DefaultHeight * 2));
 
         var mouseVector = Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / defaultWidth, Window.Y / defaultHeight);
-        var offset = new Vector2(defaultWidth, defaultHeight) / Camera.Zoom / 2;
-        mousePosition = mouseVector / screenScale / Camera.Zoom + cameraPosition - offset;
+        var screenScale = new Vector2(Window.X / DefaultWidth, Window.Y / DefaultHeight);
+        var offset = new Vector2(DefaultWidth, DefaultHeight) / Camera.Zoom / 2;
+        MousePosition = mouseVector / screenScale / Camera.Zoom + CameraPosition - offset;
     }
 
     public virtual void SetScreen(Vector2 screen) => Window = screen;

@@ -5,50 +5,50 @@ namespace NoNameButtonGame.Storage;
 
 public class Settings : IChangeable
 {
-    private bool isFixedStep;
+    private bool _isFixedStep;
 
     public bool IsFixedStep
     {
-        get => isFixedStep;
+        get => _isFixedStep;
         set
         {
-            isFixedStep = value;
+            _isFixedStep = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    private bool isFullscreen;
+    private bool _isFullscreen;
     
     public bool IsFullscreen
     {
-        get => isFullscreen;
+        get => _isFullscreen;
         set
         {
-            isFullscreen = value;
+            _isFullscreen = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    private int musicVolume;
+    private int _musicVolume;
     
     public int MusicVolume
     {
-        get => musicVolume;
+        get => _musicVolume;
         set
         {
-            musicVolume = value;
+            _musicVolume = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
     
-    private int sfxVolume;
+    private int _sfxVolume;
     
     public int SfxVolume
     {
-        get => sfxVolume;
+        get => _sfxVolume;
         set
         {
-            sfxVolume = value;
+            _sfxVolume = value;
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }

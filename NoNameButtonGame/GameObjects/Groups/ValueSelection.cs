@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
+using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.Groups;
 
@@ -15,8 +14,8 @@ public class ValueSelection : GameObject, IMoveable
     private readonly SquareTextButton _decreaseButton;
     private readonly SquareTextButton _increaseButton;
 
-    private readonly string left = Letter.ReverseParse(Letter.Character.Left).ToString();
-    private readonly string right = Letter.ReverseParse(Letter.Character.Right).ToString();
+    private readonly string _left = Letter.ReverseParse(Letter.Character.Left).ToString();
+    private readonly string _right = Letter.ReverseParse(Letter.Character.Right).ToString();
 
     public event Action<string> ValueChanged;
 
@@ -33,11 +32,11 @@ public class ValueSelection : GameObject, IMoveable
     {
         ValidValues = validValues;
         _pointer = startValueIndex;
-        _decreaseButton = new SquareTextButton(position, scale, left, left);
+        _decreaseButton = new SquareTextButton(position, scale, _left, _left);
         _decreaseButton.ClickEventHandler += DecreaseClicked;
         _display = new TextBuilder(validValues[_pointer], Vector2.One, scale);
 
-        _increaseButton = new SquareTextButton(Vector2.Zero, scale, right, right);
+        _increaseButton = new SquareTextButton(Vector2.Zero, scale, _right, _right);
         _increaseButton.ClickEventHandler += IncreaseClicked;
         Move(Position);
     }

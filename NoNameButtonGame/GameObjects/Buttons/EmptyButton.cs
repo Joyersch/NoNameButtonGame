@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Input;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -13,9 +12,9 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public event Action<object> LeaveEventHandler;
     public event Action<object> EnterEventHandler;
     public event Action<object> ClickEventHandler;
-    protected bool hover;
-    protected SoundEffect clickEffect;
-    private SoundEffectInstance soundEffectInstance;
+    protected bool Hover;
+    protected readonly SoundEffect ClickEffect;
+    private SoundEffectInstance _soundEffectInstance;
 
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize * 4;
 
@@ -46,7 +45,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public EmptyButton(Vector2 position, Vector2 size, Texture2D texture, TextureHitboxMapping mapping) :
         base(position, size, texture, mapping)
     {
-        clickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
+        ClickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
     }
 
     public virtual void Update(GameTime gameTime, Rectangle mousePosition)
@@ -54,17 +53,17 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
         bool isMouseHovering = HitboxCheck(mousePosition);
         if (isMouseHovering)
         {
-            if (!this.hover)
+            if (!this.Hover)
                 InvokeEnterEventHandler();
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
                 InvokeClickEventHandler();
         }
-        else if (this.hover)
+        else if (this.Hover)
             InvokeLeaveEventHandler();
 
         ImageLocation = new Rectangle(isMouseHovering ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
-        this.hover = isMouseHovering;
+        this.Hover = isMouseHovering;
         base.Update(gameTime);
     }
 
@@ -80,16 +79,16 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     protected void InvokeClickEventHandler()
     {
-        if (soundEffectInstance is not null)
+        if (_soundEffectInstance is not null)
         {
-            soundEffectInstance.Stop();
-            soundEffectInstance.Dispose();
-            soundEffectInstance = null;
+            _soundEffectInstance.Stop();
+            _soundEffectInstance.Dispose();
+            _soundEffectInstance = null;
         }
 
-        soundEffectInstance = clickEffect.CreateInstance();
-        Globals.SoundSettingsLinker.AddSettingsLink(soundEffectInstance);
-        soundEffectInstance.Play();
+        _soundEffectInstance = ClickEffect.CreateInstance();
+        Globals.SoundSettingsLinker.AddSettingsLink(_soundEffectInstance);
+        _soundEffectInstance.Play();
         ClickEventHandler?.Invoke(this);
     }
 

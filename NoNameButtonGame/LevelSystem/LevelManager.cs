@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Mime;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.LevelSystem.LevelContainer;
-using NoNameButtonGame.Input;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -25,12 +19,12 @@ internal class LevelManager
 
     private Random _random;
     private MenuState _state;
-    private int currentSelectLevel = 0;
-    private bool fromSelect = false;
+    private int _currentSelectLevel;
+    private bool _fromSelect;
 
-    private string currentMusicName;
+    private string _currentMusicName;
     private MusicSettingsLinker _musicSettingsLinker;
-    private SoundEffectInstance currentMusic;
+    private SoundEffectInstance _currentMusic;
     public event Action CloseGameEventHandler;
 
     private enum MenuState
@@ -58,7 +52,7 @@ internal class LevelManager
         _storage = storage;
         _random = new Random(seed ?? DateTime.Now.Millisecond);
         _state = MenuState.StartMenu;
-        currentSelectLevel = storage.GameData.MaxLevel;
+        _currentSelectLevel = storage.GameData.MaxLevel;
         _musicSettingsLinker = new MusicSettingsLinker(_storage.Settings);
 
         _startMenu = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
@@ -133,60 +127,60 @@ internal class LevelManager
         // updates music volume on settings change!
 
 
-        if (currentMusicName == newMusic)
+        if (_currentMusicName == newMusic)
             return;
         
-        if (currentMusic is not null)
+        if (_currentMusic is not null)
         {
-            currentMusic.Stop();
-            currentMusic.Dispose();
-            currentMusic = null;
+            _currentMusic.Stop();
+            _currentMusic.Dispose();
+            _currentMusic = null;
         }
         
-        currentMusicName = newMusic;
+        _currentMusicName = newMusic;
         
         if (newMusic == String.Empty)
             return;
 
-        currentMusic = Globals.SoundEffects.GetInstance(newMusic);
-        _musicSettingsLinker.AddSettingsLink(currentMusic);
-        currentMusic.IsLooped = true;
-        currentMusic.Play();
+        _currentMusic = Globals.SoundEffects.GetInstance(newMusic);
+        _musicSettingsLinker.AddSettingsLink(_currentMusic);
+        _currentMusic.IsLooped = true;
+        _currentMusic.Play();
     }
 
 
     private void LevelSelected(int level)
     {
-        currentSelectLevel = level;
-        fromSelect = true;
-        SelectLevel(currentSelectLevel);
+        _currentSelectLevel = level;
+        _fromSelect = true;
+        SelectLevel(_currentSelectLevel);
         _state = MenuState.Level;
     }
 
     private void LevelFinish()
     {
-        if (fromSelect)
+        if (_fromSelect)
         {
-            fromSelect = false;
+            _fromSelect = false;
             _state = MenuState.LevelSelect;
             return;
         }
 
-        currentSelectLevel++;
-        _storage.GameData.MaxLevel = currentSelectLevel;
+        _currentSelectLevel++;
+        _storage.GameData.MaxLevel = _currentSelectLevel;
         _storage.Save();
 
-        SelectLevel(currentSelectLevel + 1);
+        SelectLevel(_currentSelectLevel + 1);
     }
 
     private void LevelFail()
-        => SelectLevel(currentSelectLevel);
+        => SelectLevel(_currentSelectLevel);
 
     private void LevelExitEventHandler()
     {
-        if (fromSelect)
+        if (_fromSelect)
         {
-            fromSelect = false;
+            _fromSelect = false;
             _state = MenuState.LevelSelect;
             ChangeWindowName?.Invoke(_levelSelect.Name);
             return;

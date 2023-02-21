@@ -9,15 +9,13 @@ namespace NoNameButtonGame.GameObjects;
 
 internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 {
-    private int framePos;
-    private readonly int frameMax;
+    private int _framePosition;
+    private readonly int _frameMaximum;
     private const int FrameSpeed = 1000 / 64 * 2;
 
-    private float savedGameTime;
+    private float _savedGameTime;
 
-    private bool hover;
-
-    private Vector2 initialScale;
+    private bool _hover;
 
     public event Action<object> EnterEventHandler;
     public event Action<object> LeaveEventHandler;
@@ -47,8 +45,8 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 
     public GlitchBlock(Vector2 position, Vector2 size) : base(position, size, DefaultTexture, DefaultMapping)
     {
-        initialScale = size / DefaultMapping.ImageSize;
-        frameMax = textureHitboxMapping.AnimationsFrames;
+        var initialScale = size / DefaultMapping.ImageSize;
+        _frameMaximum = TextureHitboxMapping.AnimationsFrames;
         FrameSize = initialScale / (initialScale.X > initialScale.Y ? initialScale.X : initialScale.Y) *
                     FrameSize;
     }
@@ -56,32 +54,32 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
     public void Update(GameTime gameTime, Rectangle mousePosition)
     {
         Mouse.GetState();
-        savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (savedGameTime > FrameSpeed)
+        _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+        while (_savedGameTime > FrameSpeed)
         {
-            savedGameTime -= FrameSpeed;
-            framePos++;
-            if (framePos == frameMax) framePos = 0;
+            _savedGameTime -= FrameSpeed;
+            _framePosition++;
+            if (_framePosition == _frameMaximum) _framePosition = 0;
             ImageLocation = new Rectangle(
-                !textureHitboxMapping.AnimationFromTop ?? false
-                    ? framePos * (int) textureHitboxMapping.ImageSize.Y
+                !TextureHitboxMapping.AnimationFromTop ?? false
+                    ? _framePosition * (int) TextureHitboxMapping.ImageSize.Y
                     : 0
-                , textureHitboxMapping.AnimationFromTop ?? true
-                    ? framePos * (int) textureHitboxMapping.ImageSize.X
+                , TextureHitboxMapping.AnimationFromTop ?? true
+                    ? _framePosition * (int) TextureHitboxMapping.ImageSize.X
                     : 0
                 , (int) FrameSize.X, (int) FrameSize.Y);
         }
 
         if (HitboxCheck(mousePosition))
         {
-            if (!hover)
+            if (!_hover)
                 EnterEventHandler?.Invoke(this);
-            hover = true;
+            _hover = true;
         }
-        else if (hover)
+        else if (_hover)
         {
             LeaveEventHandler?.Invoke(this);
-            hover = false;
+            _hover = false;
         }
 
         base.Update(gameTime);

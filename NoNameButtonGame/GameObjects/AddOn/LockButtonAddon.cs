@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
@@ -11,17 +10,17 @@ public class LockButtonAddon : GameObject
 {
     public bool IsLocked { get; private set; } = true;
 
-    private readonly EmptyButton button;
-    private readonly TextBuilder text;
+    private readonly EmptyButton _button;
+    private readonly TextBuilder _text;
 
     public event Action<object> Callback;
 
     
     public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2), DefaultTexture, DefaultMapping)
     {
-        this.button = button;
+        this._button = button;
         button.ClickEventHandler += ClickHandler;
-        text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
+        _text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
     }
 
@@ -34,14 +33,14 @@ public class LockButtonAddon : GameObject
     public void Update(GameTime gameTime, Rectangle mousePosition)
     {
         base.Update(gameTime);
-        button.Update(gameTime, !IsLocked ? mousePosition : Rectangle);
-        text.Update(gameTime);
+        _button.Update(gameTime, !IsLocked ? mousePosition : Rectangle);
+        _text.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        button.Draw(spriteBatch);
-        text.Draw(spriteBatch);
+        _button.Draw(spriteBatch);
+        _text.Draw(spriteBatch);
     }
 
     public void Unlock()
@@ -58,9 +57,9 @@ public class LockButtonAddon : GameObject
 
     private void UpdateText()
     {
-        text.ChangeText(IsLocked
+        _text.ChangeText(IsLocked
             ? Letter.ReverseParse(Letter.Character.LockLocked).ToString()
             : Letter.ReverseParse(Letter.Character.LockUnlocked).ToString());
-        text.ChangeColor(IsLocked ? Color.Gray : Color.DarkGray);
+        _text.ChangeColor(IsLocked ? Color.Gray : Color.DarkGray);
     }
 }

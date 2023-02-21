@@ -12,38 +12,37 @@ public class Display
     public Rectangle Window;
     
     //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-    private Rectangle backbufferBounds;
-    private float backbufferAspectRatio;
-    private float screenAspectRatio;
+    private Rectangle _backbufferBounds;
+    private float _backbufferAspectRatio;
+    private float _screenAspectRatio;
     
-    private GraphicsDevice device;
+    private readonly GraphicsDevice _device;
     public Display(GraphicsDevice device)
     {
-        this.device = device;
-        Target = new RenderTarget2D(this.device, (int) DefaultWidth, (int) DefaultHeight);
+        this._device = device;
+        Target = new RenderTarget2D(this._device, (int) DefaultWidth, (int) DefaultHeight);
     }
     
     public void Update(GameTime gameTime)
     {
         //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-        backbufferBounds = device.PresentationParameters.Bounds;
-        backbufferAspectRatio = (float) backbufferBounds.Width / backbufferBounds.Height;
-        screenAspectRatio = (float) Target.Width / Target.Height;
-        
-        float x, y, w, h; 
-        x = 0f;
-        y = 0f;
-        w = backbufferBounds.Width;
-        h = backbufferBounds.Height;
-        if (backbufferAspectRatio > screenAspectRatio)
+        _backbufferBounds = _device.PresentationParameters.Bounds;
+        _backbufferAspectRatio = (float) _backbufferBounds.Width / _backbufferBounds.Height;
+        _screenAspectRatio = (float) Target.Width / Target.Height;
+
+        var x = 0f;
+        var y = 0f;
+        float w = _backbufferBounds.Width;
+        float h = _backbufferBounds.Height;
+        if (_backbufferAspectRatio > _screenAspectRatio)
         {
-            w = h * screenAspectRatio;
-            x = (backbufferBounds.Width - w) / 2f;
+            w = h * _screenAspectRatio;
+            x = (_backbufferBounds.Width - w) / 2f;
         }
-        else if (backbufferAspectRatio < screenAspectRatio)
+        else if (_backbufferAspectRatio < _screenAspectRatio)
         {
-            h = w / screenAspectRatio;
-            y = (backbufferBounds.Height - h) / 2f;
+            h = w / _screenAspectRatio;
+            y = (_backbufferBounds.Height - h) / 2f;
         }
         Window = new Rectangle((int) x, (int) y, (int) w, (int) h);
     }

@@ -7,34 +7,31 @@ using System.Linq;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.GameObjects.Groups;
 using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects.AddOn;
-using NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
-using NoNameButtonGame.Input;
+using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
+using NoNameButtonGame.GameObjects.Text;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LogicObjects.Linker;
 using NoNameButtonGame.Storage;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame;
 
 public class NoNameGame : Game
 {
-    private readonly GraphicsDeviceManager graphics;
-    private SpriteBatch spriteBatch;
+    private readonly GraphicsDeviceManager _graphics;
+    private SpriteBatch _spriteBatch;
 
-    private Display.Display display;
-    private readonly Storage.Storage storage;
-    private LevelManager levelManager;
+    private Display.Display _display;
+    private readonly Storage.Storage _storage;
+    private LevelManager _levelManager;
 
-    private bool showActualMousePos;
-    private MousePointer mousePointer;
+    private bool _showActualMousePos;
+    private MousePointer _mousePointer;
 
     public NoNameGame()
     {
-        graphics = new GraphicsDeviceManager(this);
-        storage = new Storage.Storage(Globals.SaveDirectory);
+        _graphics = new GraphicsDeviceManager(this);
+        _storage = new Storage.Storage(Globals.SaveDirectory);
 
         Content.RootDirectory = "Content";
         IsMouseVisible = false;
@@ -46,7 +43,7 @@ public class NoNameGame : Game
         base.Initialize();
 
         // Read argument(s)
-        showActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
+        _showActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
 
         // Check Save directory
         if (!Directory.Exists(Globals.SaveDirectory))
@@ -55,30 +52,30 @@ public class NoNameGame : Game
         // Load or generate settings file (as well as save)
         try
         {
-            storage.Load();
+            _storage.Load();
         }
         catch
         {
             // fallback default settings
-            storage.Settings.Resolution.Width = 1280;
-            storage.Settings.Resolution.Height = 720;
-            storage.Settings.IsFullscreen = false;
-            storage.Settings.IsFixedStep = true;
-            storage.Save();
+            _storage.Settings.Resolution.Width = 1280;
+            _storage.Settings.Resolution.Height = 720;
+            _storage.Settings.IsFullscreen = false;
+            _storage.Settings.IsFixedStep = true;
+            _storage.Save();
         }
         finally
         {
-            SettingsChanged(storage.Settings, EventArgs.Empty);
-            storage.Settings.HasChanged += SettingsChanged;
+            SettingsChanged(_storage.Settings, EventArgs.Empty);
+            _storage.Settings.HasChanged += SettingsChanged;
         }
-        Globals.SoundSettingsLinker = new SoundSettingsLinker(storage.Settings);
+        Globals.SoundSettingsLinker = new SoundSettingsLinker(_storage.Settings);
 
-        display = new(GraphicsDevice);
-        mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, showActualMousePos);
+        _display = new(GraphicsDevice);
+        _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, _showActualMousePos);
 
-        levelManager = new LevelManager(display, storage);
-        levelManager.ChangeWindowName += ChangeTitle;
-        levelManager.CloseGameEventHandler += Exit;
+        _levelManager = new LevelManager(_display, _storage);
+        _levelManager.ChangeWindowName += ChangeTitle;
+        _levelManager.CloseGameEventHandler += Exit;
     }
 
     private void ChangeTitle(string newName)
@@ -88,7 +85,7 @@ public class NoNameGame : Game
 
     protected override void LoadContent()
     {
-        spriteBatch = new SpriteBatch(GraphicsDevice);
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         GameObject.DefaultTexture = Content.GetTexture("placeholder");
         Cursor.DefaultTexture = Content.GetTexture("cursor");
@@ -109,39 +106,39 @@ public class NoNameGame : Game
         base.Update(gameTime);
         Console.SetCursorPosition(0,1);
         MouseState mouse = Mouse.GetState();
-        mousePointer.Update(gameTime, mouse.Position.ToVector2());
+        _mousePointer.Update(gameTime, mouse.Position.ToVector2());
 
-        display.Update(gameTime);
+        _display.Update(gameTime);
 
-        levelManager.Update(gameTime);
+        _levelManager.Update(gameTime);
         // This will store the last key states
         InputReaderMouse.UpdateLast();
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.SetRenderTarget(display.Target);
+        GraphicsDevice.SetRenderTarget(_display.Target);
         GraphicsDevice.Clear(new Color(50, 50, 50));
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-            transformMatrix: levelManager.CurrentCamera.CameraMatrix);
+        _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+            transformMatrix: _levelManager.CurrentCamera.CameraMatrix);
 
-        levelManager.Draw(spriteBatch);
+        _levelManager.Draw(_spriteBatch);
 
-        spriteBatch.End();
+        _spriteBatch.End();
 
         GraphicsDevice.SetRenderTarget(null);
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+        _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
         GraphicsDevice.Clear(Color.HotPink);
 
-        spriteBatch.Draw(display.Target, display.Window, null, Color.White);
+        _spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
 
-        if (showActualMousePos)
-            mousePointer.Draw(spriteBatch);
+        if (_showActualMousePos)
+            _mousePointer.Draw(_spriteBatch);
 
-        spriteBatch.End();
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
@@ -153,15 +150,15 @@ public class NoNameGame : Game
 
         IsFixedTimeStep = settings.IsFixedStep;
 
-        if ((!graphics.IsFullScreen && settings.IsFullscreen) ||
-            (!settings.IsFullscreen && graphics.IsFullScreen))
-            graphics.ToggleFullScreen();
+        if ((!_graphics.IsFullScreen && settings.IsFullscreen) ||
+            (!settings.IsFullscreen && _graphics.IsFullScreen))
+            _graphics.ToggleFullScreen();
 
-        graphics.PreferredBackBufferWidth = settings.Resolution.Width;
-        graphics.PreferredBackBufferHeight = settings.Resolution.Height;
-        graphics.ApplyChanges();
+        _graphics.PreferredBackBufferWidth = settings.Resolution.Width;
+        _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
+        _graphics.ApplyChanges();
 
         // Update level screen
-        storage.Save();
+        _storage.Save();
     }
 }

@@ -7,13 +7,13 @@ namespace NoNameButtonGame.LogicObjects.Linker;
 
 public class SoundSettingsLinker
 {
-    private List<SoundEffectInstance> instances;
+    private readonly List<SoundEffectInstance> _instances;
 
     private Settings _settings;
 
     public SoundSettingsLinker(Settings settings)
     {
-        instances = new List<SoundEffectInstance>();
+        _instances = new List<SoundEffectInstance>();
         _settings = settings;
         _settings.HasChanged += SettingsOnHasChanged;
     }
@@ -21,7 +21,7 @@ public class SoundSettingsLinker
     private void SettingsOnHasChanged(object sender, EventArgs e)
     {
         List<SoundEffectInstance> toRemove = new List<SoundEffectInstance>();
-        foreach (var effect in instances)
+        foreach (var effect in _instances)
         {
             if (effect.IsDisposed)
             {
@@ -32,12 +32,12 @@ public class SoundSettingsLinker
         }
 
         foreach (var effect in toRemove)
-            instances.Remove(effect);
+            _instances.Remove(effect);
     }
 
     public void AddSettingsLink(SoundEffectInstance soundEffect)
     {
-        instances.Add(soundEffect);
+        _instances.Add(soundEffect);
         SettingsOnHasChanged(_settings, EventArgs.Empty);
     }
 }

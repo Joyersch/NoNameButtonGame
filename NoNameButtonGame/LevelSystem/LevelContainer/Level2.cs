@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NoNameButtonGame.Input;
-using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
@@ -29,7 +21,6 @@ internal class Level2 : SampleLevel
     private readonly Rainbow _rainbowMagicColor;
     private readonly ColorLinker _colorLinker;
 
-    private readonly TextButton _lockButton;
     private readonly Rainbow _rainbowWinColor;
     private readonly LockButtonAddon _lockButtonAddon;
 
@@ -41,7 +32,6 @@ internal class Level2 : SampleLevel
         window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
-        base.random = random;
         _rainbowMagicColor = new Rainbow();
 
         _cursor = new Cursor(Vector2.One);
@@ -63,7 +53,7 @@ internal class Level2 : SampleLevel
         _colorLinker = new ColorLinker();
         _colorLinker.Add(_rainbowMagicColor, _magicButton.Text);
 
-        _lockButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y), "win",
+        var lockButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y), "win",
             "Finish Level");
         _rainbowWinColor = new Rainbow()
         {
@@ -71,17 +61,17 @@ internal class Level2 : SampleLevel
             GameTimeStepInterval = 25,
             Offset = 255
         };
-        _colorLinker.Add(_rainbowWinColor, _lockButton.Text);
+        _colorLinker.Add(_rainbowWinColor, lockButton.Text);
 
-        _lockButtonAddon = new LockButtonAddon(_lockButton);
+        _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Callback += Finish;
 
         _info1 = new TextBuilder("This button here is locked!",
             new Vector2(-160, -128));
-        _info1.ChangePosition(new Vector2(-_info1.Rectangle.Width / 2, -128));
+        _info1.ChangePosition(new Vector2(-_info1.Rectangle.Width / 2F, -128));
 
         _info2 = new TextBuilder("The button below will unlock the button above!", Vector2.One);
-        _info2.ChangePosition(new Vector2(-_info2.Rectangle.Width / 2, -TextBuilder.DefaultLetterSize.Y / 2));
+        _info2.ChangePosition(new Vector2(-_info2.Rectangle.Width / 2F, -TextBuilder.DefaultLetterSize.Y / 2));
     }
 
     private void MagicButtonOnClickEventHandler(object obj)
@@ -95,7 +85,7 @@ internal class Level2 : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        _mousePointer.Update(gameTime, mousePosition);
+        _mousePointer.Update(gameTime, MousePosition);
         _objectLinker.Update(gameTime);
         _cursor.Update(gameTime);
 

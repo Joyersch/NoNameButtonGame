@@ -6,31 +6,26 @@ namespace NoNameButtonGame.Colors;
 public class AnimatedColor
 {
     protected Color[] Color;
-    private int index;
-    private float storedGameTime;
+    private int _index;
+    private float _storedGameTime;
     public int Increment = 1;
     public float GameTimeStepInterval = 25;
     public int Offset;
 
     protected AnimatedColor()
-        => Init();
-
-    protected virtual void Init()
-    {
-        Color = Array.Empty<Color>();
-    }
+        => Color = Array.Empty<Color>();
 
     public virtual void Update(GameTime gameTime)
     {
         if (Color.Length == 0 || GameTimeStepInterval <= 0)
             return;
 
-        storedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (storedGameTime > GameTimeStepInterval)
+        _storedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+        while (_storedGameTime > GameTimeStepInterval)
         {
-            storedGameTime -= GameTimeStepInterval;
-            index += Increment;
-            index %= Color.Length;
+            _storedGameTime -= GameTimeStepInterval;
+            _index += Increment;
+            _index %= Color.Length;
         }
     }
 
@@ -39,7 +34,7 @@ public class AnimatedColor
         var getColor = new Color[length];
         for (int i = 0; i < length; i++)
         {
-            getColor[i] = Color[(i * Increment + index + Offset) % Color.Length];
+            getColor[i] = Color[(i * Increment + _index + Offset) % Color.Length];
         }
 
         return getColor;

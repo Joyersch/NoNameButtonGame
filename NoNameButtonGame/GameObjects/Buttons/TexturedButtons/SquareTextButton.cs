@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Cache;
 
-namespace NoNameButtonGame.GameObjects.Buttons.TexturedButtons.Text;
+namespace NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 
 public class SquareTextButton : TextButton
 {

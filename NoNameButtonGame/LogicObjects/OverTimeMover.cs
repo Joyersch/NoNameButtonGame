@@ -5,7 +5,7 @@ namespace NoNameButtonGame.LogicObjects;
 
 public class OverTimeMover
 {
-    private float savedGameTime;
+    private float _savedGameTime;
     private IMoveable moveable;
     private int currentTicks;
     private readonly bool inMove = false;
@@ -15,9 +15,9 @@ public class OverTimeMover
         if (!inMove)
             return;
         
-        savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+        _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
         var position = moveable.GetPosition();
-        while (savedGameTime > 10)
+        while (_savedGameTime > 10)
         {
             /*
             savedGameTime -= 10;

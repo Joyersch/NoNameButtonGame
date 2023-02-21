@@ -3,19 +3,18 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.Text;
 
 public class TextBuilder : IColorable, IMoveable
 {
     private Letter[] _letters;
-    private int spacing;
-    private string represent;
+    private readonly int _spacing;
+    private string _represent;
     public Vector2 Position;
     public Vector2 Size;
     public Rectangle Rectangle;
-    public string Text => represent;
+    public string Text => _represent;
 
     public Letter this[int i] => _letters[i];
 
@@ -38,7 +37,7 @@ public class TextBuilder : IColorable, IMoveable
 
     public TextBuilder(string text, Vector2 position, Vector2 letterSize, int spacing)
     {
-        this.spacing = spacing;
+        this._spacing = spacing;
         Size = letterSize;
         Position = position;
 
@@ -74,7 +73,7 @@ public class TextBuilder : IColorable, IMoveable
 
     public void ChangeText(string text)
     {
-        represent = text;
+        _represent = text;
         CreateLetters(ParseArray(text.ToCharArray()));
     }
 
@@ -88,7 +87,7 @@ public class TextBuilder : IColorable, IMoveable
         {
             var letter = new Letter(new Vector2(length, 0) + Position, Size, character);
             letter.Position += new Vector2(0, 8F * letter.InitialScale.Y) - new Vector2(0, letter.Rectangle.Height);
-            length += (int) ((letter.frameSpacing.Width + spacing) * sizeScale);
+            length += (int) ((letter.FrameSpacing.Width + _spacing) * sizeScale);
             letters.Add(letter);
         }
 
@@ -101,7 +100,7 @@ public class TextBuilder : IColorable, IMoveable
 
     public virtual void Update(GameTime gameTime)
     {
-        represent = BuildString(_letters);
+        _represent = BuildString(_letters);
 
         foreach (Letter l in _letters)
         {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Linq;
 using NoNameButtonGame.Cache;
 using NoNameButtonGame.Interfaces;
@@ -9,7 +8,7 @@ namespace NoNameButtonGame.GameObjects;
 
 public class GameObject : IHitbox
 {
-    protected readonly Texture2D texture;
+    protected readonly Texture2D Texture;
     public Vector2 Position;
     public Vector2 Size;
     protected Vector2 FrameSize;
@@ -17,11 +16,11 @@ public class GameObject : IHitbox
     public Color DrawColor;
     public Rectangle Rectangle;
 
-    protected TextureHitboxMapping textureHitboxMapping;
-    protected Rectangle[] hitboxes;
-    protected Vector2 scaleToTexture;
+    protected TextureHitboxMapping TextureHitboxMapping;
+    protected Rectangle[] Hitboxes;
+    protected Vector2 ScaleToTexture;
 
-    public Rectangle[] Hitbox => hitboxes;
+    public Rectangle[] Hitbox => Hitboxes;
 
     public static Vector2 DefaultSize => new Vector2(0, 0);
     public static Texture2D DefaultTexture;
@@ -49,15 +48,15 @@ public class GameObject : IHitbox
         Size = size;
         Position = position;
         DrawColor = Color.White;
-        this.texture = texture;
-        this.textureHitboxMapping = mapping;
+        this.Texture = texture;
+        this.TextureHitboxMapping = mapping;
         ImageLocation = new Rectangle(
             0
             , 0
-            , (int) textureHitboxMapping.ImageSize.X
-            , (int) textureHitboxMapping.ImageSize.Y);
-        FrameSize = textureHitboxMapping.ImageSize;
-        hitboxes = new Rectangle[textureHitboxMapping.Hitboxes.Length];
+            , (int) TextureHitboxMapping.ImageSize.X
+            , (int) TextureHitboxMapping.ImageSize.Y);
+        FrameSize = TextureHitboxMapping.ImageSize;
+        Hitboxes = new Rectangle[TextureHitboxMapping.Hitboxes.Length];
         Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
     }
 
@@ -70,9 +69,9 @@ public class GameObject : IHitbox
     public virtual void Draw(SpriteBatch spriteBatch)
     {
         if (ImageLocation == new Rectangle(0, 0, 0, 0))
-            spriteBatch.Draw(texture, Rectangle, DrawColor);
+            spriteBatch.Draw(Texture, Rectangle, DrawColor);
         else
-            spriteBatch.Draw(texture, Rectangle, ImageLocation, DrawColor);
+            spriteBatch.Draw(Texture, Rectangle, ImageLocation, DrawColor);
     }
 
     protected virtual void UpdateRectangle()
@@ -83,18 +82,18 @@ public class GameObject : IHitbox
 
     protected virtual void CalculateHitboxes()
     {
-        scaleToTexture = Size / textureHitboxMapping.ImageSize;
-        var textureHitboxes = textureHitboxMapping.Hitboxes;
+        ScaleToTexture = Size / TextureHitboxMapping.ImageSize;
+        var textureHitboxes = TextureHitboxMapping.Hitboxes;
 
         for (int i = 0; i < textureHitboxes.Length; i++)
         {
-            hitboxes[i] = CalculateInGameHitbox(textureHitboxes[i]);
+            Hitboxes[i] = CalculateInGameHitbox(textureHitboxes[i]);
         }
     }
 
     private Rectangle CalculateInGameHitbox(Rectangle hitbox)
-        => new((int) (Position.X + hitbox.X * scaleToTexture.X)
-            , (int) (Position.Y + hitbox.Y * scaleToTexture.Y)
-            , (int) (hitbox.Width * scaleToTexture.X)
-            , (int) (hitbox.Height * scaleToTexture.Y));
+        => new((int) (Position.X + hitbox.X * ScaleToTexture.X)
+            , (int) (Position.Y + hitbox.Y * ScaleToTexture.Y)
+            , (int) (hitbox.Width * ScaleToTexture.X)
+            , (int) (hitbox.Height * ScaleToTexture.Y));
 }

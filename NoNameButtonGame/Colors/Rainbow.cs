@@ -4,7 +4,7 @@ namespace NoNameButtonGame.Colors;
 
 internal class Rainbow : AnimatedColor
 {
-    protected override void Init()
+    public Rainbow()
     {
         Color = new Color[768];
         int c = 0;

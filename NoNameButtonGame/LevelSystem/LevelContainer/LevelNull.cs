@@ -1,46 +1,44 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class LevelNull : SampleLevel
 {
-    private readonly TextButton failButton;
-    private readonly Cursor mouseCursor;
-    private readonly TextBuilder Info;
+    private readonly TextButton _failButton;
+    private readonly Cursor _mouseCursor;
+    private readonly TextBuilder _info;
 
     public LevelNull(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
     {
-        failButton = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "end", "Restart")
+        _failButton = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "end", "Restart")
         {
             DrawColor = Color.White,
         };
-        failButton.ClickEventHandler += Fail;
-        mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
+        _failButton.ClickEventHandler += Fail;
+        _mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
         Name = "Level ??? End";
-        Info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), 0);
+        _info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), 0);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        Info.Draw(spriteBatch);
-        failButton.Draw(spriteBatch);
-        mouseCursor.Draw(spriteBatch);
+        _info.Draw(spriteBatch);
+        _failButton.Draw(spriteBatch);
+        _mouseCursor.Draw(spriteBatch);
     }
 
     public override void Update(GameTime gameTime)
     {
-        mouseCursor.Update(gameTime);
+        _mouseCursor.Update(gameTime);
         base.Update(gameTime);
-        mouseCursor.Position = mousePosition - mouseCursor.Size / 2;
-        failButton.Update(gameTime, mouseCursor.Hitbox[0]);
-        Info.Update(gameTime);
+        _mouseCursor.Position = MousePosition - _mouseCursor.Size / 2;
+        _failButton.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _info.Update(gameTime);
     }
 }

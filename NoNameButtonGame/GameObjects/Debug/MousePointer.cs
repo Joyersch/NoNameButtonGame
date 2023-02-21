@@ -6,7 +6,7 @@ namespace NoNameButtonGame.GameObjects.Debug;
 
 public class MousePointer : GameObject
 {
-    private readonly bool draw;
+    private readonly bool _draw;
     
     public new static Texture2D DefaultTexture;
 
@@ -29,7 +29,7 @@ public class MousePointer : GameObject
 
     public MousePointer(Vector2 position, Vector2 size, bool draw) : base(position, size, DefaultTexture, DefaultMapping)
     {
-        this.draw = draw;
+        this._draw = draw;
     }
 
     public void Update(GameTime gameTime, Vector2 mousePosition)
@@ -40,10 +40,10 @@ public class MousePointer : GameObject
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (!draw)
+        if (!_draw)
             return;
 
-        spriteBatch.Draw(base.texture, new Rectangle((int) Position.X - 3, (int) Position.Y - 3, 6, 6),
+        spriteBatch.Draw(Texture, new Rectangle((int) Position.X - 3, (int) Position.Y - 3, 6, 6),
             DrawColor);
         base.Draw(spriteBatch);
     }

@@ -1,16 +1,15 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.GameObjects.Text;
 
 public class DelayedText : TextBuilder
 {
-    private readonly string toDisplayText;
-    private string currentlyDisplayed = string.Empty;
-    private int textPointer = int.MaxValue;
+    private readonly string _toDisplayText;
+    private string _currentlyDisplayed = string.Empty;
+    private int _textPointer = int.MaxValue;
 
-    private float savedGameTime;
-    private float waitedStartTime;
+    private float _savedGameTime;
+    private float _waitedStartTime;
     private const int DisplayDelay = 125;
     public float StartAfter = 0;
 
@@ -36,44 +35,44 @@ public class DelayedText : TextBuilder
     public DelayedText(string text, Vector2 position, Vector2 letterSize, int spacing) : base(string.Empty, position,
         letterSize, spacing)
     {
-        toDisplayText = text;
+        _toDisplayText = text;
     }
 
     public override void Update(GameTime gameTime)
     {
         var passedGameTime =  (float) gameTime.ElapsedGameTime.TotalMilliseconds;
         bool canDisplay = true;
-        if (waitedStartTime > 0)
+        if (_waitedStartTime > 0)
         {
-            waitedStartTime -= passedGameTime;
+            _waitedStartTime -= passedGameTime;
             canDisplay = false;
         }
-        if (textPointer < toDisplayText.Length && canDisplay)
-            savedGameTime += passedGameTime;
+        if (_textPointer < _toDisplayText.Length && canDisplay)
+            _savedGameTime += passedGameTime;
         else if (IsPlaying)
         {
             IsPlaying = false;
             HasPlayed = true;
         }
 
-        while (savedGameTime > DisplayDelay && canDisplay)
+        while (_savedGameTime > DisplayDelay && canDisplay)
         {
-            savedGameTime -= DisplayDelay;
-            currentlyDisplayed += toDisplayText[textPointer];
-            textPointer++;
+            _savedGameTime -= DisplayDelay;
+            _currentlyDisplayed += _toDisplayText[_textPointer];
+            _textPointer++;
         }
 
-        if (Text != currentlyDisplayed)
-            ChangeText(currentlyDisplayed);
+        if (Text != _currentlyDisplayed)
+            ChangeText(_currentlyDisplayed);
 
         base.Update(gameTime);
     }
 
     public void Start()
     {
-        textPointer = 0;
-        waitedStartTime = StartAfter;
-        currentlyDisplayed = string.Empty;
+        _textPointer = 0;
+        _waitedStartTime = StartAfter;
+        _currentlyDisplayed = string.Empty;
         IsPlaying = true;
     }
 }

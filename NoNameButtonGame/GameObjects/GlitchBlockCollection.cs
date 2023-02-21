@@ -8,14 +8,14 @@ namespace NoNameButtonGame.GameObjects;
 
 internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable
 {
-    private readonly GlitchBlock[] glitchBlocksGrid;
-    private bool hover;
+    private readonly GlitchBlock[] _glitchBlocksGrid;
+    private bool _hover;
 
     public event Action<object> LeaveEventHandler;
     public event Action<object> EnterEventHandler;
     public event Action<object> ClickEventHandler;
 
-    private Color oldDrawColor;
+    private Color _oldDrawColor;
 
     public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.DefaultSize)
     {
@@ -35,7 +35,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         grid += Vector2.Ceiling(gridEdge / singleSize);
 
 
-        glitchBlocksGrid = new GlitchBlock[(int) grid.X * (int) grid.Y];
+        _glitchBlocksGrid = new GlitchBlock[(int) grid.X * (int) grid.Y];
         for (int y = 0; y < grid.Y; y++)
         {
             for (int x = 0; x < grid.X; x++)
@@ -48,57 +48,55 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
                 var block = new GlitchBlock(
                     new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y), newSize);
-                glitchBlocksGrid[y * (int) grid.X + x] = block;
+                _glitchBlocksGrid[y * (int) grid.X + x] = block;
             }
         }
-        
-        CalculateHitboxes();
     }
 
 
     public void Update(GameTime gameTime, Rectangle mousePosition)
     {
-        for (int i = 0; i < glitchBlocksGrid.Length; i++)
+        for (int i = 0; i < _glitchBlocksGrid.Length; i++)
         {
-            glitchBlocksGrid[i].Update(gameTime, mousePosition);
+            _glitchBlocksGrid[i].Update(gameTime, mousePosition);
         }
 
         if (HitboxCheck(mousePosition))
         {
-            if (!hover)
+            if (!_hover)
                 EnterEventHandler?.Invoke(this);
-            hover = true;
+            _hover = true;
         }
-        else if (hover)
+        else if (_hover)
         {
             LeaveEventHandler?.Invoke(this);
-            hover = false;
+            _hover = false;
         }
         base.Update(gameTime);
-        if (DrawColor != oldDrawColor)
+        if (DrawColor != _oldDrawColor)
         {
-            for (int i = 0; i < glitchBlocksGrid.Length; i++)
+            for (int i = 0; i < _glitchBlocksGrid.Length; i++)
             {
-                glitchBlocksGrid[i].DrawColor = DrawColor;
+                _glitchBlocksGrid[i].DrawColor = DrawColor;
             }
         }
 
-        oldDrawColor = DrawColor;
+        _oldDrawColor = DrawColor;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        for (int i = 0; i < glitchBlocksGrid.Length; i++)
+        for (int i = 0; i < _glitchBlocksGrid.Length; i++)
         {
-            glitchBlocksGrid[i].Draw(spriteBatch);
+            _glitchBlocksGrid[i].Draw(spriteBatch);
         }
     }
 
     protected override void CalculateHitboxes()
     {
-        if (glitchBlocksGrid is null)
+        if (_glitchBlocksGrid is null)
             return;
-        hitboxes = glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
+        Hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
     public Vector2 GetPosition()
@@ -108,7 +106,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
         var offset = newPosition - Position;
         Position += offset;
-        foreach (var block in glitchBlocksGrid)
+        foreach (var block in _glitchBlocksGrid)
         {
             block.Move(block.Position + offset);
         }
@@ -118,7 +116,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     public void ChangeColor(Color[] input)
     {
-        foreach (var glitchBlock in glitchBlocksGrid)
+        foreach (var glitchBlock in _glitchBlocksGrid)
         {
             glitchBlock.ChangeColor(input);
         }

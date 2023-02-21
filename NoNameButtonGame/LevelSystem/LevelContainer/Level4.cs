@@ -1,34 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NoNameButtonGame.Input;
-using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Text;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Linker;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level4 : SampleLevel
 {
-    private Random _random;
-
     private readonly Cursor _cursor;
     private readonly MousePointer _mousePointer;
     private readonly GameObjectLinker _objectLinker;
 
     private readonly ColorLinker _colorLinker;
     private readonly Rainbow _pulsatingRed;
-    private readonly GlitchBlockCollection bigBad;
+    private readonly GlitchBlockCollection _bigBad;
 
     private readonly EmptyButton _button;
     
@@ -40,7 +30,6 @@ internal class Level4 : SampleLevel
         window, random)
     {
         Name = "Level 4 - Tutorial 3 - The big bad";
-        _random = random;
 
         _cursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
@@ -50,11 +39,11 @@ internal class Level4 : SampleLevel
 
         _colorLinker = new ColorLinker();
         _pulsatingRed = new Rainbow();
-        bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(96, 64), 2F);
-        bigBad.Move(new Vector2(128, -bigBad.Rectangle.Height / 2));
-        bigBad.EnterEventHandler += FakeReset;
-        bigBad.DrawColor = Color.DarkRed;
-        _colorLinker.Add(_pulsatingRed, bigBad);
+        _bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(96, 64), 2F);
+        _bigBad.Move(new Vector2(128, -_bigBad.Rectangle.Height / 2F));
+        _bigBad.EnterEventHandler += FakeReset;
+        _bigBad.DrawColor = Color.DarkRed;
+        _colorLinker.Add(_pulsatingRed, _bigBad);
         _info = new DelayedText("This is a long text to test the delayed text", new Vector2(-128,-64), 0.5F)
         {
             StartAfter = 5000
@@ -65,19 +54,19 @@ internal class Level4 : SampleLevel
     {
         base.Update(gameTime);
 
-        _mousePointer.Update(gameTime, mousePosition);
+        _mousePointer.Update(gameTime, MousePosition);
         _objectLinker.Update(gameTime);
         _cursor.Update(gameTime);
 
         _colorLinker.Update(gameTime);
         _pulsatingRed.Update(gameTime);
         _info.Update(gameTime);
-        bigBad.Update(gameTime, _cursor.Hitbox[0]);
+        _bigBad.Update(gameTime, _cursor.Hitbox[0]);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        bigBad.Draw(spriteBatch);
+        _bigBad.Draw(spriteBatch);
         _info.Draw(spriteBatch);
         _cursor.Draw(spriteBatch);
     }

@@ -1,60 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NoNameButtonGame.Input;
-using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.Cache;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.Text;
-using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Linker;
-using NoNameButtonGame.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level1 : SampleLevel
 {
-    private readonly TextButton startButton;
-    private readonly Cursor mouseCursor;
-    private readonly TextBuilder infoText;
-    private readonly GameObjectLinker gameObjectLinker;
-    private readonly MousePointer mouse;
+    private readonly TextButton _startButton;
+    private readonly Cursor _mouseCursor;
+    private readonly TextBuilder _infoText;
+    private readonly GameObjectLinker _gameObjectLinker;
+    private readonly MousePointer _mouse;
 
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
         window, rand)
     {
-        startButton = new TextButton(-TextButton.DefaultSize / 2, "Start", "Start");
-        startButton.ClickEventHandler += Finish;
-        mouseCursor = new Cursor(new Vector2(0, 0));
-        mouse = new MousePointer();
+        _startButton = new TextButton(-TextButton.DefaultSize / 2, "Start", "Start");
+        _startButton.ClickEventHandler += Finish;
+        _mouseCursor = new Cursor(new Vector2(0, 0));
+        _mouse = new MousePointer();
         Name = "Level 1 - Click the Button!";
-        infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
-        infoText.ChangePosition(Vector2.Zero -
-                                new Vector2(infoText.Rectangle.Width,
-                                    infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
-        gameObjectLinker = new GameObjectLinker();
-        gameObjectLinker.Add(mouse, mouseCursor);
+        _infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
+        _infoText.ChangePosition(Vector2.Zero -
+                                new Vector2(_infoText.Rectangle.Width,
+                                    _infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
+        _gameObjectLinker = new GameObjectLinker();
+        _gameObjectLinker.Add(_mouse, _mouseCursor);
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        mouse.Update(gameTime, mousePosition);
-        gameObjectLinker.Update(gameTime);
-        mouseCursor.Update(gameTime);
-        startButton.Update(gameTime, mouseCursor.Hitbox[0]);
-        infoText.Update(gameTime);
+        _mouse.Update(gameTime, MousePosition);
+        _gameObjectLinker.Update(gameTime);
+        _mouseCursor.Update(gameTime);
+        _startButton.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _infoText.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        infoText.Draw(spriteBatch);
-        startButton.Draw(spriteBatch);
-        mouseCursor.Draw(spriteBatch);
+        _infoText.Draw(spriteBatch);
+        _startButton.Draw(spriteBatch);
+        _mouseCursor.Draw(spriteBatch);
     }
 }
