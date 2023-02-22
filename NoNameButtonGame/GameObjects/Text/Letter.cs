@@ -146,6 +146,8 @@ public class Letter : GameObject
             Character.SmallX => new Rectangle(1, 2, 5, 6),
             Character.SmallY => new Rectangle(1, 2, 4, 6),
             Character.SmallZ => new Rectangle(1, 2, 5, 6),
+            Character.OpenSquaredBrackets => new Rectangle(1, 0, 2, 8),
+            Character.CloseSquaredBrackets => new Rectangle(1, 0, 2, 8),
             _ => new Rectangle(0, 0, 8, 8)
         };
     }
@@ -243,7 +245,9 @@ public class Letter : GameObject
         SmallW,
         SmallX,
         SmallY,
-        SmallZ
+        SmallZ,
+        OpenSquaredBrackets,
+        CloseSquaredBrackets
     }
 
     public static Character Parse(char character)
@@ -341,6 +345,8 @@ public class Letter : GameObject
             '\u229E' => Character.LockLocked,
             '\u229F' => Character.LockUnlocked,
             'ඞ' => Character.AmongUsBean,
+            '[' => Character.OpenSquaredBrackets,
+            ']' => Character.CloseSquaredBrackets,
             _ => Character.Full,
         };
 
@@ -439,6 +445,8 @@ public class Letter : GameObject
             Character.LockLocked => '\u229E',
             Character.LockUnlocked => '\u229F',
             Character.AmongUsBean => 'ඞ',
+            Character.OpenSquaredBrackets => '[',
+            Character.CloseSquaredBrackets => ']',
             _ => '⬜'
         };
 }

@@ -16,14 +16,15 @@ internal class LevelNull : SampleLevel
     public LevelNull(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
     {
-        _failButton = new TextButton(new Vector2(-64, -32), new Vector2(128, 64), "end", "Restart")
+        _failButton = new TextButton(new Vector2(-64, -32), "end", "Restart")
         {
             DrawColor = Color.White,
         };
         _failButton.ClickEventHandler += Fail;
-        _mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        Name = "Level ??? End";
-        _info = new TextBuilder("This is the end!", new Vector2(-116, -64), new Vector2(16, 16), 0);
+        _mouseCursor = new Cursor(new Vector2(0, 0));
+        Name = "Level 404";
+        _info = new TextBuilder("Unknown level requested [404]", Vector2.Zero);
+        _info.Move(-_info.Rectangle.Size.ToVector2() / 2F + new Vector2(0,-64));
     }
 
     public override void Draw(SpriteBatch spriteBatch)
