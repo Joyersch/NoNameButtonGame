@@ -13,7 +13,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public event Action<object> Enter;
     public event Action<object> Click;
     protected bool Hover;
-    protected readonly SoundEffect ClickEffect;
+    
     private SoundEffectInstance _soundEffectInstance;
 
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize * 4;
@@ -45,7 +45,12 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public EmptyButton(Vector2 position, Vector2 size, Texture2D texture, TextureHitboxMapping mapping) :
         base(position, size, texture, mapping)
     {
-        ClickEffect = Globals.SoundEffects.GetEffect("ButtonSound");
+        _soundEffectInstance = Globals.SoundEffects.GetSfxInstance("ButtonSound");
+    }
+
+    ~EmptyButton()
+    {
+        _soundEffectInstance.Dispose();
     }
 
     public virtual void Update(GameTime gameTime, Rectangle mousePosition)
@@ -53,17 +58,17 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
         bool isMouseHovering = HitboxCheck(mousePosition);
         if (isMouseHovering)
         {
-            if (!this.Hover)
+            if (!Hover)
                 InvokeEnterEventHandler();
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
                 InvokeClickEventHandler();
         }
-        else if (this.Hover)
+        else if (Hover)
             InvokeLeaveEventHandler();
 
         ImageLocation = new Rectangle(isMouseHovering ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
-        this.Hover = isMouseHovering;
+        Hover = isMouseHovering;
         base.Update(gameTime);
     }
 
@@ -79,17 +84,9 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     protected void InvokeClickEventHandler()
     {
-        if (_soundEffectInstance is not null)
-        {
-            _soundEffectInstance.Stop();
-            _soundEffectInstance.Dispose();
-            _soundEffectInstance = null;
-        }
-
-        _soundEffectInstance = ClickEffect.CreateInstance();
-        Globals.SoundSettingsListener.AddSettingsLink(_soundEffectInstance);
-        _soundEffectInstance.Play();
+        _soundEffectInstance.Stop();
         Click?.Invoke(this);
+        _soundEffectInstance.Play();
     }
 
     protected void InvokeEnterEventHandler()

@@ -39,7 +39,7 @@ public class NoNameGame : Game
 
     protected override void Initialize()
     {
-        // This will also call LoadContent
+        // This will also call LoadContent()
         base.Initialize();
 
         // Read argument(s)
@@ -65,28 +65,35 @@ public class NoNameGame : Game
         }
         finally
         {
+            // apply settings and register Change Event for reapplying
             SettingsChanged(_storage.Settings, EventArgs.Empty);
             _storage.Settings.HasChanged += SettingsChanged;
         }
+
+        // register soundSettingsListener to change sound volume if 
         Globals.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
 
         _display = new(GraphicsDevice);
+
+        // as OS mouse-pointer is disabled this is to show said position 
         _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, _showActualMousePos);
 
+        // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, _storage);
         _levelManager.ChangeWindowName += ChangeTitle;
         _levelManager.CloseGameEventHandler += Exit;
     }
 
     private void ChangeTitle(string newName)
-    {
-        Window.Title = newName;
-    }
+        => Window.Title = newName;
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        // Set all Textures for object.
+        // As all kind of objects have the same texture it is saved static in the object.
+        // The Texture are being forwarded through the constructor unless otherwise specified.
         GameObject.DefaultTexture = Content.GetTexture("placeholder");
         Cursor.DefaultTexture = Content.GetTexture("cursor");
         MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
@@ -95,28 +102,37 @@ public class NoNameGame : Game
         SquareTextButton.DefaultTexture = Content.GetTexture("squarebutton");
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
         Letter.DefaultTexture = Content.GetTexture("font");
-        
-        Globals.SoundEffects.AddMappingToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
-        Globals.SoundEffects.AddMappingToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
-        Globals.SoundEffects.AddMappingToCache("Talking", Content.GetSfx("NoNameButtonSound"));
+
+        // Cache for sound effects as only one SoundEffect object is required.
+        // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
+        Globals.SoundEffects.AddMusicToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
+        Globals.SoundEffects.AddSfxToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
+        Globals.SoundEffects.AddSfxToCache("Talking", Content.GetSfx("NoNameButtonSound"));
     }
 
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        Console.SetCursorPosition(0,1);
+
+#if DEBUG
+        // For outputting info while debugging
+        Console.SetCursorPosition(0, 1);
+#endif
+        
         MouseState mouse = Mouse.GetState();
         _mousePointer.Update(gameTime, mouse.Position.ToVector2());
 
         _display.Update(gameTime);
 
         _levelManager.Update(gameTime);
+        
         // This will store the last key states
-        InputReaderMouse.UpdateLast();
+        InputReaderMouse.StoreButtonStates();
     }
 
     protected override void Draw(GameTime gameTime)
     {
+        // Display.Display always has the same size. Therefor if be draw to coordinates
         GraphicsDevice.SetRenderTarget(_display.Target);
         GraphicsDevice.Clear(new Color(50, 50, 50));
 

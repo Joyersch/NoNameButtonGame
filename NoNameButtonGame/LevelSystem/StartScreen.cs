@@ -22,12 +22,12 @@ internal class StartScreen : SampleLevel
     private readonly PositionListener _linker;
     private readonly TextBuilder _header;
 
-    public event Action<object> StartEventHandler;
-    public event Action<object> SelectEventHandler;
-    public event Action<object> SettingsEventHandler;
+    public event Action<object> StartClicked;
+    public event Action<object> SelectClicked;
+    public event Action<object> SettingsClicked;
 
-    public event Action<object> CreditsEventHandler;
-    public new event Action<object> ExitEventHandler;
+    public event Action<object> CreditsClicked;
+    public event Action<object> ExitClicked;
 
     public StartScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
@@ -95,17 +95,17 @@ internal class StartScreen : SampleLevel
     }
 
     private void StartButtonPressed(object sender)
-        => StartEventHandler?.Invoke(sender);
+        => StartClicked?.Invoke(sender);
 
     private void SelectButtonPressed(object sender)
-        => SelectEventHandler?.Invoke(sender);
+        => SelectClicked?.Invoke(sender);
 
     private void SettingsButtonPressed(object sender)
-        => SettingsEventHandler?.Invoke(sender);
+        => SettingsClicked?.Invoke(sender);
 
     private void CreditButtonPressed(object sender)
-        => CreditsEventHandler?.Invoke(sender);
+        => CreditsClicked?.Invoke(sender);
 
     private void ExitButtonPressed(object sender)
-        => ExitEventHandler?.Invoke(sender);
+        => ExitClicked?.Invoke(sender);
 }

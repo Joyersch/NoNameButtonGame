@@ -1,24 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace NoNameButtonGame
+namespace NoNameButtonGame;
+
+internal class CameraClass
 {
-    internal class CameraClass
+    public Matrix CameraMatrix { get; private set; }
+    public readonly float Zoom = 2f;
+    private readonly Vector2 _screen;
+
+    public CameraClass(Vector2 screen)
+        => _screen = screen;
+
+    public void Update(Vector2 targetPos, Vector2 targetSize)
     {
-        public Matrix CameraMatrix { get; private set; }
-        public readonly float Zoom = 2f;
-        private readonly Vector2 _screen;
+        var position =
+            Matrix.CreateTranslation(-targetPos.X - (targetSize.X / 2), -targetPos.Y - (targetSize.Y / 2), 0);
 
-        public CameraClass(Vector2 screen)
-            => _screen = screen;
+        var offset = Matrix.CreateTranslation(_screen.X / 2, _screen.Y / 2, 0);
 
-        public void Update(Vector2 targetPos, Vector2 targetSize)
-        {
-            var position =
-                Matrix.CreateTranslation(-targetPos.X - (targetSize.X / 2), -targetPos.Y - (targetSize.Y / 2), 0);
-
-            var offset = Matrix.CreateTranslation(_screen.X / 2, _screen.Y / 2, 0);
-
-            CameraMatrix = position * Matrix.CreateScale(Zoom) * offset;
-        }
+        CameraMatrix = position * Matrix.CreateScale(Zoom) * offset;
     }
 }

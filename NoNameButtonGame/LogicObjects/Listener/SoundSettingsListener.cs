@@ -7,37 +7,42 @@ namespace NoNameButtonGame.LogicObjects.Listener;
 
 public class SoundSettingsListener
 {
-    private readonly List<SoundEffectInstance> _instances;
+    private readonly List<(SoundEffectInstance effect, bool music)> _instances;
 
     private Settings _settings;
 
     public SoundSettingsListener(Settings settings)
     {
-        _instances = new List<SoundEffectInstance>();
+        _instances = new List<(SoundEffectInstance, bool)>();
         _settings = settings;
         _settings.HasChanged += SettingsOnHasChanged;
     }
 
     private void SettingsOnHasChanged(object sender, EventArgs e)
     {
-        List<SoundEffectInstance> toRemove = new List<SoundEffectInstance>();
-        foreach (var effect in _instances)
+        List<(SoundEffectInstance, bool)> toRemove = new List<(SoundEffectInstance, bool)>();
+        foreach (var instance in _instances)
         {
-            if (effect.IsDisposed)
+            if (instance.effect.IsDisposed)
             {
-                toRemove.Add(effect);
+                toRemove.Add(instance);
                 continue;
             }
-            effect.Volume = _settings.SfxVolume / 10F;
+
+            if (instance.music)
+                instance.effect.Volume = _settings.MusicVolume / 10F;
+            else
+                instance.effect.Volume = _settings.SfxVolume / 10F;
         }
 
         foreach (var effect in toRemove)
             _instances.Remove(effect);
     }
 
-    public void AddSettingsLink(SoundEffectInstance soundEffect)
+    public SoundEffectInstance Register(SoundEffectInstance soundEffect, bool music)
     {
-        _instances.Add(soundEffect);
+        _instances.Add((soundEffect, music));
         SettingsOnHasChanged(_settings, EventArgs.Empty);
+        return soundEffect;
     }
 }
