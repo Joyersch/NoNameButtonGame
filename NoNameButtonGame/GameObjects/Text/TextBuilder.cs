@@ -37,7 +37,7 @@ public class TextBuilder : IColorable, IMoveable
 
     public TextBuilder(string text, Vector2 position, Vector2 letterSize, int spacing)
     {
-        this._spacing = spacing;
+        _spacing = spacing;
         Size = letterSize;
         Position = position;
 
@@ -102,10 +102,7 @@ public class TextBuilder : IColorable, IMoveable
     {
         _represent = BuildString(_letters);
 
-        foreach (Letter l in _letters)
-        {
-            l.Update(gameTime);
-        }
+        System.Array.ForEach(_letters, c => c.Update(gameTime));
 
         UpdateRectangle();
     }
@@ -128,12 +125,7 @@ public class TextBuilder : IColorable, IMoveable
         => BuildString(_letters);
 
     public virtual void Draw(SpriteBatch spriteBatch)
-    {
-        for (int i = 0; i < _letters.Length; i++)
-        {
-            _letters[i].Draw(spriteBatch);
-        }
-    }
+    => System.Array.ForEach(_letters, c => c.Draw(spriteBatch));
 
     public static string BuildString(Letter[] letters)
     {
