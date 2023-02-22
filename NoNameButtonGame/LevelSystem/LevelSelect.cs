@@ -48,7 +48,7 @@ namespace NoNameButtonGame.LevelSystem
                     , "⬇"
                     , new Vector2(16, 16));
 
-                down.ClickEventHandler += MoveDown;
+                down.Click += MoveDown;
 
                 _down.Add(down);
 
@@ -58,7 +58,7 @@ namespace NoNameButtonGame.LevelSystem
                     , ""
                     , "⬆"
                     , new Vector2(16, 16));
-                up.ClickEventHandler += MoveUp;
+                up.Click += MoveUp;
 
                 _up.Add(up);
             }
@@ -72,7 +72,7 @@ namespace NoNameButtonGame.LevelSystem
                     , (i + 1).ToString()
                     , new Vector2(16, 16));
 
-                levelButton.ClickEventHandler += SelectLevel;
+                levelButton.Click += SelectLevel;
 
                 _level.Add(levelButton);
             }

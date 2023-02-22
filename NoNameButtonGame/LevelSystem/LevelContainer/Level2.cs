@@ -42,7 +42,7 @@ internal class Level2 : SampleLevel
 
         _magicButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y),
             "magicUnlockButton", "Magic");
-        _magicButton.ClickEventHandler += MagicButtonOnClickEventHandler;
+        _magicButton.Click += MagicButtonOnClick;
 
         _rainbowMagicColor = new Rainbow
         {
@@ -74,7 +74,7 @@ internal class Level2 : SampleLevel
         _info2.ChangePosition(new Vector2(-_info2.Rectangle.Width / 2F, -TextBuilder.DefaultLetterSize.Y / 2));
     }
 
-    private void MagicButtonOnClickEventHandler(object obj)
+    private void MagicButtonOnClick(object obj)
     {
         if (_lockButtonAddon.IsLocked)
             _lockButtonAddon.Unlock();

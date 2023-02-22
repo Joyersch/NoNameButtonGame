@@ -19,7 +19,7 @@ public class LockButtonAddon : GameObject
     public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2), DefaultTexture, DefaultMapping)
     {
         this._button = button;
-        button.ClickEventHandler += ClickHandler;
+        button.Click += ClickHandler;
         _text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
     }

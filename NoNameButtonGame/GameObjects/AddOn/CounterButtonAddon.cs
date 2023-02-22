@@ -19,7 +19,7 @@ public class CounterButtonAddon : GameObject
     {
         this._button = button;
         _states = startStates;
-        button.ClickEventHandler += ClickHandler;
+        button.Click += ClickHandler;
         _text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
             button.Position);
         UpdateText();

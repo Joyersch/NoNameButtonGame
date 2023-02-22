@@ -21,7 +21,7 @@ internal class Level1 : SampleLevel
         window, rand)
     {
         _startButton = new TextButton(-TextButton.DefaultSize / 2, "Start", "Start");
-        _startButton.ClickEventHandler += Finish;
+        _startButton.Click += Finish;
         _mouseCursor = new Cursor(new Vector2(0, 0));
         _mouse = new MousePointer();
         Name = "Level 1 - Click the Button!";

@@ -33,11 +33,11 @@ public class ValueSelection : GameObject, IMoveable
         ValidValues = validValues;
         _pointer = startValueIndex;
         _decreaseButton = new SquareTextButton(position, scale, _left, _left);
-        _decreaseButton.ClickEventHandler += DecreaseClicked;
+        _decreaseButton.Click += DecreaseClicked;
         _display = new TextBuilder(validValues[_pointer], Vector2.One, scale);
 
         _increaseButton = new SquareTextButton(Vector2.Zero, scale, _right, _right);
-        _increaseButton.ClickEventHandler += IncreaseClicked;
+        _increaseButton.Click += IncreaseClicked;
         Move(Position);
     }
 

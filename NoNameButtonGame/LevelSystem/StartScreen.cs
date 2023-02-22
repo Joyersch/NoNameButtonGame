@@ -38,19 +38,19 @@ internal class StartScreen : SampleLevel
         int x = -304;
 
         _startButton = new TextButton(new Vector2(x, startPositionY), string.Empty, "Start");
-        _startButton.ClickEventHandler += StartButtonPressed;
+        _startButton.Click += StartButtonPressed;
 
         _selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), string.Empty, "Select Level");
-        _selectLevelButton.ClickEventHandler += SelectButtonPressed;
+        _selectLevelButton.Click += SelectButtonPressed;
 
         _settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), string.Empty, "Settings");
-        _settingsButton.ClickEventHandler += SettingsButtonPressed;
+        _settingsButton.Click += SettingsButtonPressed;
 
         _creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), string.Empty, "Credits");
-        _creditButton.ClickEventHandler += CreditButtonPressed;
+        _creditButton.Click += CreditButtonPressed;
 
         _exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), string.Empty, "Exit");
-        _exitButton.ClickEventHandler += ExitButtonPressed;
+        _exitButton.Click += ExitButtonPressed;
 
         _header = new TextBuilder("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
         _header.ChangePosition(-_header.Rectangle.Size.ToVector2() / 2 +

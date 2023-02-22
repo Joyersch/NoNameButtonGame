@@ -20,7 +20,7 @@ internal class LevelNull : SampleLevel
         {
             DrawColor = Color.White,
         };
-        _failButton.ClickEventHandler += Fail;
+        _failButton.Click += Fail;
         _mouseCursor = new Cursor(new Vector2(0, 0));
         Name = "Level 404";
         _info = new TextBuilder("Unknown level requested [404]", Vector2.Zero);

@@ -79,7 +79,7 @@ internal class SettingsScreen : SampleLevel
 
         _fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
         _fullscreenButton.Text.ChangeColor(new[] {settingTwo == _crossout ? Color.Red : Color.Green});
-        _fullscreenButton.ClickEventHandler += ChangePressState;
+        _fullscreenButton.Click += ChangePressState;
         _fullscreenText = new TextBuilder("Fullscreen", Vector2.Zero);
         _fullscreenText.Move(leftAnchor + new Vector2(_fullscreenButton.Rectangle.Width + 4,
             _fullscreenButton.Rectangle.Height / 2 - _fullscreenText.Rectangle.Height / 2));
@@ -88,7 +88,7 @@ internal class SettingsScreen : SampleLevel
 
         _fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne);
         _fixedStepButton.Text.ChangeColor(new[] {settingOne == _crossout ? Color.Red : Color.Green});
-        _fixedStepButton.ClickEventHandler += ChangePressState;
+        _fixedStepButton.Click += ChangePressState;
         _fixedStepText = new TextBuilder("FPS-Limit", Vector2.Zero);
         _fixedStepText.Move(leftAnchor + new Vector2(_fixedStepButton.Rectangle.Width + 4,
             _fixedStepButton.Rectangle.Height / 2 - _fixedStepText.Rectangle.Height / 2));

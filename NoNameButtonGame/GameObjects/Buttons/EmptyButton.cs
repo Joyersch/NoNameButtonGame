@@ -9,9 +9,9 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class EmptyButton : GameObject, IMouseActions, IMoveable
 {
-    public event Action<object> LeaveEventHandler;
-    public event Action<object> EnterEventHandler;
-    public event Action<object> ClickEventHandler;
+    public event Action<object> Leave;
+    public event Action<object> Enter;
+    public event Action<object> Click;
     protected bool Hover;
     protected readonly SoundEffect ClickEffect;
     private SoundEffectInstance _soundEffectInstance;
@@ -89,12 +89,12 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
         _soundEffectInstance = ClickEffect.CreateInstance();
         Globals.SoundSettingsListener.AddSettingsLink(_soundEffectInstance);
         _soundEffectInstance.Play();
-        ClickEventHandler?.Invoke(this);
+        Click?.Invoke(this);
     }
 
     protected void InvokeEnterEventHandler()
-        => EnterEventHandler?.Invoke(this);
+        => Enter?.Invoke(this);
 
     protected void InvokeLeaveEventHandler()
-        => LeaveEventHandler?.Invoke(this);
+        => Leave?.Invoke(this);
 }

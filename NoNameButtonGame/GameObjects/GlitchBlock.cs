@@ -17,9 +17,9 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
 
     private bool _hover;
 
-    public event Action<object> EnterEventHandler;
-    public event Action<object> LeaveEventHandler;
-    public event Action<object> ClickEventHandler;
+    public event Action<object> Enter;
+    public event Action<object> Leave;
+    public event Action<object> Click;
 
     public new static Vector2 DefaultSize = DefaultMapping.ImageSize * 2;
     
@@ -73,12 +73,12 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
         if (HitboxCheck(mousePosition))
         {
             if (!_hover)
-                EnterEventHandler?.Invoke(this);
+                Enter?.Invoke(this);
             _hover = true;
         }
         else if (_hover)
         {
-            LeaveEventHandler?.Invoke(this);
+            Leave?.Invoke(this);
             _hover = false;
         }
 

@@ -11,9 +11,9 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     private readonly GlitchBlock[] _glitchBlocksGrid;
     private bool _hover;
 
-    public event Action<object> LeaveEventHandler;
-    public event Action<object> EnterEventHandler;
-    public event Action<object> ClickEventHandler;
+    public event Action<object> Leave;
+    public event Action<object> Enter;
+    public event Action<object> Click;
 
     private Color _oldDrawColor;
 
@@ -64,12 +64,12 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         if (HitboxCheck(mousePosition))
         {
             if (!_hover)
-                EnterEventHandler?.Invoke(this);
+                Enter?.Invoke(this);
             _hover = true;
         }
         else if (_hover)
         {
-            LeaveEventHandler?.Invoke(this);
+            Leave?.Invoke(this);
             _hover = false;
         }
         base.Update(gameTime);
