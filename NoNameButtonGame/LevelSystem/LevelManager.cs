@@ -170,7 +170,7 @@ internal class LevelManager
     }
 
     private void LevelFail()
-        => SelectLevel(_currentSelectLevel);
+        => SelectLevel(_currentSelectLevel + 1);
 
     private void LevelExitEventHandler()
     {
