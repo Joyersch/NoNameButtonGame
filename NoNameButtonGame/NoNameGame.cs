@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
@@ -56,11 +57,14 @@ public class NoNameGame : Game
         }
         catch
         {
-            // fallback default settings
-            _storage.Settings.Resolution.Width = 1280;
-            _storage.Settings.Resolution.Height = 720;
-            _storage.Settings.IsFullscreen = false;
-            _storage.Settings.IsFixedStep = true;
+            if (_storage.Settings is null)
+            {
+                // fallback default settings
+                _storage.Settings.Resolution.Width = 1280;
+                _storage.Settings.Resolution.Height = 720;
+                _storage.Settings.IsFullscreen = false;
+                _storage.Settings.IsFixedStep = true;
+            }
             _storage.Save();
         }
         finally

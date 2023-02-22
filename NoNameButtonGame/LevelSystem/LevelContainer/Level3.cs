@@ -28,7 +28,7 @@ internal class Level3 : SampleLevel
         _infoAboutButton = new TextBuilder("This button has a counter", Vector2.Zero);
         _infoAboutButton.ChangePosition(new Vector2(-_infoAboutButton.Rectangle.Width / 2F, -64));
         _infoAboutButton2 =
-            new TextBuilder("Press the button lower the counter and when it hits 0 you win!", Vector2.Zero);
+            new TextBuilder("Press the button to lower the counter and when it hits 0 you win!", Vector2.Zero);
         _infoAboutButton2.ChangePosition(new Vector2(-_infoAboutButton2.Rectangle.Width / 2F,
             64 - _infoAboutButton2.Rectangle.Height));
         _mouseCursor = new Cursor(Vector2.One);

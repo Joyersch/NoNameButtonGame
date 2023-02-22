@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
@@ -14,79 +12,49 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level4 : SampleLevel
 {
-    private readonly Cursor _cursor;
+    private readonly Cursor _mouseCursor;
+    private readonly TextBuilder _infoAboutButton;
+    private readonly TextBuilder _infoAboutButton2;
     private readonly MousePointer _mousePointer;
-    private readonly PositionListener _objectLinker;
-
-    private readonly ColorListener _colorListener;
-    private readonly Rainbow _pulsatingRed;
-    private readonly GlitchBlockCollection _bigBad;
-
-    private readonly TextButton _button;
-    private readonly HoldButtonAddon _holdButtonAddon;
-    
-    private readonly DelayedText _info;
-
+    private readonly PositionListener _linker;
+    private readonly HoldButtonAddon _counterButtonAddon;
 
     public Level4(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
-        defaultHeight,
-        window, random)
+        defaultHeight, window, random)
     {
         Name = "Level 4 - Tutorial 3 - Button Addon: Hold";
-
-        _cursor = new Cursor(Vector2.One);
+        var stateButton = new TextButton(-EmptyButton.DefaultSize / 2, string.Empty,
+            Letter.ReverseParse(Letter.Character.AmongUsBean).ToString());
+        _infoAboutButton = new TextBuilder("This button has a timer", Vector2.Zero);
+        _infoAboutButton.ChangePosition(new Vector2(-_infoAboutButton.Rectangle.Width / 2F, -64));
+        _infoAboutButton2 =
+            new TextBuilder("Press the button to lower the timer and when it hits 0 you win!", Vector2.Zero);
+        _infoAboutButton2.ChangePosition(new Vector2(-_infoAboutButton2.Rectangle.Width / 2F,
+            64 - _infoAboutButton2.Rectangle.Height));
+        _mouseCursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
-
-        _objectLinker = new PositionListener();
-        _objectLinker.Add(_mousePointer, _cursor);
-
-        _colorListener = new ColorListener();
-        _pulsatingRed = new Rainbow();
-        /*
-        _bigBad = new GlitchBlockCollection(Vector2.One, new Vector2(96, 64), 2F);
-        _bigBad.Move(new Vector2(128, -_bigBad.Rectangle.Height / 2F));
-        _bigBad.Enter += FakeReset;
-        _bigBad.DrawColor = Color.DarkRed;
-        _colorListener.Add(_pulsatingRed, _bigBad);
-        */
-        
-        _button = new TextButton(Vector2.One, "hold", "Hold me!");
-        _holdButtonAddon = new HoldButtonAddon(_button, 1000F);
-        _holdButtonAddon.TimerReachedZero += () => FakeReset(_holdButtonAddon);
-        _info = new DelayedText("This is a long text to test the delayed text", new Vector2(-128,-64), 0.5F)
-        {
-            StartAfter = 5000
-        };
+        _linker = new PositionListener();
+        _linker.Add(_mousePointer, _mouseCursor);
+        _counterButtonAddon = new HoldButtonAddon(stateButton, 3000F);
+        _counterButtonAddon.TimerReachedZero += Finish;
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-
         _mousePointer.Update(gameTime, MousePosition);
-        _objectLinker.Update(gameTime);
-        _cursor.Update(gameTime);
-
-        _colorListener.Update(gameTime);
-        _pulsatingRed.Update(gameTime);
-        _info.Update(gameTime);
-        _holdButtonAddon.Update(gameTime, _cursor.Hitbox[0]);
-        //_bigBad.Update(gameTime, _cursor.Hitbox[0]);
+        _linker.Update(gameTime);
+        _mouseCursor.Update(gameTime);
+        _counterButtonAddon.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _infoAboutButton.Update(gameTime);
+        _infoAboutButton2.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        //_bigBad.Draw(spriteBatch);
-        _info.Draw(spriteBatch);
-        _holdButtonAddon.Draw(spriteBatch);
-        _cursor.Draw(spriteBatch);
-    }
-
-    private void FakeReset(object sender)
-    {
-        SetMousePositionToCenter();
-        if (_info.IsPlaying || _info.HasPlayed)
-            return;
-        _info.Start();
+        _counterButtonAddon.Draw(spriteBatch);
+        _infoAboutButton.Draw(spriteBatch);
+        _infoAboutButton2.Draw(spriteBatch);
+        _mouseCursor.Draw(spriteBatch);
     }
 }
