@@ -8,7 +8,7 @@ internal static class Globals
 {
     // Directory save files
     public static readonly string SaveDirectory =
-        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/NoNameButtonGame/";
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/NoNameButtonGame/";
 
     public static readonly SoundEffectsCache SoundEffects = new();
 

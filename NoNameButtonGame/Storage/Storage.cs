@@ -24,13 +24,31 @@ public class Storage : IChangeable
     
     public GameData GameData;
     
-    public void Load()
+    public bool Load()
     {
-        using StreamReader settingsReader = new($"{_basePath}/{nameof(Settings)}.json");
-        Settings = JsonConvert.DeserializeObject<Settings>(settingsReader.ReadToEnd());
+        string path = $"{_basePath}/{nameof(Settings)}.json";
+        if (!File.Exists(path))
+            return false;
+        try
+        {
+            using StreamReader settingsReader = new(path);
+            Settings = JsonConvert.DeserializeObject<Settings>(settingsReader.ReadToEnd());
+        }
+        catch
+        {
+            return false;
+        }
 
-        using StreamReader gameDataReader = new($"{_basePath}/{nameof(GameData)}.json");
-        GameData = JsonConvert.DeserializeObject<GameData>(gameDataReader.ReadToEnd());
+        try
+        {
+            using StreamReader gameDataReader = new($"{_basePath}/{nameof(GameData)}.json");
+            GameData = JsonConvert.DeserializeObject<GameData>(gameDataReader.ReadToEnd());
+        }
+        catch
+        {
+            return false;
+        }
+        return true;
     }
 
     public void Save()
@@ -40,5 +58,15 @@ public class Storage : IChangeable
 
         using StreamWriter gameDataWriter = new($"{_basePath}/{nameof(GameData)}.json");
         gameDataWriter.Write(JsonConvert.SerializeObject(GameData));
+    }
+
+    public void SetDefaults()
+    {
+        Settings.Resolution.Width = 1280;
+        Settings.Resolution.Height = 720;
+        Settings.IsFullscreen = false;
+        Settings.IsFixedStep = true;
+        Settings.MusicVolume = 5;
+        Settings.SfxVolume = 5;
     }
 }

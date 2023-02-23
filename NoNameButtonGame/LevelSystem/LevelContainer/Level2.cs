@@ -18,10 +18,6 @@ internal class Level2 : SampleLevel
     private readonly PositionListener _objectLinker;
 
     private readonly TextButton _magicButton;
-    private readonly Rainbow _rainbowMagicColor;
-    private readonly ColorListener _colorListener;
-
-    private readonly Rainbow _rainbowWinColor;
     private readonly LockButtonAddon _lockButtonAddon;
 
     private readonly TextBuilder _info1;
@@ -32,7 +28,6 @@ internal class Level2 : SampleLevel
         window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
-        _rainbowMagicColor = new Rainbow();
 
         _cursor = new Cursor(Vector2.One);
         _mousePointer = new MousePointer();
@@ -41,27 +36,11 @@ internal class Level2 : SampleLevel
         _objectLinker.Add(_mousePointer, _cursor);
 
         _magicButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y),
-            "magicUnlockButton", "Magic");
+            "magicUnlockButton", "Unlock");
         _magicButton.Click += MagicButtonOnClick;
-
-        _rainbowMagicColor = new Rainbow
-        {
-            Increment = 10,
-            GameTimeStepInterval = 25
-        };
-
-        _colorListener = new ColorListener();
-        _colorListener.Add(_rainbowMagicColor, _magicButton.Text);
 
         var lockButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y), "win",
             "Finish Level");
-        _rainbowWinColor = new Rainbow()
-        {
-            Increment = 10,
-            GameTimeStepInterval = 25,
-            Offset = 255
-        };
-        _colorListener.Add(_rainbowWinColor, lockButton.Text);
 
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Callback += Finish;
@@ -89,9 +68,6 @@ internal class Level2 : SampleLevel
         _objectLinker.Update(gameTime);
         _cursor.Update(gameTime);
 
-        _rainbowMagicColor.Update(gameTime);
-        _rainbowWinColor.Update(gameTime);
-        _colorListener.Update(gameTime);
         _magicButton.Update(gameTime, _cursor.Hitbox[0]);
 
         _lockButtonAddon.Update(gameTime, _cursor.Hitbox[0]);

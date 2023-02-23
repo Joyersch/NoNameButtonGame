@@ -23,8 +23,7 @@ internal class Level3 : SampleLevel
         defaultHeight, window, random)
     {
         Name = "Level 3 - Tutorial 2 - Button Addon: Counter";
-        var stateButton = new TextButton(-EmptyButton.DefaultSize / 2, string.Empty,
-            Letter.ReverseParse(Letter.Character.AmongUsBean).ToString());
+        var stateButton = new TextButton(-EmptyButton.DefaultSize / 2, string.Empty, "Finish Level");
         _infoAboutButton = new TextBuilder("This button has a counter", Vector2.Zero);
         _infoAboutButton.ChangePosition(new Vector2(-_infoAboutButton.Rectangle.Width / 2F, -64));
         _infoAboutButton2 =

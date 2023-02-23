@@ -51,28 +51,14 @@ public class NoNameGame : Game
             Directory.CreateDirectory(Globals.SaveDirectory);
 
         // Load or generate settings file (as well as save)
-        try
-        {
-            _storage.Load();
-        }
-        catch
-        {
-            if (_storage.Settings is null)
-            {
-                // fallback default settings
-                _storage.Settings.Resolution.Width = 1280;
-                _storage.Settings.Resolution.Height = 720;
-                _storage.Settings.IsFullscreen = false;
-                _storage.Settings.IsFixedStep = true;
-            }
-            _storage.Save();
-        }
-        finally
-        {
-            // apply settings and register Change Event for reapplying
-            SettingsChanged(_storage.Settings, EventArgs.Empty);
-            _storage.Settings.HasChanged += SettingsChanged;
-        }
+        if (!_storage.Load())
+            _storage.SetDefaults(); // fallback default settings
+        
+        _storage.Save();
+
+        // apply settings and register Change Event for reapplying
+        SettingsChanged(_storage.Settings, EventArgs.Empty);
+        _storage.Settings.HasChanged += SettingsChanged;
 
         // register soundSettingsListener to change sound volume if 
         Globals.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
@@ -122,14 +108,14 @@ public class NoNameGame : Game
         // For outputting info while debugging
         Console.SetCursorPosition(0, 1);
 #endif
-        
+
         MouseState mouse = Mouse.GetState();
         _mousePointer.Update(gameTime, mouse.Position.ToVector2());
 
         _display.Update(gameTime);
 
         _levelManager.Update(gameTime);
-        
+
         // This will store the last key states
         InputReaderMouse.StoreButtonStates();
     }
