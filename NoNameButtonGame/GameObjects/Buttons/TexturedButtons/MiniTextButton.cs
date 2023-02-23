@@ -8,7 +8,7 @@ public class MiniTextButton : TextButton
 {
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize * 4;
     public new static Vector2 DefaultTextSize => new Vector2(16, 16);
-    
+
     public new static Texture2D DefaultTexture;
 
     public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
@@ -20,8 +20,16 @@ public class MiniTextButton : TextButton
             new Rectangle(1, 0, 14, 8)
         }
     };
-    
-    public MiniTextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text)
+
+    public MiniTextButton(string text) : this(Vector2.Zero, text)
+    {
+    }
+
+    public MiniTextButton(Vector2 position, string text) : this(position, string.Empty, text)
+    {
+    }
+
+    public MiniTextButton(Vector2 position, string name, string text) : this(position, 1, name, text)
     {
     }
 

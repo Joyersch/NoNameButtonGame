@@ -18,6 +18,10 @@ internal class Cursor : GameObject
         }
     };
 
+    public Cursor() : this(Vector2.Zero)
+    {
+    }
+    
     public Cursor(Vector2 position) : this(position, DefaultSize)
     {
     }

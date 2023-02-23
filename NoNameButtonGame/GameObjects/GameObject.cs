@@ -34,6 +34,10 @@ public class GameObject : IHitbox
         }
     };
 
+    public GameObject() : this(Vector2.Zero)
+    {
+    }
+    
     public GameObject(Vector2 position) : this(position, 1)
     {
     }

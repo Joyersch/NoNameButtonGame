@@ -19,6 +19,10 @@ public class DelayedText : TextBuilder
 
     public new static Vector2 DefaultLetterSize => new Vector2(16, 16);
 
+    public DelayedText(string text) : this(text, Vector2.Zero, DefaultLetterSize, 1)
+    {
+    }
+    
     public DelayedText(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
     {
     }

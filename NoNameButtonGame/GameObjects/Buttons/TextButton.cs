@@ -12,7 +12,19 @@ public class TextButton : EmptyButton
     public new static Vector2 DefaultSize => new Vector2(128, 64);
     public static Vector2 DefaultTextSize => new Vector2(16, 16);
 
-    public TextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text)
+    public TextButton(string text) : this(Vector2.Zero, string.Empty, text)
+    {
+    }
+    
+    public TextButton(Vector2 position, string text) : this(position, string.Empty, text)
+    {
+    }
+    
+    public TextButton(Vector2 position, float scale, string text) : this(position,  scale, string.Empty, text)
+    {
+    }
+    
+    public TextButton(Vector2 position, string name, string text) : this(position, 1, name, text)
     {
     }
 

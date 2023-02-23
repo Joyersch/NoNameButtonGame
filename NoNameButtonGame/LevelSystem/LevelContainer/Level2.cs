@@ -24,32 +24,30 @@ internal class Level2 : SampleLevel
     private readonly TextBuilder _info2;
 
     public Level2(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
-        defaultHeight,
-        window, random)
+        defaultHeight, window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
 
-        _cursor = new Cursor(Vector2.One);
+        _cursor = new Cursor();
         _mousePointer = new MousePointer();
 
         _objectLinker = new PositionListener();
         _objectLinker.Add(_mousePointer, _cursor);
 
-        _magicButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y),
-            "magicUnlockButton", "Unlock");
+        _magicButton = new TextButton("Unlock");
+        _magicButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y));
         _magicButton.Click += MagicButtonOnClick;
 
-        var lockButton = new TextButton(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y), "win",
-            "Finish Level");
+        var lockButton = new TextButton("Finish Level");
+        lockButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y));
 
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Callback += Finish;
 
-        _info1 = new TextBuilder("This button here is locked!",
-            new Vector2(-160, -128));
+        _info1 = new TextBuilder("This button here is locked!");
         _info1.ChangePosition(new Vector2(-_info1.Rectangle.Width / 2F, -128));
 
-        _info2 = new TextBuilder("The button below will unlock the button above!", Vector2.One);
+        _info2 = new TextBuilder("The button below will unlock the button above!");
         _info2.ChangePosition(new Vector2(-_info2.Rectangle.Width / 2F, -TextBuilder.DefaultLetterSize.Y / 2));
     }
 

@@ -20,7 +20,8 @@ public class SoundSettingsListener
 
     private void SettingsOnHasChanged(object sender, EventArgs e)
     {
-        List<(SoundEffectInstance, bool)> toRemove = new List<(SoundEffectInstance, bool)>();
+        // list of disposed effects. References to them have to be removed
+        var toRemove = new List<(SoundEffectInstance, bool)>();
         foreach (var instance in _instances)
         {
             if (instance.effect.IsDisposed)
@@ -35,6 +36,7 @@ public class SoundSettingsListener
                 instance.effect.Volume = _settings.SfxVolume / 10F;
         }
 
+        // Remove disposed effects.
         foreach (var effect in toRemove)
             _instances.Remove(effect);
     }

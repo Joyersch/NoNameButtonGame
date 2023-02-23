@@ -5,6 +5,8 @@ namespace NoNameButtonGame;
 public class CameraClass
 {
     public Matrix CameraMatrix { get; private set; }
+    
+    // ToDo: readable & changeable by level
     public readonly float Zoom = 2f;
     private readonly Vector2 _screen;
 

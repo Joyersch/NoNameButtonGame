@@ -17,18 +17,22 @@ internal class Level1 : SampleLevel
     private readonly PositionListener _positionListener;
     private readonly MousePointer _mouse;
 
-    public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth, defaultHeight,
-        window, rand)
+    public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
+        defaultHeight, window, random)
     {
-        _startButton = new TextButton(-TextButton.DefaultSize / 2, "Start", "Start");
-        _startButton.Click += Finish;
-        _mouseCursor = new Cursor(new Vector2(0, 0));
-        _mouse = new MousePointer();
         Name = "Level 1 - Click the Button!";
-        _infoText = new TextBuilder("How hard can it be?", new Vector2(-100, -64));
-        _infoText.ChangePosition(Vector2.Zero -
-                                new Vector2(_infoText.Rectangle.Width,
-                                    _infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
+        _startButton = new TextButton("Start");
+        _startButton.Move(-TextButton.DefaultSize / 2);
+        _startButton.Click += Finish;
+
+        _infoText = new TextBuilder("How hard can it be?");
+        _infoText.Move(Vector2.Zero -
+                       new Vector2(_infoText.Rectangle.Width,
+                           _infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
+        
+        _mouseCursor = new Cursor();
+        _mouse = new MousePointer();
+        
         _positionListener = new PositionListener();
         _positionListener.Add(_mouse, _mouseCursor);
     }

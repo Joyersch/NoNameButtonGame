@@ -37,26 +37,26 @@ public class StartScreen : SampleLevel
         const int startPositionY = -(64 * 2 + 32);
         int x = -304;
 
-        _startButton = new TextButton(new Vector2(x, startPositionY), string.Empty, "Start");
+        _startButton = new TextButton(new Vector2(x, startPositionY), "Start");
         _startButton.Click += StartButtonPressed;
 
-        _selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), string.Empty, "Select Level");
+        _selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), "Select Level");
         _selectLevelButton.Click += SelectButtonPressed;
 
-        _settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), string.Empty, "Settings");
+        _settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), "Settings");
         _settingsButton.Click += SettingsButtonPressed;
 
-        _creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), string.Empty, "Credits");
+        _creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), "Credits");
         _creditButton.Click += CreditButtonPressed;
 
-        _exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), string.Empty, "Exit");
+        _exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), "Exit");
         _exitButton.Click += ExitButtonPressed;
 
         _header = new TextBuilder("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
         _header.ChangePosition(-_header.Rectangle.Size.ToVector2() / 2 +
-                              new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
+                               new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
 
-        _mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
+        _mouseCursor = new Cursor(Vector2.Zero);
         _mousePointer = new MousePointer();
         _linker = new PositionListener();
         _linker.Add(_mousePointer, _mouseCursor);

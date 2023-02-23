@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Texture;
@@ -20,7 +21,13 @@ public class SquareTextButton : TextButton
         }
     };
 
-    public SquareTextButton(Vector2 position, string name, string text) : this(position, DefaultSize, name, text)
+    public SquareTextButton(string text) : this(Vector2.Zero, text)
+    {
+    }
+    public SquareTextButton(Vector2 position, string text) : this(position, string.Empty, text)
+    {
+    }
+    public SquareTextButton(Vector2 position, string name, string text) : this(position, 1, name, text)
     {
     }
 

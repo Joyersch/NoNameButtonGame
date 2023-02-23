@@ -2,8 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.LevelSystem.LevelContainer;
-using NoNameButtonGame.LogicObjects.Listener;
+using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -58,16 +57,16 @@ internal class LevelManager
             _storage.Settings.Resolution.ToVertor2(), _random);
 
         _startMenu = _levelFactory.GetStartLevel();
-        _startMenu.StartClicked += StartClickedMenuOnStartClicked;
-        _startMenu.SelectClicked += StartMenuOnSelectClicked;
-        _startMenu.SettingsClicked += StartMenuOnSettingsClicked;
-        _startMenu.ExitClicked += StartMenuOnExitClicked;
-        _startMenu.CurrentMusicEventHandler += ALevelOnCurrentMusic;
+        _startMenu.StartClicked += StartMenuStartClicked;
+        _startMenu.SelectClicked += StartMenuSelectClicked;
+        _startMenu.SettingsClicked += StartMenuSettingsClicked;
+        _startMenu.ExitClicked += StartMenuExitClicked;
+        _startMenu.CurrentMusicEventHandler += CurrentMusic;
 
         _settings = _levelFactory.GetSettingsLevel(storage);
-        _settings.ExitEventHandler += SettingsOnExitEventHandler;
-        _settings.WindowsResizeEventHandler += SettingsOnWindowsResizeEventHandler;
-        _settings.CurrentMusicEventHandler += ALevelOnCurrentMusic;
+        _settings.ExitEventHandler += SettingsExitClicked;
+        _settings.WindowsResizeEventHandler += SettingsWindowResize;
+        _settings.CurrentMusicEventHandler += CurrentMusic;
         InitializeLevelSelect();
     }
 
@@ -81,7 +80,7 @@ internal class LevelManager
             _ => _startMenu,
         };
 
-        if (InputReaderKeyboard.CheckKey(Microsoft.Xna.Framework.Input.Keys.Escape, true))
+        if (InputReaderKeyboard.CheckKey(Keys.Escape, true))
         {
             level.Exit();
         }
@@ -107,11 +106,11 @@ internal class LevelManager
         _currentLevel.FinishEventHandler += LevelFinish;
         _currentLevel.FailEventHandler += LevelFail;
         _currentLevel.ExitEventHandler += LevelExitEventHandler;
-        _currentLevel.CurrentMusicEventHandler += ALevelOnCurrentMusic;
+        _currentLevel.CurrentMusicEventHandler += CurrentMusic;
         ChangeWindowName?.Invoke(_currentLevel.Name);
     }
 
-    private void ALevelOnCurrentMusic(string newMusic)
+    private void CurrentMusic(string newMusic)
     {
         // updates music volume on settings change!
 
@@ -177,19 +176,19 @@ internal class LevelManager
         ChangeWindowName?.Invoke(_startMenu.Name);
     }
 
-    private void StartMenuOnExitClicked(object sender)
+    private void StartMenuExitClicked(object sender)
         => StartMenuOnExitEventHandler();
 
     private void StartMenuOnExitEventHandler()
         => CloseGameEventHandler?.Invoke();
 
-    private void StartMenuOnSettingsClicked(object sender)
+    private void StartMenuSettingsClicked(object sender)
         => StartMenuOnSettingsEventHandler();
 
     private void StartMenuOnSettingsEventHandler()
         => _state = MenuState.Settings;
 
-    private void StartMenuOnSelectClicked(object sender)
+    private void StartMenuSelectClicked(object sender)
         => StartMenuOnSelectEventHandler();
 
     private void StartMenuOnSelectEventHandler()
@@ -198,7 +197,7 @@ internal class LevelManager
         _state = MenuState.LevelSelect;
     }
 
-    private void StartClickedMenuOnStartClicked(object sender)
+    private void StartMenuStartClicked(object sender)
         => StartMenuOnStartEventHandler();
 
     private void StartMenuOnStartEventHandler()
@@ -207,7 +206,7 @@ internal class LevelManager
         _state = MenuState.Level;
     }
 
-    private void SettingsOnExitEventHandler()
+    private void SettingsExitClicked()
     {
         _state = MenuState.StartMenu;
         ChangeWindowName?.Invoke(_settings.Name);
@@ -219,7 +218,7 @@ internal class LevelManager
         ChangeWindowName?.Invoke(_levelSelect.Name);
     }
 
-    private void SettingsOnWindowsResizeEventHandler(Vector2 newSize)
+    private void SettingsWindowResize(Vector2 newSize)
         => _startMenu.Window = newSize;
 
     private void InitializeLevelSelect()
@@ -227,7 +226,7 @@ internal class LevelManager
         _levelSelect = _levelFactory.GetSelectLevel(_storage);
         _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
         _levelSelect.LevelSelectedEventHandler += LevelSelected;
-        _levelSelect.CurrentMusicEventHandler += ALevelOnCurrentMusic;
+        _levelSelect.CurrentMusicEventHandler += CurrentMusic;
         ChangeWindowName?.Invoke(_levelSelect.Name);
     }
 }

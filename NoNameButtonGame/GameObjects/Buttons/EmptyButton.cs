@@ -30,6 +30,10 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
         }
     };
 
+    public EmptyButton() : this(Vector2.Zero, DefaultSize)
+    {
+    }
+    
     public EmptyButton(Vector2 position) : this(position, DefaultSize)
     {
     }

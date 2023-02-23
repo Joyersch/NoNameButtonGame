@@ -27,8 +27,12 @@ public class Storage : IChangeable
     public bool Load()
     {
         string path = $"{_basePath}/{nameof(Settings)}.json";
+        
+        // If file does not exits default settings have to be loaded.
+        // This only matters for settings as game-data does not need to have a value
         if (!File.Exists(path))
             return false;
+        
         try
         {
             using StreamReader settingsReader = new(path);
@@ -44,10 +48,7 @@ public class Storage : IChangeable
             using StreamReader gameDataReader = new($"{_basePath}/{nameof(GameData)}.json");
             GameData = JsonConvert.DeserializeObject<GameData>(gameDataReader.ReadToEnd());
         }
-        catch
-        {
-            return false;
-        }
+        catch { } // can be ignored as empty game-data is handleable
         return true;
     }
 
