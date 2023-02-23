@@ -14,11 +14,13 @@ public class SampleLevel : ILevel
 
     public event Action<string> CurrentMusicEventHandler;
 
-    public readonly CameraClass Camera;
+    public readonly Camera Camera;
     public Vector2 Window;
-    protected Vector2 CameraPosition;
+    protected Vector2 CameraPosition => Camera.Position;
+    protected Rectangle ExtendedCameraRectangle 
+        => Extensions.Rectangle.ExtendFromCenter(Camera.Rectangle, 1);
     protected Vector2 MousePosition;
-    protected Rectangle CameraRectangle;
+
     protected readonly int DefaultWidth;
     protected readonly int DefaultHeight;
     public string Name;
@@ -30,8 +32,7 @@ public class SampleLevel : ILevel
         this.DefaultHeight = defaultHeight;
         this.Random = random;
         Window = window;
-        Camera = new CameraClass(new Vector2(defaultWidth, defaultHeight));
-        CameraPosition = Vector2.Zero;
+        Camera = new Camera(Vector2.Zero, new Vector2(defaultWidth, defaultHeight));
         SetMousePositionToCenter();
     }
 
@@ -46,15 +47,12 @@ public class SampleLevel : ILevel
 
     public virtual void Update(GameTime gameTime)
     {
-        Camera.Update(CameraPosition, new Vector2(0, 0));
-
-        CameraRectangle = new Rectangle((CameraPosition - new Vector2(DefaultWidth, DefaultHeight)).ToPoint(),
-            new Point(DefaultWidth * 2, DefaultHeight * 2));
+        Camera.Update();
 
         var mouseVector = Mouse.GetState().Position.ToVector2();
         var screenScale = new Vector2(Window.X / DefaultWidth, Window.Y / DefaultHeight);
         var offset = new Vector2(DefaultWidth, DefaultHeight) / Camera.Zoom / 2;
-        MousePosition = mouseVector / screenScale / Camera.Zoom + CameraPosition - offset;
+        MousePosition = mouseVector / screenScale / Camera.Zoom + Camera.Position - offset;
     }
 
     public virtual void SetScreen(Vector2 screen) => Window = screen;

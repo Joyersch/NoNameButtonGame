@@ -22,7 +22,8 @@ namespace NoNameButtonGame.LevelSystem
         private bool _moveUp;
         private int _currentTicks;
 
-        public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage.Storage storage) : base(
+        public LevelSelect(int defaultWidth, int defaultHeight, Vector2 window, Random rand,
+            Storage.Storage storage) : base(
             defaultWidth, defaultHeight, window, rand)
         {
             Name = "Level Selection";
@@ -31,7 +32,7 @@ namespace NoNameButtonGame.LevelSystem
             _mousePointer = new MousePointer();
             _linker = new PositionListener();
             _linker.Add(_mousePointer, _mouseCursor);
-            
+
             int maxLevel = storage.GameData.MaxLevel;
             int screens = maxLevel / 30;
             _level = new List<MiniTextButton>();
@@ -99,21 +100,22 @@ namespace NoNameButtonGame.LevelSystem
         public override void Draw(SpriteBatch spriteBatch)
         {
             // Note: foreach is slower to run than for but as there aren't that many levels yet this should be fine
+            Console.WriteLine(ExtendedCameraRectangle);
             foreach (var levelButton in _level)
             {
-                if (levelButton.Rectangle.Intersects(CameraRectangle))
+                if (levelButton.Rectangle.Intersects(ExtendedCameraRectangle))
                     levelButton.Draw(spriteBatch);
             }
 
             foreach (var down in _down)
             {
-                if (down.Rectangle.Intersects(CameraRectangle))
+                if (down.Rectangle.Intersects(ExtendedCameraRectangle))
                     down.Draw(spriteBatch);
             }
 
             foreach (var up in _up)
             {
-                if (up.Rectangle.Intersects(CameraRectangle))
+                if (up.Rectangle.Intersects(ExtendedCameraRectangle))
                     up.Draw(spriteBatch);
             }
 
@@ -126,6 +128,7 @@ namespace NoNameButtonGame.LevelSystem
         {
             base.Update(gameTime);
             base.CurrentMusic(string.Empty);
+            Console.WriteLine(Camera.Position);
             if (_isInMove)
             {
                 _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -135,42 +138,44 @@ namespace NoNameButtonGame.LevelSystem
                     Vector2 sinWaveRoute =
                         new Vector2(0, 12.2F * (float) Math.Sin((float) _currentTicks / 50 * Math.PI));
                     if (_moveUp)
-                        CameraPosition -= sinWaveRoute;
+                        Camera.Move(Camera.Position - sinWaveRoute);
                     else
-                        CameraPosition += sinWaveRoute;
+                        Camera.Move(Camera.Position + sinWaveRoute);
                     _currentTicks--;
                     if (_currentTicks == 0)
                     {
                         float alignmentOffset = CameraPosition.Y % (DefaultHeight / Camera.Zoom);
                         if (!_moveUp)
-                            CameraPosition.Y += (DefaultHeight / Camera.Zoom) - alignmentOffset;
+                            Camera.Move(new Vector2(Camera.Position.X,
+                                Camera.Position.Y + (DefaultHeight / Camera.Zoom) - alignmentOffset));
                         else
-                            CameraPosition.Y -= alignmentOffset;
+                            Camera.Move(new Vector2(Camera.Position.X,
+                                Camera.Position.Y + alignmentOffset));
                         _isInMove = false;
                     }
                 }
             }
-            
+
             _mousePointer.Update(gameTime, MousePosition);
             _linker.Update(gameTime);
             _mouseCursor.Update(gameTime);
-            
+
             // Note: foreach is lower to run than for but as there aren't that many levels yet this should be fine
             foreach (var levelButton in _level)
             {
-                if (levelButton.Rectangle.Intersects(CameraRectangle))
+                if (levelButton.Rectangle.Intersects(ExtendedCameraRectangle))
                     levelButton.Update(gameTime, _mouseCursor.Hitbox[0]);
             }
 
             foreach (var down in _down)
             {
-                if (down.Rectangle.Intersects(CameraRectangle))
+                if (down.Rectangle.Intersects(ExtendedCameraRectangle))
                     down.Update(gameTime, _mouseCursor.Hitbox[0]);
             }
 
             foreach (var up in _up)
             {
-                if (up.Rectangle.Intersects(CameraRectangle))
+                if (up.Rectangle.Intersects(ExtendedCameraRectangle))
                     up.Update(gameTime, _mouseCursor.Hitbox[0]);
             }
         }

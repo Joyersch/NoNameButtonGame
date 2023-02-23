@@ -9,6 +9,13 @@ public class OverTimeMover // ToDo: this for select level
     private IMoveable moveable;
     private int currentTicks;
     private readonly bool inMove = false;
+
+    private Camera _camera;
+
+    public OverTimeMover(Camera camera)
+    {
+        _camera = camera;
+    }
     
     public void Update(GameTime gameTime)
     {

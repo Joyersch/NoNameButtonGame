@@ -34,7 +34,7 @@ internal class LevelManager
         LevelSelect
     }
 
-    public CameraClass CurrentCamera =>
+    public Camera CurrentCamera =>
         _state switch
         {
             MenuState.Settings => _settings.Camera,
