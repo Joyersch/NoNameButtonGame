@@ -10,7 +10,7 @@ using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem;
 
-internal class StartScreen : SampleLevel
+public class StartScreen : SampleLevel
 {
     private readonly TextButton _startButton;
     private readonly TextButton _settingsButton;

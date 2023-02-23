@@ -9,7 +9,7 @@ using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem
 {
-    internal class LevelSelect : SampleLevel
+    public class LevelSelect : SampleLevel
     {
         private readonly List<MiniTextButton> _level;
         private readonly List<MiniTextButton> _down;

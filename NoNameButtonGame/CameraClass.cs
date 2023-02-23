@@ -2,7 +2,7 @@
 
 namespace NoNameButtonGame;
 
-internal class CameraClass
+public class CameraClass
 {
     public Matrix CameraMatrix { get; private set; }
     public readonly float Zoom = 2f;

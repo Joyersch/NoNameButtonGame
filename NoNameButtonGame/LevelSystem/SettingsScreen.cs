@@ -10,7 +10,7 @@ using NoNameButtonGame.GameObjects.Text;
 
 namespace NoNameButtonGame.LevelSystem;
 
-internal class SettingsScreen : SampleLevel
+public class SettingsScreen : SampleLevel
 {
     private readonly TextBuilder _resolutionInfo;
     private readonly ValueSelection _resolution;

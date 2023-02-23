@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame.LevelSystem;
 
-internal class SampleLevel : ILevel
+public class SampleLevel : ILevel
 {
     public event Action FailEventHandler;
     public event Action ExitEventHandler;

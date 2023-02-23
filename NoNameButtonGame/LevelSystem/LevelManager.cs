@@ -13,6 +13,7 @@ internal class LevelManager
     private StartScreen _startMenu;
     private SettingsScreen _settings;
     private LevelSelect _levelSelect;
+    private LevelFactory _levelFactory;
 
     private Display.Display _display;
     private Storage.Storage _storage;
@@ -53,16 +54,17 @@ internal class LevelManager
         _state = MenuState.StartMenu;
         _currentSelectLevel = storage.GameData.MaxLevel;
 
-        _startMenu = new StartScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+        _levelFactory = new LevelFactory((int) _display.DefaultWidth, (int) _display.DefaultHeight,
             _storage.Settings.Resolution.ToVertor2(), _random);
+
+        _startMenu = _levelFactory.GetStartLevel();
         _startMenu.StartClicked += StartClickedMenuOnStartClicked;
         _startMenu.SelectClicked += StartMenuOnSelectClicked;
         _startMenu.SettingsClicked += StartMenuOnSettingsClicked;
         _startMenu.ExitClicked += StartMenuOnExitClicked;
         _startMenu.CurrentMusicEventHandler += ALevelOnCurrentMusic;
 
-        _settings = new SettingsScreen((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-            _storage.Settings.Resolution.ToVertor2(), _random, storage);
+        _settings = _levelFactory.GetSettingsLevel(storage);
         _settings.ExitEventHandler += SettingsOnExitEventHandler;
         _settings.WindowsResizeEventHandler += SettingsOnWindowsResizeEventHandler;
         _settings.CurrentMusicEventHandler += ALevelOnCurrentMusic;
@@ -101,18 +103,7 @@ internal class LevelManager
 
     private void SelectLevel(int level)
     {
-        var width = (int) _display.DefaultWidth;
-        var height = (int) _display.DefaultHeight;
-        var screen = _storage.Settings.Resolution.ToVertor2();
-        // ToDo: LevelFactory
-        _currentLevel = level switch
-        {
-            1 => new Level1(width, height, screen, _random),
-            2 => new Level2(width, height, screen, _random),
-            3 => new Level3(width, height, screen, _random),
-            4 => new Level4(width, height, screen, _random),
-            _ => new LevelNull(width, height, screen, _random),
-        };
+        _currentLevel = _levelFactory.GetLevel(level);
         _currentLevel.FinishEventHandler += LevelFinish;
         _currentLevel.FailEventHandler += LevelFail;
         _currentLevel.ExitEventHandler += LevelExitEventHandler;
@@ -233,8 +224,7 @@ internal class LevelManager
 
     private void InitializeLevelSelect()
     {
-        _levelSelect = new LevelSelect((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-            _storage.Settings.Resolution.ToVertor2(), _random, _storage);
+        _levelSelect = _levelFactory.GetSelectLevel(_storage);
         _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
         _levelSelect.LevelSelectedEventHandler += LevelSelected;
         _levelSelect.CurrentMusicEventHandler += ALevelOnCurrentMusic;
