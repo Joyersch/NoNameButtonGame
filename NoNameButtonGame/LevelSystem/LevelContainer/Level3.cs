@@ -5,7 +5,7 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
@@ -13,8 +13,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 internal class Level3 : SampleLevel
 {
     private readonly Cursor _mouseCursor;
-    private readonly TextBuilder _infoAboutButton;
-    private readonly TextBuilder _infoAboutButton2;
+    private readonly Text _infoAboutButton;
+    private readonly Text _infoAboutButton2;
     private readonly MousePointer _mousePointer;
     private readonly PositionListener _linker;
     private readonly CounterButtonAddon _counterButtonAddon;
@@ -26,10 +26,10 @@ internal class Level3 : SampleLevel
         var stateButton = new TextButton("Finish Level");
         stateButton.Move(-EmptyButton.DefaultSize / 2);
 
-        _infoAboutButton = new TextBuilder("This button has a counter");
+        _infoAboutButton = new Text("This button has a counter");
         _infoAboutButton.Move(new Vector2(-_infoAboutButton.Rectangle.Width / 2F, -64));
         
-        _infoAboutButton2 = new TextBuilder("Press the button to lower the counter and when it hits 0 you win!");
+        _infoAboutButton2 = new Text("Press the button to lower the counter and when it hits 0 you win!");
         _infoAboutButton2.Move(new Vector2(-_infoAboutButton2.Rectangle.Width / 2F,
             64 - _infoAboutButton2.Rectangle.Height));
 

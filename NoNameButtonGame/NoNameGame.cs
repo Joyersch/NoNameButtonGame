@@ -10,7 +10,7 @@ using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 using NoNameButtonGame.Storage;

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
@@ -11,7 +11,7 @@ internal class LevelNull : SampleLevel
 {
     private readonly TextButton _failButton;
     private readonly Cursor _mouseCursor;
-    private readonly TextBuilder _info;
+    private readonly Text _info;
 
     public LevelNull(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
         defaultHeight, window, rand)
@@ -23,7 +23,7 @@ internal class LevelNull : SampleLevel
         _failButton.Click += Fail;
         _mouseCursor = new Cursor(new Vector2(0, 0));
         Name = "Level 404";
-        _info = new TextBuilder("Unknown level requested [404]", Vector2.Zero);
+        _info = new Text("Unknown level requested [404]", Vector2.Zero);
         _info.Move(-_info.Rectangle.Size.ToVector2() / 2F + new Vector2(0,-64));
     }
 

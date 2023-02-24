@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
@@ -11,7 +11,7 @@ public class HoldButtonAddon : GameObject
     public event Action TimerReachedZero;
     
     private readonly EmptyButton _button;
-    private readonly TextBuilder _timer;
+    private readonly TextSystem.Text _timer;
     private readonly float _startTime;
     private bool _isHover;
     private float _time;
@@ -26,7 +26,7 @@ public class HoldButtonAddon : GameObject
         _time = _startTime;
         button.Enter += o => _isHover = true; 
         button.Leave += o => _isHover = false; 
-        _timer = new TextBuilder((_startTime / 1000F).ToString("0.0"),
+        _timer = new TextSystem.Text((_startTime / 1000F).ToString("0.0"),
             button.Position);
         pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
     }

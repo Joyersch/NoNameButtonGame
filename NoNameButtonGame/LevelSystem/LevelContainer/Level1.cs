@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer;
@@ -13,7 +13,7 @@ internal class Level1 : SampleLevel
 {
     private readonly TextButton _startButton;
     private readonly Cursor _mouseCursor;
-    private readonly TextBuilder _infoText;
+    private readonly Text _infoText;
     private readonly PositionListener _positionListener;
     private readonly MousePointer _mouse;
 
@@ -25,7 +25,7 @@ internal class Level1 : SampleLevel
         _startButton.Move(-TextButton.DefaultSize / 2);
         _startButton.Click += Finish;
 
-        _infoText = new TextBuilder("How hard can it be?");
+        _infoText = new Text("How hard can it be?");
         _infoText.Move(Vector2.Zero -
                        new Vector2(_infoText.Rectangle.Width,
                            _infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);

@@ -6,27 +6,27 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.Groups;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem;
 
 public class SettingsScreen : SampleLevel
 {
-    private readonly TextBuilder _resolutionInfo;
+    private readonly Text _resolutionInfo;
     private readonly ValueSelection _resolution;
 
-    private readonly TextBuilder _fixedStepText;
+    private readonly Text _fixedStepText;
     private readonly SquareTextButton _fixedStepButton;
 
-    private readonly TextBuilder _fullscreenText;
+    private readonly Text _fullscreenText;
     private readonly SquareTextButton _fullscreenButton;
 
     private readonly Cursor _mouseCursor;
 
-    private readonly TextBuilder _musicInfo;
+    private readonly Text _musicInfo;
     private readonly ValueSelection _musicVolume;
     
-    private readonly TextBuilder _sfxInfo;
+    private readonly Text _sfxInfo;
     private readonly ValueSelection _sfxVolume;
 
 
@@ -68,7 +68,7 @@ public class SettingsScreen : SampleLevel
         if (index == -1)
             index++;
 
-        _resolutionInfo = new TextBuilder("Resolution", leftAnchor);
+        _resolutionInfo = new Text("Resolution", leftAnchor);
 
         leftAnchor += new Vector2(0, _resolutionInfo.Rectangle.Height + 4);
 
@@ -80,7 +80,7 @@ public class SettingsScreen : SampleLevel
         _fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
         _fullscreenButton.Text.ChangeColor(new[] {settingTwo == _crossout ? Color.Red : Color.Green});
         _fullscreenButton.Click += ChangePressState;
-        _fullscreenText = new TextBuilder("Fullscreen", Vector2.Zero);
+        _fullscreenText = new Text("Fullscreen", Vector2.Zero);
         _fullscreenText.Move(leftAnchor + new Vector2(_fullscreenButton.Rectangle.Width + 4,
             _fullscreenButton.Rectangle.Height / 2 - _fullscreenText.Rectangle.Height / 2));
 
@@ -89,7 +89,7 @@ public class SettingsScreen : SampleLevel
         _fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne);
         _fixedStepButton.Text.ChangeColor(new[] {settingOne == _crossout ? Color.Red : Color.Green});
         _fixedStepButton.Click += ChangePressState;
-        _fixedStepText = new TextBuilder("FPS-Limit", Vector2.Zero);
+        _fixedStepText = new Text("FPS-Limit", Vector2.Zero);
         _fixedStepText.Move(leftAnchor + new Vector2(_fixedStepButton.Rectangle.Width + 4,
             _fixedStepButton.Rectangle.Height / 2 - _fixedStepText.Rectangle.Height / 2));
 
@@ -98,7 +98,7 @@ public class SettingsScreen : SampleLevel
         for (int i = 0; i <= 10; i++)
             volumeValues.Add(i.ToString());
 
-        _musicInfo = new TextBuilder("Music Volume", rightAnchor);
+        _musicInfo = new Text("Music Volume", rightAnchor);
 
         rightAnchor += new Vector2(0, _musicInfo.Rectangle.Height + 4);
 
@@ -107,7 +107,7 @@ public class SettingsScreen : SampleLevel
         
         rightAnchor += new Vector2(0, _musicVolume.Rectangle.Height + 4);
         
-        _sfxInfo = new TextBuilder("SFX Volume", rightAnchor);
+        _sfxInfo = new Text("SFX Volume", rightAnchor);
 
         rightAnchor += new Vector2(0, _sfxInfo.Rectangle.Height + 4);
 
@@ -154,8 +154,8 @@ public class SettingsScreen : SampleLevel
                 break;
         }
 
-        _storage.Settings.IsFixedStep = _fixedStepButton.Text.Text == _checkmark;
-        _storage.Settings.IsFullscreen = _fullscreenButton.Text.Text == _checkmark;
+        _storage.Settings.IsFixedStep = _fixedStepButton.Text.Value == _checkmark;
+        _storage.Settings.IsFullscreen = _fullscreenButton.Text.Value == _checkmark;
     }
 
     public override void Update(GameTime gameTime)

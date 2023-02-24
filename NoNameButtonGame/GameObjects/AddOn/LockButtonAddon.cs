@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
@@ -11,7 +11,7 @@ public class LockButtonAddon : GameObject
     public bool IsLocked { get; private set; } = true;
 
     private readonly EmptyButton _button;
-    private readonly TextBuilder _text;
+    private readonly TextSystem.Text _text;
 
     public event Action<object> Callback;
 
@@ -20,7 +20,7 @@ public class LockButtonAddon : GameObject
     {
         this._button = button;
         button.Click += ClickHandler;
-        _text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
+        _text = new TextSystem.Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
     }
 

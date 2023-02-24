@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
@@ -12,7 +12,7 @@ public class CounterButtonAddon : GameObject
 
     private int _states;
     private readonly EmptyButton _button;
-    private readonly TextBuilder _text;
+    private readonly TextSystem.Text _text;
 
     public CounterButtonAddon(EmptyButton button, int startStates) : base(
         button.Position, button.Size, DefaultTexture, DefaultMapping)
@@ -20,7 +20,7 @@ public class CounterButtonAddon : GameObject
         this._button = button;
         _states = startStates;
         button.Click += ClickHandler;
-        _text = new TextBuilder(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
+        _text = new TextSystem.Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
             button.Position);
         UpdateText();
     }

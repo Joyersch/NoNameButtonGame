@@ -1,9 +1,12 @@
+using System;
 using Microsoft.Xna.Framework;
 
-namespace NoNameButtonGame.GameObjects.Text;
+namespace NoNameButtonGame.GameObjects.TextSystem;
 
-public class DelayedText : TextBuilder
+public class DelayedText : Text
 {
+    public event Action FinishedPlaying;
+    
     private readonly string _toDisplayText;
     private string _currentlyDisplayed = string.Empty;
     private int _textPointer = int.MaxValue;
@@ -53,11 +56,7 @@ public class DelayedText : TextBuilder
         }
         if (_textPointer < _toDisplayText.Length && canDisplay)
             _savedGameTime += passedGameTime;
-        else if (IsPlaying)
-        {
-            IsPlaying = false;
-            HasPlayed = true;
-        }
+
 
         while (_savedGameTime > DisplayDelay && canDisplay)
         {
@@ -66,10 +65,17 @@ public class DelayedText : TextBuilder
             _textPointer++;
         }
 
-        if (Text != _currentlyDisplayed)
+        if (Value != _currentlyDisplayed)
             ChangeText(_currentlyDisplayed);
-
+        
         base.Update(gameTime);
+        
+        if (IsPlaying && _textPointer == _toDisplayText.Length)
+        {
+            IsPlaying = false;
+            HasPlayed = true;
+            FinishedPlaying?.Invoke();
+        }
     }
 
     public void Start()
@@ -79,4 +85,7 @@ public class DelayedText : TextBuilder
         _currentlyDisplayed = string.Empty;
         IsPlaying = true;
     }
+
+    public Text GetBaseCopy()
+        => new Text(_toDisplayText, Position, Size, _spacing);
 }

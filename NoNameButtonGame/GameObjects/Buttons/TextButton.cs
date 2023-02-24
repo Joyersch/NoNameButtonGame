@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.GameObjects.Texture;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
 public class TextButton : EmptyButton
 {
-    public TextBuilder Text { get; }
+    public TextSystem.Text Text { get; }
     public string Name { get; }
     public new static Vector2 DefaultSize => new Vector2(128, 64);
     public static Vector2 DefaultTextSize => new Vector2(16, 16);
@@ -52,7 +52,7 @@ public class TextButton : EmptyButton
         Vector2 textSize, int spacing, Texture2D texture, TextureHitboxMapping mapping) :
         base(position, size, texture, mapping)
     {
-        Text = new TextBuilder(text, Position, textSize, spacing);
+        Text = new TextSystem.Text(text, Position, textSize, spacing);
         Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
         Name = name;
     }

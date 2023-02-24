@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.GameObjects.Text;
+using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -20,7 +20,7 @@ public class StartScreen : SampleLevel
     private readonly Cursor _mouseCursor;
     private readonly MousePointer _mousePointer;
     private readonly PositionListener _linker;
-    private readonly TextBuilder _header;
+    private readonly Text _header;
 
     public event Action<object> StartClicked;
     public event Action<object> SelectClicked;
@@ -52,7 +52,7 @@ public class StartScreen : SampleLevel
         _exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), "Exit");
         _exitButton.Click += ExitButtonPressed;
 
-        _header = new TextBuilder("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
+        _header = new Text("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
         _header.ChangePosition(-_header.Rectangle.Size.ToVector2() / 2 +
                                new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
 

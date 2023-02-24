@@ -4,17 +4,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 
-namespace NoNameButtonGame.GameObjects.Text;
+namespace NoNameButtonGame.GameObjects.TextSystem;
 
-public class TextBuilder : IColorable, IMoveable
+public class Text : IColorable, IMoveable
 {
     private Letter[] _letters;
-    private readonly int _spacing;
+    protected readonly int _spacing;
     private string _represent;
     public Vector2 Position;
     public Vector2 Size;
     public Rectangle Rectangle;
-    public string Text => _represent;
+    public string Value => _represent;
 
     public Letter this[int i] => _letters[i];
 
@@ -22,24 +22,24 @@ public class TextBuilder : IColorable, IMoveable
 
     public static Vector2 DefaultLetterSize => new Vector2(16, 16);
 
-    public TextBuilder(string text) : this(text, Vector2.Zero, DefaultLetterSize, 1)
+    public Text(string text) : this(text, Vector2.Zero, DefaultLetterSize, 1)
     {
     }
     
-    public TextBuilder(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
+    public Text(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
     {
     }
 
-    public TextBuilder(string text, Vector2 position, float scale) : this(text, position, DefaultLetterSize * scale, 1)
+    public Text(string text, Vector2 position, float scale) : this(text, position, DefaultLetterSize * scale, 1)
     {
     }
 
-    public TextBuilder(string text, Vector2 position, float scale, int spacing) : this(text, position,
+    public Text(string text, Vector2 position, float scale, int spacing) : this(text, position,
         DefaultLetterSize * scale, spacing)
     {
     }
 
-    public TextBuilder(string text, Vector2 position, Vector2 letterSize, int spacing)
+    public Text(string text, Vector2 position, Vector2 letterSize, int spacing)
     {
         _spacing = spacing;
         Size = letterSize;

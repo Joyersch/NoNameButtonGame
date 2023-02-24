@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Texture;
 
-namespace NoNameButtonGame.GameObjects.Text;
+namespace NoNameButtonGame.GameObjects.TextSystem;
 
 public class Letter : GameObject
 {

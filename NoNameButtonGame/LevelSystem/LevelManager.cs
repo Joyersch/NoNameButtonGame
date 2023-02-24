@@ -69,6 +69,25 @@ internal class LevelManager
         _settings.CurrentMusicEventHandler += CurrentMusic;
         InitializeLevelSelect();
     }
+    
+    private void InitializeLevelSelect()
+    {
+        _levelSelect = _levelFactory.GetSelectLevel(_storage);
+        _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
+        _levelSelect.LevelSelectedEventHandler += LevelSelected;
+        _levelSelect.CurrentMusicEventHandler += CurrentMusic;
+        ChangeWindowName?.Invoke(_levelSelect.Name);
+    }
+    
+    private void SelectLevel(int level)
+    {
+        _currentLevel = _levelFactory.GetLevel(level);
+        _currentLevel.FinishEventHandler += LevelFinish;
+        _currentLevel.FailEventHandler += LevelFail;
+        _currentLevel.ExitEventHandler += LevelExitEventHandler;
+        _currentLevel.CurrentMusicEventHandler += CurrentMusic;
+        ChangeWindowName?.Invoke(_currentLevel.Name);
+    }
 
     public void Update(GameTime gameTime)
     {
@@ -99,17 +118,7 @@ internal class LevelManager
         };
         level.Draw(spriteBatch);
     }
-
-    private void SelectLevel(int level)
-    {
-        _currentLevel = _levelFactory.GetLevel(level);
-        _currentLevel.FinishEventHandler += LevelFinish;
-        _currentLevel.FailEventHandler += LevelFail;
-        _currentLevel.ExitEventHandler += LevelExitEventHandler;
-        _currentLevel.CurrentMusicEventHandler += CurrentMusic;
-        ChangeWindowName?.Invoke(_currentLevel.Name);
-    }
-
+    
     private void CurrentMusic(string newMusic)
     {
         // updates music volume on settings change!
@@ -219,14 +228,8 @@ internal class LevelManager
     }
 
     private void SettingsWindowResize(Vector2 newSize)
-        => _startMenu.Window = newSize;
-
-    private void InitializeLevelSelect()
     {
-        _levelSelect = _levelFactory.GetSelectLevel(_storage);
-        _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
-        _levelSelect.LevelSelectedEventHandler += LevelSelected;
-        _levelSelect.CurrentMusicEventHandler += CurrentMusic;
-        ChangeWindowName?.Invoke(_levelSelect.Name);
+        _levelFactory.ChangeScreenSize(newSize);
+        _startMenu.Window = newSize;
     }
 }
