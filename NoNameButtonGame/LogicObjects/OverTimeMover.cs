@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Interfaces;
 
@@ -5,46 +6,70 @@ namespace NoNameButtonGame.LogicObjects;
 
 public class OverTimeMover // ToDo: this for select level
 {
-    private float _savedGameTime;
-    private IMoveable moveable;
-    private int currentTicks;
-    private readonly bool inMove = false;
+    private IMoveable _moveable;
+    private MoveMode _mode;
+    private float _moveIn;
+    private Vector2 _start;
+    private Vector2 _destination;
 
-    private Camera _camera;
-
-    public OverTimeMover(Camera camera)
-    {
-        _camera = camera;
-    }
+    private float _currentMoveTime;
     
+    private float _savedGameTime;
+
+    
+    public bool IsMoving { get; private set; }
+
+    public event Action ArrivedOnDestination;
+
+    public OverTimeMover(IMoveable moveable, Vector2 moveTo, float moveInTime, MoveMode moveMode)
+
+    {
+        _moveable = moveable;
+        _mode = moveMode;
+        _moveIn = moveInTime;
+        _destination = moveTo;
+        _start = _moveable.GetPosition();
+    }
+
     public void Update(GameTime gameTime)
     {
-        if (!inMove)
+        if (!IsMoving)
             return;
         
-        _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        var position = moveable.GetPosition();
-        while (_savedGameTime > 10)
+        _currentMoveTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+
+        // This has to be calculated every time, since destination can be changes from the outside
+        var move = _destination - _start;
+        
+        var moveTo = _mode switch
         {
-            /*
-            savedGameTime -= 10;
-            Vector2 sinWaveRoute =
-                new Vector2(0, 12.2F * (float) Math.Sin((float) currentTicks / 50 * Math.PI));
-            if (moveUp)
-                cameraPosition -= sinWaveRoute;
-            else
-                cameraPosition += sinWaveRoute;
-            currentTicks--;
-            if (currentTicks == 0)
-            {
-                float alignmentOffset = cameraPosition.Y % (defaultHeight / Camera.Zoom);
-                if (!moveUp)
-                    cameraPosition.Y += (defaultHeight / Camera.Zoom) - alignmentOffset;
-                else
-                    cameraPosition.Y -= alignmentOffset;
-                isInMove = false;
-            }
-            */
+            MoveMode.Lin => move * _currentMoveTime / _moveIn,
+            MoveMode.Sin => move * (float) Math.Sin(_currentMoveTime / _moveIn * (Math.PI / 2))
+        };
+        
+        _moveable.Move(_start + moveTo);
+        
+        if (_currentMoveTime >= _moveIn)
+        {
+            _moveable.Move(_destination);
+            _start = _moveable.GetPosition();
+            IsMoving = false;
+            ArrivedOnDestination?.Invoke();
         }
+    }
+
+    public void Start()
+    {
+        IsMoving = true;
+        _currentMoveTime = 0;
+    }
+
+    public void ChangeDestination(Vector2 newDestination)
+        => _destination = newDestination;
+    
+    public enum MoveMode
+    {
+        Lin,
+        Sin
     }
 }
