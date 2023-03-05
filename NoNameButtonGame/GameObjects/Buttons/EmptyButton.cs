@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public event Action<object> Enter;
     public event Action<object> Click;
     protected bool Hover;
-    
+
     private SoundEffectInstance _soundEffectInstance;
 
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize * 4;
@@ -33,7 +34,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public EmptyButton() : this(Vector2.Zero, DefaultSize)
     {
     }
-    
+
     public EmptyButton(Vector2 position) : this(position, DefaultSize)
     {
     }
@@ -80,11 +81,8 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
     public Vector2 GetPosition()
         => Position;
 
-    public virtual bool Move(Vector2 newPosition)
-    {
-        Position = newPosition;
-        return true;
-    }
+    public virtual void Move(Vector2 newPosition)
+        => Position = newPosition;
 
     protected void InvokeClickEventHandler()
     {
@@ -98,4 +96,10 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
 
     protected void InvokeLeaveEventHandler()
         => Leave?.Invoke(this);
+
+    public void ChangeSoundEffect(string key)
+    {
+        _soundEffectInstance.Dispose();
+        _soundEffectInstance = Globals.SoundEffects.GetSfxInstance(key);
+    }
 }

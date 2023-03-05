@@ -16,6 +16,18 @@ public class TextButton : EmptyButton
     {
     }
     
+    public TextButton(string text, float scale) : this(string.Empty, text, scale)
+    {
+    }
+    
+    public TextButton(string text, string name) : this(Vector2.Zero, name, text)
+    {
+    }
+    
+    public TextButton(string text, string name, float scale) : this(Vector2.Zero, scale, name, text)
+    {
+    }
+    
     public TextButton(Vector2 position, string text) : this(position, string.Empty, text)
     {
     }
@@ -57,12 +69,11 @@ public class TextButton : EmptyButton
         Name = name;
     }
 
-    public override bool Move(Vector2 newPosition)
+    public override void Move(Vector2 newPosition)
     {
-        var success = base.Move(newPosition);
+        base.Move(newPosition);
         UpdateRectangle();
-        Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
-        return success;
+        Text.Move(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
     }
 
     public override void Update(GameTime gameTime, Rectangle mousePos)

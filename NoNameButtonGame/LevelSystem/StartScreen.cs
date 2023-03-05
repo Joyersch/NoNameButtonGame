@@ -18,7 +18,6 @@ public class StartScreen : SampleLevel
     private readonly TextButton _exitButton;
     private readonly TextButton _creditButton;
     private readonly Cursor _mouseCursor;
-    private readonly MousePointer _mousePointer;
     private readonly PositionListener _linker;
     private readonly Text _header;
 
@@ -56,10 +55,9 @@ public class StartScreen : SampleLevel
         _header.ChangePosition(-_header.Rectangle.Size.ToVector2() / 2 +
                                new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
 
-        _mouseCursor = new Cursor(Vector2.Zero);
-        _mousePointer = new MousePointer();
+        _mouseCursor = new Cursor();
         _linker = new PositionListener();
-        _linker.Add(_mousePointer, _mouseCursor);
+        _linker.Add(_mouse, _mouseCursor);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -80,9 +78,7 @@ public class StartScreen : SampleLevel
     {
         base.Update(gameTime);
         base.CurrentMusic("TitleMusic");
-        _mousePointer.Update(gameTime, MousePosition);
         _linker.Update(gameTime);
-
         _mouseCursor.Update(gameTime);
 
         _startButton.Update(gameTime, _mouseCursor.Hitbox[0]);

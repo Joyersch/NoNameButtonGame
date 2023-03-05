@@ -54,7 +54,7 @@ internal class LevelManager
         _currentSelectLevel = storage.GameData.MaxLevel;
 
         _levelFactory = new LevelFactory((int) _display.DefaultWidth, (int) _display.DefaultHeight,
-            _storage.Settings.Resolution.ToVertor2(), _random);
+            _storage.Settings.Resolution.ToVertor2(), _random, storage);
 
         _startMenu = _levelFactory.GetStartLevel();
         _startMenu.StartClicked += StartMenuStartClicked;
@@ -63,7 +63,7 @@ internal class LevelManager
         _startMenu.ExitClicked += StartMenuExitClicked;
         _startMenu.CurrentMusicEventHandler += CurrentMusic;
 
-        _settings = _levelFactory.GetSettingsLevel(storage);
+        _settings = _levelFactory.GetSettingsLevel();
         _settings.ExitEventHandler += SettingsExitClicked;
         _settings.WindowsResizeEventHandler += SettingsWindowResize;
         _settings.CurrentMusicEventHandler += CurrentMusic;
@@ -72,7 +72,7 @@ internal class LevelManager
     
     private void InitializeLevelSelect()
     {
-        _levelSelect = _levelFactory.GetSelectLevel(_storage);
+        _levelSelect = _levelFactory.GetSelectLevel();
         _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
         _levelSelect.LevelSelectedEventHandler += LevelSelected;
         _levelSelect.CurrentMusicEventHandler += CurrentMusic;

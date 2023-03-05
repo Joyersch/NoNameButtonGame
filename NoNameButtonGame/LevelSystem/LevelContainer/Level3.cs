@@ -15,7 +15,6 @@ internal class Level3 : SampleLevel
     private readonly Cursor _mouseCursor;
     private readonly Text _infoAboutButton;
     private readonly Text _infoAboutButton2;
-    private readonly MousePointer _mousePointer;
     private readonly PositionListener _linker;
     private readonly CounterButtonAddon _counterButtonAddon;
 
@@ -34,10 +33,9 @@ internal class Level3 : SampleLevel
             64 - _infoAboutButton2.Rectangle.Height));
 
         _mouseCursor = new Cursor();
-        _mousePointer = new MousePointer();
         
         _linker = new PositionListener();
-        _linker.Add(_mousePointer, _mouseCursor);
+        _linker.Add(_mouse, _mouseCursor);
         
         _counterButtonAddon = new CounterButtonAddon(stateButton, 5);
         _counterButtonAddon.StateReachedZero += Finish;
@@ -46,7 +44,6 @@ internal class Level3 : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        _mousePointer.Update(gameTime, MousePosition);
         _linker.Update(gameTime);
         _mouseCursor.Update(gameTime);
         _counterButtonAddon.Update(gameTime, _mouseCursor.Hitbox[0]);

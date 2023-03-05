@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Texture;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects;
 
-internal class Cursor : GameObject
+internal class Cursor : GameObject, IMoveable
 {
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize;
     public new static Texture2D DefaultTexture;
@@ -21,7 +22,7 @@ internal class Cursor : GameObject
     public Cursor() : this(Vector2.Zero)
     {
     }
-    
+
     public Cursor(Vector2 position) : this(position, DefaultSize)
     {
     }
@@ -34,5 +35,10 @@ internal class Cursor : GameObject
     {
         ImageLocation = Rectangle.Empty;
     }
-    
+
+    public Vector2 GetPosition()
+        => Position;
+
+    public void Move(Vector2 newPosition)
+        => Position = newPosition;
 }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Interfaces;
@@ -11,19 +12,20 @@ public class Camera : IMoveable
     public Vector2 Position { get; private set; }
     public Vector2 Size { get; private set; }
     public Rectangle Rectangle { get; private set; }
-    
+
     public float Zoom = 2f;
 
     public Camera(Vector2 position, Vector2 size)
     {
         Size = size;
         Position = position;
+        Rectangle = new Rectangle((Position - Size / Zoom / 2).ToPoint(), (Size / Zoom).ToPoint());
     }
 
     public void Update()
     {
         UpdateMatrix();
-        Rectangle = new Rectangle(Position.ToPoint(), (Size / Zoom).ToPoint());
+        Rectangle = new Rectangle((Position - Size / Zoom / 2).ToPoint(), (Size / Zoom).ToPoint());
     }
     private void UpdateMatrix()
     {
@@ -35,9 +37,6 @@ public class Camera : IMoveable
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 newPosition)
-    {
-        Position = newPosition;
-        return true;
-    }
+    public void Move(Vector2 newPosition)
+    => Position = newPosition;
 }

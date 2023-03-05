@@ -102,7 +102,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 newPosition)
+    public void Move(Vector2 newPosition)
     {
         var offset = newPosition - Position;
         Position += offset;
@@ -110,8 +110,6 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         {
             block.Move(block.Position + offset);
         }
-
-        return true;
     }
 
     public void ChangeColor(Color[] input)

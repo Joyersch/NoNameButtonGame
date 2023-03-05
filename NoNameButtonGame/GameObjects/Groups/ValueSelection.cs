@@ -67,28 +67,15 @@ public class ValueSelection : GameObject, IMoveable
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 newPosition)
+    public void Move(Vector2 newPosition)
     {
-        var cache1 = _display.Position;
-        var cache2 = _decreaseButton.Position;
-        var cache3 = _increaseButton.Position;
+        _decreaseButton.Move(newPosition);
 
-        var x1 = _decreaseButton.Move(newPosition);
-
-        var x2 = _display.Move(_decreaseButton.Position + new Vector2(_decreaseButton.Rectangle.Width + 4,
+        _display.Move(_decreaseButton.Position + new Vector2(_decreaseButton.Rectangle.Width + 4,
             _decreaseButton.Rectangle.Height / 2 - _display.Rectangle.Height / 2));
 
-        var x3 = _increaseButton.Move(_display.Position + new Vector2(_display.Rectangle.Width + 4,
+        _increaseButton.Move(_display.Position + new Vector2(_display.Rectangle.Width + 4,
             _display.Rectangle.Height / 2 - _increaseButton.Rectangle.Height / 2));
-
-        if (!(x1 && x2 && x3))
-        {
-            _display.Position = cache1;
-            _decreaseButton.Position = cache2;
-            _increaseButton.Position = cache3;
-        }
-
-        return x1 && x2 && x3;
     }
 
     public void Update(GameTime gameTime, Rectangle mousePointer)

@@ -15,7 +15,6 @@ internal class Level1 : SampleLevel
     private readonly Cursor _mouseCursor;
     private readonly Text _infoText;
     private readonly PositionListener _positionListener;
-    private readonly MousePointer _mouse;
 
     public Level1(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
         defaultHeight, window, random)
@@ -31,16 +30,14 @@ internal class Level1 : SampleLevel
                            _infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
         
         _mouseCursor = new Cursor();
-        _mouse = new MousePointer();
         
         _positionListener = new PositionListener();
-        _positionListener.Add(_mouse, _mouseCursor);
+        _positionListener.Add(base._mouse, _mouseCursor);
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        _mouse.Update(gameTime, MousePosition);
         _positionListener.Update(gameTime);
         _mouseCursor.Update(gameTime);
         _startButton.Update(gameTime, _mouseCursor.Hitbox[0]);

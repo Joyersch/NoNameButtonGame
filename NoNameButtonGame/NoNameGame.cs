@@ -98,6 +98,7 @@ public class NoNameGame : Game
         Globals.SoundEffects.AddMusicToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
         Globals.SoundEffects.AddSfxToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
         Globals.SoundEffects.AddSfxToCache("Talking", Content.GetSfx("NoNameButtonSound"));
+        Globals.SoundEffects.AddSfxToCache("effect_3", Content.GetSfx("effect_3"));
     }
 
     protected override void Update(GameTime gameTime)

@@ -11,12 +11,15 @@ public class LevelFactory
     private readonly Random _random;
     private Vector2 _screen;
 
-    public LevelFactory(int width, int height, Vector2 screen, Random random)
+    private readonly Storage.Storage _storage;
+
+    public LevelFactory(int width, int height, Vector2 screen, Random random, Storage.Storage storage)
     {
         _width = width;
         _height = height;
         _screen = screen;
         _random = random;
+        _storage = storage;
     }
 
     public void ChangeScreenSize(Vector2 screen)
@@ -25,11 +28,11 @@ public class LevelFactory
     public StartScreen GetStartLevel()
         => new StartScreen(_width, _height, _screen, _random);
     
-    public SettingsScreen GetSettingsLevel(Storage.Storage storage)
-        => new SettingsScreen(_width, _height, _screen, _random, storage);
+    public SettingsScreen GetSettingsLevel()
+        => new SettingsScreen(_width, _height, _screen, _random, _storage);
 
-    public LevelSelect GetSelectLevel(Storage.Storage storage)
-        => new LevelSelect(_width, _height, _screen, _random, storage);
+    public LevelSelect GetSelectLevel()
+        => new LevelSelect(_width, _height, _screen, _random, _storage);
 
     public SampleLevel GetLevel(int number)
         => number switch
@@ -39,6 +42,7 @@ public class LevelFactory
             3 => new Level3(_width, _height, _screen, _random),
             4 => new Level4(_width, _height, _screen, _random),
             5 => new Level5(_width, _height, _screen, _random),
+            6 => new Level6(_width, _height, _screen, _random, _storage),
             _ => new LevelNull(_width, _height, _screen, _random),
         };
 }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.GameObjects.Debug;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -16,10 +17,9 @@ public class SampleLevel : ILevel
 
     public readonly Camera Camera;
     public Vector2 Window;
+    protected readonly MousePointer _mouse;
     protected Vector2 CameraPosition => Camera.Position;
-    protected Rectangle ExtendedCameraRectangle 
-        => Extensions.Rectangle.ExtendFromCenter(Camera.Rectangle, 1);
-    protected Vector2 MousePosition;
+    
 
     protected readonly int DefaultWidth;
     protected readonly int DefaultHeight;
@@ -33,6 +33,7 @@ public class SampleLevel : ILevel
         this.Random = random;
         Window = window;
         Camera = new Camera(Vector2.Zero, new Vector2(defaultWidth, defaultHeight));
+        _mouse = new MousePointer();
         SetMousePositionToCenter();
     }
 
@@ -52,7 +53,8 @@ public class SampleLevel : ILevel
         var mouseVector = Mouse.GetState().Position.ToVector2();
         var screenScale = new Vector2(Window.X / DefaultWidth, Window.Y / DefaultHeight);
         var offset = new Vector2(DefaultWidth, DefaultHeight) / Camera.Zoom / 2;
-        MousePosition = mouseVector / screenScale / Camera.Zoom + Camera.Position - offset;
+        _mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
+        _mouse.Update(gameTime);
     }
 
     public virtual void SetScreen(Vector2 screen) => Window = screen;

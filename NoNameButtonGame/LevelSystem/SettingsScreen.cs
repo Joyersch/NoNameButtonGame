@@ -7,6 +7,7 @@ using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.Groups;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -21,7 +22,8 @@ public class SettingsScreen : SampleLevel
     private readonly Text _fullscreenText;
     private readonly SquareTextButton _fullscreenButton;
 
-    private readonly Cursor _mouseCursor;
+    private readonly Cursor _cursor;
+    private readonly PositionListener _positionListener;
 
     private readonly Text _musicInfo;
     private readonly ValueSelection _musicVolume;
@@ -51,7 +53,9 @@ public class SettingsScreen : SampleLevel
         var rightAnchor = new Vector2(16, -64);
 
         Name = "Start Menu";
-        _mouseCursor = new Cursor(Vector2.Zero);
+        _cursor = new Cursor();
+        _positionListener = new PositionListener();
+        _positionListener.Add(_mouse, _cursor);
 
         List<string> resolutions = new List<string>()
         {
@@ -162,23 +166,23 @@ public class SettingsScreen : SampleLevel
     {
         base.Update(gameTime);
         CurrentMusic("TitleMusic");
-        _mouseCursor.Position = MousePosition;
-        _mouseCursor.Update(gameTime);
+        _positionListener.Update(gameTime);
+        _cursor.Update(gameTime);
 
         _resolutionInfo.Update(gameTime);
-        _resolution.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _resolution.Update(gameTime, _cursor.Hitbox[0]);
 
         _fixedStepText.Update(gameTime);
-        _fixedStepButton.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _fixedStepButton.Update(gameTime, _cursor.Hitbox[0]);
 
         _fullscreenText.Update(gameTime);
-        _fullscreenButton.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _fullscreenButton.Update(gameTime, _cursor.Hitbox[0]);
 
         _musicInfo.Update(gameTime);
-        _musicVolume.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _musicVolume.Update(gameTime, _cursor.Hitbox[0]);
         
         _sfxInfo.Update(gameTime);
-        _sfxVolume.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _sfxVolume.Update(gameTime, _cursor.Hitbox[0]);
 
         //_volumeMusic.Update(gameTime);
     }
@@ -200,6 +204,6 @@ public class SettingsScreen : SampleLevel
         _sfxInfo.Draw(spriteBatch);
         _sfxVolume.Draw(spriteBatch);
 
-        _mouseCursor.Draw(spriteBatch);
+        _cursor.Draw(spriteBatch);
     }
 }

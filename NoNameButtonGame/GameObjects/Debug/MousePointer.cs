@@ -1,13 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Texture;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Debug;
 
-public class MousePointer : GameObject
+public class MousePointer : GameObject, IMoveable
 {
     private readonly bool _draw;
-    
+
     public new static Texture2D DefaultTexture;
 
     public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
@@ -22,12 +23,13 @@ public class MousePointer : GameObject
     public MousePointer() : this(Vector2.Zero, Vector2.Zero)
     {
     }
-    
+
     public MousePointer(Vector2 position, Vector2 size) : this(position, size, false)
     {
     }
 
-    public MousePointer(Vector2 position, Vector2 size, bool draw) : base(position, size, DefaultTexture, DefaultMapping)
+    public MousePointer(Vector2 position, Vector2 size, bool draw) : base(position, size, DefaultTexture,
+        DefaultMapping)
     {
         this._draw = draw;
     }
@@ -47,4 +49,10 @@ public class MousePointer : GameObject
             DrawColor);
         base.Draw(spriteBatch);
     }
+
+    public Vector2 GetPosition()
+        => Position;
+
+    public void Move(Vector2 newPosition)
+        => Position = newPosition;
 }

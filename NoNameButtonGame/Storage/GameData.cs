@@ -17,5 +17,16 @@ public class GameData : IChangeable
         }
     }
 
+    private int _currentBackedBeans;
+    public int CurrentBackedBeans
+    {
+        get => _currentBackedBeans;
+        set
+        {
+            _currentBackedBeans = value;
+            HasChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
     public event EventHandler HasChanged;
 }

@@ -145,9 +145,6 @@ public class Text : IColorable, IMoveable
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 newPosition)
-    {
-        ChangePosition(newPosition);
-        return true;
-    }
+    public void Move(Vector2 newPosition)
+    =>  ChangePosition(newPosition);
 }

@@ -14,7 +14,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 internal class Level2 : SampleLevel
 {
     private readonly Cursor _cursor;
-    private readonly MousePointer _mousePointer;
     private readonly PositionListener _objectLinker;
 
     private readonly TextButton _magicButton;
@@ -29,10 +28,9 @@ internal class Level2 : SampleLevel
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
 
         _cursor = new Cursor();
-        _mousePointer = new MousePointer();
 
         _objectLinker = new PositionListener();
-        _objectLinker.Add(_mousePointer, _cursor);
+        _objectLinker.Add(_mouse, _cursor);
 
         _magicButton = new TextButton("Unlock");
         _magicButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y));
@@ -62,7 +60,6 @@ internal class Level2 : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        _mousePointer.Update(gameTime, MousePosition);
         _objectLinker.Update(gameTime);
         _cursor.Update(gameTime);
 

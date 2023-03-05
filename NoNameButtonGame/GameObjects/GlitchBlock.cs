@@ -93,11 +93,10 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
     public Vector2 GetPosition()
         => Position;
 
-    public bool Move(Vector2 newPosition)
+    public void Move(Vector2 newPosition)
     {
         Position = newPosition;
         UpdateRectangle();
         CalculateHitboxes();
-        return true;
     }
 }
