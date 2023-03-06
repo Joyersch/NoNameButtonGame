@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class HoldButtonAddon : GameObject
+public class HoldButtonAddon : GameObject, IInteractable
 {
     public event Action TimerReachedZero;
     
@@ -31,10 +32,10 @@ public class HoldButtonAddon : GameObject
         pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePosition)
+    public void Update(GameTime gameTime, IHitbox toCheck)
     {
         base.Update(gameTime);;
-        _button.Update(gameTime, mousePosition);
+        _button.Update(gameTime, toCheck);
 
         
         float passedGameTime = 0F;

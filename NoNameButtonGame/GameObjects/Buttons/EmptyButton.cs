@@ -8,7 +8,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class EmptyButton : GameObject, IMouseActions, IMoveable
+public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
 {
     public event Action<object> Leave;
     public event Action<object> Enter;
@@ -58,9 +58,13 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable
         _soundEffectInstance.Dispose();
     }
 
-    public virtual void Update(GameTime gameTime, Rectangle mousePosition)
+    public virtual void Update(GameTime gameTime, IHitbox toCheck)
     {
-        bool isMouseHovering = HitboxCheck(mousePosition);
+        bool isMouseHovering = false;
+        foreach (Rectangle rectangle in toCheck.Hitbox)
+            if (HitboxCheck(rectangle))
+                isMouseHovering = true;
+
         if (isMouseHovering)
         {
             if (!Hover)

@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Debug;
+using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -19,20 +23,29 @@ public class SampleLevel : ILevel
     public Vector2 Window;
     protected readonly MousePointer _mouse;
     protected Vector2 CameraPosition => Camera.Position;
-    
 
-    protected readonly int DefaultWidth;
-    protected readonly int DefaultHeight;
+    protected Display.Display _display;
     public string Name;
     protected Random Random;
 
-    protected SampleLevel(int defaultWidth, int defaultHeight, Vector2 window, Random random)
+    protected readonly PositionListener PositionListener;
+    protected readonly ColorListener ColorListener;
+
+    protected readonly List<object> AutoManaged;
+    protected IHitbox Interactable;
+
+    protected SampleLevel(Display.Display display, Vector2 window, Random random)
     {
-        this.DefaultWidth = defaultWidth;
-        this.DefaultHeight = defaultHeight;
-        this.Random = random;
+        _display = display;
+        Random = random;
         Window = window;
-        Camera = new Camera(Vector2.Zero, new Vector2(defaultWidth, defaultHeight));
+
+        PositionListener = new PositionListener();
+        ColorListener = new ColorListener();
+
+        AutoManaged = new List<object>();
+        
+        Camera = new Camera(Vector2.Zero, new Vector2(_display.Width, _display.Height));
         _mouse = new MousePointer();
         SetMousePositionToCenter();
     }
@@ -43,7 +56,14 @@ public class SampleLevel : ILevel
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
-        throw new NotImplementedException();
+        foreach (var obj in AutoManaged)
+        {
+            if (obj is GameObject gameObject)
+                gameObject.Draw(spriteBatch);
+            if (obj is Text text)
+                text.Draw(spriteBatch);
+        }
+            
     }
 
     public virtual void Update(GameTime gameTime)
@@ -51,10 +71,22 @@ public class SampleLevel : ILevel
         Camera.Update();
 
         var mouseVector = Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / DefaultWidth, Window.Y / DefaultHeight);
-        var offset = new Vector2(DefaultWidth, DefaultHeight) / Camera.Zoom / 2;
+        var screenScale = new Vector2(Window.X / _display.Width, Window.Y / _display.Height);
+        var offset = new Vector2(_display.Width, _display.Height) / Camera.Zoom / 2;
         _mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
         _mouse.Update(gameTime);
+
+        PositionListener.Update(gameTime);
+
+        foreach (var obj in AutoManaged)
+        {
+            if (obj is IInteractable interactable)
+                interactable.Update(gameTime, Interactable);
+            else if (obj is GameObject gameObject)
+                gameObject.Update(gameTime);
+            if (obj is Text text)
+                text.Update(gameTime);
+        }
     }
 
     public virtual void SetScreen(Vector2 screen) => Window = screen;

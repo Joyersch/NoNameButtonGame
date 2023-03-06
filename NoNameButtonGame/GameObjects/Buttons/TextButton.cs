@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.GameObjects.Texture;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
@@ -76,10 +77,10 @@ public class TextButton : EmptyButton
         Text.Move(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
     }
 
-    public override void Update(GameTime gameTime, Rectangle mousePos)
+    public override void Update(GameTime gameTime, IHitbox toCheck)
     {
         Text.Update(gameTime);
-        base.Update(gameTime, mousePos);
+        base.Update(gameTime, toCheck);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

@@ -18,7 +18,6 @@ public class StartScreen : SampleLevel
     private readonly TextButton _exitButton;
     private readonly TextButton _creditButton;
     private readonly Cursor _mouseCursor;
-    private readonly PositionListener _linker;
     private readonly Text _header;
 
     public event Action<object> StartClicked;
@@ -28,8 +27,7 @@ public class StartScreen : SampleLevel
     public event Action<object> CreditsClicked;
     public event Action<object> ExitClicked;
 
-    public StartScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
-        defaultHeight, window, rand)
+    public StartScreen(Display.Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
         Name = "Start Menu";
 
@@ -56,8 +54,7 @@ public class StartScreen : SampleLevel
                                new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
 
         _mouseCursor = new Cursor();
-        _linker = new PositionListener();
-        _linker.Add(_mouse, _mouseCursor);
+        PositionListener.Add(_mouse, _mouseCursor);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -78,14 +75,13 @@ public class StartScreen : SampleLevel
     {
         base.Update(gameTime);
         base.CurrentMusic("TitleMusic");
-        _linker.Update(gameTime);
         _mouseCursor.Update(gameTime);
 
-        _startButton.Update(gameTime, _mouseCursor.Hitbox[0]);
-        _settingsButton.Update(gameTime, _mouseCursor.Hitbox[0]);
-        _selectLevelButton.Update(gameTime, _mouseCursor.Hitbox[0]);
-        _exitButton.Update(gameTime, _mouseCursor.Hitbox[0]);
-        _creditButton.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _startButton.Update(gameTime, _mouseCursor);
+        _settingsButton.Update(gameTime, _mouseCursor);
+        _selectLevelButton.Update(gameTime, _mouseCursor);
+        _exitButton.Update(gameTime, _mouseCursor);
+        _creditButton.Update(gameTime, _mouseCursor);
 
         _header.Update(gameTime);
     }

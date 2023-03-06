@@ -13,8 +13,7 @@ internal class LevelNull : SampleLevel
     private readonly Cursor _mouseCursor;
     private readonly Text _info;
 
-    public LevelNull(int defaultWidth, int defaultHeight, Vector2 window, Random rand) : base(defaultWidth,
-        defaultHeight, window, rand)
+    public LevelNull(Display.Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
         _failButton = new TextButton(new Vector2(-64, -32), "end", "Restart")
         {
@@ -39,7 +38,7 @@ internal class LevelNull : SampleLevel
         _mouseCursor.Update(gameTime);
         base.Update(gameTime);
         _mouseCursor.Position = _mouseCursor.Position - _mouseCursor.Size / 2;
-        _failButton.Update(gameTime, _mouseCursor.Hitbox[0]);
+        _failButton.Update(gameTime, _mouseCursor);
         _info.Update(gameTime);
     }
 }

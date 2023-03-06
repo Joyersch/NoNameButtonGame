@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class CounterButtonAddon : GameObject
+public class CounterButtonAddon : GameObject, IInteractable
 {
     public event Action StateReachedZero;
 
@@ -25,10 +26,10 @@ public class CounterButtonAddon : GameObject
         UpdateText();
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePosition)
+    public void Update(GameTime gameTime, IHitbox toCheck)
     {
         base.Update(gameTime);
-        _button.Update(gameTime, mousePosition);
+        _button.Update(gameTime, toCheck);
         _text.Update(gameTime);
     }
 

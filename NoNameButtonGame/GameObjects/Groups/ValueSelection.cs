@@ -78,11 +78,11 @@ public class ValueSelection : GameObject, IMoveable
             _display.Rectangle.Height / 2 - _increaseButton.Rectangle.Height / 2));
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePointer)
+    public void Update(GameTime gameTime, IHitbox toCheck)
     {
         _display.Update(gameTime);
-        _increaseButton.Update(gameTime, mousePointer);
-        _decreaseButton.Update(gameTime, mousePointer);
+        _increaseButton.Update(gameTime, toCheck);
+        _decreaseButton.Update(gameTime, toCheck);
         base.Update(gameTime);
     }
 

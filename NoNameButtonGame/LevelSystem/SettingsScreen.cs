@@ -23,11 +23,10 @@ public class SettingsScreen : SampleLevel
     private readonly SquareTextButton _fullscreenButton;
 
     private readonly Cursor _cursor;
-    private readonly PositionListener _positionListener;
 
     private readonly Text _musicInfo;
     private readonly ValueSelection _musicVolume;
-    
+
     private readonly Text _sfxInfo;
     private readonly ValueSelection _sfxVolume;
 
@@ -39,8 +38,8 @@ public class SettingsScreen : SampleLevel
     private Vector2 _vectorResolution;
     public event Action<Vector2> WindowsResizeEventHandler;
 
-    public SettingsScreen(int defaultWidth, int defaultHeight, Vector2 window, Random rand, Storage.Storage storage) : base(
-        defaultWidth, defaultHeight, window, rand)
+    public SettingsScreen(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+        window, rand)
     {
         this._storage = storage;
         string settingOne = _crossout, settingTwo = _crossout;
@@ -54,8 +53,7 @@ public class SettingsScreen : SampleLevel
 
         Name = "Start Menu";
         _cursor = new Cursor();
-        _positionListener = new PositionListener();
-        _positionListener.Add(_mouse, _cursor);
+        PositionListener.Add(_mouse, _cursor);
 
         List<string> resolutions = new List<string>()
         {
@@ -108,9 +106,9 @@ public class SettingsScreen : SampleLevel
 
         _musicVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.MusicVolume);
         _musicVolume.ValueChanged += MusicVolumeChanged;
-        
+
         rightAnchor += new Vector2(0, _musicVolume.Rectangle.Height + 4);
-        
+
         _sfxInfo = new Text("SFX Volume", rightAnchor);
 
         rightAnchor += new Vector2(0, _sfxInfo.Rectangle.Height + 4);
@@ -166,23 +164,23 @@ public class SettingsScreen : SampleLevel
     {
         base.Update(gameTime);
         CurrentMusic("TitleMusic");
-        _positionListener.Update(gameTime);
+        PositionListener.Update(gameTime);
         _cursor.Update(gameTime);
 
         _resolutionInfo.Update(gameTime);
-        _resolution.Update(gameTime, _cursor.Hitbox[0]);
+        _resolution.Update(gameTime, _cursor);
 
         _fixedStepText.Update(gameTime);
-        _fixedStepButton.Update(gameTime, _cursor.Hitbox[0]);
+        _fixedStepButton.Update(gameTime, _cursor);
 
         _fullscreenText.Update(gameTime);
-        _fullscreenButton.Update(gameTime, _cursor.Hitbox[0]);
+        _fullscreenButton.Update(gameTime, _cursor);
 
         _musicInfo.Update(gameTime);
-        _musicVolume.Update(gameTime, _cursor.Hitbox[0]);
-        
+        _musicVolume.Update(gameTime, _cursor);
+
         _sfxInfo.Update(gameTime);
-        _sfxVolume.Update(gameTime, _cursor.Hitbox[0]);
+        _sfxVolume.Update(gameTime, _cursor);
 
         //_volumeMusic.Update(gameTime);
     }
@@ -200,7 +198,7 @@ public class SettingsScreen : SampleLevel
 
         _musicInfo.Draw(spriteBatch);
         _musicVolume.Draw(spriteBatch);
-        
+
         _sfxInfo.Draw(spriteBatch);
         _sfxVolume.Draw(spriteBatch);
 

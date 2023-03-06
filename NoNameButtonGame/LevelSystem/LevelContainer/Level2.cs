@@ -13,40 +13,35 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level2 : SampleLevel
 {
-    private readonly Cursor _cursor;
-    private readonly PositionListener _objectLinker;
-
-    private readonly TextButton _magicButton;
     private readonly LockButtonAddon _lockButtonAddon;
-
-    private readonly Text _info1;
-    private readonly Text _info2;
-
-    public Level2(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
-        defaultHeight, window, random)
+    public Level2(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
-
-        _cursor = new Cursor();
-
-        _objectLinker = new PositionListener();
-        _objectLinker.Add(_mouse, _cursor);
-
-        _magicButton = new TextButton("Unlock");
-        _magicButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y));
-        _magicButton.Click += MagicButtonOnClick;
+        
+        var magicButton = new TextButton("Unlock");
+        magicButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y));
+        magicButton.Click += MagicButtonOnClick;
+        AutoManaged.Add(magicButton);
 
         var lockButton = new TextButton("Finish Level");
         lockButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y));
-
+        
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Callback += Finish;
+        AutoManaged.Add(_lockButtonAddon);
 
-        _info1 = new Text("This button here is locked!");
-        _info1.ChangePosition(new Vector2(-_info1.Rectangle.Width / 2F, -128));
-
-        _info2 = new Text("The button below will unlock the button above!");
-        _info2.ChangePosition(new Vector2(-_info2.Rectangle.Width / 2F, -Text.DefaultLetterSize.Y / 2));
+        var info1 = new Text("This button here is locked!");
+        info1.ChangePosition(new Vector2(-info1.Rectangle.Width / 2F, -128));
+        AutoManaged.Add(info1);
+        
+        var info2 = new Text("The button below will unlock the button above!");
+        info2.ChangePosition(new Vector2(-info2.Rectangle.Width / 2F, -Text.DefaultLetterSize.Y / 2));
+        AutoManaged.Add(info2);
+        
+        var cursor = new Cursor();
+        Interactable = cursor;
+        PositionListener.Add(_mouse, cursor);
+        AutoManaged.Add(cursor);
     }
 
     private void MagicButtonOnClick(object obj)
@@ -55,29 +50,5 @@ internal class Level2 : SampleLevel
             _lockButtonAddon.Unlock();
         else
             _lockButtonAddon.Lock();
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-        _objectLinker.Update(gameTime);
-        _cursor.Update(gameTime);
-
-        _magicButton.Update(gameTime, _cursor.Hitbox[0]);
-
-        _lockButtonAddon.Update(gameTime, _cursor.Hitbox[0]);
-        _info1.Update(gameTime);
-        _info2.Update(gameTime);
-    }
-
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        _magicButton.Draw(spriteBatch);
-        _lockButtonAddon.Draw(spriteBatch);
-
-        _info1.Draw(spriteBatch);
-        _info2.Draw(spriteBatch);
-
-        _cursor.Draw(spriteBatch);
     }
 }

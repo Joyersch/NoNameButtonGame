@@ -53,7 +53,7 @@ internal class LevelManager
         _state = MenuState.StartMenu;
         _currentSelectLevel = storage.GameData.MaxLevel;
 
-        _levelFactory = new LevelFactory((int) _display.DefaultWidth, (int) _display.DefaultHeight,
+        _levelFactory = new LevelFactory(_display,
             _storage.Settings.Resolution.ToVertor2(), _random, storage);
 
         _startMenu = _levelFactory.GetStartLevel();

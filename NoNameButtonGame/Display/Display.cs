@@ -6,8 +6,8 @@ namespace NoNameButtonGame.Display;
 public class Display
 {
     public readonly RenderTarget2D Target;
-    public readonly float DefaultWidth = 1280F;
-    public readonly float DefaultHeight = 720F;
+    public readonly float Width = 1280F;
+    public readonly float Height = 720F;
 
     public Rectangle Window;
     
@@ -20,7 +20,7 @@ public class Display
     public Display(GraphicsDevice device)
     {
         this._device = device;
-        Target = new RenderTarget2D(this._device, (int) DefaultWidth, (int) DefaultHeight);
+        Target = new RenderTarget2D(this._device, (int) Width, (int) Height);
     }
     
     public void Update(GameTime gameTime)

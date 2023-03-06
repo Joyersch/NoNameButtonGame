@@ -3,15 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class LockButtonAddon : GameObject
+public class LockButtonAddon : GameObject, IInteractable
 {
     public bool IsLocked { get; private set; } = true;
 
     private readonly EmptyButton _button;
-    private readonly TextSystem.Text _text;
+    private readonly Text _text;
 
     public event Action<object> Callback;
 
@@ -20,7 +21,7 @@ public class LockButtonAddon : GameObject
     {
         this._button = button;
         button.Click += ClickHandler;
-        _text = new TextSystem.Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
+        _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
     }
 
@@ -30,10 +31,10 @@ public class LockButtonAddon : GameObject
             Callback?.Invoke(sender);
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePosition)
+    public void Update(GameTime gameTime, IHitbox toCheck)
     {
         base.Update(gameTime);
-        _button.Update(gameTime, !IsLocked ? mousePosition : Rectangle);
+        _button.Update(gameTime, !IsLocked ? toCheck : this);
         _text.Update(gameTime);
     }
 

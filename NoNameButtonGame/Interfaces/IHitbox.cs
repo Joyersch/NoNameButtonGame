@@ -2,7 +2,7 @@
 
 namespace NoNameButtonGame.Interfaces
 {
-    internal interface IHitbox
+    public interface IHitbox
     {
         public Rectangle[] Hitbox { get; }
     }

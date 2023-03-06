@@ -16,25 +16,24 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer;
 
 internal class Level5 : SampleLevel
 {
-    private readonly DelayedText _info;
     private bool _isTextFinished;
     private float savedGameTime;
 
-    public Level5(int defaultWidth, int defaultHeight, Vector2 window, Random random) : base(defaultWidth,
-        defaultHeight,
-        window, random)
+    public Level5(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 4 - Tutorial 3 - Button Addon: Hold";
 
 
-        _info = new DelayedText("Now that you know the basics. Lets actually start!")
+        var info = new DelayedText("Now that you know the basics. Lets actually start!")
         {
             StartAfter = 100
         };
 
-        _info.Move(-_info.GetBaseCopy().Rectangle.Size.ToVector2() / 2);
-        _info.FinishedPlaying += DelayFinish;
-        _info.Start();
+        info.Move(-info.GetBaseCopy().Rectangle.Size.ToVector2() / 2);
+        info.FinishedPlaying += DelayFinish;
+        info.Start();
+        
+        AutoManaged.Add(info);
     }
 
     private void DelayFinish()
@@ -44,8 +43,6 @@ internal class Level5 : SampleLevel
     {
         base.Update(gameTime);
 
-        _info.Update(gameTime);
-
         if (!_isTextFinished)
             return;
 
@@ -53,17 +50,5 @@ internal class Level5 : SampleLevel
         savedGameTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
         if (savedGameTime >= 3000F)
             Finish();
-    }
-
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        _info.Draw(spriteBatch);
-    }
-
-    private void FakeReset(object sender) // ToDo: for maze level
-    {
-        SetMousePositionToCenter();
-        if (_info.IsPlaying || _info.HasPlayed)
-            return;
     }
 }
