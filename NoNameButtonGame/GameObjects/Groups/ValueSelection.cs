@@ -8,7 +8,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Groups;
 
-public class ValueSelection : GameObject, IMoveable
+public class ValueSelection : GameObject, IMoveable, IInteractable
 {
     private readonly TextSystem.Text _display;
     private readonly SquareTextButton _decreaseButton;
@@ -78,11 +78,17 @@ public class ValueSelection : GameObject, IMoveable
             _display.Rectangle.Height / 2 - _increaseButton.Rectangle.Height / 2));
     }
 
-    public void Update(GameTime gameTime, IHitbox toCheck)
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    {
+        _increaseButton.UpdateInteraction(gameTime, toCheck);
+        _decreaseButton.UpdateInteraction(gameTime, toCheck);
+    }
+
+    public override void Update(GameTime gameTime)
     {
         _display.Update(gameTime);
-        _increaseButton.Update(gameTime, toCheck);
-        _decreaseButton.Update(gameTime, toCheck);
+        _increaseButton.Update(gameTime);
+        _decreaseButton.Update(gameTime);
         base.Update(gameTime);
     }
 

@@ -26,10 +26,10 @@ public class CounterButtonAddon : GameObject, IInteractable
         UpdateText();
     }
 
-    public void Update(GameTime gameTime, IHitbox toCheck)
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         base.Update(gameTime);
-        _button.Update(gameTime, toCheck);
+        _button.UpdateInteraction(gameTime, toCheck);
         _text.Update(gameTime);
     }
 

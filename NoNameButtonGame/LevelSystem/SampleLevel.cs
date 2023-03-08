@@ -32,7 +32,7 @@ public class SampleLevel : ILevel
     protected readonly ColorListener ColorListener;
 
     protected readonly List<object> AutoManaged;
-    protected IHitbox Interactable;
+    protected IHitbox Actuator;
 
     protected SampleLevel(Display.Display display, Vector2 window, Random random)
     {
@@ -81,11 +81,10 @@ public class SampleLevel : ILevel
         foreach (var obj in AutoManaged)
         {
             if (obj is IInteractable interactable)
-                interactable.Update(gameTime, Interactable);
-            else if (obj is GameObject gameObject)
-                gameObject.Update(gameTime);
-            if (obj is Text text)
-                text.Update(gameTime);
+                interactable.UpdateInteraction(gameTime, Actuator);
+            
+            if (obj is IManageable manageable)
+                manageable.Update(gameTime);
         }
     }
 

@@ -39,7 +39,7 @@ internal class Level2 : SampleLevel
         AutoManaged.Add(info2);
         
         var cursor = new Cursor();
-        Interactable = cursor;
+        Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
         AutoManaged.Add(cursor);
     }

@@ -32,10 +32,10 @@ public class HoldButtonAddon : GameObject, IInteractable
         pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
     }
 
-    public void Update(GameTime gameTime, IHitbox toCheck)
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         base.Update(gameTime);;
-        _button.Update(gameTime, toCheck);
+        _button.UpdateInteraction(gameTime, toCheck);
 
         
         float passedGameTime = 0F;

@@ -31,10 +31,10 @@ public class LockButtonAddon : GameObject, IInteractable
             Callback?.Invoke(sender);
     }
 
-    public void Update(GameTime gameTime, IHitbox toCheck)
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         base.Update(gameTime);
-        _button.Update(gameTime, !IsLocked ? toCheck : this);
+        _button.UpdateInteraction(gameTime, !IsLocked ? toCheck : this);
         _text.Update(gameTime);
     }
 

@@ -34,7 +34,7 @@ internal class Level3 : SampleLevel
         
         var mouseCursor = new Cursor();
         PositionListener.Add(_mouse, mouseCursor);
-        Interactable = mouseCursor;
+        Actuator = mouseCursor;
         AutoManaged.Add(mouseCursor);
     }
 }

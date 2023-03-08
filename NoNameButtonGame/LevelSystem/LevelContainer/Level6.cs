@@ -129,7 +129,7 @@ public class Level6 : SampleLevel
         UpdateState();
 
         var cursor = new Cursor();
-        Interactable = cursor;
+        Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
         AutoManaged.Add(cursor);
     }

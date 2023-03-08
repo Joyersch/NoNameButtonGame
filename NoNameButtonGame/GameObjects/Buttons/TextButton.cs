@@ -77,10 +77,10 @@ public class TextButton : EmptyButton
         Text.Move(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
     }
 
-    public override void Update(GameTime gameTime, IHitbox toCheck)
+    public override void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         Text.Update(gameTime);
-        base.Update(gameTime, toCheck);
+        base.UpdateInteraction(gameTime, toCheck);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

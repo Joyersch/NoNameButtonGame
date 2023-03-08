@@ -4,7 +4,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.LogicObjects;
 
-public class OverTimeMover // ToDo: this for select level
+public class OverTimeMover : IManageable
 {
     private IMoveable _moveable;
     private MoveMode _mode;

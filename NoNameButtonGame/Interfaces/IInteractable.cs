@@ -4,5 +4,5 @@ namespace NoNameButtonGame.Interfaces;
 
 public interface IInteractable
 {
-    public void Update(GameTime gameTime, IHitbox toCheck);
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck);
 }

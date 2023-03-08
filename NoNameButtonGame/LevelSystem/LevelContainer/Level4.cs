@@ -33,7 +33,7 @@ internal class Level4 : SampleLevel
         AutoManaged.Add(infoAboutButton2);
         
         var mouseCursor = new Cursor();
-        Interactable = mouseCursor;
+        Actuator = mouseCursor;
         PositionListener.Add(_mouse, mouseCursor);
         AutoManaged.Add(mouseCursor);
     }

@@ -6,7 +6,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.TextSystem;
 
-public class Text : IColorable, IMoveable
+public class Text : IColorable, IMoveable, IManageable
 {
     private Letter[] _letters;
     protected readonly int _spacing;

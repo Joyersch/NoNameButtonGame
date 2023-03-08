@@ -12,14 +12,6 @@ namespace NoNameButtonGame.LevelSystem;
 
 public class StartScreen : SampleLevel
 {
-    private readonly TextButton _startButton;
-    private readonly TextButton _settingsButton;
-    private readonly TextButton _selectLevelButton;
-    private readonly TextButton _exitButton;
-    private readonly TextButton _creditButton;
-    private readonly Cursor _mouseCursor;
-    private readonly Text _header;
-
     public event Action<object> StartClicked;
     public event Action<object> SelectClicked;
     public event Action<object> SettingsClicked;
@@ -34,56 +26,41 @@ public class StartScreen : SampleLevel
         const int startPositionY = -(64 * 2 + 32);
         int x = -304;
 
-        _startButton = new TextButton(new Vector2(x, startPositionY), "Start");
-        _startButton.Click += StartButtonPressed;
+        var startButton = new TextButton(new Vector2(x, startPositionY), "Start");
+        startButton.Click += StartButtonPressed;
+        AutoManaged.Add(startButton);
 
-        _selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), "Select Level");
-        _selectLevelButton.Click += SelectButtonPressed;
+        var selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), "Select Level");
+        selectLevelButton.Click += SelectButtonPressed;
+        AutoManaged.Add(selectLevelButton);
 
-        _settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), "Settings");
-        _settingsButton.Click += SettingsButtonPressed;
+        var settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), "Settings");
+        settingsButton.Click += SettingsButtonPressed;
+        AutoManaged.Add(settingsButton);
 
-        _creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), "Credits");
-        _creditButton.Click += CreditButtonPressed;
+        var creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), "Credits");
+        creditButton.Click += CreditButtonPressed;
+        AutoManaged.Add(creditButton);
 
-        _exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), "Exit");
-        _exitButton.Click += ExitButtonPressed;
+        var exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), "Exit");
+        exitButton.Click += ExitButtonPressed;
+        AutoManaged.Add(exitButton);
 
-        _header = new Text("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
-        _header.ChangePosition(-_header.Rectangle.Size.ToVector2() / 2 +
+        var header = new Text("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
+        header.ChangePosition(-header.Rectangle.Size.ToVector2() / 2 +
                                new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
+        AutoManaged.Add(header);
 
-        _mouseCursor = new Cursor();
-        PositionListener.Add(_mouse, _mouseCursor);
-    }
-
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        _startButton.Draw(spriteBatch);
-        _settingsButton.Draw(spriteBatch);
-        _selectLevelButton.Draw(spriteBatch);
-        _creditButton.Draw(spriteBatch);
-        _exitButton.Draw(spriteBatch);
-
-        _header.Draw(spriteBatch);
-
-
-        _mouseCursor.Draw(spriteBatch);
+        var mouseCursor = new Cursor();
+        Actuator = mouseCursor;
+        PositionListener.Add(_mouse, mouseCursor);
+        AutoManaged.Add(mouseCursor);
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         base.CurrentMusic("TitleMusic");
-        _mouseCursor.Update(gameTime);
-
-        _startButton.Update(gameTime, _mouseCursor);
-        _settingsButton.Update(gameTime, _mouseCursor);
-        _selectLevelButton.Update(gameTime, _mouseCursor);
-        _exitButton.Update(gameTime, _mouseCursor);
-        _creditButton.Update(gameTime, _mouseCursor);
-
-        _header.Update(gameTime);
     }
 
     private void StartButtonPressed(object sender)

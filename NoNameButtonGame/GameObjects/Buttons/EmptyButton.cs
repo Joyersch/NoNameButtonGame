@@ -58,7 +58,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
         _soundEffectInstance.Dispose();
     }
 
-    public virtual void Update(GameTime gameTime, IHitbox toCheck)
+    public virtual void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         bool isMouseHovering = false;
         foreach (Rectangle rectangle in toCheck.Hitbox)
@@ -78,7 +78,6 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
 
         ImageLocation = new Rectangle(isMouseHovering ? (int) FrameSize.X : 0, 0, (int) FrameSize.X, (int) FrameSize.Y);
         Hover = isMouseHovering;
-        base.Update(gameTime);
     }
 
 

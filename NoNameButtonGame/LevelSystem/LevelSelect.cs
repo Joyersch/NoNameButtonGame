@@ -12,10 +12,6 @@ namespace NoNameButtonGame.LevelSystem;
 
 public class LevelSelect : SampleLevel
 {
-    private readonly List<MiniTextButton> _level;
-    private readonly List<MiniTextButton> _down;
-    private readonly List<MiniTextButton> _up;
-    private readonly Cursor _mouseCursor;
     private readonly OverTimeMover _mover;
     public event Action<int> LevelSelectedEventHandler;
 
@@ -27,15 +23,10 @@ public class LevelSelect : SampleLevel
         Name = "Level Selection";
 
         _mover = new OverTimeMover(Camera, Vector2.Zero, 500, OverTimeMover.MoveMode.Sin);
-
-        _mouseCursor = new Cursor(new Vector2(0, 0), new Vector2(7, 10));
-        PositionListener.Add(_mouse, _mouseCursor);
-
+        AutoManaged.Add(_mover);
+        
         int maxLevel = storage.GameData.MaxLevel;
         int screens = maxLevel / 30;
-        _level = new List<MiniTextButton>();
-        _down = new List<MiniTextButton>();
-        _up = new List<MiniTextButton>();
 
 
         for (int i = 0; i < screens; i++)
@@ -48,8 +39,7 @@ public class LevelSelect : SampleLevel
                 , new Vector2(16, 16));
 
             down.Click += MoveDown;
-
-            _down.Add(down);
+            AutoManaged.Add(down);
 
             var up = new MiniTextButton(
                 new Vector2(-300, 190 + (_display.Height / Camera.Zoom) * i)
@@ -58,8 +48,7 @@ public class LevelSelect : SampleLevel
                 , "⬆"
                 , new Vector2(16, 16));
             up.Click += MoveUp;
-
-            _up.Add(up);
+            AutoManaged.Add(up);
         }
 
         for (int i = 0; i < maxLevel; i++)
@@ -72,14 +61,17 @@ public class LevelSelect : SampleLevel
                 , new Vector2(16, 16));
 
             levelButton.Click += SelectLevel;
-
-            _level.Add(levelButton);
+            AutoManaged.Add(levelButton);
         }
+
+        var cursor = new Cursor();
+        Actuator = cursor;
+        PositionListener.Add(_mouse, cursor);
+        AutoManaged.Add(cursor);
     }
 
     private void SelectLevel(object sender)
-        => LevelSelectedEventHandler?.Invoke(
-            _level.IndexOf((MiniTextButton) sender) + 1 /*Index starts with 0 naming starts with 1*/);
+        => LevelSelectedEventHandler?.Invoke(int.Parse(((MiniTextButton) sender).Name));
 
     private void MoveDown(object sender)
     {
@@ -106,53 +98,7 @@ public class LevelSelect : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
-        _mover.Update(gameTime);
         base.Update(gameTime);
         base.CurrentMusic(string.Empty);
-
-        _mouseCursor.Update(gameTime);
-
-        // Note: foreach is lower to run than for but as there aren't that many levels yet this should be fine
-        foreach (var levelButton in _level)
-        {
-            if (levelButton.Rectangle.Intersects(Camera.Rectangle))
-                levelButton.Update(gameTime, _mouseCursor);
-        }
-
-        foreach (var down in _down)
-        {
-            if (down.Rectangle.Intersects(Camera.Rectangle))
-                down.Update(gameTime, _mouseCursor);
-        }
-
-        foreach (var up in _up)
-        {
-            if (up.Rectangle.Intersects(Camera.Rectangle))
-                up.Update(gameTime, _mouseCursor);
-        }
-    }
-
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        Console.WriteLine(Camera.Rectangle);
-        foreach (var levelButton in _level)
-        {
-            if (levelButton.Rectangle.Intersects(Camera.Rectangle))
-                levelButton.Draw(spriteBatch);
-        }
-
-        foreach (var down in _down)
-        {
-            if (down.Rectangle.Intersects(Camera.Rectangle))
-                down.Draw(spriteBatch);
-        }
-
-        foreach (var up in _up)
-        {
-            if (up.Rectangle.Intersects(Camera.Rectangle))
-                up.Draw(spriteBatch);
-        }
-
-        _mouseCursor.Draw(spriteBatch);
     }
 }

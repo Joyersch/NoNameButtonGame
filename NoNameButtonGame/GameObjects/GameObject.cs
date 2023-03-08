@@ -6,7 +6,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects;
 
-public class GameObject : IHitbox
+public class GameObject : IHitbox, IManageable
 {
     protected readonly Texture2D Texture;
     public Vector2 Position;
