@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
@@ -16,8 +17,9 @@ public class LockButtonAddon : GameObject, IInteractable
 
     public event Action<object> Callback;
 
-    
-    public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2), DefaultTexture, DefaultMapping)
+
+    public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2),
+        DefaultTexture, DefaultMapping)
     {
         this._button = button;
         button.Click += ClickHandler;
@@ -33,13 +35,20 @@ public class LockButtonAddon : GameObject, IInteractable
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _button.UpdateInteraction(gameTime, !IsLocked ? toCheck : this);
+        if (!IsLocked)
+            _button.UpdateInteraction(gameTime, toCheck);
     }
-    
+
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         _text.Update(gameTime);
+
+        if (IsLocked)
+            _button.DrawColor = Color.DarkGray;
+        else
+            _button.DrawColor = Color.White;
+        
         _button.Update(gameTime);
     }
 

@@ -10,6 +10,7 @@ using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
@@ -17,7 +18,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 internal class Level : SampleLevel
 {
     private bool _isTextFinished;
-    private float savedGameTime;
 
     public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
@@ -32,23 +32,21 @@ internal class Level : SampleLevel
         info.Move(-info.GetBaseCopy().Rectangle.Size.ToVector2() / 2);
         info.FinishedPlaying += DelayFinish;
         info.Start();
-        
         AutoManaged.Add(info);
+
+        var overTimeInvoker = new OverTimeInvoker(3000D);
+        overTimeInvoker.Trigger += OverTimeInvokerOnTrigger;
+        AutoManaged.Add(overTimeInvoker);
+    }
+
+    private void OverTimeInvokerOnTrigger()
+    {
+        if (!_isTextFinished)
+            return;
+        Finish();
     }
 
     private void DelayFinish()
         => _isTextFinished = true;
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-
-        if (!_isTextFinished)
-            return;
-
-        // finish level after 3 seconds after the delayedText has finished displaying
-        savedGameTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-        if (savedGameTime >= 3000F)
-            Finish();
-    }
+    
 }

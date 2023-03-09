@@ -51,4 +51,15 @@ public class StorageData : IChangeable
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
+    
+    private int _upgrade4;
+    public int Upgrade4
+    {
+        get => _upgrade4;
+        set
+        {
+            _upgrade4 = value;
+            HasChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
 }

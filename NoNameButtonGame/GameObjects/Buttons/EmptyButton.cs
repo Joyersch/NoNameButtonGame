@@ -71,9 +71,7 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
             if (!Hover)
                 InvokeEnterEventHandler();
 
-            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true) ||
-                InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false) &&
-                InputReaderKeyboard.CheckKey(Keys.Enter, false))
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
                 InvokeClickEventHandler();
         }
         else if (Hover)
