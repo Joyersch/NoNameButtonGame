@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.GameObjects.Texture;
 using NoNameButtonGame.Interfaces;
 
@@ -70,7 +71,9 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
             if (!Hover)
                 InvokeEnterEventHandler();
 
-            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true) ||
+                InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false) &&
+                InputReaderKeyboard.CheckKey(Keys.Enter, false))
                 InvokeClickEventHandler();
         }
         else if (Hover)

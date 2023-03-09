@@ -21,13 +21,32 @@ public class Level6 : SampleLevel
     private readonly Text _counter;
 
     private readonly LockButtonAddon _shopButtonLock;
-    
+
     private readonly OverTimeMover _overTimeMover;
 
     private readonly Text shopOne;
     private readonly Text shopTwo;
     private readonly Text shopThree;
     private readonly Text shopFour;
+
+    private readonly Text shopOnePrice;
+    private readonly Text shopTwoPrice;
+    private readonly Text shopThreePrice;
+    private readonly Text shopFourPrice;
+
+    private readonly LockButtonAddon _shopLockOne;
+    private readonly LockButtonAddon _shopLockTwo;
+    private readonly LockButtonAddon _shopLockThree;
+    private readonly LockButtonAddon _shopLockFour;
+
+    private int priceOne = 100;
+    private int priceTwo = 10000;
+    private int priceThree = 100000;
+    private int priceFour = int.MaxValue / 2;
+
+    private readonly float priceOneMultiplier = 1.13F;
+    private readonly float priceTwoMultiplier = 1.76F;
+    private readonly float priceThreeMultiplier = 13.21F;
 
     private int _bakedBeansCounter;
     private int _bakedBeansIncrement = 1;
@@ -76,55 +95,81 @@ public class Level6 : SampleLevel
 
         var moveToShopButton = new TextButton("Shop", "shop", 0.75F);
         moveToShopButton.Move(moveToClickerButton.Position - new Vector2(moveToShopButton.Size.X, 0));
-        moveToShopButton.Click += MoveCamera;
 
         _shopButtonLock = new LockButtonAddon(moveToShopButton);
+        _shopButtonLock.Callback += MoveCamera;
         AutoManaged.Add(_shopButtonLock);
 
-        var shopOptionOne = new TextButton("Canned Beans");
-        shopOptionOne.Move(shopScreen);
-
-        var shopLockOne = new LockButtonAddon(shopOptionOne);
-        AutoManaged.Add(shopLockOne);
-
-        var shopOptionTwo = new TextButton("Jellybeans");
-        shopOptionTwo.Move(shopScreen);
-
-        var shopLockTwo = new LockButtonAddon(shopOptionTwo);
-        AutoManaged.Add(shopLockTwo);
-
-        var shopOptionThree = new TextButton("Genetically modified");
-        shopOptionThree.Move(shopScreen);
-
-        var shopLockThree = new LockButtonAddon(shopOptionThree);
-        AutoManaged.Add(shopLockThree);
-
-        var shopOptionFour = new TextButton("Magic Beans");
-        shopOptionFour.Move(shopScreen);
-
-        var shopLockFour = new LockButtonAddon(shopOptionFour);
-        AutoManaged.Add(shopLockFour);
-
         shopOne = new Text(string.Empty);
-        shopOne.Move(shopScreen);
+        shopOne.Move(shopScreen + new Vector2(-192, -64));
         AutoManaged.Add(shopOne);
 
         shopTwo = new Text(string.Empty);
-        shopTwo.Move(shopScreen);
+        shopTwo.Move(shopScreen + new Vector2(-64, -64));
         AutoManaged.Add(shopTwo);
 
         shopThree = new Text(string.Empty);
-        shopThree.Move(shopScreen);
+        shopThree.Move(shopScreen + new Vector2(64, -64));
         AutoManaged.Add(shopThree);
 
-        shopFour = new Text(string.Empty);
-        shopFour.Move(shopScreen);
+        shopFour = new Text("0");
+        shopFour.Move(shopScreen + new Vector2(192, -64));
         AutoManaged.Add(shopFour);
 
+        var shopOptionOne = new TextButton("Canned Beans", 0.75F, 0.5F);
+        shopOptionOne.Move(shopOne.Position + shopOne.Size / 2 - shopOptionOne.Size / 2 + new Vector2(0, 48));
+
+        _shopLockOne = new LockButtonAddon(shopOptionOne);
+        _shopLockOne.Callback += ShopOptionOneClick;
+        AutoManaged.Add(_shopLockOne);
+
+        var shopOptionTwo = new TextButton("Jellybeans", 0.75F, 0.5F);
+        shopOptionTwo.Move(shopTwo.Position + shopTwo.Size / 2 - shopOptionTwo.Size / 2 + new Vector2(0, 48));
+
+        _shopLockTwo = new LockButtonAddon(shopOptionTwo);
+        _shopLockTwo.Callback += ShopOptionTwoClick;
+        AutoManaged.Add(_shopLockTwo);
+
+        var shopOptionThree = new TextButton("Genetically modified", 0.75F, 0.5F);
+        shopOptionThree.Move(shopThree.Position + shopThree.Size / 2 - shopOptionThree.Size / 2 + new Vector2(0, 48));
+
+        _shopLockThree = new LockButtonAddon(shopOptionThree);
+        _shopLockThree.Callback += ShopOptionThreeClick;
+        AutoManaged.Add(_shopLockThree);
+
+        var shopOptionFour = new TextButton("Magic Beans", 0.75F, 0.5F);
+        shopOptionFour.Move(shopFour.Position + shopFour.Size / 2 - shopOptionFour.Size / 2 + new Vector2(0, 48));
+
+        _shopLockFour = new LockButtonAddon(shopOptionFour);
+        _shopLockFour.Callback += Finish;
+        AutoManaged.Add(_shopLockFour);
+
+        shopOnePrice = new Text(priceOne.ToString());
+        shopOnePrice.Move(shopOptionOne.Rectangle.Center.ToVector2() + new Vector2(0, 64) -
+                          new Vector2(shopOnePrice.Rectangle.Size.X / 2, 0));
+        AutoManaged.Add(shopOnePrice);
+
+        shopTwoPrice = new Text(priceTwo.ToString());
+        shopTwoPrice.Move(shopOptionTwo.Rectangle.Center.ToVector2() + new Vector2(0, 64) -
+                          new Vector2(shopTwoPrice.Rectangle.Size.X / 2, 0));
+        AutoManaged.Add(shopTwoPrice);
+
+        shopThreePrice = new Text(priceThree.ToString());
+        shopThreePrice.Move(shopOptionThree.Rectangle.Center.ToVector2() + new Vector2(0, 64) -
+                            new Vector2(shopThreePrice.Rectangle.Size.X / 2, 0));
+        AutoManaged.Add(shopThreePrice);
+
+        shopFourPrice = new Text(priceFour.ToString());
+        shopFourPrice.Move(shopOptionFour.Rectangle.Center.ToVector2() + new Vector2(0, 64) -
+                           new Vector2(shopFourPrice.Rectangle.Size.X / 2, 0));
+        AutoManaged.Add(shopFourPrice);
+
         _overTimeMover = new OverTimeMover(Camera, new Vector2(640, 0), 500F, OverTimeMover.MoveMode.Sin);
+        AutoManaged.Add(_overTimeMover);
 
         _bakedBeansCounter = _storage.GameData.CurrentBackedBeans;
         _counter = new Text(string.Empty);
+        AutoManaged.Add(_counter);
 
         UpdateState();
 
@@ -134,15 +179,53 @@ public class Level6 : SampleLevel
         AutoManaged.Add(cursor);
     }
 
+    private void ShopOptionOneClick(object obj)
+    {
+        _bakedBeansCounter -= priceOne;
+        _bakedBeansIncrement++;
+        priceOne = (int) (priceOne * priceOneMultiplier);
+        shopOnePrice.ChangeText(priceOne.ToString());
+        _shopLockOne.Lock();
+    }
+
+    private void ShopOptionTwoClick(object obj)
+    {
+        _bakedBeansCounter -= priceTwo;
+        _bakedBeansCriticalIncrementChance++;
+        priceTwo = (int) (priceTwo * priceOneMultiplier);
+        shopTwoPrice.ChangeText(priceTwo.ToString());
+        _shopLockTwo.Lock();
+    }
+
+    private void ShopOptionThreeClick(object obj)
+    {
+        _bakedBeansCounter -= priceThree;
+        _bakedBeansRelativeIncrement++;
+        priceThree = (int) (priceThree * priceOneMultiplier);
+        shopThreePrice.ChangeText(priceThree.ToString());
+        _shopLockThree.Lock();
+    }
+
     public override void Update(GameTime gameTime)
     {
         shopOne.ChangeText(_bakedBeansIncrement.ToString());
-        shopTwo.ChangeText(_bakedBeansIncrement.ToString());
-        shopThree.ChangeText(_bakedBeansIncrement.ToString());
-        shopFour.ChangeText(_bakedBeansIncrement.ToString());
+        if (_bakedBeansCriticalIncrementChance > 0)
+            shopTwo.ChangeText(_bakedBeansCriticalIncrementChance.ToString());
+        if (_bakedBeansRelativeIncrement > 0)
+            shopThree.ChangeText(_bakedBeansRelativeIncrement.ToString());
+
+        if (_bakedBeansCounter >= priceOne)
+            _shopLockOne.Unlock();
+
+        if (_bakedBeansCounter >= priceTwo)
+            _shopLockTwo.Unlock();
+
+        if (_bakedBeansCounter >= priceThree)
+            _shopLockThree.Unlock();
+
+        if (_bakedBeansCounter >= priceFour)
+            _shopLockFour.Unlock();
         base.Update(gameTime);
-        PositionListener.Update(gameTime);
-        _overTimeMover.Update(gameTime);
 
         if (_state >= BeanState.Reached100)
             _shopButtonLock.Unlock();
@@ -153,12 +236,6 @@ public class Level6 : SampleLevel
         _counter.Update(gameTime);
 
         Console.WriteLine(Camera.Rectangle);
-    }
-
-    public override void Draw(SpriteBatch spriteBatch)
-    {
-        _counter.Draw(spriteBatch);
-        base.Draw(spriteBatch);
     }
 
     private void MoveCamera(object obj)
@@ -178,7 +255,7 @@ public class Level6 : SampleLevel
         int increment = _bakedBeansIncrement;
         increment += _bakedBeansCounter / 1000 * _bakedBeansRelativeIncrement;
         var crit = Random.Next(0, 100);
-        if (crit >= _bakedBeansCriticalIncrementChance)
+        if (crit <= _bakedBeansCriticalIncrementChance)
             increment *= 10;
 
         _bakedBeansCounter += increment;

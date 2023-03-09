@@ -34,7 +34,6 @@ public class HoldButtonAddon : GameObject, IInteractable
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        base.Update(gameTime);;
         _button.UpdateInteraction(gameTime, toCheck);
 
         
@@ -75,7 +74,13 @@ public class HoldButtonAddon : GameObject, IInteractable
         else
             newText = (_time / 1000).ToString("0.0");
         _timer.ChangeText(newText);
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        base.Update(gameTime);
         _timer.Update(gameTime);
+        _button.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)

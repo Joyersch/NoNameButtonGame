@@ -126,9 +126,3 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SFX/NoNameTalkingSound.wav
-
-#begin SFX/effect_3.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SFX/effect_3.wav

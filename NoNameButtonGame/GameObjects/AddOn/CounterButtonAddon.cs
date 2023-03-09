@@ -28,9 +28,14 @@ public class CounterButtonAddon : GameObject, IInteractable
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        base.Update(gameTime);
         _button.UpdateInteraction(gameTime, toCheck);
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        base.Update(gameTime);
         _text.Update(gameTime);
+        _button.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
