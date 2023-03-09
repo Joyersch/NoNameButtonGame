@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
 
-namespace NoNameButtonGame.GameObjects.Groups;
+namespace NoNameButtonGame.LevelSystem.Settings;
 
 public class ValueSelection : GameObject, IMoveable, IInteractable
 {
-    private readonly TextSystem.Text _display;
+    private readonly Text _display;
     private readonly SquareTextButton _decreaseButton;
     private readonly SquareTextButton _increaseButton;
 
@@ -34,7 +35,7 @@ public class ValueSelection : GameObject, IMoveable, IInteractable
         _pointer = startValueIndex;
         _decreaseButton = new SquareTextButton(position, scale, _left, _left);
         _decreaseButton.Click += DecreaseClicked;
-        _display = new TextSystem.Text(validValues[_pointer], Vector2.One, scale);
+        _display = new Text(validValues[_pointer], Vector2.One, scale);
 
         _increaseButton = new SquareTextButton(Vector2.Zero, scale, _right, _right);
         _increaseButton.Click += IncreaseClicked;

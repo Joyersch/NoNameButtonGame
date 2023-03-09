@@ -9,12 +9,12 @@ using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
-internal class Level2 : SampleLevel
+internal class Level : SampleLevel
 {
     private readonly LockButtonAddon _lockButtonAddon;
-    public Level2(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
         

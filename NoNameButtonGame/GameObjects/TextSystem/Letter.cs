@@ -6,6 +6,13 @@ namespace NoNameButtonGame.GameObjects.TextSystem;
 
 public class Letter : GameObject
 {
+    public const char Full = '⬜';
+    public const char LockLocked = '\u229E';
+    public const char LockUnlocked = '\u229F';
+    public const char AmongUsBean = 'ඞ';
+    public const char Checkmark = '✔';
+    public const char Crossout = '❌';
+
     public Rectangle FrameSpacing;
     public Character RepresentingCharacter;
     public Vector2 InitialScale { get; private set; }
@@ -330,8 +337,8 @@ public class Letter : GameObject
             ';' => Character.Semicolon,
             '.' => Character.Dot,
             ' ' => Character.Space,
-            '✔' => Character.Checkmark,
-            '❌' => Character.Crossout,
+            Checkmark => Character.Checkmark,
+            Crossout => Character.Crossout,
             '⬇' => Character.Down,
             '⬆' => Character.Up,
             '_' => Character.Line,
@@ -341,10 +348,10 @@ public class Letter : GameObject
             '➡' => Character.Right,
             '\"' => Character.Parentheses,
             '\\' => Character.Backslash,
-            '⬜' => Character.Full,
-            '\u229E' => Character.LockLocked,
-            '\u229F' => Character.LockUnlocked,
-            'ඞ' => Character.AmongUsBean,
+            Full => Character.Full,
+            LockLocked => Character.LockLocked,
+            LockUnlocked => Character.LockUnlocked,
+            AmongUsBean => Character.AmongUsBean,
             '[' => Character.OpenSquaredBrackets,
             ']' => Character.CloseSquaredBrackets,
             _ => Character.Full,
@@ -422,7 +429,7 @@ public class Letter : GameObject
             Character.SmallerAs => '<',
             Character.Equal => '=',
             Character.BiggerAs => '>',
-            Character.Asterisk => '*', 
+            Character.Asterisk => '*',
             Character.Plus => '+',
             Character.Percent => '%',
             Character.OpenBracket => '(',
@@ -430,8 +437,8 @@ public class Letter : GameObject
             Character.Semicolon => ';',
             Character.Dot => '.',
             Character.Space => ' ',
-            Character.Checkmark => '✔',
-            Character.Crossout => '❌',
+            Character.Checkmark => Checkmark,
+            Character.Crossout => Crossout,
             Character.Down => '⬇',
             Character.Up => '⬆',
             Character.Line => '_',
@@ -441,10 +448,10 @@ public class Letter : GameObject
             Character.Right => '➡',
             Character.Parentheses => '\"',
             Character.Backslash => '\\',
-            Character.Full => '⬜',
-            Character.LockLocked => '\u229E',
-            Character.LockUnlocked => '\u229F',
-            Character.AmongUsBean => 'ඞ',
+            Character.Full => Full,
+            Character.LockLocked => LockLocked,
+            Character.LockUnlocked => LockUnlocked,
+            Character.AmongUsBean => AmongUsBean,
             Character.OpenSquaredBrackets => '[',
             Character.CloseSquaredBrackets => ']',
             _ => '⬜'

@@ -45,7 +45,7 @@ public class SampleLevel : ILevel
 
         AutoManaged = new List<object>();
         
-        Camera = new Camera(Vector2.Zero, new Vector2(_display.Width, _display.Height));
+        Camera = new Camera(Vector2.Zero, Display.Display.Size);
         _mouse = new MousePointer();
         SetMousePositionToCenter();
     }
@@ -71,8 +71,8 @@ public class SampleLevel : ILevel
         Camera.Update();
 
         var mouseVector = Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / _display.Width, Window.Y / _display.Height);
-        var offset = new Vector2(_display.Width, _display.Height) / Camera.Zoom / 2;
+        var screenScale = new Vector2(Window.X / Display.Display.Width, Window.Y / Display.Display.Height);
+        var offset = Display.Display.Size / Camera.Zoom / 2;
         _mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
         _mouse.Update(gameTime);
 

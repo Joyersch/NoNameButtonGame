@@ -8,9 +8,9 @@ using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
-namespace NoNameButtonGame.LevelSystem;
+namespace NoNameButtonGame.LevelSystem.MainMenu;
 
-public class StartScreen : SampleLevel
+public class Level : SampleLevel
 {
     public event Action<object> StartClicked;
     public event Action<object> SelectClicked;
@@ -19,7 +19,7 @@ public class StartScreen : SampleLevel
     public event Action<object> CreditsClicked;
     public event Action<object> ExitClicked;
 
-    public StartScreen(Display.Display display, Vector2 window, Random rand) : base(display, window, rand)
+    public Level(Display.Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
         Name = "Start Menu";
 

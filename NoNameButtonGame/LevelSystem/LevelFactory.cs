@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.LevelSystem.LevelContainer;
+using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
+using Settings = NoNameButtonGame.LevelSystem.Settings;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -23,24 +24,24 @@ public class LevelFactory
     public void ChangeScreenSize(Vector2 screen)
         => _screen = screen;
 
-    public StartScreen GetStartLevel()
-        => new StartScreen(_display, _screen, _random);
+    public MainMenu.Level GetStartLevel()
+        => new MainMenu.Level(_display, _screen, _random);
     
-    public SettingsScreen GetSettingsLevel()
-        => new SettingsScreen(_display, _screen, _random, _storage);
+    public Settings.Level GetSettingsLevel()
+        => new Settings.Level(_display, _screen, _random, _storage);
 
-    public LevelSelect GetSelectLevel()
-        => new LevelSelect(_display, _screen, _random, _storage);
+    public Selection.Level GetSelectLevel()
+        => new Selection.Level(_display, _screen, _random, _storage);
 
     public SampleLevel GetLevel(int number)
         => number switch
         {
-            1 => new Level1(_display, _screen, _random),
-            2 => new Level2(_display, _screen, _random),
-            3 => new Level3(_display, _screen, _random),
-            4 => new Level4(_display, _screen, _random),
-            5 => new Level5(_display, _screen, _random),
-            6 => new Level6(_display, _screen, _random, _storage),
-            _ => new LevelNull(_display, _screen, _random),
+            1 => new Levels.Level1.Level(_display, _screen, _random),
+            2 => new Levels.Level2.Level(_display, _screen, _random),
+            3 => new Levels.Level3.Level(_display, _screen, _random),
+            4 => new Levels.Level4.Level(_display, _screen, _random),
+            5 => new Levels.Level5.Level(_display, _screen, _random),
+            6 => new Levels.Level6.Level(_display, _screen, _random, _storage),
+            _ => new Levels.Level0.Level(_display, _screen, _random),
         };
 }

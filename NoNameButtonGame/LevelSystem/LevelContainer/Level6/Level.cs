@@ -12,9 +12,9 @@ using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Listener;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
-public class Level6 : SampleLevel
+public class Level : SampleLevel
 {
     private Storage.Storage _storage;
 
@@ -68,7 +68,7 @@ public class Level6 : SampleLevel
         Reached1m = 8
     }
 
-    public Level6(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
+    public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
     {
         Name = "Level 6 - Just like Cookie Clicker but with BEANS!";
@@ -76,7 +76,7 @@ public class Level6 : SampleLevel
         _state = BeanState.Started;
 
         _storage = storage;
-        _bakedBeansCounter = storage.GameData.CurrentBackedBeans;
+        _bakedBeansCounter = (int)storage.GameData.Level6.Beans;
 
         var shopScreen = new Vector2(640, 0);
 
@@ -167,7 +167,7 @@ public class Level6 : SampleLevel
         _overTimeMover = new OverTimeMover(Camera, new Vector2(640, 0), 500F, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_overTimeMover);
 
-        _bakedBeansCounter = _storage.GameData.CurrentBackedBeans;
+        _bakedBeansCounter = (int)_storage.GameData.Level6.Beans;
         _counter = new Text(string.Empty);
         AutoManaged.Add(_counter);
 
@@ -246,7 +246,7 @@ public class Level6 : SampleLevel
 
     private void WriteBeanCounterToStorage(object obj)
     {
-        _storage.GameData.CurrentBackedBeans = _bakedBeansCounter;
+        _storage.GameData.Level6.Beans = (long)_bakedBeansCounter;
         _storage.Save();
     }
 

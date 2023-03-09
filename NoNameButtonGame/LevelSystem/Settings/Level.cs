@@ -6,31 +6,27 @@ using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.GameObjects.Groups;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 
-namespace NoNameButtonGame.LevelSystem;
+namespace NoNameButtonGame.LevelSystem.Settings;
 
-public class SettingsScreen : SampleLevel
+public class Level : SampleLevel
 {
     private readonly Storage.Storage _storage;
 
-    private readonly string _crossout = Letter.ReverseParse(Letter.Character.Crossout).ToString();
-    private readonly string _checkmark = Letter.ReverseParse(Letter.Character.Checkmark).ToString();
-    
     private Vector2 _vectorResolution;
     public event Action<Vector2> WindowsResizeEventHandler;
 
-    public SettingsScreen(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+    public Level(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
         window, rand)
     {
         _storage = storage;
-        string settingOne = _crossout, settingTwo = _crossout;
+        string settingOne = Letter.Crossout.ToString(), settingTwo = Letter.Crossout.ToString();
         if (storage.Settings.IsFixedStep)
-            settingOne = _checkmark;
+            settingOne = Letter.Checkmark.ToString();
         if (storage.Settings.IsFullscreen)
-            settingTwo = _checkmark;
+            settingTwo = Letter.Checkmark.ToString();
 
         var leftAnchor = new Vector2(-196, -64);
         var rightAnchor = new Vector2(16, -64);
@@ -64,7 +60,7 @@ public class SettingsScreen : SampleLevel
         leftAnchor += new Vector2(0, resolution.Rectangle.Height + 4);
 
         var fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
-        fullscreenButton.Text.ChangeColor(new[] {settingTwo == _crossout ? Color.Red : Color.Green});
+        fullscreenButton.Text.ChangeColor(new[] {settingTwo == Letter.Crossout.ToString() ? Color.Red : Color.Green});
         fullscreenButton.Click += ChangePressState;
         AutoManaged.Add(fullscreenButton);
         
@@ -77,7 +73,7 @@ public class SettingsScreen : SampleLevel
         leftAnchor += new Vector2(0, fullscreenButton.Rectangle.Height + 4);
 
         var fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne);
-        fixedStepButton.Text.ChangeColor(new[] {settingOne == _crossout ? Color.Red : Color.Green});
+        fixedStepButton.Text.ChangeColor(new[] {settingOne == Letter.Crossout.ToString() ? Color.Red : Color.Green});
         fixedStepButton.Click += ChangePressState;
         AutoManaged.Add(fixedStepButton);
 
@@ -145,19 +141,19 @@ public class SettingsScreen : SampleLevel
         switch (Letter.Parse(text[0]))
         {
             case Letter.Character.Crossout:
-                button.Text.ChangeText(_checkmark);
+                button.Text.ChangeText(Letter.Checkmark.ToString());
                 button.Text.ChangeColor(new[] {Color.Green});
                 break;
             case Letter.Character.Checkmark:
-                button.Text.ChangeText(_crossout);
+                button.Text.ChangeText(Letter.Crossout.ToString());
                 button.Text.ChangeColor(new[] {Color.Red});
                 break;
         }
 
         if (button.Name == "IsFixedStep")
-        _storage.Settings.IsFixedStep = button.Text.Value == _checkmark;
+        _storage.Settings.IsFixedStep = button.Text.Value == Letter.Checkmark.ToString();
         else
-        _storage.Settings.IsFullscreen = button.Text.Value == _checkmark;
+        _storage.Settings.IsFullscreen = button.Text.Value == Letter.Checkmark.ToString();
     }
 
     public override void Update(GameTime gameTime)

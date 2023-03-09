@@ -8,11 +8,11 @@ using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
-internal class Level3 : SampleLevel
+internal class Level : SampleLevel
 {
-    public Level3(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 3 - Tutorial 2 - Button Addon: Counter";
 

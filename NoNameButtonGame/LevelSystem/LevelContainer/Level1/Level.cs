@@ -4,11 +4,11 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level1;
 
-internal class Level1 : SampleLevel
+internal class Level : SampleLevel
 {
-    public Level1(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 1 - Click the Button!";
         

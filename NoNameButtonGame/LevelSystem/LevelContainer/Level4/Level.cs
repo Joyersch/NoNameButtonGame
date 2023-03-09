@@ -8,11 +8,11 @@ using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
-internal class Level4 : SampleLevel
+internal class Level : SampleLevel
 {
-    public Level4(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 4 - Tutorial 3 - Button Addon: Hold";
 

@@ -6,8 +6,10 @@ namespace NoNameButtonGame.Display;
 public class Display
 {
     public readonly RenderTarget2D Target;
-    public readonly float Width = 1280F;
-    public readonly float Height = 720F;
+    public static readonly float Width = 1280F;
+    public static readonly float Height = 720F;
+
+    public static Vector2 Size => new Vector2(Width, Height);
 
     public Rectangle Window;
     

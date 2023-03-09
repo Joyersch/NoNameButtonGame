@@ -9,9 +9,9 @@ namespace NoNameButtonGame.LevelSystem;
 internal class LevelManager
 {
     private SampleLevel _currentLevel;
-    private StartScreen _startMenu;
-    private SettingsScreen _settings;
-    private LevelSelect _levelSelect;
+    private MainMenu.Level _startMenu;
+    private Settings.Level _settings;
+    private Selection.Level level;
     private LevelFactory _levelFactory;
 
     private Display.Display _display;
@@ -39,7 +39,7 @@ internal class LevelManager
         {
             MenuState.Settings => _settings.Camera,
             MenuState.StartMenu => _startMenu.Camera,
-            MenuState.LevelSelect => _levelSelect.Camera,
+            MenuState.LevelSelect => level.Camera,
             _ => _currentLevel.Camera,
         };
 
@@ -72,11 +72,11 @@ internal class LevelManager
     
     private void InitializeLevelSelect()
     {
-        _levelSelect = _levelFactory.GetSelectLevel();
-        _levelSelect.ExitEventHandler += LevelSelectOnExitEventHandler;
-        _levelSelect.LevelSelectedEventHandler += LevelSelected;
-        _levelSelect.CurrentMusicEventHandler += CurrentMusic;
-        ChangeWindowName?.Invoke(_levelSelect.Name);
+        level = _levelFactory.GetSelectLevel();
+        level.ExitEventHandler += LevelOnExitEventHandler;
+        level.LevelSelectedEventHandler += LevelSelected;
+        level.CurrentMusicEventHandler += CurrentMusic;
+        ChangeWindowName?.Invoke(level.Name);
     }
     
     private void SelectLevel(int level)
@@ -93,7 +93,7 @@ internal class LevelManager
     {
         SampleLevel level = _state switch
         {
-            MenuState.LevelSelect => _levelSelect,
+            MenuState.LevelSelect => this.level,
             MenuState.Level => _currentLevel,
             MenuState.Settings => _settings,
             _ => _startMenu,
@@ -111,7 +111,7 @@ internal class LevelManager
     {
         SampleLevel level = _state switch
         {
-            MenuState.LevelSelect => _levelSelect,
+            MenuState.LevelSelect => this.level,
             MenuState.Level => _currentLevel,
             MenuState.Settings => _settings,
             _ => _startMenu,
@@ -177,7 +177,7 @@ internal class LevelManager
         {
             _fromSelect = false;
             _state = MenuState.LevelSelect;
-            ChangeWindowName?.Invoke(_levelSelect.Name);
+            ChangeWindowName?.Invoke(level.Name);
             return;
         }
 
@@ -221,10 +221,10 @@ internal class LevelManager
         ChangeWindowName?.Invoke(_settings.Name);
     }
 
-    private void LevelSelectOnExitEventHandler()
+    private void LevelOnExitEventHandler()
     {
         _state = MenuState.StartMenu;
-        ChangeWindowName?.Invoke(_levelSelect.Name);
+        ChangeWindowName?.Invoke(level.Name);
     }
 
     private void SettingsWindowResize(Vector2 newSize)

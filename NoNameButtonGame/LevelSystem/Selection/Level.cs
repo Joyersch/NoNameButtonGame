@@ -8,16 +8,16 @@ using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Listener;
 
-namespace NoNameButtonGame.LevelSystem;
+namespace NoNameButtonGame.LevelSystem.Selection;
 
-public class LevelSelect : SampleLevel
+public class Level : SampleLevel
 {
     private readonly OverTimeMover _mover;
     public event Action<int> LevelSelectedEventHandler;
 
     private int _cameraLevel = 0;
 
-    public LevelSelect(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+    public Level(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
         window, rand)
     {
         Name = "Level Selection";
@@ -32,7 +32,7 @@ public class LevelSelect : SampleLevel
         for (int i = 0; i < screens; i++)
         {
             var down = new MiniTextButton(
-                new Vector2(-300, 138 + (_display.Height / Camera.Zoom) * i)
+                new Vector2(-300, 138 + (Display.Display.Height / Camera.Zoom) * i)
                 , new Vector2(64, 32)
                 , ""
                 , "⬇"
@@ -42,7 +42,7 @@ public class LevelSelect : SampleLevel
             AutoManaged.Add(down);
 
             var up = new MiniTextButton(
-                new Vector2(-300, 190 + (_display.Height / Camera.Zoom) * i)
+                new Vector2(-300, 190 + (Display.Display.Height / Camera.Zoom) * i)
                 , new Vector2(64, 32)
                 , ""
                 , "⬆"

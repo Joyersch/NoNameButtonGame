@@ -1,5 +1,6 @@
 using System;
 using NoNameButtonGame.Interfaces;
+using Level6 = NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
 namespace NoNameButtonGame.Storage;
 
@@ -17,15 +18,12 @@ public class GameData : IChangeable
         }
     }
 
-    private int _currentBackedBeans;
-    public int CurrentBackedBeans
+    public Level6.StorageData Level6;
+
+    public GameData()
     {
-        get => _currentBackedBeans;
-        set
-        {
-            _currentBackedBeans = value;
-            HasChanged?.Invoke(this, EventArgs.Empty);
-        }
+        Level6 = new Level6.StorageData();
+        Level6.HasChanged += HasChanged;
     }
 
     public event EventHandler HasChanged;
