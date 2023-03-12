@@ -9,7 +9,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
+public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable, IDisposable
 {
     public event Action<object> Leave;
     public event Action<object> Enter;
@@ -52,11 +52,6 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
         base(position, size, texture, mapping)
     {
         _soundEffectInstance = Globals.SoundEffects.GetSfxInstance("ButtonSound");
-    }
-
-    ~EmptyButton()
-    {
-        _soundEffectInstance.Dispose();
     }
 
     public virtual void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -105,5 +100,10 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable
     {
         _soundEffectInstance.Dispose();
         _soundEffectInstance = Globals.SoundEffects.GetSfxInstance(key);
+    }
+
+    public void Dispose()
+    {
+        _soundEffectInstance?.Dispose();
     }
 }

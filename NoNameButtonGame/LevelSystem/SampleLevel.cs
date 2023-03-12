@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
@@ -11,7 +12,7 @@ using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem;
 
-public class SampleLevel : ILevel
+public class SampleLevel : ILevel, IDisposable
 {
     public event Action FailEventHandler;
     public event Action ExitEventHandler;
@@ -63,7 +64,6 @@ public class SampleLevel : ILevel
             if (obj is Text text)
                 text.Draw(spriteBatch);
         }
-            
     }
 
     public virtual void Update(GameTime gameTime)
@@ -110,4 +110,13 @@ public class SampleLevel : ILevel
 
     protected virtual void CurrentMusic(string music)
         => CurrentMusicEventHandler?.Invoke(music);
+
+    public void Dispose()
+    {
+        foreach (var g in AutoManaged)
+        {
+            if (g is IDisposable d)
+                d.Dispose();
+        }
+    }
 }

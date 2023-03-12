@@ -81,6 +81,7 @@ internal class LevelManager
     
     private void SelectLevel(int level)
     {
+        _currentLevel?.Dispose();
         _currentLevel = _levelFactory.GetLevel(level);
         _currentLevel.FinishEventHandler += LevelFinish;
         _currentLevel.FailEventHandler += LevelFail;
