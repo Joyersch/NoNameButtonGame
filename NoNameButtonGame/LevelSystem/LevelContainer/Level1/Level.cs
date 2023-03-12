@@ -1,8 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level1;
 
@@ -13,14 +15,16 @@ internal class Level : SampleLevel
         Name = "Level 1 - Click the Button!";
         
         var startButton = new TextButton("Start");
-        startButton.Move(-TextButton.DefaultSize / 2);
+        startButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().Move();
         startButton.Click += Finish;
         AutoManaged.Add(startButton);
-
+        
         var infoText = new Text("How hard can it be?");
-        infoText.Move(Vector2.Zero -
-                       new Vector2(infoText.Rectangle.Width,
-                           infoText.Rectangle.Height + TextButton.DefaultSize.Y * 2) / 2);
+        infoText.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(3,10)
+            .Centered()
+            .Move();
         AutoManaged.Add(infoText);
         
         var mouseCursor = new Cursor();

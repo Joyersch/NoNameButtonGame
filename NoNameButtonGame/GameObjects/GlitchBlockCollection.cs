@@ -102,6 +102,9 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     public Vector2 GetPosition()
         => Position;
 
+    public Vector2 GetSize()
+        => Size;
+
     public void Move(Vector2 newPosition)
     {
         var offset = newPosition - Position;

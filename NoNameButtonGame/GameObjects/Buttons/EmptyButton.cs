@@ -80,14 +80,17 @@ public class EmptyButton : GameObject, IMouseActions, IMoveable, IInteractable, 
     public Vector2 GetPosition()
         => Position;
 
+    public Vector2 GetSize()
+        => Size;
+
     public virtual void Move(Vector2 newPosition)
         => Position = newPosition;
 
     protected void InvokeClickEventHandler()
     {
         _soundEffectInstance.Stop();
-        Click?.Invoke(this);
         _soundEffectInstance.Play();
+        Click?.Invoke(this);
     }
 
     protected void InvokeEnterEventHandler()

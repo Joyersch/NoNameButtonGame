@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -24,6 +26,9 @@ internal class LevelManager
 
     private string _currentMusicName;
     private SoundEffectInstance _currentMusic;
+
+    private List<SampleLevel> toDispose;
+    private OverTimeInvoker disposer;
     public event Action CloseGameEventHandler;
 
     private enum MenuState
@@ -47,6 +52,9 @@ internal class LevelManager
 
     public LevelManager(Display.Display display, Storage.Storage storage, int? seed = null)
     {
+        toDispose = new List<SampleLevel>();
+        disposer = new OverTimeInvoker(200);
+        disposer.Trigger += DisposerOnTrigger;
         _display = display;
         _storage = storage;
         _random = new Random(seed ?? DateTime.Now.Millisecond);
@@ -69,7 +77,10 @@ internal class LevelManager
         _settings.CurrentMusicEventHandler += CurrentMusic;
         InitializeLevelSelect();
     }
-    
+
+    private void DisposerOnTrigger()
+    => toDispose.ForEach(l => l.Dispose());
+
     private void InitializeLevelSelect()
     {
         level = _levelFactory.GetSelectLevel();
@@ -81,7 +92,6 @@ internal class LevelManager
     
     private void SelectLevel(int level)
     {
-        _currentLevel?.Dispose();
         _currentLevel = _levelFactory.GetLevel(level);
         _currentLevel.FinishEventHandler += LevelFinish;
         _currentLevel.FailEventHandler += LevelFail;
@@ -106,6 +116,8 @@ internal class LevelManager
         }
 
         level.Update(gameTime);
+        if (_state is MenuState.StartMenu or MenuState.LevelSelect or MenuState.Settings)
+            disposer.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -122,8 +134,6 @@ internal class LevelManager
     
     private void CurrentMusic(string newMusic)
     {
-        // updates music volume on settings change!
-
         if (_currentMusicName == newMusic)
             return;
         
@@ -166,14 +176,20 @@ internal class LevelManager
         _storage.GameData.MaxLevel = _currentSelectLevel;
         _storage.Save();
 
+        toDispose.Add(_currentLevel);
         SelectLevel(_currentSelectLevel + 1);
     }
 
     private void LevelFail()
-        => SelectLevel(_currentSelectLevel + 1);
+    {
+        toDispose.Add(_currentLevel);
+        SelectLevel(_currentSelectLevel + 1);
+    }
 
     private void LevelExitEventHandler()
     {
+        toDispose.Add(_currentLevel);
+        
         if (_fromSelect)
         {
             _fromSelect = false;
@@ -212,6 +228,7 @@ internal class LevelManager
 
     private void StartMenuOnStartEventHandler()
     {
+        _currentSelectLevel = _storage.GameData.MaxLevel;
         SelectLevel(_storage.GameData.MaxLevel + 1);
         _state = MenuState.Level;
     }

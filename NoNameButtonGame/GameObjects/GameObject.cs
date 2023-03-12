@@ -72,7 +72,7 @@ public class GameObject : IHitbox, IManageable
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
-        if (ImageLocation == new Rectangle(0, 0, 0, 0))
+        if (ImageLocation == Rectangle.Empty)
             spriteBatch.Draw(Texture, Rectangle, DrawColor);
         else
             spriteBatch.Draw(Texture, Rectangle, ImageLocation, DrawColor);

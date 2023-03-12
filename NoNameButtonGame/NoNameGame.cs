@@ -103,7 +103,6 @@ public class NoNameGame : Game
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-
 #if DEBUG
         // For outputting info while debugging
         Console.SetCursorPosition(0, 1);
@@ -122,16 +121,16 @@ public class NoNameGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        // Display.Display always has the same size. Therefor if be draw to coordinates
+        base.Draw(gameTime);
         GraphicsDevice.SetRenderTarget(_display.Target);
         GraphicsDevice.Clear(new Color(50, 50, 50));
 
-        _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-            transformMatrix: _levelManager.CurrentCamera.CameraMatrix);
+        _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: _levelManager.CurrentCamera.CameraMatrix);
 
         _levelManager.Draw(_spriteBatch);
 
-        _spriteBatch.End();
+         _spriteBatch.End();
+        
 
         GraphicsDevice.SetRenderTarget(null);
 
@@ -145,8 +144,6 @@ public class NoNameGame : Game
             _mousePointer.Draw(_spriteBatch);
 
         _spriteBatch.End();
-
-        base.Draw(gameTime);
     }
 
     private void SettingsChanged(object obj, EventArgs e)

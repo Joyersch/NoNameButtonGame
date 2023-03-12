@@ -21,12 +21,19 @@ public static class InputReaderMouse
     public static void StoreButtonStates()
     {
         MouseState mouseState = Mouse.GetState();
-        _storedMouseStates = new()
+        if (!_storedMouseStates.Any())
+            _storedMouseStates = new()
+            {
+                {MouseKeys.Left, mouseState.LeftButton},
+                {MouseKeys.Middle, mouseState.MiddleButton},
+                {MouseKeys.Right, mouseState.RightButton}
+            };
+        else
         {
-            {MouseKeys.Left, mouseState.LeftButton},
-            {MouseKeys.Middle, mouseState.MiddleButton},
-            {MouseKeys.Right, mouseState.RightButton}
-        };
+            _storedMouseStates[MouseKeys.Left] = mouseState.LeftButton;
+            _storedMouseStates[MouseKeys.Middle] = mouseState.MiddleButton;
+            _storedMouseStates[MouseKeys.Right] = mouseState.RightButton;
+        }
     }
 
     /// <summary>

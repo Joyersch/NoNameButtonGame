@@ -129,7 +129,12 @@ public class Text : IColorable, IMoveable, IManageable
         => BuildString(_letters);
 
     public virtual void Draw(SpriteBatch spriteBatch)
-    => System.Array.ForEach(_letters, c => c.Draw(spriteBatch));
+    {
+        foreach (var letter in _letters)
+        {
+            letter.Draw(spriteBatch);
+        }
+    }
 
     public static string BuildString(Letter[] letters)
     {
@@ -144,6 +149,9 @@ public class Text : IColorable, IMoveable, IManageable
 
     public Vector2 GetPosition()
         => Position;
+
+    public Vector2 GetSize()
+        => Rectangle.Size.ToVector2();
 
     public void Move(Vector2 newPosition)
     =>  ChangePosition(newPosition);

@@ -68,6 +68,9 @@ public class ValueSelection : GameObject, IMoveable, IInteractable
     public Vector2 GetPosition()
         => Position;
 
+    public Vector2 GetSize()
+        => Size;
+
     public void Move(Vector2 newPosition)
     {
         _decreaseButton.Move(newPosition);

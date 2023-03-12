@@ -39,6 +39,9 @@ internal class Cursor : GameObject, IMoveable
     public Vector2 GetPosition()
         => Position;
 
+    public Vector2 GetSize()
+        => Size;
+
     public void Move(Vector2 newPosition)
         => Position = newPosition;
 }
