@@ -6,7 +6,7 @@ namespace NoNameButtonGame;
 
 public static class InputReaderKeyboard
 {
-    private static List<Keys> _currentlyPressedKeys = new();
+    private static Dictionary<Keys, bool> _currentlyPressedKeys = new();
     private static bool _anyKeyPressed;
 
     /// <summary>
@@ -14,23 +14,21 @@ public static class InputReaderKeyboard
     /// </summary>
     /// <param name="search"></param>
     /// <param name="onlyOnces"> if true, stores searched key if pressed. Otherwise search is not stored</param>
-    /// <returns>Returns if search is being pressed. If <paramref name="onlyOnces" is true, only returns true if search is not stored./></returns>
-    public static bool CheckKey(Keys search, bool onlyOnces)
+    /// <returns>Returns if search is being pressed. If <paramref name="onlyOnces"> is true, only returns true if search is not stored./></returns>
+    public static bool CheckKey(Keys search, bool onlyOnces = false)
     {
+        var keyboardState = Keyboard.GetState();
+        var isKeyDown = keyboardState.IsKeyDown(search);
+        
         if (!onlyOnces)
-            return Keyboard.GetState().IsKeyDown(search);
+            return isKeyDown;
+        
+        bool stored = false;
+        if (_currentlyPressedKeys.ContainsKey(search))
+            stored = _currentlyPressedKeys[search];
+        _currentlyPressedKeys[search] = isKeyDown;
 
-        if (_currentlyPressedKeys.Any(k => k == search))
-        {
-            if (!Keyboard.GetState().IsKeyDown(search))
-                _currentlyPressedKeys.Remove(search);
-            return false;
-        }
-
-        if (!Keyboard.GetState().IsKeyDown(search))
-            return false;
-        _currentlyPressedKeys.Add(search);
-        return true;
+        return stored;
     }
 
     /// <summary>

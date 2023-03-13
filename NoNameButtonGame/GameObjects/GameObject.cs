@@ -82,7 +82,15 @@ public class GameObject : IHitbox, IManageable
         => Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
 
     public bool HitboxCheck(Rectangle compareTo)
-        => Hitbox.Any(h => h.Intersects(compareTo));
+    {
+        foreach (Rectangle box in Hitbox)
+        {
+            if (box.Intersects(compareTo))
+                return true;
+        }
+
+        return false;
+    }
 
     protected virtual void CalculateHitboxes()
     {
