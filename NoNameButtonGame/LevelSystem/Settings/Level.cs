@@ -137,7 +137,7 @@ public class Level : SampleLevel
 
     private void ChangePressState(TextButton button)
     {
-        string text = button.Text.ToString();
+        string text = button.Text.Value;
         switch (Letter.Parse(text[0]))
         {
             case Letter.Character.Crossout:
