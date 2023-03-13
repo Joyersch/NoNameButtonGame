@@ -13,7 +13,12 @@ public static class InputReaderMouse
         Right
     }
 
-    private static Dictionary<MouseKeys, ButtonState> _storedMouseStates = new();
+    private static Dictionary<MouseKeys, ButtonState> _storedMouseStates = new()
+    {
+        {MouseKeys.Left, ButtonState.Released},
+        {MouseKeys.Middle, ButtonState.Released},
+        {MouseKeys.Right, ButtonState.Released}
+    };
 
     /// <summary>
     /// Stores the current key-states. Call this at the end of update
@@ -21,19 +26,9 @@ public static class InputReaderMouse
     public static void StoreButtonStates()
     {
         MouseState mouseState = Mouse.GetState();
-        if (!_storedMouseStates.Any())
-            _storedMouseStates = new()
-            {
-                {MouseKeys.Left, mouseState.LeftButton},
-                {MouseKeys.Middle, mouseState.MiddleButton},
-                {MouseKeys.Right, mouseState.RightButton}
-            };
-        else
-        {
-            _storedMouseStates[MouseKeys.Left] = mouseState.LeftButton;
-            _storedMouseStates[MouseKeys.Middle] = mouseState.MiddleButton;
-            _storedMouseStates[MouseKeys.Right] = mouseState.RightButton;
-        }
+        _storedMouseStates[MouseKeys.Left] = mouseState.LeftButton;
+        _storedMouseStates[MouseKeys.Middle] = mouseState.MiddleButton;
+        _storedMouseStates[MouseKeys.Right] = mouseState.RightButton;
     }
 
     /// <summary>
