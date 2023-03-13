@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Colors;
+using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
@@ -19,23 +20,23 @@ internal class Level : SampleLevel
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
         
         var magicButton = new TextButton("Unlock");
-        magicButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, TextButton.DefaultSize.Y));
+        magicButton.GetCalculator(Camera.Rectangle).OnCenter().OnY(13,16).Centered().Move();
         magicButton.Click += MagicButtonOnClick;
         AutoManaged.Add(magicButton);
 
         var lockButton = new TextButton("Finish Level");
-        lockButton.Move(-TextButton.DefaultSize / 2 + new Vector2(0, -TextButton.DefaultSize.Y));
+        lockButton.GetCalculator(Camera.Rectangle).OnCenter().OnY(3,16).Centered().Move();
         
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Callback += Finish;
         AutoManaged.Add(_lockButtonAddon);
 
         var info1 = new Text("This button here is locked!");
-        info1.ChangePosition(new Vector2(-info1.Rectangle.Width / 2F, -128));
+        info1.GetCalculator(Camera.Rectangle).OnCenter().OnY(7,20).Centered().Move();
         AutoManaged.Add(info1);
         
         var info2 = new Text("The button below will unlock the button above!");
-        info2.ChangePosition(new Vector2(-info2.Rectangle.Width / 2F, -Text.DefaultLetterSize.Y / 2));
+        info2.GetCalculator(Camera.Rectangle).OnCenter().OnY(13,20).Centered().Move();
         AutoManaged.Add(info2);
         
         var cursor = new Cursor();
