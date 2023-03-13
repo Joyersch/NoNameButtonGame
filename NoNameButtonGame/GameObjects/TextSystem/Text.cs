@@ -8,7 +8,7 @@ namespace NoNameButtonGame.GameObjects.TextSystem;
 
 public class Text : IColorable, IMoveable, IManageable
 {
-    private Letter[] _letters;
+    private List<Letter> _letters;
     protected readonly int _spacing;
     private string _represent;
     public Vector2 Position;
@@ -18,7 +18,7 @@ public class Text : IColorable, IMoveable, IManageable
 
     public Letter this[int i] => _letters[i];
 
-    public int Length => _letters.Length;
+    public int Length => _letters.Count;
 
     public static Vector2 DefaultLetterSize => new Vector2(16, 16);
 
@@ -59,7 +59,7 @@ public class Text : IColorable, IMoveable, IManageable
     {
         for (int i = 0; i < color.Length; i++)
         {
-            if (_letters.Length > i)
+            if (_letters.Count > i)
                 _letters[i].ChangeColor(color[i]);
         }
     }
@@ -69,7 +69,7 @@ public class Text : IColorable, IMoveable, IManageable
 
     public void ChangeColor(Color color)
     {
-        for (int i = 0; i < _letters.Length; i++)
+        for (int i = 0; i < _letters.Count; i++)
         {
             _letters[i].ChangeColor(color);
         }
@@ -95,7 +95,7 @@ public class Text : IColorable, IMoveable, IManageable
             letters.Add(letter);
         }
 
-        _letters = letters.ToArray();
+        _letters = letters;
         UpdateRectangle();
     }
 
@@ -104,29 +104,31 @@ public class Text : IColorable, IMoveable, IManageable
 
     public virtual void Update(GameTime gameTime)
     {
-        _represent = BuildString(_letters);
 
-        System.Array.ForEach(_letters, c => c.Update(gameTime));
-
+        foreach (var letter in _letters)
+        {
+            letter.Update(gameTime);
+        }
+        
         UpdateRectangle();
     }
 
     private void UpdateRectangle()
     {
         Rectangle combination = Rectangle.Empty;
-        foreach (Letter l in _letters)
+        foreach (Letter letter in _letters)
         {
             if (combination.IsEmpty)
-                combination = l.Rectangle;
+                combination = letter.Rectangle;
             else
-                Rectangle.Union(ref combination, ref l.Rectangle, out combination);
+                Rectangle.Union(ref combination, ref letter.Rectangle, out combination);
         }
 
         Rectangle = combination;
     }
 
     public override string ToString()
-        => BuildString(_letters);
+        => BuildString();
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
@@ -136,10 +138,11 @@ public class Text : IColorable, IMoveable, IManageable
         }
     }
 
-    public static string BuildString(Letter[] letters)
+    private string BuildString()
     {
         string build = string.Empty;
-        foreach (var letter in letters)
+        
+        foreach (var letter in _letters)
         {
             build += Letter.ReverseParse(letter.RepresentingCharacter);
         }
