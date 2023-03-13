@@ -19,16 +19,17 @@ public static class InputReaderKeyboard
     {
         var keyboardState = Keyboard.GetState();
         var isKeyDown = keyboardState.IsKeyDown(search);
-        
+
         if (!onlyOnces)
             return isKeyDown;
         
-        bool stored = false;
-        if (_currentlyPressedKeys.ContainsKey(search))
-            stored = _currentlyPressedKeys[search];
-        _currentlyPressedKeys[search] = isKeyDown;
+        if (!_currentlyPressedKeys.ContainsKey(search))
+            _currentlyPressedKeys.Add(search, isKeyDown);
 
-        return stored;
+        var returnValue = !_currentlyPressedKeys[search] && isKeyDown;
+        _currentlyPressedKeys[search] = isKeyDown;
+        
+        return returnValue;
     }
 
     /// <summary>
