@@ -61,6 +61,7 @@ public class OverTimeMover : IManageable
     public void Start()
     {
         IsMoving = true;
+        _start = _moveable.GetPosition();
         _currentMoveTime = 0;
     }
 

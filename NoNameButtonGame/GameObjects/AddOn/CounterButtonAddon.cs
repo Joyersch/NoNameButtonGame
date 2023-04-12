@@ -7,7 +7,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class CounterButtonAddon : GameObject, IInteractable
+public class CounterButtonAddon : GameObject, IInteractable, IMoveable
 {
     public event Action StateReachedZero;
 
@@ -59,5 +59,17 @@ public class CounterButtonAddon : GameObject, IInteractable
         }
 
         UpdateText();
+    }
+
+    public Vector2 GetPosition()
+        => _button.GetPosition();
+
+    public Vector2 GetSize()
+        => _button.GetPosition();
+
+    public void Move(Vector2 newPosition)
+    {
+        _button.Move(newPosition);
+        _text.Move(newPosition);
     }
 }

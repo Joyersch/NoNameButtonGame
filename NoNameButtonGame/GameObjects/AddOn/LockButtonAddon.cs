@@ -8,7 +8,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class LockButtonAddon : GameObject, IInteractable
+public class LockButtonAddon : GameObject, IInteractable, IMoveable
 {
     public bool IsLocked { get; private set; } = true;
 
@@ -76,5 +76,17 @@ public class LockButtonAddon : GameObject, IInteractable
             ? Letter.ReverseParse(Letter.Character.LockLocked).ToString()
             : Letter.ReverseParse(Letter.Character.LockUnlocked).ToString());
         _text.ChangeColor(IsLocked ? Color.Gray : Color.DarkGray);
+    }
+    
+    public Vector2 GetPosition()
+        => _button.GetPosition();
+
+    public Vector2 GetSize()
+        => _button.GetPosition();
+
+    public void Move(Vector2 newPosition)
+    {
+        _button.Move(newPosition);
+        _text.Move(newPosition);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -10,7 +11,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
-public class ShopOption : IInteractable
+public class ShopOption : IInteractable, IMoveable
 {
     private Text _amountDisplay;
     private LockButtonAddon _button;
@@ -20,10 +21,20 @@ public class ShopOption : IInteractable
     private float _currentPrice;
     private float _priceIncrease;
 
+
+    private Vector2 _position;
+    private Vector2 _size;
     public event Action<int> Purchased;
 
-    public ShopOption(Vector2 position, string text, int startAmount, float startPrice, float priceIncrease)
+    public ShopOption(float sizeY, string text, int startAmount, float startPrice, float priceIncrease) : this(
+        Vector2.Zero, sizeY, text, startAmount, startPrice, priceIncrease)
     {
+    }
+
+    public ShopOption(Vector2 position, float sizeY, string text, int startAmount, float startPrice,
+        float priceIncrease)
+    {
+        _position = position;
         _amount = startAmount;
         _currentPrice = startPrice;
 
@@ -32,15 +43,17 @@ public class ShopOption : IInteractable
         _priceIncrease = priceIncrease;
 
         var button = new TextButton(text);
-        button.Move(position - button.Size / 2);
+        _size = new Vector2(button.Size.X, sizeY);
+
+        button.GetCalculator(position, _size).OnCenter().Centered().Move();
         _button = new LockButtonAddon(button);
         _button.Callback += ButtonClick;
 
         _amountDisplay = new Text(_amount.ToString());
-        _amountDisplay.Move(position);
+        _amountDisplay.GetCalculator(position, _size).OnCenter().Centered().Move();
 
         _priceDisplay = new Text(_currentPrice.ToString());
-        _priceDisplay.Move(position);
+        _amountDisplay.GetCalculator(position, _size).OnCenter().Centered().Move();
     }
 
     private void ButtonClick(object obj)
@@ -74,5 +87,19 @@ public class ShopOption : IInteractable
         _button.Draw(spriteBatch);
         _amountDisplay.Draw(spriteBatch);
         _priceDisplay.Draw(spriteBatch);
+    }
+
+    public Vector2 GetPosition()
+        => _position;
+
+    public Vector2 GetSize()
+        => _size;
+
+    public void Move(Vector2 newPosition)
+    {
+        var offset = newPosition - _position;
+        _amountDisplay.Move(_amountDisplay.Position + offset);
+        _button.Move(_button.Position + offset);
+        _priceDisplay.Move(_priceDisplay.Position + offset);
     }
 }

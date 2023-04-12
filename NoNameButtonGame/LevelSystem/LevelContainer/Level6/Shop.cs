@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Texture;
 using NoNameButtonGame.Interfaces;
@@ -19,21 +20,18 @@ public class Shop : GameObject, IInteractable
 
     public long BeanCount { get; private set; }
 
-    public Shop(Vector2 position, StorageData storage) : base(position, DefaultSize, DefaultTexture, DefaultMapping)
+    public Shop(Vector2 position, Vector2 size, StorageData storage) : base(position, DefaultSize, DefaultTexture, DefaultMapping)
     {
         _storage = storage;
         var yOffset = DefaultSize / 2;
-        _optionOne = new ShopOption(position + yOffset + new Vector2(32, 0) * 1 + new Vector2(128, 0) * 0, "Auto Beans",
-            storage.Upgrade1, 500, 1.23F);
-        _optionTwo = new ShopOption(position + yOffset + new Vector2(32, 0) * 2 + new Vector2(128, 0) * 1,
-            "Jelly Beans",
-            storage.Upgrade2, 10000, 2.34F);
-        _optionThree = new ShopOption(position + yOffset + new Vector2(32, 0) * 3 + new Vector2(128, 0) * 2,
-            "Magic Beans",
-            storage.Upgrade3, 100000, 3.45F);
-        _optionFour = new ShopOption(position + yOffset + new Vector2(32, 0) * 4 + new Vector2(128, 0) * 3,
-            "Suspicious Beans",
-            storage.Upgrade4, int.MaxValue, 4.56F);
+        _optionOne = new ShopOption(size.Y, "Auto Beans", storage.Upgrade1, 500, 1.23F);
+        _optionOne.GetCalculator(position, size).OnX(0.20F).NegativeBySizeX(0.5F).Move();
+        _optionTwo = new ShopOption(size.Y, "Jelly Beans", storage.Upgrade2, 10000, 2.34F);
+        _optionTwo.GetCalculator(position, size).OnX(0.40F).NegativeBySizeX(0.5F).Move();
+        _optionThree = new ShopOption(size.Y, "Magic Beans", storage.Upgrade3, 100000, 3.45F);
+        _optionThree.GetCalculator(position, size).OnX(0.60F).NegativeBySizeX(0.5F).Move();
+        _optionFour = new ShopOption(size.Y, "Suspicious Beans", storage.Upgrade4, int.MaxValue, 4.56F);
+        _optionFour.GetCalculator(position, size).OnX(0.80F).NegativeBySizeX(0.5F).Move();
     }
 
 

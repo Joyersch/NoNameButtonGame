@@ -7,7 +7,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class HoldButtonAddon : GameObject, IInteractable
+public class HoldButtonAddon : GameObject, IInteractable, IMoveable
 {
     public event Action TimerReachedZero;
     
@@ -87,5 +87,17 @@ public class HoldButtonAddon : GameObject, IInteractable
     {
         _button.Draw(spriteBatch);
         _timer.Draw(spriteBatch);
+    }
+    
+    public Vector2 GetPosition()
+        => _button.GetPosition();
+
+    public Vector2 GetSize()
+        => _button.GetPosition();
+
+    public void Move(Vector2 newPosition)
+    {
+        _button.Move(newPosition);
+        _timer.Move(newPosition);
     }
 }

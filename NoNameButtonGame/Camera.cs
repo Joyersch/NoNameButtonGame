@@ -41,5 +41,9 @@ public class Camera : IMoveable
         => Size;
 
     public void Move(Vector2 newPosition)
-    => Position = newPosition;
+    {
+        Position = newPosition;
+        UpdateMatrix();
+        Rectangle = new Rectangle((Position - Size / Zoom / 2).ToPoint(), (Size / Zoom).ToPoint());
+    }
 }

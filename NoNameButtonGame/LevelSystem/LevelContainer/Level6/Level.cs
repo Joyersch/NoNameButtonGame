@@ -19,7 +19,8 @@ public class Level : SampleLevel
     private Storage.Storage _storage;
 
     private long _bakedBeansCounter;
-    private OverTimeMover _overTimeMover;
+    private OverTimeMover _overTimeMoverShop;
+    private OverTimeMover _overTimeMoverMain;
 
     private Shop _shop;
 
@@ -48,24 +49,57 @@ public class Level : SampleLevel
         _storage = storage;
 
         var OneScreen = Display.Display.Size / 2;
-        Camera.Move(OneScreen / 2);
-        Camera.Zoom = 0.5F;
+        var shopScreen = new Vector2(OneScreen.X, 0);
         
+        Camera.Move(OneScreen / 2);
+        //Camera.Zoom = 0.5F;
+        
+        _overTimeMoverShop = new OverTimeMover(Camera, Camera.Position + shopScreen, 666F, OverTimeMover.MoveMode.Sin);
+        _overTimeMoverMain = new OverTimeMover(Camera, Camera.Position, 666F, OverTimeMover.MoveMode.Sin);
+        AutoManaged.Add(_overTimeMoverShop);
+        AutoManaged.Add(_overTimeMoverMain);
+        
+        var shopButton = new TextButton("Shop");
+        shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).NegativeBySize(1F).Move();
+        shopButton.Click += ShopButtonClick; 
+        AutoManaged.Add(shopButton);
+        
+        var returnButton = new TextButton("Return");
+        returnButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).NegativeBySizeY(1F).Move();
+        returnButton.Click += ReturnButtonClick; 
+        AutoManaged.Add(returnButton);
+
         var clickButton = new TextButton("Bake a Bean!");
         clickButton.Move(OneScreen / 2 - clickButton.Size / 2);
         clickButton.Click += o => _shop.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
         
-        
-        var shopScreen = new Vector2(OneScreen.X, 0);
 
-        _shop = new Shop(shopScreen, _storage.GameData.Level6);
+        
+
+        _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6);
         AutoManaged.Add(_shop);
 
         var cursor = new Cursor();
         Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
         AutoManaged.Add(cursor);
+    }
+
+    private void ReturnButtonClick(object obj)
+    {
+        if (_overTimeMoverMain.IsMoving || _overTimeMoverShop.IsMoving)
+            return;
+        
+        _overTimeMoverMain.Start();
+    }
+
+    private void ShopButtonClick(object obj)
+    {
+        if (_overTimeMoverMain.IsMoving || _overTimeMoverShop.IsMoving)
+            return;
+        
+        _overTimeMoverShop.Start();
     }
 
     public override void Update(GameTime gameTime)
