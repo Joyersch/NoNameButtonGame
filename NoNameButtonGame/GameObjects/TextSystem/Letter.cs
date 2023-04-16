@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Texture;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.TextSystem;
 
-public class Letter : GameObject
+public class Letter : GameObject, IMoveable
 {
     public const char Full = '⬜';
     public const char LockLocked = '\u229E';
@@ -456,4 +457,16 @@ public class Letter : GameObject
             Character.CloseSquaredBrackets => ']',
             _ => '⬜'
         };
+
+    public Vector2 GetPosition()
+        => Position;
+
+    public Vector2 GetSize()
+        => Size;
+
+    public void Move(Vector2 newPosition)
+    {
+        Position = newPosition;
+        UpdateRectangle();
+    }
 }

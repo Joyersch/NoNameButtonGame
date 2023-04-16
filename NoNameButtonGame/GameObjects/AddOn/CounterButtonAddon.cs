@@ -65,11 +65,12 @@ public class CounterButtonAddon : GameObject, IInteractable, IMoveable
         => _button.GetPosition();
 
     public Vector2 GetSize()
-        => _button.GetPosition();
+        => _button.GetSize();
 
     public void Move(Vector2 newPosition)
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
+        Position = newPosition;
     }
 }

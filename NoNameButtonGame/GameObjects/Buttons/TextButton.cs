@@ -73,7 +73,7 @@ public class TextButton : EmptyButton
         base(position, size, texture, mapping)
     {
         Text = new TextSystem.Text(text, Position, textSize, spacing);
-        Text.ChangePosition(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
+        Text.Move(Rectangle.Center.ToVector2() - Text.Rectangle.Size.ToVector2() / 2);
         Name = name;
     }
 

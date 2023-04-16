@@ -47,7 +47,7 @@ public class Level : SampleLevel
         AutoManaged.Add(exitButton);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
-        header.ChangePosition(-header.Rectangle.Size.ToVector2() / 2 +
+        header.Move(-header.Rectangle.Size.ToVector2() / 2 +
                                new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
         AutoManaged.Add(header);
 

@@ -60,12 +60,12 @@ public class Level : SampleLevel
         AutoManaged.Add(_overTimeMoverMain);
         
         var shopButton = new TextButton("Shop");
-        shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).NegativeBySize(1F).Move();
+        shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySize(-1F).Move();
         shopButton.Click += ShopButtonClick; 
         AutoManaged.Add(shopButton);
         
         var returnButton = new TextButton("Return");
-        returnButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).NegativeBySizeY(1F).Move();
+        returnButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySizeY(-1F).Move();
         returnButton.Click += ReturnButtonClick; 
         AutoManaged.Add(returnButton);
 
@@ -73,9 +73,6 @@ public class Level : SampleLevel
         clickButton.Move(OneScreen / 2 - clickButton.Size / 2);
         clickButton.Click += o => _shop.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
-        
-
-        
 
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6);
         AutoManaged.Add(_shop);

@@ -62,21 +62,21 @@ public class PositionCalculator
         return this;
     }
     
-    public PositionCalculator NegativeBySize(float percent)
+    public PositionCalculator BySize(float percent)
     {
-        _calculatedPosition -= _moveable.GetSize() * percent;
+        _calculatedPosition += _moveable.GetSize() * percent;
         return this;
     }
     
-    public PositionCalculator NegativeBySizeX(float percent)
+    public PositionCalculator BySizeX(float percent)
     {
-        _calculatedPosition.X -= (_moveable.GetSize() * percent).X;
+        _calculatedPosition.X += (_moveable.GetSize() * percent).X;
         return this;
     }
     
-    public PositionCalculator NegativeBySizeY(float percent)
+    public PositionCalculator BySizeY(float percent)
     {
-        _calculatedPosition.Y -= (_moveable.GetSize() * percent).Y;
+        _calculatedPosition.Y += (_moveable.GetSize() * percent).Y;
         return this;
     }
 

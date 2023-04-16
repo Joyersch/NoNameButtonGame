@@ -21,7 +21,6 @@ public class ShopOption : IInteractable, IMoveable
     private float _currentPrice;
     private float _priceIncrease;
 
-
     private Vector2 _position;
     private Vector2 _size;
     public event Action<int> Purchased;
@@ -43,17 +42,18 @@ public class ShopOption : IInteractable, IMoveable
         _priceIncrease = priceIncrease;
 
         var button = new TextButton(text);
-        _size = new Vector2(button.Size.X, sizeY);
 
-        button.GetCalculator(position, _size).OnCenter().Centered().Move();
-        _button = new LockButtonAddon(button);
+
+        _button = new LockButtonAddon(button);       
+        _size = new Vector2(_button.GetSize().X, sizeY);
+        _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
         _button.Callback += ButtonClick;
 
         _amountDisplay = new Text(_amount.ToString());
-        _amountDisplay.GetCalculator(position, _size).OnCenter().Centered().Move();
+        _amountDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
 
         _priceDisplay = new Text(_currentPrice.ToString());
-        _amountDisplay.GetCalculator(position, _size).OnCenter().Centered().Move();
+        _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
     }
 
     private void ButtonClick(object obj)
@@ -76,7 +76,9 @@ public class ShopOption : IInteractable, IMoveable
             _button.Unlock();
         else
             _button.Lock();
-
+        
+        Console.WriteLine(_button.GetSize());
+        
         _button.Update(gameTime);
         _amountDisplay.Update(gameTime);
         _priceDisplay.Update(gameTime);
@@ -101,5 +103,6 @@ public class ShopOption : IInteractable, IMoveable
         _amountDisplay.Move(_amountDisplay.Position + offset);
         _button.Move(_button.Position + offset);
         _priceDisplay.Move(_priceDisplay.Position + offset);
+        _position = newPosition;
     }
 }

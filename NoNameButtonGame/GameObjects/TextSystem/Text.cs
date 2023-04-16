@@ -25,7 +25,7 @@ public class Text : IColorable, IMoveable, IManageable
     public Text(string text) : this(text, Vector2.Zero, DefaultLetterSize, 1)
     {
     }
-    
+
     public Text(string text, Vector2 position) : this(text, position, DefaultLetterSize, 1)
     {
     }
@@ -48,11 +48,11 @@ public class Text : IColorable, IMoveable, IManageable
         ChangeText(text);
     }
 
-    public void ChangePosition(Vector2 position)
+    private void ChangePosition(Vector2 newPosition)
     {
         foreach (Letter letter in _letters)
-            letter.Position += position - Position;
-        Position = position;
+            letter.Move(letter.Position + (newPosition - Position));
+        Position = newPosition;
     }
 
     public void ChangeColor(Color[] color)
@@ -104,12 +104,11 @@ public class Text : IColorable, IMoveable, IManageable
 
     public virtual void Update(GameTime gameTime)
     {
-
         foreach (var letter in _letters)
         {
             letter.Update(gameTime);
         }
-        
+
         UpdateRectangle();
     }
 
@@ -141,7 +140,7 @@ public class Text : IColorable, IMoveable, IManageable
     private string BuildString()
     {
         string build = string.Empty;
-        
+
         foreach (var letter in _letters)
         {
             build += Letter.ReverseParse(letter.RepresentingCharacter);
@@ -157,5 +156,8 @@ public class Text : IColorable, IMoveable, IManageable
         => Rectangle.Size.ToVector2();
 
     public void Move(Vector2 newPosition)
-    =>  ChangePosition(newPosition);
+    {
+        ChangePosition(newPosition);
+        UpdateRectangle();
+    }
 }

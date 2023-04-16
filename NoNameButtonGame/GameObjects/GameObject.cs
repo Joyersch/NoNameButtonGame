@@ -42,8 +42,11 @@ public class GameObject : IHitbox, IManageable
     {
     }
 
-    public GameObject(Vector2 position, float scale) : this(position, DefaultSize * scale, DefaultTexture,
-        DefaultMapping)
+    public GameObject(Vector2 position, float scale) : this(position,DefaultSize * scale)
+    {
+    }
+    
+    public GameObject(Vector2 position, Vector2 size) : this(position, size,  DefaultTexture, DefaultMapping)
     {
     }
 
@@ -52,13 +55,10 @@ public class GameObject : IHitbox, IManageable
         Size = size;
         Position = position;
         DrawColor = Color.White;
-        this.Texture = texture;
-        this.TextureHitboxMapping = mapping;
-        ImageLocation = new Rectangle(
-            0
-            , 0
-            , (int) TextureHitboxMapping.ImageSize.X
-            , (int) TextureHitboxMapping.ImageSize.Y);
+        Texture = texture;
+        TextureHitboxMapping = mapping;
+        ImageLocation = new Rectangle(0, 0
+            , (int) TextureHitboxMapping.ImageSize.X, (int) TextureHitboxMapping.ImageSize.Y);
         FrameSize = TextureHitboxMapping.ImageSize;
         Hitboxes = new Rectangle[TextureHitboxMapping.Hitboxes.Length];
         Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());
