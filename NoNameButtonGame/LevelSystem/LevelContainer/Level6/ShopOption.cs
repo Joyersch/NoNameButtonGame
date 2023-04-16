@@ -42,9 +42,8 @@ public class ShopOption : IInteractable, IMoveable
         _priceIncrease = priceIncrease;
 
         var button = new TextButton(text);
-
-
-        _button = new LockButtonAddon(button);       
+        
+        _button = new LockButtonAddon(new ButtonAddonAdapter(button));       
         _size = new Vector2(_button.GetSize().X, sizeY);
         _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
         _button.Callback += ButtonClick;

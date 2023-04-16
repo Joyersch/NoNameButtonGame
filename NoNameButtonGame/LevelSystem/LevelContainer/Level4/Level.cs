@@ -19,8 +19,8 @@ internal class Level : SampleLevel
         var stateButton = new TextButton("Finish Level");
         stateButton.Move(-EmptyButton.DefaultSize / 2);
 
-        var counterButtonAddon = new HoldButtonAddon(stateButton, 3000F);
-        counterButtonAddon.TimerReachedZero += Finish;
+        var counterButtonAddon = new HoldButtonAddon(new(stateButton), 3000F);
+        counterButtonAddon.Callback += Finish;
         AutoManaged.Add(counterButtonAddon);
         
         var infoAboutButton = new Text("This button has a timer");

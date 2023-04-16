@@ -8,17 +8,16 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class LockButtonAddon : GameObject, IInteractable, IMoveable
+public class LockButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
 {
     public bool IsLocked { get; private set; } = true;
 
-    private readonly EmptyButton _button;
+    private readonly ButtonAddonAdapter _button;
     private readonly Text _text;
 
     public event Action<object> Callback;
 
-
-    public LockButtonAddon(EmptyButton button) : base(button.Rectangle.Center.ToVector2(), new Vector2(2, 2),
+    public LockButtonAddon(ButtonAddonAdapter button) : base(button.GetRectangle().Center.ToVector2(), new Vector2(2, 2),
         DefaultTexture, DefaultMapping)
     {
         this._button = button;
@@ -45,9 +44,9 @@ public class LockButtonAddon : GameObject, IInteractable, IMoveable
         _text.Update(gameTime);
 
         if (IsLocked)
-            _button.DrawColor = Color.DarkGray;
+            _button.SetDrawColor(Color.DarkGray);
         else
-            _button.DrawColor = Color.White;
+            _button.SetDrawColor(Color.White);
         
         _button.Update(gameTime);
     }
@@ -83,6 +82,12 @@ public class LockButtonAddon : GameObject, IInteractable, IMoveable
 
     public Vector2 GetSize()
         => _button.GetSize();
+    
+    public Rectangle GetRectangle()
+        => _button.GetRectangle();
+
+    public void SetDrawColor(Color color)
+        => _button.SetDrawColor(color);
 
     public void Move(Vector2 newPosition)
     {

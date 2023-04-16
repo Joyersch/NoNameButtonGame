@@ -7,11 +7,11 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class HoldButtonAddon : GameObject, IInteractable, IMoveable
+public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
 {
-    public event Action TimerReachedZero;
+    public event Action<object> Callback;
     
-    private readonly EmptyButton _button;
+    private readonly ButtonAddonAdapter _button;
     private readonly TextSystem.Text _timer;
     private readonly float _startTime;
     private bool _isHover;
@@ -19,7 +19,7 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable
     private bool hasReachedZero;
     private bool pressStartOnObject;
 
-    public HoldButtonAddon(EmptyButton button, float startTime) : base(
+    public HoldButtonAddon(ButtonAddonAdapter button, float startTime) : base(
         button.Position, button.Size, DefaultTexture, DefaultMapping)
     {
         _button = button;
@@ -53,7 +53,7 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable
             {
                 _time = 0;
                 hasReachedZero = true;
-                TimerReachedZero?.Invoke();
+                Callback?.Invoke(_button);
                 
             }
         }
@@ -64,8 +64,6 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable
                 _time = _startTime;
         }
 
-        
-        
         string newText = string.Empty;
         
         // If _time has no value after decimal point there is no need to print the value after the decimal point
@@ -101,4 +99,10 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable
         _timer.Move(newPosition);
         Position = newPosition;
     }
+
+    public void SetDrawColor(Color color)
+        => _button.SetDrawColor(color);
+
+    public Rectangle GetRectangle()
+        => _button.GetRectangle();
 }

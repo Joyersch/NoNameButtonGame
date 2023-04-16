@@ -7,15 +7,15 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class CounterButtonAddon : GameObject, IInteractable, IMoveable
+public class CounterButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
 {
-    public event Action StateReachedZero;
+    public event Action<object> Callback;
 
     private int _states;
-    private readonly EmptyButton _button;
+    private readonly ButtonAddonAdapter _button;
     private readonly TextSystem.Text _text;
 
-    public CounterButtonAddon(EmptyButton button, int startStates) : base(
+    public CounterButtonAddon(ButtonAddonAdapter button, int startStates) : base(
         button.Position, button.Size, DefaultTexture, DefaultMapping)
     {
         this._button = button;
@@ -25,6 +25,12 @@ public class CounterButtonAddon : GameObject, IInteractable, IMoveable
             button.Position);
         UpdateText();
     }
+
+    public Rectangle GetRectangle()
+        => _button.GetRectangle();
+
+    public void SetDrawColor(Color color)
+        => _button.SetDrawColor(color);
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
@@ -54,7 +60,7 @@ public class CounterButtonAddon : GameObject, IInteractable, IMoveable
         _states--;
         if (_states == 0)
         {
-            StateReachedZero?.Invoke();
+            Callback?.Invoke(obj);
             _text.ChangeText(string.Empty);
         }
 

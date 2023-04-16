@@ -28,8 +28,8 @@ internal class Level : SampleLevel
         infoAboutButton2.GetCalculator(Camera.Rectangle).OnCenter().OnY(7, 10).Centered().Move();
         AutoManaged.Add(infoAboutButton2);
         
-        var counterButtonAddon = new CounterButtonAddon(stateButton, 5);
-        counterButtonAddon.StateReachedZero += Finish;
+        var counterButtonAddon = new CounterButtonAddon(new(stateButton), 5);
+        counterButtonAddon.Callback += Finish;
         AutoManaged.Add(counterButtonAddon);
         
         var mouseCursor = new Cursor();

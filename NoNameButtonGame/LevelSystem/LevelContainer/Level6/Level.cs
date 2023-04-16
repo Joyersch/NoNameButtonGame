@@ -17,13 +17,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 public class Level : SampleLevel
 {
     private Storage.Storage _storage;
-
-    private long _bakedBeansCounter;
+    
     private OverTimeMover _overTimeMoverShop;
     private OverTimeMover _overTimeMoverMain;
 
     private Shop _shop;
-
+    private Text _counter;
+    
     private BeanState _state;
 
     private enum BeanState : ushort
@@ -77,6 +77,10 @@ public class Level : SampleLevel
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6);
         AutoManaged.Add(_shop);
 
+        _counter = new Text(string.Empty);
+        _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
+        AutoManaged.Add(_counter);
+
         var cursor = new Cursor();
         Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
@@ -101,7 +105,9 @@ public class Level : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
-        Console.WriteLine(_mouse.Position);
+        _counter.ChangeText(_shop.BeanCount.ToString());
+        
         base.Update(gameTime);
+        _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
     }
 }

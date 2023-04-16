@@ -27,7 +27,7 @@ internal class Level : SampleLevel
         var lockButton = new TextButton("Finish Level");
         lockButton.GetCalculator(Camera.Rectangle).OnCenter().OnY(3,16).Centered().Move();
         
-        _lockButtonAddon = new LockButtonAddon(lockButton);
+        _lockButtonAddon = new LockButtonAddon(new(lockButton));
         _lockButtonAddon.Callback += Finish;
         AutoManaged.Add(_lockButtonAddon);
 
