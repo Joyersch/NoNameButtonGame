@@ -8,6 +8,7 @@ using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
@@ -28,7 +29,12 @@ internal class Level : SampleLevel
         lockButton.GetCalculator(Camera.Rectangle).OnCenter().OnY(3,16).Centered().Move();
         
         _lockButtonAddon = new LockButtonAddon(new(lockButton));
-        _lockButtonAddon.Callback += Finish;
+        _lockButtonAddon.Callback += (o, state) =>
+        {
+            if (state != IButtonAddon.CallState.Click)
+                return;
+            Finish();
+        };
         AutoManaged.Add(_lockButtonAddon);
 
         var info1 = new Text("This button here is locked!");

@@ -9,7 +9,7 @@ namespace NoNameButtonGame.GameObjects.AddOn;
 
 public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
 {
-    public event Action<object> Callback;
+    public event Action<object, IButtonAddon.CallState> Callback;
     
     private readonly ButtonAddonAdapter _button;
     private readonly TextSystem.Text _timer;
@@ -18,6 +18,7 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
     private float _time;
     private bool hasReachedZero;
     private bool pressStartOnObject;
+    private int _offset;
 
     public HoldButtonAddon(ButtonAddonAdapter button, float startTime) : base(
         button.Position, button.Size, DefaultTexture, DefaultMapping)
@@ -25,11 +26,23 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
         _button = button;
         _startTime = startTime;
         _time = _startTime;
-        button.Enter += o => _isHover = true; 
-        button.Leave += o => _isHover = false; 
+        button.Callback += (o, state) =>
+        {
+            if (state == IButtonAddon.CallState.Enter)
+                _isHover = true;
+            if (state == IButtonAddon.CallState.Leave)
+                _isHover = false;
+        };
         _timer = new TextSystem.Text((_startTime / 1000F).ToString("0.0"),
             button.Position);
         pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
+        button.SetIndicatorOffset((int)Size.X);
+    }
+    
+    public void SetIndicatorOffset(int x)
+    {
+        _offset = x;
+        Move(Position);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -53,8 +66,7 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
             {
                 _time = 0;
                 hasReachedZero = true;
-                Callback?.Invoke(_button);
-                
+                Callback?.Invoke(_button, IButtonAddon.CallState.Click);
             }
         }
         else
@@ -97,7 +109,7 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
     {
         _button.Move(newPosition);
         _timer.Move(newPosition);
-        Position = newPosition;
+        Position = newPosition + new Vector2(_offset, 0);
     }
 
     public void SetDrawColor(Color color)

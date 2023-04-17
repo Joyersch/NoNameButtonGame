@@ -9,10 +9,11 @@ namespace NoNameButtonGame.GameObjects.AddOn;
 
 public class CounterButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
 {
-    public event Action<object> Callback;
+    public event Action<object, IButtonAddon.CallState> Callback;
 
     private int _states;
     private readonly ButtonAddonAdapter _button;
+    private int _offset;
     private readonly TextSystem.Text _text;
 
     public CounterButtonAddon(ButtonAddonAdapter button, int startStates) : base(
@@ -20,10 +21,17 @@ public class CounterButtonAddon : GameObject, IInteractable, IMoveable, IButtonA
     {
         this._button = button;
         _states = startStates;
-        button.Click += ClickHandler;
+        button.Callback += ClickHandler;
         _text = new TextSystem.Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
             button.Position);
         UpdateText();
+        button.SetIndicatorOffset((int)Size.X);
+    }
+    
+    public void SetIndicatorOffset(int x)
+    {
+        _offset = x;
+        Move(Position);
     }
 
     public Rectangle GetRectangle()
@@ -55,12 +63,14 @@ public class CounterButtonAddon : GameObject, IInteractable, IMoveable, IButtonA
         _text.ChangeText(_states.ToString());
     }
 
-    private void ClickHandler(object obj)
+    private void ClickHandler(object obj, IButtonAddon.CallState state)
     {
-        _states--;
+        if (state == IButtonAddon.CallState.Click)
+            _states--;
+
         if (_states == 0)
         {
-            Callback?.Invoke(obj);
+            Callback?.Invoke(obj, state);
             _text.ChangeText(string.Empty);
         }
 
@@ -77,6 +87,6 @@ public class CounterButtonAddon : GameObject, IInteractable, IMoveable, IButtonA
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
-        Position = newPosition;
+        Position = newPosition+ new Vector2(_offset, 0);
     }
 }

@@ -12,11 +12,7 @@ public class ButtonAddonAdapter : IMoveable, IButtonAddon
     public Vector2 Position => _isAddon ? _addon.GetPosition() : _button.Position;
     public Vector2 Size => _isAddon ? _addon.GetSize() : _button.Size;
 
-    public event Action<object> Leave;
-    public event Action<object> Enter;
-    public event Action<object> Click;
-
-    public event Action<object> Callback;
+    public event Action<object, IButtonAddon.CallState> Callback;
 
     private readonly bool _isAddon;
     private readonly EmptyButton _button;
@@ -36,17 +32,24 @@ public class ButtonAddonAdapter : IMoveable, IButtonAddon
         _addon.Callback += AddonCallback;
     }
     
+    public void SetIndicatorOffset(int x)
+    {
+        if (!_isAddon)
+            return;
+        _addon.SetIndicatorOffset(x);
+    }
+    
     private void ButtonClick(object obj)
-        => Click?.Invoke(obj);
+        => Callback?.Invoke(obj, IButtonAddon.CallState.Click);
     
     private void ButtonEnter(object obj)
-        => Enter?.Invoke(obj);
+        => Callback?.Invoke(obj, IButtonAddon.CallState.Enter);
     
     private void ButtonLeave(object obj)
-        => Leave?.Invoke(obj);
+        => Callback?.Invoke(obj, IButtonAddon.CallState.Leave);
     
-    private void AddonCallback(object obj)
-        => Callback?.Invoke(obj);
+    private void AddonCallback(object obj, IButtonAddon.CallState state)
+        => Callback?.Invoke(obj, state);
 
     public Rectangle GetRectangle()
         => _isAddon ? _addon.GetRectangle() : _button.Rectangle;

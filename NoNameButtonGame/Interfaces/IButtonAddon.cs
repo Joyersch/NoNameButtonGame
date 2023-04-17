@@ -14,7 +14,16 @@ public interface IButtonAddon
    public void Update(GameTime gameTime);
    public void Draw(SpriteBatch spriteBatch);
    public void Move(Vector2 newPosition);
-   public event Action<object> Callback;
+
+   public void SetIndicatorOffset(int x);
+   public event Action<object, CallState> Callback;
 
    public void SetDrawColor(Color color);
+   public enum CallState
+   {
+      Leave,
+      Enter,
+      Click,
+      Other
+   }
 }

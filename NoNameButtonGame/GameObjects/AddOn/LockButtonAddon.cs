@@ -14,22 +14,30 @@ public class LockButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
 
     private readonly ButtonAddonAdapter _button;
     private readonly Text _text;
+    private int _offset;
 
-    public event Action<object> Callback;
+    public event Action<object, IButtonAddon.CallState> Callback;
 
     public LockButtonAddon(ButtonAddonAdapter button) : base(button.GetRectangle().Center.ToVector2(), new Vector2(2, 2),
         DefaultTexture, DefaultMapping)
     {
         this._button = button;
-        button.Click += ClickHandler;
+        button.Callback += ClickHandler;
         _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
+        button.SetIndicatorOffset((int)Size.X);
+    }
+    
+    public void SetIndicatorOffset(int x)
+    {
+        _offset = x;
+        Move(Position);
     }
 
-    private void ClickHandler(object sender)
+    private void ClickHandler(object sender, IButtonAddon.CallState state)
     {
         if (!IsLocked)
-            Callback?.Invoke(sender);
+            Callback?.Invoke(sender, state);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -93,6 +101,6 @@ public class LockButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
-        Position = newPosition;
+        Position = newPosition + new Vector2(_offset, 0);
     }
 }

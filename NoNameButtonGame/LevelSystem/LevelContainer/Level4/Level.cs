@@ -6,6 +6,7 @@ using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
@@ -20,7 +21,12 @@ internal class Level : SampleLevel
         stateButton.Move(-EmptyButton.DefaultSize / 2);
 
         var counterButtonAddon = new HoldButtonAddon(new(stateButton), 3000F);
-        counterButtonAddon.Callback += Finish;
+        counterButtonAddon.Callback += (o, state) =>
+        {
+            if (state != IButtonAddon.CallState.Click)
+                return;
+            Finish();
+        };
         AutoManaged.Add(counterButtonAddon);
         
         var infoAboutButton = new Text("This button has a timer");

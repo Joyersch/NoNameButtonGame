@@ -26,6 +26,8 @@ public class Level : SampleLevel
     
     private BeanState _state;
 
+    private LockButtonAddon _lockButtonAddon;
+
     private enum BeanState : ushort
     {
         Started = 0,
@@ -61,7 +63,8 @@ public class Level : SampleLevel
         
         var shopButton = new TextButton("Shop");
         shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySize(-1F).Move();
-        shopButton.Click += ShopButtonClick; 
+        shopButton.Click += ShopButtonClick;
+        
         AutoManaged.Add(shopButton);
         
         var returnButton = new TextButton("Return");
@@ -72,7 +75,10 @@ public class Level : SampleLevel
         var clickButton = new TextButton("Bake a Bean!");
         clickButton.Move(OneScreen / 2 - clickButton.Size / 2);
         clickButton.Click += o => _shop.IncreaseBeanCount();
-        AutoManaged.Add(clickButton);
+        
+        var hold = new HoldButtonAddon(new(clickButton), 3000F);
+        _lockButtonAddon = new LockButtonAddon(new(hold));
+        AutoManaged.Add(_lockButtonAddon);
 
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6);
         AutoManaged.Add(_shop);
@@ -99,6 +105,8 @@ public class Level : SampleLevel
     {
         if (_overTimeMoverMain.IsMoving || _overTimeMoverShop.IsMoving)
             return;
+        
+        _lockButtonAddon.Unlock();
         
         _overTimeMoverShop.Start();
     }

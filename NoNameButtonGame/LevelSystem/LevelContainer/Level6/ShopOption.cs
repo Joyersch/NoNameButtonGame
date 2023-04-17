@@ -55,8 +55,11 @@ public class ShopOption : IInteractable, IMoveable
         _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
     }
 
-    private void ButtonClick(object obj)
+    private void ButtonClick(object obj, IButtonAddon.CallState state)
     {
+        if (state != IButtonAddon.CallState.Click)
+            return;
+        
         _amount++;
         _currentPrice *= _priceIncrease;
         _priceDisplay.ChangeText(((int) _currentPrice).ToString());
