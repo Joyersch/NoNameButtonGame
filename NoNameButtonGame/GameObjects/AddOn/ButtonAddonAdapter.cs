@@ -32,11 +32,11 @@ public class ButtonAddonAdapter : IMoveable, IButtonAddon
         _addon.Callback += AddonCallback;
     }
     
-    public void SetIndicatorOffset(int x)
+    public int GetIndicatorOffset()
     {
         if (!_isAddon)
-            return;
-        _addon.SetIndicatorOffset(x);
+            return 0;
+        return _addon.GetIndicatorOffset();
     }
     
     private void ButtonClick(object obj)

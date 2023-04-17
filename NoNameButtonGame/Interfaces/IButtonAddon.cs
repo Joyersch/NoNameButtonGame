@@ -15,7 +15,7 @@ public interface IButtonAddon
    public void Draw(SpriteBatch spriteBatch);
    public void Move(Vector2 newPosition);
 
-   public void SetIndicatorOffset(int x);
+   public int GetIndicatorOffset();
    public event Action<object, CallState> Callback;
 
    public void SetDrawColor(Color color);
@@ -23,7 +23,6 @@ public interface IButtonAddon
    {
       Leave,
       Enter,
-      Click,
-      Other
+      Click
    }
 }

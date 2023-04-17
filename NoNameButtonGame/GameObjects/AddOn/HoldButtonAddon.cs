@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -7,10 +8,8 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
+public class HoldButtonAddon : ButtonAddonBase
 {
-    public event Action<object, IButtonAddon.CallState> Callback;
-    
     private readonly ButtonAddonAdapter _button;
     private readonly TextSystem.Text _timer;
     private readonly float _startTime;
@@ -20,32 +19,30 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
     private bool pressStartOnObject;
     private int _offset;
 
-    public HoldButtonAddon(ButtonAddonAdapter button, float startTime) : base(
-        button.Position, button.Size, DefaultTexture, DefaultMapping)
+    public HoldButtonAddon(ButtonAddonAdapter button, float startTime) : base(button)
     {
         _button = button;
         _startTime = startTime;
         _time = _startTime;
-        button.Callback += (o, state) =>
-        {
-            if (state == IButtonAddon.CallState.Enter)
-                _isHover = true;
-            if (state == IButtonAddon.CallState.Leave)
-                _isHover = false;
-        };
         _timer = new TextSystem.Text((_startTime / 1000F).ToString("0.0"),
             button.Position);
         pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
-        button.SetIndicatorOffset((int)Size.X);
     }
     
-    public void SetIndicatorOffset(int x)
-    {
-        _offset = x;
-        Move(Position);
-    }
+    public override int GetIndicatorOffset()
+        => _button.GetIndicatorOffset() + Rectangle.Size.X;
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    protected override void ButtonCallback(object sender, IButtonAddon.CallState state)
+    {
+        if (state == IButtonAddon.CallState.Enter)
+            _isHover = true;
+        if (state == IButtonAddon.CallState.Leave)
+            _isHover = false;
+     if (_time == 0)
+         base.ButtonCallback(sender, state);
+    }
+    
+    public override void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         _button.UpdateInteraction(gameTime, toCheck);
 
@@ -66,7 +63,7 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
             {
                 _time = 0;
                 hasReachedZero = true;
-                Callback?.Invoke(_button, IButtonAddon.CallState.Click);
+                base.ButtonCallback(_button, IButtonAddon.CallState.Click);
             }
         }
         else
@@ -99,22 +96,22 @@ public class HoldButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
         _timer.Draw(spriteBatch);
     }
     
-    public Vector2 GetPosition()
+    public override Vector2 GetPosition()
         => _button.GetPosition();
 
-    public Vector2 GetSize()
+    public override Vector2 GetSize()
         => _button.GetSize();
 
-    public void Move(Vector2 newPosition)
+    public override void Move(Vector2 newPosition)
     {
         _button.Move(newPosition);
         _timer.Move(newPosition);
         Position = newPosition + new Vector2(_offset, 0);
     }
 
-    public void SetDrawColor(Color color)
+    public override void SetDrawColor(Color color)
         => _button.SetDrawColor(color);
 
-    public Rectangle GetRectangle()
+    public override Rectangle GetRectangle()
         => _button.GetRectangle();
 }

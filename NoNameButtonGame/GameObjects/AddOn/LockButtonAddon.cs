@@ -8,7 +8,7 @@ using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
 
-public class LockButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddon
+public class LockButtonAddon : ButtonAddonBase
 {
     public bool IsLocked { get; private set; } = true;
 
@@ -16,31 +16,23 @@ public class LockButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
     private readonly Text _text;
     private int _offset;
 
-    public event Action<object, IButtonAddon.CallState> Callback;
-
-    public LockButtonAddon(ButtonAddonAdapter button) : base(button.GetRectangle().Center.ToVector2(), new Vector2(2, 2),
-        DefaultTexture, DefaultMapping)
+    public LockButtonAddon(ButtonAddonAdapter button) : base(button)
     {
-        this._button = button;
-        button.Callback += ClickHandler;
+        _button = button;
         _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
         UpdateText();
-        button.SetIndicatorOffset((int)Size.X);
     }
     
-    public void SetIndicatorOffset(int x)
-    {
-        _offset = x;
-        Move(Position);
-    }
+    public override int GetIndicatorOffset()
+        => _button.GetIndicatorOffset() + Rectangle.Size.X;
 
-    private void ClickHandler(object sender, IButtonAddon.CallState state)
+    protected override void ButtonCallback(object sender, IButtonAddon.CallState state)
     {
         if (!IsLocked)
-            Callback?.Invoke(sender, state);
+            base.ButtonCallback(sender, state);
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public override void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         if (!IsLocked)
             _button.UpdateInteraction(gameTime, toCheck);
@@ -85,19 +77,19 @@ public class LockButtonAddon : GameObject, IInteractable, IMoveable, IButtonAddo
         _text.ChangeColor(IsLocked ? Color.Gray : Color.DarkGray);
     }
     
-    public Vector2 GetPosition()
+    public override Vector2 GetPosition()
         => _button.GetPosition();
 
-    public Vector2 GetSize()
+    public override Vector2 GetSize()
         => _button.GetSize();
     
-    public Rectangle GetRectangle()
+    public override Rectangle GetRectangle()
         => _button.GetRectangle();
 
-    public void SetDrawColor(Color color)
+    public override void SetDrawColor(Color color)
         => _button.SetDrawColor(color);
 
-    public void Move(Vector2 newPosition)
+    public override void Move(Vector2 newPosition)
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
