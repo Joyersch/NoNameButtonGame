@@ -15,7 +15,9 @@ public interface IButtonAddon
    public void Draw(SpriteBatch spriteBatch);
    public void Move(Vector2 newPosition);
 
-   public int GetIndicatorOffset();
+   public void MoveIndicatorBy(Vector2 newPosition);
+
+   public void SetIndicatorOffset(int x);
    public event Action<object, CallState> Callback;
 
    public void SetDrawColor(Color color);

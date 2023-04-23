@@ -79,8 +79,6 @@ public class ShopOption : IInteractable, IMoveable
         else
             _button.Lock();
         
-        Console.WriteLine(_button.GetSize());
-        
         _button.Update(gameTime);
         _amountDisplay.Update(gameTime);
         _priceDisplay.Update(gameTime);

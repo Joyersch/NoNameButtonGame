@@ -77,7 +77,8 @@ public class Level : SampleLevel
         clickButton.Click += o => _shop.IncreaseBeanCount();
         
         var hold = new HoldButtonAddon(new(clickButton), 3000F);
-        _lockButtonAddon = new LockButtonAddon(new(hold));
+        var state = new CounterButtonAddon(new(hold), 10);
+        _lockButtonAddon = new LockButtonAddon(new(state));
         AutoManaged.Add(_lockButtonAddon);
 
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6);

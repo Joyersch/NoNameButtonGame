@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Debug;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
@@ -19,12 +20,17 @@ public class LockButtonAddon : ButtonAddonBase
     public LockButtonAddon(ButtonAddonAdapter button) : base(button)
     {
         _button = button;
-        _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), button.Position);
+        _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), Position);
         UpdateText();
+        Size = _text.Rectangle.Size.ToVector2();
+        _button.SetIndicatorOffset((int) Size.X);
     }
-    
-    public override int GetIndicatorOffset()
-        => _button.GetIndicatorOffset() + Rectangle.Size.X;
+
+    public override void SetIndicatorOffset(int x)
+    {
+        _text.Move(_text.Position + new Vector2(x, 0));
+        _button.SetIndicatorOffset(x);
+    }
 
     protected override void ButtonCallback(object sender, IButtonAddon.CallState state)
     {
@@ -47,7 +53,7 @@ public class LockButtonAddon : ButtonAddonBase
             _button.SetDrawColor(Color.DarkGray);
         else
             _button.SetDrawColor(Color.White);
-        
+
         _button.Update(gameTime);
     }
 
@@ -76,13 +82,13 @@ public class LockButtonAddon : ButtonAddonBase
             : Letter.ReverseParse(Letter.Character.LockUnlocked).ToString());
         _text.ChangeColor(IsLocked ? Color.Gray : Color.DarkGray);
     }
-    
+
     public override Vector2 GetPosition()
         => _button.GetPosition();
 
     public override Vector2 GetSize()
         => _button.GetSize();
-    
+
     public override Rectangle GetRectangle()
         => _button.GetRectangle();
 
@@ -94,5 +100,11 @@ public class LockButtonAddon : ButtonAddonBase
         _button.Move(newPosition);
         _text.Move(newPosition);
         Position = newPosition + new Vector2(_offset, 0);
+    }
+    
+    public override void MoveIndicatorBy(Vector2 newPosition)
+    {
+        _text.Move(_text.Position + newPosition);
+        Position += newPosition;
     }
 }

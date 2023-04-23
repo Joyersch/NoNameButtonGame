@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Debug;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Interfaces;
 
@@ -25,29 +26,31 @@ public class ButtonAddonAdapter : IMoveable, IButtonAddon
         _button.Leave += ButtonLeave;
         _button.Enter += ButtonEnter;
     }
+
     public ButtonAddonAdapter(IButtonAddon addon)
     {
         _addon = addon;
         _isAddon = true;
         _addon.Callback += AddonCallback;
     }
-    
-    public int GetIndicatorOffset()
+
+    public void SetIndicatorOffset(int x)
     {
         if (!_isAddon)
-            return 0;
-        return _addon.GetIndicatorOffset();
+            return;
+        _addon.MoveIndicatorBy(new Vector2(x, 0));
+        _addon.SetIndicatorOffset(x);
     }
-    
+
     private void ButtonClick(object obj)
         => Callback?.Invoke(obj, IButtonAddon.CallState.Click);
-    
+
     private void ButtonEnter(object obj)
         => Callback?.Invoke(obj, IButtonAddon.CallState.Enter);
-    
+
     private void ButtonLeave(object obj)
         => Callback?.Invoke(obj, IButtonAddon.CallState.Leave);
-    
+
     private void AddonCallback(object obj, IButtonAddon.CallState state)
         => Callback?.Invoke(obj, state);
 
@@ -106,5 +109,11 @@ public class ButtonAddonAdapter : IMoveable, IButtonAddon
             _addon.Move(newPosition);
         else
             _button.Move(newPosition);
+    }
+    
+    public void MoveIndicatorBy(Vector2 newPosition)
+    {
+        if (_isAddon)
+            _addon.MoveIndicatorBy(newPosition);
     }
 }

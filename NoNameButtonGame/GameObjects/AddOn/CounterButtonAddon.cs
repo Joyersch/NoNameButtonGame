@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Debug;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
@@ -19,16 +20,20 @@ public class CounterButtonAddon : ButtonAddonBase
 
     public CounterButtonAddon(ButtonAddonAdapter button, int startStates) : base(button)
     {
-        this._button = button;
+        _button = button;
         _states = startStates;
         _text = new TextSystem.Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
-            button.Position);
+            Position);
+        Size = _text.Rectangle.Size.ToVector2();
+        _button.SetIndicatorOffset((int) Size.X);
         UpdateText();
     }
 
-    public override int GetIndicatorOffset()
-    => _button.GetIndicatorOffset() + Rectangle.Size.X;
-    
+    public override void SetIndicatorOffset(int x)
+    {
+        _text.Move(_text.Position + new Vector2(x, 0));
+        _button.SetIndicatorOffset(x);
+    }
 
     public override Rectangle GetRectangle()
         => _button.GetRectangle();
@@ -61,7 +66,7 @@ public class CounterButtonAddon : ButtonAddonBase
 
     protected override void ButtonCallback(object obj, IButtonAddon.CallState state)
     {
-        if (state == IButtonAddon.CallState.Click)
+        if (state == IButtonAddon.CallState.Click && _states > 0)
             _states--;
 
         if (_states == 0)
@@ -83,6 +88,12 @@ public class CounterButtonAddon : ButtonAddonBase
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
-        Position = newPosition+ new Vector2(_offset, 0);
+        Position = newPosition + new Vector2(_offset, 0);
+    }
+    
+    public override void MoveIndicatorBy(Vector2 newPosition)
+    {
+        _text.Move(_text.Position + newPosition);
+        Position += newPosition;
     }
 }
