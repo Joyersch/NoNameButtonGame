@@ -23,7 +23,7 @@ public class GameData : IChangeable
     public GameData()
     {
         Level6 = new Level6.StorageData();
-        Level6.HasChanged += HasChanged;
+        Level6.HasChanged += (_, _) => HasChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public event EventHandler HasChanged;

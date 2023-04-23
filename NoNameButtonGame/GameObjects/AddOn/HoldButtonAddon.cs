@@ -34,7 +34,6 @@ public class HoldButtonAddon : ButtonAddonBase
     
     public override void SetIndicatorOffset(int x)
     {
-        _timer.Move(_timer.Position + new Vector2(x, 0));
         _button.SetIndicatorOffset(x);
     }
 

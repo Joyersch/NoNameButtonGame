@@ -13,12 +13,12 @@ public class DelayedText : Text
 
     private float _savedGameTime;
     private float _waitedStartTime;
-    private const int DisplayDelay = 125;
     public float StartAfter = 0;
 
     public bool IsPlaying { get; private set; }
 
     public bool HasPlayed { get; private set; }
+    public int DisplayDelay { get; set; } = 125;
 
     public new static Vector2 DefaultLetterSize => new Vector2(16, 16);
 

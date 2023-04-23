@@ -31,7 +31,6 @@ public class CounterButtonAddon : ButtonAddonBase
 
     public override void SetIndicatorOffset(int x)
     {
-        _text.Move(_text.Position + new Vector2(x, 0));
         _button.SetIndicatorOffset(x);
     }
 

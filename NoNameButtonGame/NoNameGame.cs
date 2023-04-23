@@ -59,6 +59,7 @@ public class NoNameGame : Game
         // apply settings and register Change Event for reapplying
         SettingsChanged(_storage.Settings, EventArgs.Empty);
         _storage.Settings.HasChanged += SettingsChanged;
+        _storage.GameData.HasChanged += ProgressMade;
 
         // register soundSettingsListener to change sound volume if 
         Globals.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
@@ -164,4 +165,7 @@ public class NoNameGame : Game
         // Update level screen
         _storage.Save();
     }
+
+    private void ProgressMade(object sender, EventArgs e)
+        => _storage.Save();
 }

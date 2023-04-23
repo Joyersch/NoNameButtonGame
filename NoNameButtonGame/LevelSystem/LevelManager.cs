@@ -174,7 +174,6 @@ internal class LevelManager
 
         _currentSelectLevel++;
         _storage.GameData.MaxLevel = _currentSelectLevel;
-        _storage.Save();
 
         toDispose.Add(_currentLevel);
         SelectLevel(_currentSelectLevel + 1);

@@ -21,32 +21,25 @@ internal class Level : SampleLevel
 
     public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
-        Name = "Level 4 - Tutorial 3 - Button Addon: Hold";
+        Name = "Level 5";
 
 
         var info = new DelayedText("Now that you know the basics. Lets actually start!")
         {
+            DisplayDelay = 56,
             StartAfter = 100
         };
-
+        var overTimeInvoker = new OverTimeInvoker(1500D, false);
+        overTimeInvoker.Trigger += Finish;
+        AutoManaged.Add(overTimeInvoker);
+        
         info.Move(-info.GetBaseCopy().Rectangle.Size.ToVector2() / 2);
-        info.FinishedPlaying += DelayFinish;
+        info.FinishedPlaying += overTimeInvoker.Start;
         info.Start();
         AutoManaged.Add(info);
 
-        var overTimeInvoker = new OverTimeInvoker(3000D);
-        overTimeInvoker.Trigger += OverTimeInvokerOnTrigger;
-        AutoManaged.Add(overTimeInvoker);
+
     }
 
-    private void OverTimeInvokerOnTrigger()
-    {
-        if (!_isTextFinished)
-            return;
-        Finish();
-    }
-
-    private void DelayFinish()
-        => _isTextFinished = true;
     
 }

@@ -15,45 +15,41 @@ public class LockButtonAddon : ButtonAddonBase
 
     private readonly ButtonAddonAdapter _button;
     private readonly Text _text;
-    private int _offset;
 
     public LockButtonAddon(ButtonAddonAdapter button) : base(button)
     {
         _button = button;
         _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(), Position);
         UpdateText();
-        Size = _text.Rectangle.Size.ToVector2();
+        Size = _text.Size;
         _button.SetIndicatorOffset((int) Size.X);
     }
 
     public override void SetIndicatorOffset(int x)
     {
-        _text.Move(_text.Position + new Vector2(x, 0));
         _button.SetIndicatorOffset(x);
     }
 
     protected override void ButtonCallback(object sender, IButtonAddon.CallState state)
     {
-        if (!IsLocked)
-            base.ButtonCallback(sender, state);
+        if (IsLocked && state == IButtonAddon.CallState.Click)
+            return;
+
+        base.ButtonCallback(sender, state);
     }
 
     public override void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         if (!IsLocked)
             _button.UpdateInteraction(gameTime, toCheck);
+        else
+            _button.UpdateInteraction(gameTime, new EmptyHitbox());
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
         _text.Update(gameTime);
-
-        if (IsLocked)
-            _button.SetDrawColor(Color.DarkGray);
-        else
-            _button.SetDrawColor(Color.White);
-
         _button.Update(gameTime);
     }
 
@@ -66,12 +62,14 @@ public class LockButtonAddon : ButtonAddonBase
     public void Unlock()
     {
         IsLocked = false;
+        _button.SetDrawColor(Color.White);
         UpdateText();
     }
 
     public void Lock()
     {
         IsLocked = true;
+        _button.SetDrawColor(Color.DarkGray);
         UpdateText();
     }
 
@@ -99,9 +97,9 @@ public class LockButtonAddon : ButtonAddonBase
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
-        Position = newPosition + new Vector2(_offset, 0);
+        Position = newPosition;
     }
-    
+
     public override void MoveIndicatorBy(Vector2 newPosition)
     {
         _text.Move(_text.Position + newPosition);

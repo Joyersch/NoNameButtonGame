@@ -3,6 +3,7 @@ using System.Net.Security;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.Debug;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
@@ -11,6 +12,7 @@ using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects;
 using NoNameButtonGame.LogicObjects.Listener;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
@@ -23,30 +25,15 @@ public class Level : SampleLevel
 
     private Shop _shop;
     private Text _counter;
-    
-    private BeanState _state;
 
-    private LockButtonAddon _lockButtonAddon;
+    private readonly Rectangle _originScreen;
 
-    private enum BeanState : ushort
-    {
-        Started = 0,
-        Reached100 = 1,
-        Reached1k = 2,
-        Reached5k = 3,
-        Reached10k = 4,
-        Reached25k = 5,
-        Reached100k = 6,
-        Reached250k = 7,
-        Reached1m = 8
-    }
+    private readonly LockButtonAddon _shopButton;
 
     public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
     {
         Name = "Level 6 - Just like Cookie Clicker but with BEANS!";
-
-        _state = BeanState.Started;
 
         _storage = storage;
 
@@ -54,6 +41,7 @@ public class Level : SampleLevel
         var shopScreen = new Vector2(OneScreen.X, 0);
         
         Camera.Move(OneScreen / 2);
+        _originScreen = Camera.Rectangle;
         //Camera.Zoom = 0.5F;
         
         _overTimeMoverShop = new OverTimeMover(Camera, Camera.Position + shopScreen, 666F, OverTimeMover.MoveMode.Sin);
@@ -64,8 +52,9 @@ public class Level : SampleLevel
         var shopButton = new TextButton("Shop");
         shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySize(-1F).Move();
         shopButton.Click += ShopButtonClick;
+        _shopButton = new LockButtonAddon(new(shopButton));
         
-        AutoManaged.Add(shopButton);
+        AutoManaged.Add(_shopButton);
         
         var returnButton = new TextButton("Return");
         returnButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySizeY(-1F).Move();
@@ -76,12 +65,10 @@ public class Level : SampleLevel
         clickButton.Move(OneScreen / 2 - clickButton.Size / 2);
         clickButton.Click += o => _shop.IncreaseBeanCount();
         
-        var hold = new HoldButtonAddon(new(clickButton), 3000F);
-        var state = new CounterButtonAddon(new(hold), 10);
-        _lockButtonAddon = new LockButtonAddon(new(state));
-        AutoManaged.Add(_lockButtonAddon);
+        AutoManaged.Add(clickButton);
 
-        _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6);
+        _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6, random);
+        _shop.UnlockedShop += _shopButton.Unlock;
         AutoManaged.Add(_shop);
 
         _counter = new Text(string.Empty);
@@ -107,16 +94,13 @@ public class Level : SampleLevel
         if (_overTimeMoverMain.IsMoving || _overTimeMoverShop.IsMoving)
             return;
         
-        _lockButtonAddon.Unlock();
-        
         _overTimeMoverShop.Start();
     }
 
     public override void Update(GameTime gameTime)
     {
-        _counter.ChangeText(_shop.BeanCount.ToString());
-        
+        _counter.ChangeText(_shop.BeanCount.ToString("n0"));
         base.Update(gameTime);
-        _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
+        _counter.GetCalculator(_originScreen).OnCenter().Centered().OnY(3,10).Move();
     }
 }
