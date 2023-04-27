@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Debug;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Texture;
@@ -33,6 +32,9 @@ public class Shop : GameObject, IInteractable
     public event Action UnlockedShop;
     private bool _unlockedShop;
 
+    public event Action UnlockedDistraction;
+    private bool _unlockedDistraction;
+
     public Shop(Vector2 position, Vector2 size, StorageData storage, Random random) : base(position, DefaultSize,
         DefaultTexture,
         DefaultMapping)
@@ -47,6 +49,7 @@ public class Shop : GameObject, IInteractable
 
         if (storage.Upgrade1 > 0 || storage.Upgrade2 > 0 || storage.Upgrade3 > 0 || storage.Upgrade4 > 0)
             _unlockedShop = true;
+        
 
         for (int i = 0; i < storage.Upgrade1; i++)
             _autoClicker.Add(GetNewInvoker(false));
@@ -113,6 +116,13 @@ public class Shop : GameObject, IInteractable
         {
             _unlockedShop = true;
             UnlockedShop?.Invoke();
+        }
+
+        if (BeanCount >= 10000 || _unlockedDistraction)
+        {
+            _unlockedDistraction = true;
+            _storage.Snake = true;
+            UnlockedDistraction?.Invoke();
         }
     }
 

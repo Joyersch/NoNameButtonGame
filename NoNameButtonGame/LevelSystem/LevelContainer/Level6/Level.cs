@@ -3,7 +3,6 @@ using System.Net.Security;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.Debug;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
@@ -29,6 +28,7 @@ public class Level : SampleLevel
     private readonly Rectangle _originScreen;
 
     private readonly LockButtonAddon _shopButton;
+    private readonly LockButtonAddon _snakeButton;
 
     public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
@@ -64,11 +64,16 @@ public class Level : SampleLevel
         var clickButton = new TextButton("Bake a Bean!");
         clickButton.Move(OneScreen / 2 - clickButton.Size / 2);
         clickButton.Click += o => _shop.IncreaseBeanCount();
-        
         AutoManaged.Add(clickButton);
+        
+        var snakeButton = new TextButton("Distraction");
+        snakeButton.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySizeY(-1F).Move();
+        _snakeButton = new LockButtonAddon(new(snakeButton));
+        AutoManaged.Add(_snakeButton);
 
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6, random);
         _shop.UnlockedShop += _shopButton.Unlock;
+        _shop.UnlockedDistraction += _snakeButton.Unlock;
         AutoManaged.Add(_shop);
 
         _counter = new Text(string.Empty);

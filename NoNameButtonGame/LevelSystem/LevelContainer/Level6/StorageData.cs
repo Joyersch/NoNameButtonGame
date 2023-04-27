@@ -62,4 +62,15 @@ public class StorageData : IChangeable
             HasChanged?.Invoke(this, EventArgs.Empty);
         }
     }
+
+    private bool _snake;
+    public bool Snake
+    {
+        get => _snake;
+        set
+        {
+            _snake = value;
+            HasChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
 }
