@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.GameObjects.Texture;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.LogicObjects;
@@ -24,16 +25,23 @@ public class Shop : GameObject, IInteractable
     private readonly ShopOption _optionThree;
     private readonly ShopOption _optionFour;
 
+    private readonly Text _beanDisplay;
+
     private readonly List<OverTimeInvoker> _autoClicker;
     private int _notStarted;
 
     public long BeanCount { get; private set; }
+    public string BeanDisplay => BeanCount.ToString("n0") + _icon;
+
+    private string _icon;
 
     public event Action UnlockedShop;
     private bool _unlockedShop;
 
     public event Action UnlockedDistraction;
     private bool _unlockedDistraction;
+
+    public event Action PurchasedAllOptions; 
 
     public Shop(Vector2 position, Vector2 size, StorageData storage, Random random) : base(position, DefaultSize,
         DefaultTexture,
@@ -49,36 +57,47 @@ public class Shop : GameObject, IInteractable
 
         if (storage.Upgrade1 > 0 || storage.Upgrade2 > 0 || storage.Upgrade3 > 0 || storage.Upgrade4 > 0)
             _unlockedShop = true;
+
+        if (storage.Upgrade4 > 0)
+            SetSuspiciousIcon();
+        else
+        SetIcon();
         
+        if (storage.Snake)
+            _unlockedDistraction = true;
 
         for (int i = 0; i < storage.Upgrade1; i++)
             _autoClicker.Add(GetNewInvoker(false));
         _notStarted = storage.Upgrade1;
 
         _optionOne = new ShopOption(size.Y, "Auto Beans", storage.Upgrade1, 50, 1.07D, 100);
-        _optionOne.GetCalculator(_rectangle).OnX(0.20F).BySizeX(-0.5F).Move();
+        _optionOne.GetCalculator(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
         _optionOne.Purchased += DecreaseBeanCount;
         _optionOne.Purchased += OptionOnePurchased;
 
         _optionTwo = new ShopOption(size.Y, "Jelly Beans", storage.Upgrade2, 150, 1.32D, 20);
-        _optionTwo.GetCalculator(_rectangle).OnX(0.40F).BySizeX(-0.5F).Move();
+        _optionTwo.GetCalculator(_rectangle).OnX(0.35F).BySizeX(-0.5F).Move();
         _optionTwo.Purchased += DecreaseBeanCount;
         _optionTwo.Purchased += OptionTwoPurchased;
 
         _optionThree = new ShopOption(size.Y, "Magic Beans", storage.Upgrade3, 3000, 1.46D, 10);
-        _optionThree.GetCalculator(_rectangle).OnX(0.60F).BySizeX(-0.5F).Move();
+        _optionThree.GetCalculator(_rectangle).OnX(0.55F).BySizeX(-0.5F).Move();
         _optionThree.Purchased += DecreaseBeanCount;
         _optionThree.Purchased += OptionThreePurchased;
 
-        _optionFour = new ShopOption(size.Y, "Suspicious Beans", storage.Upgrade4, 1000000, 99D, 1);
-        _optionFour.GetCalculator(_rectangle).OnX(0.80F).BySizeX(-0.5F).Move();
+        _optionFour = new ShopOption(size.Y, "Suspicious Beans", storage.Upgrade4, 250000, 99D, 1);
+        _optionFour.GetCalculator(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
+
+        UpdateIcon();
+        
+        _beanDisplay = new Text(BeanDisplay);
+        _beanDisplay.GetCalculator(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
     }
 
     public void IncreaseBeanCount()
     {
-        // ToDo: Increase based on purchased items
         int criticalRequirements = _random.Next(1, 100);
         bool criticalHit = criticalRequirements <= _optionTwo.Value * 5;
         BeanCount += (_optionThree.Value + 1) * (criticalHit ? 10 : 1);
@@ -93,15 +112,22 @@ public class Shop : GameObject, IInteractable
 
     public override void Update(GameTime gameTime)
     {
-        _optionOne.GetCalculator(_rectangle).OnX(0.20F).BySizeX(-0.5F).Move();
-        _optionTwo.GetCalculator(_rectangle).OnX(0.40F).BySizeX(-0.5F).Move();
-        _optionThree.GetCalculator(_rectangle).OnX(0.60F).BySizeX(-0.5F).Move();
-        _optionFour.GetCalculator(_rectangle).OnX(0.80F).BySizeX(-0.5F).Move();
+        _optionOne.GetCalculator(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
+        _optionTwo.GetCalculator(_rectangle).OnX(0.38F).BySizeX(-0.5F).Move();
+        _optionThree.GetCalculator(_rectangle).OnX(0.61F).BySizeX(-0.5F).Move();
+        _optionFour.GetCalculator(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
 
         _optionOne.Update(gameTime, BeanCount);
         _optionTwo.Update(gameTime, BeanCount);
         _optionThree.Update(gameTime, BeanCount);
         _optionFour.Update(gameTime, BeanCount);
+
+        if (_optionOne.Maxed && _optionTwo.Maxed && _optionThree.Maxed && _optionFour.Maxed)
+            PurchasedAllOptions?.Invoke();
+        
+        _beanDisplay.ChangeText(BeanDisplay);
+        _beanDisplay.GetCalculator(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
+        _beanDisplay.Update(gameTime);
 
         foreach (var invoker in _autoClicker)
             invoker.Update(gameTime);
@@ -110,7 +136,7 @@ public class Shop : GameObject, IInteractable
         {
             _autoClicker[_notStarted - 1].Start();
             _notStarted--;
-        } 
+        }
 
         if (BeanCount >= 50 || _unlockedShop)
         {
@@ -140,6 +166,7 @@ public class Shop : GameObject, IInteractable
         _optionTwo.Draw(spriteBatch);
         _optionThree.Draw(spriteBatch);
         _optionFour.Draw(spriteBatch);
+        _beanDisplay.Draw(spriteBatch);
     }
 
     private OverTimeInvoker GetNewInvoker(bool start = true)
@@ -162,5 +189,22 @@ public class Shop : GameObject, IInteractable
         => _storage.Upgrade3 = count;
 
     private void OptionFourPurchased(int count, int value)
-        => _storage.Upgrade4 = count;
+    {
+        _storage.Upgrade4 = count;
+        SetSuspiciousIcon();
+        UpdateIcon();
+    }
+
+    private void SetSuspiciousIcon()
+        => _icon = Letter.ReverseParse(Letter.Character.AmongUsBean).ToString();
+    private void SetIcon()
+        => _icon = Letter.ReverseParse(Letter.Character.Bean).ToString();
+
+    private void UpdateIcon()
+    {
+        _optionOne.ChangeCurrencyIcon(_icon);
+        _optionTwo.ChangeCurrencyIcon(_icon);
+        _optionThree.ChangeCurrencyIcon(_icon);
+        _optionFour.ChangeCurrencyIcon(_icon);
+    }
 }

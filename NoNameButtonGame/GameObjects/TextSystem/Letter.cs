@@ -13,6 +13,7 @@ public class Letter : GameObject, IMoveable
     public const char AmongUsBean = 'ඞ';
     public const char Checkmark = '✔';
     public const char Crossout = '❌';
+    public const char Bean = '\u22a0';
 
     public Rectangle FrameSpacing;
     public Character RepresentingCharacter;
@@ -156,6 +157,7 @@ public class Letter : GameObject, IMoveable
             Character.SmallZ => new Rectangle(1, 2, 5, 6),
             Character.OpenSquaredBrackets => new Rectangle(1, 0, 2, 8),
             Character.CloseSquaredBrackets => new Rectangle(1, 0, 2, 8),
+            Character.Bean => new Rectangle(1,0,7,8),
             _ => new Rectangle(0, 0, 8, 8)
         };
     }
@@ -255,7 +257,8 @@ public class Letter : GameObject, IMoveable
         SmallY,
         SmallZ,
         OpenSquaredBrackets,
-        CloseSquaredBrackets
+        CloseSquaredBrackets,
+        Bean
     }
 
     public static Character Parse(char character)
@@ -355,6 +358,7 @@ public class Letter : GameObject, IMoveable
             AmongUsBean => Character.AmongUsBean,
             '[' => Character.OpenSquaredBrackets,
             ']' => Character.CloseSquaredBrackets,
+            Bean => Character.Bean,
             _ => Character.Full,
         };
 
@@ -455,6 +459,7 @@ public class Letter : GameObject, IMoveable
             Character.AmongUsBean => AmongUsBean,
             Character.OpenSquaredBrackets => '[',
             Character.CloseSquaredBrackets => ']',
+            Character.Bean => Bean,
             _ => '⬜'
         };
 

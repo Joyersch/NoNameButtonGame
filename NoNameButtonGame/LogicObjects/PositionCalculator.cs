@@ -80,6 +80,24 @@ public class PositionCalculator
         return this;
     }
 
+    public PositionCalculator ByGrid(float x, float y)
+    {
+        _calculatedPosition += new Vector2(_areaSize.Y * x, _areaSize.Y * y);
+        return this;
+    }
+    
+    public PositionCalculator ByGridX(float x)
+    {
+        _calculatedPosition += new Vector2(_areaSize.X * x, 0);
+        return this;
+    }
+    
+    public PositionCalculator ByGridY(float y)
+    {
+        _calculatedPosition += new Vector2(0, _areaSize.Y * y);
+        return this;
+    }
+
     public void Move()
         => _moveable.Move(_calculatedPosition);
 }

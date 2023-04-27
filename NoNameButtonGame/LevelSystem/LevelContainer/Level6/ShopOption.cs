@@ -22,10 +22,13 @@ public class ShopOption : IInteractable, IMoveable
     private int _currentPrice;
     private double _priceIncrease;
 
+    public bool Maxed => _amount == _maxAmount;
+
     private Vector2 _position;
     private Vector2 _size;
 
     public int Value => _amount;
+    private string _icon = string.Empty;
     public event Action<int, int> Purchased;
 
     public ShopOption(float sizeY, string text, int startAmount, int startPrice, double priceIncrease, int maxAmount) : this(
@@ -46,7 +49,7 @@ public class ShopOption : IInteractable, IMoveable
         _priceIncrease = priceIncrease;
         
         if (_amount == _maxAmount)
-            _currentPrice = int.MaxValue;
+            _currentPrice = 0;
 
         var button = new TextButton(text);
         
@@ -58,7 +61,7 @@ public class ShopOption : IInteractable, IMoveable
         _amountDisplay = new Text($"{_amount:n0}/{_maxAmount:n0}");
         _amountDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
 
-        _priceDisplay = new Text(_currentPrice.ToString("n0"));
+        _priceDisplay = new Text($"{_currentPrice:n0}{_icon}");
         _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
     }
 
@@ -75,10 +78,7 @@ public class ShopOption : IInteractable, IMoveable
         _currentPrice =  (int)(_currentPrice * _priceIncrease);
         
         if (_amount == _maxAmount)
-            _currentPrice = int.MaxValue;
-        
-        _priceDisplay.ChangeText(_currentPrice.ToString("n0"));
-        _amountDisplay.ChangeText($"{_amount:n0}/{_maxAmount:n0}");
+            _currentPrice = 0;
         
     }
 
@@ -97,6 +97,9 @@ public class ShopOption : IInteractable, IMoveable
         _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
         _amountDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
         _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
+        
+        _priceDisplay.ChangeText($"{_currentPrice:n0}{_icon}");
+        _amountDisplay.ChangeText($"{_amount:n0}/{_maxAmount:n0}");
         
         _button.Update(gameTime);
         _amountDisplay.Update(gameTime);
@@ -124,4 +127,7 @@ public class ShopOption : IInteractable, IMoveable
         _priceDisplay.Move(_priceDisplay.Position + offset);
         _position = newPosition;
     }
+
+    public void ChangeCurrencyIcon(string icon)
+        => _icon = icon;
 }
