@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using NoNameButtonGame.GameObjects.Texture;
@@ -19,6 +20,8 @@ public class GameObject : IHitbox, IManageable
     protected TextureHitboxMapping TextureHitboxMapping;
     protected Rectangle[] Hitboxes;
     protected Vector2 ScaleToTexture;
+
+    public bool IsStatic;
 
     public Rectangle[] Hitbox => Hitboxes;
 
@@ -72,11 +75,25 @@ public class GameObject : IHitbox, IManageable
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
+        if (IsStatic)
+            return;
+        GeneralDraw(spriteBatch);
+    }
+
+    public virtual void DrawStatic(SpriteBatch spriteBatch)
+    {
+        if (!IsStatic)
+            return;
+        GeneralDraw(spriteBatch);
+    }
+
+    protected virtual void GeneralDraw(SpriteBatch spriteBatch)
+    {
         if (ImageLocation == Rectangle.Empty)
             spriteBatch.Draw(Texture, Rectangle, DrawColor);
         else
             spriteBatch.Draw(Texture, Rectangle, ImageLocation, DrawColor);
-    }
+    } 
 
     protected virtual void UpdateRectangle()
         => Rectangle = new Rectangle(Position.ToPoint(), Size.ToPoint());

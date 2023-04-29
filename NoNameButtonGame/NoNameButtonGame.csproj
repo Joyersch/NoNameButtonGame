@@ -13,9 +13,13 @@
   <ItemGroup>
     <None Remove="Content\bin\DesktopGL\Courier New.xnb" />
     <None Remove="Icon.bmp" />
+    <None Remove="MiniGames\**" />
+    <None Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.bmp" />
+    <EmbeddedResource Remove="MiniGames\**" />
+    <EmbeddedResource Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
@@ -32,6 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Music" />
-    <Folder Include="MiniGames\Snake" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="MiniGames\**" />
+    <Compile Remove="Debug\**" />
   </ItemGroup>
 </Project>

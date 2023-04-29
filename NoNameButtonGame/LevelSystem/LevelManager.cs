@@ -120,8 +120,13 @@ internal class LevelManager
             disposer.Update(gameTime);
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Action<SpriteBatch> drawOnStatic)
     {
+        graphicsDevice.SetRenderTarget(_display.Target);
+        graphicsDevice.Clear(new Color(50, 50, 50));
+
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: CurrentCamera.CameraMatrix);
+
         SampleLevel level = _state switch
         {
             MenuState.LevelSelect => this.level,
@@ -129,7 +134,25 @@ internal class LevelManager
             MenuState.Settings => _settings,
             _ => _startMenu,
         };
+
         level.Draw(spriteBatch);
+        
+        spriteBatch.End();
+        
+
+        graphicsDevice.SetRenderTarget(null);
+
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+
+        graphicsDevice.Clear(Color.HotPink);
+        
+        spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
+        
+        level.DrawStatic(spriteBatch);
+        
+        drawOnStatic?.Invoke(spriteBatch);
+        
+        spriteBatch.End();
     }
     
     private void CurrentMusic(string newMusic)

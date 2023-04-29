@@ -123,28 +123,12 @@ public class NoNameGame : Game
     protected override void Draw(GameTime gameTime)
     {
         base.Draw(gameTime);
-        GraphicsDevice.SetRenderTarget(_display.Target);
-        GraphicsDevice.Clear(new Color(50, 50, 50));
-
-        _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: _levelManager.CurrentCamera.CameraMatrix);
-
-        _levelManager.Draw(_spriteBatch);
-
-         _spriteBatch.End();
         
-
-        GraphicsDevice.SetRenderTarget(null);
-
-        _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
-
-        GraphicsDevice.Clear(Color.HotPink);
-
-        _spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
-
-        if (_showActualMousePos)
-            _mousePointer.Draw(_spriteBatch);
-
-        _spriteBatch.End();
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, batch =>
+        {
+            if (_showActualMousePos)
+                _mousePointer.Draw(_spriteBatch);
+        });
     }
 
     private void SettingsChanged(object obj, EventArgs e)

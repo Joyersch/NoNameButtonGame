@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -63,6 +64,17 @@ public class SampleLevel : ILevel, IDisposable
                 gameObject.Draw(spriteBatch);
             if (obj is Text text)
                 text.Draw(spriteBatch);
+        }
+    }
+
+    public virtual void DrawStatic(SpriteBatch spriteBatch)
+    {
+        foreach (var obj in AutoManaged)
+        {
+            if (obj is GameObject gameObject)
+                gameObject.DrawStatic(spriteBatch);
+            if (obj is Text text)
+                text.DrawStatic(spriteBatch);
         }
     }
 

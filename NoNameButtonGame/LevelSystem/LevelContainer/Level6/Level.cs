@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Security;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,7 +33,15 @@ public class Level : SampleLevel
     private readonly LockButtonAddon _snakeButton;
 
     private readonly TextButton _finishButton;
-    private bool _drawFinsish;
+    private bool _drawFinish;
+
+    private readonly Text _objectiveDisplay;
+
+    private readonly List<string> _objectives = new()
+    {
+        "Unlock the shop",
+        "Purchase all upgrades"
+    };
 
     public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
@@ -114,6 +123,13 @@ public class Level : SampleLevel
         _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
         AutoManaged.Add(_counter);
 
+        _objectiveDisplay = new Text("Test")
+        {
+            IsStatic = true
+        };
+        
+        AutoManaged.Add(_objectiveDisplay);
+        
         var cursor = new Cursor();
         Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
@@ -122,9 +138,9 @@ public class Level : SampleLevel
 
     private void EnableFinishButton()
     {
-        if (_drawFinsish)
+        if (_drawFinish)
             return;
-        _drawFinsish = true;
+        _drawFinish = true;
     }
 
     private void SnakeButtonClick(object obj)
@@ -155,7 +171,7 @@ public class Level : SampleLevel
     {
         _counter.ChangeText(_shop.BeanDisplay);
         _finishButton.Update(gameTime);
-        if (_drawFinsish)
+        if (_drawFinish)
             _finishButton.UpdateInteraction(gameTime, Actuator);
         base.Update(gameTime);
         _counter.GetCalculator(_originScreen).OnCenter().Centered().OnY(3, 10).Move();
@@ -163,7 +179,7 @@ public class Level : SampleLevel
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        if (_drawFinsish)
+        if (_drawFinish)
             _finishButton.Draw(spriteBatch);
         base.Draw(spriteBatch);
     }

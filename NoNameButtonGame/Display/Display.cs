@@ -12,6 +12,8 @@ public class Display
     public static Vector2 Size => new Vector2(Width, Height);
 
     public Rectangle Window;
+
+    public Rectangle Screen;
     
     //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
     private Rectangle _backbufferBounds;
@@ -21,7 +23,8 @@ public class Display
     private readonly GraphicsDevice _device;
     public Display(GraphicsDevice device)
     {
-        this._device = device;
+        _device = device;
+        Screen = _device.PresentationParameters.Bounds;
         Target = new RenderTarget2D(this._device, (int) Width, (int) Height);
     }
     
