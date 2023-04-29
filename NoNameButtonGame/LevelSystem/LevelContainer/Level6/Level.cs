@@ -114,7 +114,7 @@ public class Level : SampleLevel
         AutoManaged.Add(_snakeButton);
 
         _finishButton = new TextButton("Finish");
-        _finishButton.Click += Finish;
+        _finishButton.Click += FinishLevel;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6, random);
@@ -141,6 +141,12 @@ public class Level : SampleLevel
         Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
         AutoManaged.Add(cursor);
+    }
+
+    private void FinishLevel(object obj)
+    {
+        _storage.GameData.Level6 = new StorageData();
+        Finish();
     }
 
     private void UnlockedShop()
