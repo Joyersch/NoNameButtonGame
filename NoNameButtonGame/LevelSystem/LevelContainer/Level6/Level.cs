@@ -115,7 +115,7 @@ public class Level : SampleLevel
 
         _finishButton = new TextButton("Finish");
         _finishButton.Click += Finish;
-        _finishButton.GetCalculator(Camera.Rectangle).OnX(0).OnY(0).Move();
+        _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6, random);
         _shop.UnlockedShop += _shopButton.Unlock;
