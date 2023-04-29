@@ -34,14 +34,20 @@ public class Level : SampleLevel
 
     private readonly TextButton _finishButton;
     private bool _drawFinish;
+    private bool _shopUnlocked;
 
     private readonly Text _objectiveDisplay;
-
+    private readonly string _objectiveInfoText = "Current objective:";
+    private int _currentObjective;
     private readonly List<string> _objectives = new()
     {
         "Unlock the shop",
-        "Purchase all upgrades"
+        "Purchase all upgrades",
+        "Find the \"Finish\" button"
     };
+    private string _objectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
+    
+    private readonly Text hoverInfoDisplay;
 
     public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
@@ -114,6 +120,7 @@ public class Level : SampleLevel
         _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6, random);
         _shop.UnlockedShop += _shopButton.Unlock;
         _shop.UnlockedShop += toShopLockSnake.Unlock;
+        _shop.UnlockedShop += UnlockedShop;
         _shop.UnlockedDistraction += _snakeButton.Unlock;
         _shop.UnlockedDistraction += toSnakeLockShop.Unlock;
         _shop.PurchasedAllOptions += EnableFinishButton;
@@ -123,24 +130,36 @@ public class Level : SampleLevel
         _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
         AutoManaged.Add(_counter);
 
-        _objectiveDisplay = new Text("Test")
+        _objectiveDisplay = new Text(_objectiveText, _display.SimpleScale)
         {
             IsStatic = true
         };
-        
+        _objectiveDisplay.GetCalculator(_display.Screen).OnX(0.01F).OnY(0.01F).Move();
         AutoManaged.Add(_objectiveDisplay);
-        
+
         var cursor = new Cursor();
         Actuator = cursor;
         PositionListener.Add(_mouse, cursor);
         AutoManaged.Add(cursor);
     }
 
+    private void UnlockedShop()
+    {
+        if (_shopUnlocked)
+            return;
+        _shopUnlocked = true;
+        AdvanceObjective();
+    }
+
+    private void AdvanceObjective()
+        => _currentObjective++;
+
     private void EnableFinishButton()
     {
         if (_drawFinish)
             return;
         _drawFinish = true;
+        AdvanceObjective();
     }
 
     private void SnakeButtonClick(object obj)
@@ -169,6 +188,7 @@ public class Level : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
+        _objectiveDisplay.ChangeText(_objectiveText);
         _counter.ChangeText(_shop.BeanDisplay);
         _finishButton.Update(gameTime);
         if (_drawFinish)

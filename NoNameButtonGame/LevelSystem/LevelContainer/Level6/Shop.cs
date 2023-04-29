@@ -41,7 +41,17 @@ public class Shop : GameObject, IInteractable
     public event Action UnlockedDistraction;
     private bool _unlockedDistraction;
 
-    public event Action PurchasedAllOptions; 
+    public event Action PurchasedAllOptions;
+
+    private readonly Text _infoDiplay;
+
+    private readonly List<string> _infoDisplayText = new()
+    {
+        "Clicks for you every Second. Stacks",
+        "5% change to crit (10x). Stacks",
+        "Each bean increases in value by 1. Stacks",
+        "Beans become suspicious. Does not Stack"
+    };
 
     public Shop(Vector2 position, Vector2 size, StorageData storage, Random random) : base(position, DefaultSize,
         DefaultTexture,
@@ -61,8 +71,8 @@ public class Shop : GameObject, IInteractable
         if (storage.Upgrade4 > 0)
             SetSuspiciousIcon();
         else
-        SetIcon();
-        
+            SetIcon();
+
         if (storage.Snake)
             _unlockedDistraction = true;
 
@@ -74,27 +84,54 @@ public class Shop : GameObject, IInteractable
         _optionOne.GetCalculator(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
         _optionOne.Purchased += DecreaseBeanCount;
         _optionOne.Purchased += OptionOnePurchased;
+        _optionOne.ButtonEnter += OptionOneEnter;
+        _optionOne.ButtonLeave += OptionLeave;
 
         _optionTwo = new ShopOption(size.Y, "Jelly Beans", storage.Upgrade2, 150, 1.32D, 20);
         _optionTwo.GetCalculator(_rectangle).OnX(0.35F).BySizeX(-0.5F).Move();
         _optionTwo.Purchased += DecreaseBeanCount;
         _optionTwo.Purchased += OptionTwoPurchased;
+        _optionTwo.ButtonEnter += OptionTwoEnter;
+        _optionTwo.ButtonLeave += OptionLeave;
 
         _optionThree = new ShopOption(size.Y, "Magic Beans", storage.Upgrade3, 3000, 1.46D, 10);
         _optionThree.GetCalculator(_rectangle).OnX(0.55F).BySizeX(-0.5F).Move();
         _optionThree.Purchased += DecreaseBeanCount;
         _optionThree.Purchased += OptionThreePurchased;
+        _optionThree.ButtonEnter += OptionThreeEnter;
+        _optionThree.ButtonLeave += OptionLeave;
 
         _optionFour = new ShopOption(size.Y, "Suspicious Beans", storage.Upgrade4, 250000, 99D, 1);
         _optionFour.GetCalculator(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
+        _optionFour.ButtonEnter += OptionFourEnter;
+        _optionFour.ButtonLeave += OptionLeave;
 
-        UpdateIcon();
+        _infoDiplay = new Text(string.Empty);
+        _infoDiplay.GetCalculator(_rectangle).OnCenter().OnY(0.875F).BySize(-0.5F).Move();
         
+        UpdateIcon();
+
         _beanDisplay = new Text(BeanDisplay);
         _beanDisplay.GetCalculator(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
     }
+
+    private void OptionOneEnter()
+        => _infoDiplay.ChangeText(_infoDisplayText[0]);
+    
+    private void OptionTwoEnter()
+        => _infoDiplay.ChangeText(_infoDisplayText[1]);
+    
+    private void OptionThreeEnter()
+        => _infoDiplay.ChangeText(_infoDisplayText[2]);
+    
+    private void OptionFourEnter()
+        => _infoDiplay.ChangeText(_infoDisplayText[3]);
+    
+    private void OptionLeave()
+        => _infoDiplay.ChangeText(string.Empty);
+
 
     public void IncreaseBeanCount()
     {
@@ -116,15 +153,17 @@ public class Shop : GameObject, IInteractable
         _optionTwo.GetCalculator(_rectangle).OnX(0.38F).BySizeX(-0.5F).Move();
         _optionThree.GetCalculator(_rectangle).OnX(0.61F).BySizeX(-0.5F).Move();
         _optionFour.GetCalculator(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
-
+        _infoDiplay.GetCalculator(_rectangle).OnCenter().OnY(0.9F).BySize(-0.5F).Move();
+     
         _optionOne.Update(gameTime, BeanCount);
         _optionTwo.Update(gameTime, BeanCount);
         _optionThree.Update(gameTime, BeanCount);
         _optionFour.Update(gameTime, BeanCount);
+        _infoDiplay.Update(gameTime);
 
         if (_optionOne.Maxed && _optionTwo.Maxed && _optionThree.Maxed && _optionFour.Maxed)
             PurchasedAllOptions?.Invoke();
-        
+
         _beanDisplay.ChangeText(BeanDisplay);
         _beanDisplay.GetCalculator(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
         _beanDisplay.Update(gameTime);
@@ -167,6 +206,7 @@ public class Shop : GameObject, IInteractable
         _optionThree.Draw(spriteBatch);
         _optionFour.Draw(spriteBatch);
         _beanDisplay.Draw(spriteBatch);
+        _infoDiplay.Draw(spriteBatch);
     }
 
     private OverTimeInvoker GetNewInvoker(bool start = true)
@@ -197,6 +237,7 @@ public class Shop : GameObject, IInteractable
 
     private void SetSuspiciousIcon()
         => _icon = Letter.ReverseParse(Letter.Character.AmongUsBean).ToString();
+
     private void SetIcon()
         => _icon = Letter.ReverseParse(Letter.Character.Bean).ToString();
 

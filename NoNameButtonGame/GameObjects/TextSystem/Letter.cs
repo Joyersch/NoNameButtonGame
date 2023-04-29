@@ -153,7 +153,7 @@ public class Letter : GameObject, IMoveable
             Character.SmallV => new Rectangle(1, 2, 5, 6),
             Character.SmallW => new Rectangle(1, 2, 5, 6),
             Character.SmallX => new Rectangle(1, 2, 5, 6),
-            Character.SmallY => new Rectangle(1, 2, 4, 6),
+            Character.SmallY => new Rectangle(1, 1, 4, 6),
             Character.SmallZ => new Rectangle(1, 2, 5, 6),
             Character.OpenSquaredBrackets => new Rectangle(1, 0, 2, 8),
             Character.CloseSquaredBrackets => new Rectangle(1, 0, 2, 8),

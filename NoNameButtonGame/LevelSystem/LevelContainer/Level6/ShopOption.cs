@@ -30,6 +30,8 @@ public class ShopOption : IInteractable, IMoveable
     public int Value => _amount;
     private string _icon = string.Empty;
     public event Action<int, int> Purchased;
+    public event Action ButtonEnter;
+    public event Action ButtonLeave;
 
     public ShopOption(float sizeY, string text, int startAmount, int startPrice, double priceIncrease, int maxAmount) : this(
         Vector2.Zero, sizeY, text, startAmount, startPrice, priceIncrease, maxAmount)
@@ -67,6 +69,12 @@ public class ShopOption : IInteractable, IMoveable
 
     private void ButtonClick(object obj, IButtonAddon.CallState state)
     {
+        if (state == IButtonAddon.CallState.Enter)
+            ButtonEnter?.Invoke();
+        
+        if (state == IButtonAddon.CallState.Leave)
+            ButtonLeave?.Invoke();
+        
         if (state != IButtonAddon.CallState.Click)
             return;
 
@@ -79,7 +87,6 @@ public class ShopOption : IInteractable, IMoveable
         
         if (_amount == _maxAmount)
             _currentPrice = 0;
-        
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)

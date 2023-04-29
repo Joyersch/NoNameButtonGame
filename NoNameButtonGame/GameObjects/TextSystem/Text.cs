@@ -24,7 +24,11 @@ public class Text : IColorable, IMoveable, IManageable
 
     public static Vector2 DefaultLetterSize => new Vector2(16, 16);
 
-    public Text(string text) : this(text, Vector2.Zero, DefaultLetterSize, 1)
+    public Text(string text) : this(text, Vector2.Zero, 1, 1)
+    {
+    }
+    
+    public Text(string text, float scale) : this(text, Vector2.Zero, DefaultLetterSize * scale, 1)
     {
     }
 
