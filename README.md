@@ -1,7 +1,10 @@
 # General
-This game was originally on another github account.  
-The Project has been moved over here for fixes and stuff.  
-Mainly getting it working on linux (which is does) and also fixing a lot of bad code.
+Originally I only wanted to fix some code but at this point this is basically a new game with a lot of improvements.  
+Original repo:
+https://github.com/BoiRaigy/NoNameButtonGame
+
+# Play the original
+https://raigy.itch.io/nonamebuttongame
 
 # Important when Building
 I encountered an issue when building on linux.  
