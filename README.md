@@ -4,7 +4,7 @@ Original repo:
 https://github.com/BoiRaigy/NoNameButtonGame
 
 # Play the original
-https://raigy.itch.io/nonamebuttongame
+https://joyersch.itch.io/nonamebuttongame
 
 # Important when Building
 I encountered an issue when building on linux.  
