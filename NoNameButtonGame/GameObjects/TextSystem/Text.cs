@@ -9,7 +9,7 @@ namespace NoNameButtonGame.GameObjects.TextSystem;
 public class Text : IColorable, IMoveable, IManageable
 {
     private List<Letter> _letters;
-    protected readonly int _spacing;
+    protected readonly int Spacing;
     private string _represent;
     public Vector2 Position;
     public Vector2 Size;
@@ -47,7 +47,7 @@ public class Text : IColorable, IMoveable, IManageable
 
     public Text(string text, Vector2 position, Vector2 letterSize, int spacing)
     {
-        _spacing = spacing;
+        Spacing = spacing;
         Size = letterSize;
         Position = position;
 
@@ -97,7 +97,7 @@ public class Text : IColorable, IMoveable, IManageable
         {
             var letter = new Letter(new Vector2(length, 0) + Position, Size, character);
             letter.Position += new Vector2(0, 8F * letter.InitialScale.Y) - new Vector2(0, letter.Rectangle.Height);
-            length += (int) ((letter.FrameSpacing.Width + _spacing) * sizeScale);
+            length += (int) ((letter.FrameSpacing.Width + Spacing) * sizeScale);
             letters.Add(letter);
         }
 

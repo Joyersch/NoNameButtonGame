@@ -87,5 +87,5 @@ public class DelayedText : Text
     }
 
     public Text GetBaseCopy()
-        => new Text(_toDisplayText, Position, Size, _spacing);
+        => new Text(_toDisplayText, Position, Size, Spacing);
 }

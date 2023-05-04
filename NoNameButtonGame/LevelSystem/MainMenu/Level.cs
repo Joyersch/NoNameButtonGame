@@ -1,11 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.LogicObjects.Listener;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;
@@ -53,7 +50,7 @@ public class Level : SampleLevel
 
         var mouseCursor = new Cursor();
         Actuator = mouseCursor;
-        PositionListener.Add(_mouse, mouseCursor);
+        PositionListener.Add(Mouse, mouseCursor);
         AutoManaged.Add(mouseCursor);
     }
 

@@ -4,7 +4,6 @@ using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level1;
 
@@ -30,6 +29,6 @@ internal class Level : SampleLevel
         var mouseCursor = new Cursor();
         Actuator = mouseCursor;
         AutoManaged.Add(mouseCursor);
-        PositionListener.Add(base._mouse, mouseCursor);
+        PositionListener.Add(Mouse, mouseCursor);
     }
 }

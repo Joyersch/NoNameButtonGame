@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.LogicObjects.Listener;

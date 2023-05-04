@@ -1,13 +1,10 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
@@ -21,7 +18,7 @@ internal class Level : SampleLevel
         stateButton.Move(-EmptyButton.DefaultSize / 2);
 
         var counterButtonAddon = new HoldButtonAddon(new(stateButton), 3000F);
-        counterButtonAddon.Callback += (o, state) =>
+        counterButtonAddon.Callback += (_, state) =>
         {
             if (state != IButtonAddon.CallState.Click)
                 return;
@@ -40,7 +37,7 @@ internal class Level : SampleLevel
         
         var mouseCursor = new Cursor();
         Actuator = mouseCursor;
-        PositionListener.Add(_mouse, mouseCursor);
+        PositionListener.Add(Mouse, mouseCursor);
         AutoManaged.Add(mouseCursor);
     }
 }

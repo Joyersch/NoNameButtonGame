@@ -1,14 +1,11 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
@@ -30,7 +27,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(infoAboutButton2);
         
         var counterButtonAddon = new CounterButtonAddon(new(stateButton), 5);
-        counterButtonAddon.Callback += (o, state) =>
+        counterButtonAddon.Callback += (_, state) =>
         {
             if (state != IButtonAddon.CallState.Click)
                 return;
@@ -39,7 +36,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(counterButtonAddon);
         
         var mouseCursor = new Cursor();
-        PositionListener.Add(_mouse, mouseCursor);
+        PositionListener.Add(Mouse, mouseCursor);
         Actuator = mouseCursor;
         AutoManaged.Add(mouseCursor);
     }

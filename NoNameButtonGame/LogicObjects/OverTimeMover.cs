@@ -14,9 +14,6 @@ public class OverTimeMover : IManageable
 
     private float _currentMoveTime;
     
-    private float _savedGameTime;
-
-    
     public bool IsMoving { get; private set; }
 
     public event Action ArrivedOnDestination;

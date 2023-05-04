@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.GameObjects.Texture;
-using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 

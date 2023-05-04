@@ -13,13 +13,12 @@ internal class LevelManager
     private SampleLevel _currentLevel;
     private MainMenu.Level _startMenu;
     private Settings.Level _settings;
-    private Selection.Level level;
+    private Selection.Level _level;
     private LevelFactory _levelFactory;
 
     private Display.Display _display;
     private Storage.Storage _storage;
 
-    private Random _random;
     private MenuState _state;
     private int _currentSelectLevel;
     private bool _fromSelect;
@@ -27,8 +26,8 @@ internal class LevelManager
     private string _currentMusicName;
     private SoundEffectInstance _currentMusic;
 
-    private List<SampleLevel> toDispose;
-    private OverTimeInvoker disposer;
+    private readonly List<SampleLevel> _toDispose;
+    private readonly OverTimeInvoker _disposer;
     public event Action CloseGameEventHandler;
 
     private enum MenuState
@@ -44,7 +43,7 @@ internal class LevelManager
         {
             MenuState.Settings => _settings.Camera,
             MenuState.StartMenu => _startMenu.Camera,
-            MenuState.LevelSelect => level.Camera,
+            MenuState.LevelSelect => _level.Camera,
             _ => _currentLevel.Camera,
         };
 
@@ -52,17 +51,17 @@ internal class LevelManager
 
     public LevelManager(Display.Display display, Storage.Storage storage, int? seed = null)
     {
-        toDispose = new List<SampleLevel>();
-        disposer = new OverTimeInvoker(200);
-        disposer.Trigger += DisposerOnTrigger;
+        _toDispose = new List<SampleLevel>();
+        _disposer = new OverTimeInvoker(200);
+        _disposer.Trigger += DisposerOnTrigger;
         _display = display;
         _storage = storage;
-        _random = new Random(seed ?? DateTime.Now.Millisecond);
+        var random = new Random(seed ?? DateTime.Now.Millisecond);
         _state = MenuState.StartMenu;
         _currentSelectLevel = storage.GameData.MaxLevel;
 
         _levelFactory = new LevelFactory(_display,
-            _storage.Settings.Resolution.ToVertor2(), _random, storage);
+            _storage.Settings.Resolution.ToVertor2(), random, storage);
 
         _startMenu = _levelFactory.GetStartLevel();
         _startMenu.StartClicked += StartMenuStartClicked;
@@ -79,15 +78,15 @@ internal class LevelManager
     }
 
     private void DisposerOnTrigger()
-    => toDispose.ForEach(l => l.Dispose());
+    => _toDispose.ForEach(l => l.Dispose());
 
     private void InitializeLevelSelect()
     {
-        level = _levelFactory.GetSelectLevel();
-        level.ExitEventHandler += LevelOnExitEventHandler;
-        level.LevelSelectedEventHandler += LevelSelected;
-        level.CurrentMusicEventHandler += CurrentMusic;
-        ChangeWindowName?.Invoke(level.Name);
+        _level = _levelFactory.GetSelectLevel();
+        _level.ExitEventHandler += LevelOnExitEventHandler;
+        _level.LevelSelectedEventHandler += LevelSelected;
+        _level.CurrentMusicEventHandler += CurrentMusic;
+        ChangeWindowName?.Invoke(_level.Name);
     }
     
     private void SelectLevel(int level)
@@ -104,7 +103,7 @@ internal class LevelManager
     {
         SampleLevel level = _state switch
         {
-            MenuState.LevelSelect => this.level,
+            MenuState.LevelSelect => this._level,
             MenuState.Level => _currentLevel,
             MenuState.Settings => _settings,
             _ => _startMenu,
@@ -117,7 +116,7 @@ internal class LevelManager
 
         level.Update(gameTime);
         if (_state is MenuState.StartMenu or MenuState.LevelSelect or MenuState.Settings)
-            disposer.Update(gameTime);
+            _disposer.Update(gameTime);
     }
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Action<SpriteBatch> drawOnStatic)
@@ -129,7 +128,7 @@ internal class LevelManager
 
         SampleLevel level = _state switch
         {
-            MenuState.LevelSelect => this.level,
+            MenuState.LevelSelect => this._level,
             MenuState.Level => _currentLevel,
             MenuState.Settings => _settings,
             _ => _startMenu,
@@ -198,25 +197,25 @@ internal class LevelManager
         _currentSelectLevel++;
         _storage.GameData.MaxLevel = _currentSelectLevel;
 
-        toDispose.Add(_currentLevel);
+        _toDispose.Add(_currentLevel);
         SelectLevel(_currentSelectLevel + 1);
     }
 
     private void LevelFail()
     {
-        toDispose.Add(_currentLevel);
+        _toDispose.Add(_currentLevel);
         SelectLevel(_currentSelectLevel + 1);
     }
 
     private void LevelExitEventHandler()
     {
-        toDispose.Add(_currentLevel);
+        _toDispose.Add(_currentLevel);
         
         if (_fromSelect)
         {
             _fromSelect = false;
             _state = MenuState.LevelSelect;
-            ChangeWindowName?.Invoke(level.Name);
+            ChangeWindowName?.Invoke(_level.Name);
             return;
         }
 
@@ -264,7 +263,7 @@ internal class LevelManager
     private void LevelOnExitEventHandler()
     {
         _state = MenuState.StartMenu;
-        ChangeWindowName?.Invoke(level.Name);
+        ChangeWindowName?.Invoke(_level.Name);
     }
 
     private void SettingsWindowResize(Vector2 newSize)

@@ -1,9 +1,5 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.GameObjects.AddOn;
@@ -15,9 +11,8 @@ public class HoldButtonAddon : ButtonAddonBase
     private readonly float _startTime;
     private bool _isHover;
     private float _time;
-    private bool hasReachedZero;
-    private bool pressStartOnObject;
-    private int _offset;
+    private bool _hasReachedZero;
+    private bool _pressStartOnObject;
 
     public HoldButtonAddon(ButtonAddonAdapter button, float startTime) : base(button)
     {
@@ -28,9 +23,9 @@ public class HoldButtonAddon : ButtonAddonBase
             Position);
         Size = _timer.Rectangle.Size.ToVector2();
         _button.SetIndicatorOffset((int) Size.X);
-        pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
+        _pressStartOnObject = !InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false);
     }
-    
+
     public override void SetIndicatorOffset(int x)
     {
         _button.SetIndicatorOffset(x);
@@ -42,31 +37,31 @@ public class HoldButtonAddon : ButtonAddonBase
             _isHover = true;
         if (state == IButtonAddon.CallState.Leave)
             _isHover = false;
-     if (_time == 0)
-         base.ButtonCallback(sender, state);
+        if (_time == 0)
+            base.ButtonCallback(sender, state);
     }
-    
+
     public override void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         _button.UpdateInteraction(gameTime, toCheck);
 
-        
+
         float passedGameTime = 0F;
-        if (!hasReachedZero)
-            passedGameTime = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+        if (!_hasReachedZero)
+            passedGameTime = (float) gameTime.ElapsedGameTime.TotalMilliseconds;
         if (_isHover && InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, false))
         {
-            if (!pressStartOnObject)
+            if (!_pressStartOnObject)
             {
-                pressStartOnObject = InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true);
+                _pressStartOnObject = InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true);
                 return;
             }
-            
+
             _time -= passedGameTime;
-            if (_time <= 0 && !hasReachedZero)
+            if (_time <= 0 && !_hasReachedZero)
             {
                 _time = 0;
-                hasReachedZero = true;
+                _hasReachedZero = true;
                 base.ButtonCallback(_button, IButtonAddon.CallState.Click);
             }
         }
@@ -78,7 +73,7 @@ public class HoldButtonAddon : ButtonAddonBase
         }
 
         string newText = string.Empty;
-        
+
         // If _time has no value after decimal point there is no need to print the value after the decimal point
         newText = (_time / 1000).ToString("n2");
         _timer.ChangeText(newText);
@@ -96,13 +91,13 @@ public class HoldButtonAddon : ButtonAddonBase
         _button.Draw(spriteBatch);
         _timer.Draw(spriteBatch);
     }
-    
+
     public override Vector2 GetPosition()
         => _button.GetPosition();
 
     public override Vector2 GetSize()
         => _button.GetSize();
-    
+
     public override void SetDrawColor(Color color)
         => _button.SetDrawColor(color);
 
@@ -113,9 +108,9 @@ public class HoldButtonAddon : ButtonAddonBase
     {
         _button.Move(newPosition);
         _timer.Move(newPosition);
-        Position = newPosition + new Vector2(_offset, 0);
+        Position = newPosition;
     }
-    
+
     public override void MoveIndicatorBy(Vector2 newPosition)
     {
         _timer.Move(_timer.Position + newPosition);

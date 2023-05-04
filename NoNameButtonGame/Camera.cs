@@ -1,7 +1,4 @@
-﻿using System;
-using System.Data;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame;

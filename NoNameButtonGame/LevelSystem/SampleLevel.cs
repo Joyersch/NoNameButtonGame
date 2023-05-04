@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
-using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
@@ -23,10 +20,10 @@ public class SampleLevel : ILevel, IDisposable
 
     public readonly Camera Camera;
     public Vector2 Window;
-    protected readonly MousePointer _mouse;
+    protected readonly MousePointer Mouse;
     protected Vector2 CameraPosition => Camera.Position;
 
-    protected Display.Display _display;
+    protected readonly Display.Display Display;
     public string Name;
     protected Random Random;
 
@@ -38,7 +35,7 @@ public class SampleLevel : ILevel, IDisposable
 
     protected SampleLevel(Display.Display display, Vector2 window, Random random)
     {
-        _display = display;
+        Display = display;
         Random = random;
         Window = window;
 
@@ -47,13 +44,13 @@ public class SampleLevel : ILevel, IDisposable
 
         AutoManaged = new List<object>();
         
-        Camera = new Camera(Vector2.Zero, Display.Display.Size);
-        _mouse = new MousePointer();
+        Camera = new Camera(Vector2.Zero, NoNameButtonGame.Display.Display.Size);
+        Mouse = new MousePointer();
         SetMousePositionToCenter();
     }
 
     protected void SetMousePositionToCenter()
-        => Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
+        => Microsoft.Xna.Framework.Input.Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
 
 
     public virtual void Draw(SpriteBatch spriteBatch)
@@ -82,11 +79,11 @@ public class SampleLevel : ILevel, IDisposable
     {
         Camera.Update();
 
-        var mouseVector = Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / Display.Display.Width, Window.Y / Display.Display.Height);
-        var offset = Display.Display.Size / Camera.Zoom / 2;
-        _mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
-        _mouse.Update(gameTime);
+        var mouseVector = Microsoft.Xna.Framework.Input.Mouse.GetState().Position.ToVector2();
+        var screenScale = new Vector2(Window.X / NoNameButtonGame.Display.Display.Width, Window.Y / NoNameButtonGame.Display.Display.Height);
+        var offset = NoNameButtonGame.Display.Display.Size / Camera.Zoom / 2;
+        Mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
+        Mouse.Update(gameTime);
 
         PositionListener.Update(gameTime);
 

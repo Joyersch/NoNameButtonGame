@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Loader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
@@ -63,12 +60,12 @@ public class Level : SampleLevel
         fullscreenButton.Text.ChangeColor(new[] {settingTwo == Letter.Crossout.ToString() ? Color.Red : Color.Green});
         fullscreenButton.Click += ChangePressState;
         AutoManaged.Add(fullscreenButton);
-        
+
         var fullscreenText = new Text("Fullscreen", Vector2.Zero);
         fullscreenText.Move(leftAnchor + new Vector2(fullscreenButton.Rectangle.Width + 4,
             fullscreenButton.Rectangle.Height / 2 - fullscreenText.Rectangle.Height / 2));
         AutoManaged.Add(fullscreenText);
-        
+
 
         leftAnchor += new Vector2(0, fullscreenButton.Rectangle.Height + 4);
 
@@ -109,7 +106,7 @@ public class Level : SampleLevel
         _vectorResolution = window;
         var cursor = new Cursor();
         Actuator = cursor;
-        PositionListener.Add(_mouse, cursor);
+        PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
     }
 
@@ -151,9 +148,9 @@ public class Level : SampleLevel
         }
 
         if (button.Name == "IsFixedStep")
-        _storage.Settings.IsFixedStep = button.Text.Value == Letter.Checkmark.ToString();
+            _storage.Settings.IsFixedStep = button.Text.Value == Letter.Checkmark.ToString();
         else
-        _storage.Settings.IsFullscreen = button.Text.Value == Letter.Checkmark.ToString();
+            _storage.Settings.IsFullscreen = button.Text.Value == Letter.Checkmark.ToString();
     }
 
     public override void Update(GameTime gameTime)

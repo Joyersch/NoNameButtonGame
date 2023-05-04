@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.LogicObjects;
-using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -15,7 +11,7 @@ public class Level : SampleLevel
     private readonly OverTimeMover _mover;
     public event Action<int> LevelSelectedEventHandler;
 
-    private int _cameraLevel = 0;
+    private int _cameraLevel;
 
     public Level(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
         window, rand)
@@ -32,7 +28,7 @@ public class Level : SampleLevel
         for (int i = 0; i < screens; i++)
         {
             var down = new MiniTextButton(
-                new Vector2(-300, 138 + (Display.Display.Height / Camera.Zoom) * i)
+                new Vector2(-300, 138 + (NoNameButtonGame.Display.Display.Height / Camera.Zoom) * i)
                 , new Vector2(64, 32)
                 , ""
                 , "⬇"
@@ -42,7 +38,7 @@ public class Level : SampleLevel
             AutoManaged.Add(down);
 
             var up = new MiniTextButton(
-                new Vector2(-300, 190 + (Display.Display.Height / Camera.Zoom) * i)
+                new Vector2(-300, 190 + (NoNameButtonGame.Display.Display.Height / Camera.Zoom) * i)
                 , new Vector2(64, 32)
                 , ""
                 , "⬆"
@@ -66,7 +62,7 @@ public class Level : SampleLevel
 
         var cursor = new Cursor();
         Actuator = cursor;
-        PositionListener.Add(_mouse, cursor);
+        PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
     }
 

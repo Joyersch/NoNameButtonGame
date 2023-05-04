@@ -1,17 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Security;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.LogicObjects;
-using NoNameButtonGame.LogicObjects.Listener;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
@@ -29,9 +25,6 @@ public class Level : SampleLevel
 
     private readonly Rectangle _originScreen;
 
-    private readonly LockButtonAddon _shopButton;
-    private readonly LockButtonAddon _snakeButton;
-
     private readonly TextButton _finishButton;
     private bool _drawFinish;
     private bool _shopUnlocked;
@@ -45,9 +38,7 @@ public class Level : SampleLevel
         "Purchase all upgrades",
         "Find the \"Finish\" button"
     };
-    private string _objectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
-    
-    private readonly Text hoverInfoDisplay;
+    private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
     public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
@@ -56,16 +47,16 @@ public class Level : SampleLevel
 
         _storage = storage;
 
-        var OneScreen = Display.Display.Size / 2;
-        var shopScreen = new Vector2(OneScreen.X, 0);
+        var oneScreen = NoNameButtonGame.Display.Display.Size / 2;
+        var shopScreen = new Vector2(oneScreen.X, 0);
 
-        Camera.Move(OneScreen / 2);
+        Camera.Move(oneScreen / 2);
         _originScreen = Camera.Rectangle;
         //Camera.Zoom = 0.5F;
 
         _overTimeMoverShop = new OverTimeMover(Camera, Camera.Position + shopScreen, 666F, OverTimeMover.MoveMode.Sin);
         _overTimeMoverMain = new OverTimeMover(Camera, Camera.Position, 666F, OverTimeMover.MoveMode.Sin);
-        _overTimeMoverDistraction = new OverTimeMover(Camera, Camera.Position + new Vector2(-OneScreen.X, 0), 666F,
+        _overTimeMoverDistraction = new OverTimeMover(Camera, Camera.Position + new Vector2(-oneScreen.X, 0), 666F,
             OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_overTimeMoverShop);
         AutoManaged.Add(_overTimeMoverMain);
@@ -74,9 +65,9 @@ public class Level : SampleLevel
         var shopButton = new TextButton("Shop");
         shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySize(-1F).Move();
         shopButton.Click += ShopButtonClick;
-        _shopButton = new LockButtonAddon(new(shopButton));
+        var shopButton1 = new LockButtonAddon(new(shopButton));
 
-        AutoManaged.Add(_shopButton);
+        AutoManaged.Add(shopButton1);
 
         var toMainButtonShop = new TextButton("Return");
         toMainButtonShop.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySizeY(-1F).Move();
@@ -103,25 +94,26 @@ public class Level : SampleLevel
         AutoManaged.Add(toShopLockSnake);
 
         var clickButton = new TextButton("Bake a Bean!");
-        clickButton.Move(OneScreen / 2 - clickButton.Size / 2);
-        clickButton.Click += o => _shop.IncreaseBeanCount();
+        clickButton.Move(oneScreen / 2 - clickButton.Size / 2);
+        clickButton.Click += _ => _shop.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
 
+        // originally it was planned to have snake on the distraction screen but the idea was cut
         var snakeButton = new TextButton("Distraction");
         snakeButton.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySizeY(-1F).Move();
         snakeButton.Click += SnakeButtonClick;
-        _snakeButton = new LockButtonAddon(new(snakeButton));
-        AutoManaged.Add(_snakeButton);
+        var snakeLockButton = new LockButtonAddon(new(snakeButton));
+        AutoManaged.Add(snakeLockButton);
 
         _finishButton = new TextButton("Finish");
         _finishButton.Click += FinishLevel;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
-        _shop = new Shop(shopScreen, OneScreen, _storage.GameData.Level6, random);
-        _shop.UnlockedShop += _shopButton.Unlock;
+        _shop = new Shop(shopScreen, oneScreen, _storage.GameData.Level6, random);
+        _shop.UnlockedShop += shopButton1.Unlock;
         _shop.UnlockedShop += toShopLockSnake.Unlock;
         _shop.UnlockedShop += UnlockedShop;
-        _shop.UnlockedDistraction += _snakeButton.Unlock;
+        _shop.UnlockedDistraction += snakeLockButton.Unlock;
         _shop.UnlockedDistraction += toSnakeLockShop.Unlock;
         _shop.PurchasedAllOptions += EnableFinishButton;
         AutoManaged.Add(_shop);
@@ -130,16 +122,16 @@ public class Level : SampleLevel
         _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
         AutoManaged.Add(_counter);
 
-        _objectiveDisplay = new Text(_objectiveText, _display.SimpleScale)
+        _objectiveDisplay = new Text(ObjectiveText, Display.SimpleScale)
         {
             IsStatic = true
         };
-        _objectiveDisplay.GetCalculator(_display.Screen).OnX(0.01F).OnY(0.01F).Move();
+        _objectiveDisplay.GetCalculator(Display.Screen).OnX(0.01F).OnY(0.01F).Move();
         AutoManaged.Add(_objectiveDisplay);
 
         var cursor = new Cursor();
         Actuator = cursor;
-        PositionListener.Add(_mouse, cursor);
+        PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
     }
 
@@ -194,7 +186,7 @@ public class Level : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
-        _objectiveDisplay.ChangeText(_objectiveText);
+        _objectiveDisplay.ChangeText(ObjectiveText);
         _counter.ChangeText(_shop.BeanDisplay);
         _finishButton.Update(gameTime);
         if (_drawFinish)

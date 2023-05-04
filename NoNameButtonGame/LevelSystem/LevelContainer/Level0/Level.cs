@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
@@ -32,7 +31,7 @@ internal class Level : SampleLevel
         
         var cursor = new Cursor();
         Actuator = cursor;
-        PositionListener.Add(_mouse, cursor);
+        PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
     }
 }

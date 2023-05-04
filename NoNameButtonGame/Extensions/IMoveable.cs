@@ -1,6 +1,5 @@
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.LogicObjects;
-using GameObject = NoNameButtonGame.GameObjects.GameObject;
 
 namespace NoNameButtonGame.Extensions;
 

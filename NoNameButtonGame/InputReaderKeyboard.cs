@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework.Input;
 
 namespace NoNameButtonGame;
@@ -14,7 +13,7 @@ public static class InputReaderKeyboard
     /// </summary>
     /// <param name="search"></param>
     /// <param name="onlyOnces"> if true, stores searched key if pressed. Otherwise search is not stored</param>
-    /// <returns>Returns if search is being pressed. If <paramref name="onlyOnces"> is true, only returns true if search is not stored./></returns>
+    /// <returns>Returns if search is being pressed. If <paramref name="onlyOnces"/> is true, only returns true if search is not stored./></returns>
     public static bool CheckKey(Keys search, bool onlyOnces = false)
     {
         var keyboardState = Keyboard.GetState();

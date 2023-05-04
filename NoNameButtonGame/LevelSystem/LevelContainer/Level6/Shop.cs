@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.GameObjects.Texture;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.LogicObjects;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -63,7 +62,6 @@ public class Shop : GameObject, IInteractable
         _autoClicker = new List<OverTimeInvoker>();
 
         BeanCount = storage.Beans;
-        var yOffset = DefaultSize / 2;
 
         if (storage.Upgrade1 > 0 || storage.Upgrade2 > 0 || storage.Upgrade3 > 0 || storage.Upgrade4 > 0)
             _unlockedShop = true;

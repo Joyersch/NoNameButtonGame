@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Interfaces;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 

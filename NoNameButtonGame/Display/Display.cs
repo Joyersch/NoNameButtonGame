@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
@@ -40,21 +39,21 @@ public class Display
         Screen = _device.PresentationParameters.Bounds;
         Bounds = _device.PresentationParameters.Bounds.Size.ToVector2();
         //SHOUTOUT: https://youtu.be/yUSB_wAVtE8
-        var _backbufferAspectRatio = (float) Bounds.X / Bounds.Y;
-        var _screenAspectRatio = (float) Target.Width / Target.Height;
+        var backbufferAspectRatio = Bounds.X / Bounds.Y;
+        var screenAspectRatio = (float) Target.Width / Target.Height;
 
         var x = 0f;
         var y = 0f;
         float w = Screen.Width;
         float h = Screen.Height;
-        if (_backbufferAspectRatio > _screenAspectRatio)
+        if (backbufferAspectRatio > screenAspectRatio)
         {
-            w = h * _screenAspectRatio;
+            w = h * screenAspectRatio;
             x = (Screen.Width - w) / 2f;
         }
-        else if (_backbufferAspectRatio < _screenAspectRatio)
+        else if (backbufferAspectRatio < screenAspectRatio)
         {
-            h = w / _screenAspectRatio;
+            h = w / screenAspectRatio;
             y = (Screen.Height - h) / 2f;
         }
 

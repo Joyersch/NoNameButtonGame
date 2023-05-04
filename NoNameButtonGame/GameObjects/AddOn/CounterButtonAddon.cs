@@ -1,8 +1,5 @@
-using System;
-using System.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
 using Color = Microsoft.Xna.Framework.Color;
@@ -14,14 +11,13 @@ public class CounterButtonAddon : ButtonAddonBase
 {
     private int _states;
     private readonly ButtonAddonAdapter _button;
-    private int _offset;
-    private readonly TextSystem.Text _text;
+    private readonly Text _text;
 
     public CounterButtonAddon(ButtonAddonAdapter button, int startStates) : base(button)
     {
         _button = button;
         _states = startStates;
-        _text = new TextSystem.Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
+        _text = new Text(Letter.ReverseParse(Letter.Character.LockLocked).ToString(),
             Position);
         Size = _text.Rectangle.Size.ToVector2();
         _button.SetIndicatorOffset((int) Size.X);
@@ -86,7 +82,7 @@ public class CounterButtonAddon : ButtonAddonBase
     {
         _button.Move(newPosition);
         _text.Move(newPosition);
-        Position = newPosition + new Vector2(_offset, 0);
+        Position = newPosition;
     }
     
     public override void MoveIndicatorBy(Vector2 newPosition)

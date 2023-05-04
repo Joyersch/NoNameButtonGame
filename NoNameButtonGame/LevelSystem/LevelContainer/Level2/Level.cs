@@ -1,15 +1,11 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Colors;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
@@ -29,7 +25,7 @@ internal class Level : SampleLevel
         lockButton.GetCalculator(Camera.Rectangle).OnCenter().OnY(3,16).Centered().Move();
         
         _lockButtonAddon = new LockButtonAddon(new(lockButton));
-        _lockButtonAddon.Callback += (o, state) =>
+        _lockButtonAddon.Callback += (_, state) =>
         {
             if (state != IButtonAddon.CallState.Click)
                 return;
@@ -47,7 +43,7 @@ internal class Level : SampleLevel
         
         var cursor = new Cursor();
         Actuator = cursor;
-        PositionListener.Add(_mouse, cursor);
+        PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
     }
 

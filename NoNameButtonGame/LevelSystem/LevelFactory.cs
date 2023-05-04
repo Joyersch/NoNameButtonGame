@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
-using Settings = NoNameButtonGame.LevelSystem.Settings;
 
 namespace NoNameButtonGame.LevelSystem;
 

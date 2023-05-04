@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
@@ -124,10 +123,10 @@ public class NoNameGame : Game
     {
         base.Draw(gameTime);
         
-        _levelManager.Draw(GraphicsDevice, _spriteBatch, batch =>
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
         {
             if (_showActualMousePos)
-                _mousePointer.Draw(_spriteBatch);
+                _mousePointer.Draw(spriteBatch);
         });
     }
 
