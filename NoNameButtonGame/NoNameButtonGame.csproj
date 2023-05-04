@@ -41,4 +41,7 @@
     <Compile Remove="MiniGames\**" />
     <Compile Remove="Debug\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="LevelSystem\LevelContainer\Level7\Questions.json" />
+  </ItemGroup>
 </Project>

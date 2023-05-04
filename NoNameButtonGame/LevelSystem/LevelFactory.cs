@@ -41,6 +41,7 @@ public class LevelFactory
             4 => new Levels.Level4.Level(_display, _screen, _random),
             5 => new Levels.Level5.Level(_display, _screen, _random),
             6 => new Levels.Level6.Level(_display, _screen, _random, _storage),
+            7 => new Levels.Level7.Level(_display, _screen, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random),
         };
 }

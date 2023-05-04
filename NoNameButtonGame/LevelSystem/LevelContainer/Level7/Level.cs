@@ -5,7 +5,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 
 public class Level : SampleLevel
 {
-    protected Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
+        var x = new Quiz();
     }
 }
