@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.Texture;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
@@ -85,6 +86,7 @@ public class TextButton : EmptyButton
     public override void Update(GameTime gameTime)
     {
         Text.Update(gameTime);
+        Text.GetCalculator(Rectangle).OnCenter().Centered().Move();
         base.Update(gameTime);
     }
 

@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "Question": "This is a question!",
+    "Answers": [
+      {
+        "Answer": "This is an Answer!",
+        "IsCorrect": true
+      },
+      {
+        "Answer": "This is another Answer!",
+        "IsCorrect": true
+      },
+      {
+        "Answer": "This is also an Answer!",
+        "IsCorrect": true
+      }
+    ]
+  },
+  {
+    "Question": "This is also question!",
+    "Answers": [
+      {
+        "Answer": "This is an Answer!",
+        "IsCorrect": true
+      },
+      {
+        "Answer": "This is false!",
+        "IsCorrect": false
+      },
+      {
+        "Answer": "This is also an Answer!",
+        "IsCorrect": true
+      }
+    ]
+  }
+]

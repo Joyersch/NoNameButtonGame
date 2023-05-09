@@ -44,4 +44,10 @@
   <ItemGroup>
     <None Remove="LevelSystem\LevelContainer\Level7\Questions.json" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Data\Levels\Level7\Questions.json" />
+    <EmbeddedResource Include="Data\Levels\Level7\Questions.json">
+      <LogicalName>Levels.Level7.Questions</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

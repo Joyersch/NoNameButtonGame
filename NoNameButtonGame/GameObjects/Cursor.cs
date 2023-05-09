@@ -22,6 +22,10 @@ internal class Cursor : GameObject, IMoveable
     public Cursor() : this(Vector2.Zero)
     {
     }
+    
+    public Cursor(float scale) : this(Vector2.Zero, scale)
+    {
+    }
 
     public Cursor(Vector2 position) : this(position, DefaultSize)
     {

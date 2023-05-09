@@ -57,10 +57,8 @@ public class SampleLevel : ILevel, IDisposable
     {
         foreach (var obj in AutoManaged)
         {
-            if (obj is GameObject gameObject)
-                gameObject.Draw(spriteBatch);
-            if (obj is Text text)
-                text.Draw(spriteBatch);
+            if (obj is IManageable manageable)
+                manageable.Draw(spriteBatch);
         }
     }
 
@@ -68,10 +66,8 @@ public class SampleLevel : ILevel, IDisposable
     {
         foreach (var obj in AutoManaged)
         {
-            if (obj is GameObject gameObject)
-                gameObject.DrawStatic(spriteBatch);
-            if (obj is Text text)
-                text.DrawStatic(spriteBatch);
+            if (obj is IManageable manageable)
+                manageable.DrawStatic(spriteBatch);
         }
     }
 
