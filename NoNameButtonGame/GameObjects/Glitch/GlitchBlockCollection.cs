@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 using System.Linq;
 
-namespace NoNameButtonGame.GameObjects;
+namespace NoNameButtonGame.GameObjects.Glitch;
 
 internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable
 {

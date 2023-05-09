@@ -32,12 +32,14 @@ public class Level : SampleLevel
     private readonly Text _objectiveDisplay;
     private readonly string _objectiveInfoText = "Current objective:";
     private int _currentObjective;
+
     private readonly List<string> _objectives = new()
     {
         "Unlock the shop",
         "Purchase all upgrades",
         "Find the \"Finish\" button"
     };
+
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
     public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
@@ -52,7 +54,7 @@ public class Level : SampleLevel
 
         Camera.Move(oneScreen / 2);
         _originScreen = Camera.Rectangle;
-        //Camera.Zoom = 0.5F;
+
 
         _overTimeMoverShop = new OverTimeMover(Camera, Camera.Position + shopScreen, 666F, OverTimeMover.MoveMode.Sin);
         _overTimeMoverMain = new OverTimeMover(Camera, Camera.Position, 666F, OverTimeMover.MoveMode.Sin);
@@ -129,6 +131,8 @@ public class Level : SampleLevel
         _objectiveDisplay.GetCalculator(Display.Screen).OnX(0.01F).OnY(0.01F).Move();
         AutoManaged.Add(_objectiveDisplay);
 
+        var nbg = new NBG(new Rectangle((int) -oneScreen.X, 0, (int) oneScreen.X, (int) oneScreen.Y), random, 2.5F);
+        AutoManaged.Add(nbg);
         var cursor = new Cursor();
         Actuator = cursor;
         PositionListener.Add(Mouse, cursor);

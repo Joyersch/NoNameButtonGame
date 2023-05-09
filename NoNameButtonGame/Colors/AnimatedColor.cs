@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.Colors;
 
-public class AnimatedColor
+public class AnimatedColor : IManageable
 {
     protected Color[] Color;
     private int _index;
@@ -27,6 +29,14 @@ public class AnimatedColor
             _index += Increment;
             _index %= Color.Length;
         }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+    }
+
+    public void DrawStatic(SpriteBatch spriteBatch)
+    {
     }
 
     public Color[] GetColor(int length)

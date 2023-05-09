@@ -10,6 +10,7 @@ using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.TextSystem;
+using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LogicObjects.Listener;
 using NoNameButtonGame.Storage;
@@ -92,6 +93,7 @@ public class NoNameGame : Game
         SquareTextButton.DefaultTexture = Content.GetTexture("squarebutton");
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
         Letter.DefaultTexture = Content.GetTexture("font");
+        NBG.DefaultTexture = Content.GetTexture("NBG");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.

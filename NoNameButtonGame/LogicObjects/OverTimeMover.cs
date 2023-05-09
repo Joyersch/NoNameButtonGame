@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.LogicObjects;
@@ -17,6 +18,12 @@ public class OverTimeMover : IManageable
     public bool IsMoving { get; private set; }
 
     public event Action ArrivedOnDestination;
+    
+    public enum MoveMode
+    {
+        Lin,
+        Sin
+    }
 
     public OverTimeMover(IMoveable moveable, Vector2 moveTo, float moveInTime, MoveMode moveMode)
 
@@ -64,10 +71,12 @@ public class OverTimeMover : IManageable
 
     public void ChangeDestination(Vector2 newDestination)
         => _destination = newDestination;
-    
-    public enum MoveMode
+
+    public void Draw(SpriteBatch spriteBatch)
     {
-        Lin,
-        Sin
+    }
+
+    public void DrawStatic(SpriteBatch spriteBatch)
+    {
     }
 }

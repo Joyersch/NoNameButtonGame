@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.LogicObjects;
@@ -17,17 +18,26 @@ public class OverTimeInvoker : IManageable
         _invokeTime = invokeTime;
         _hasStarted = start;
     }
+
     public void Update(GameTime gameTime)
     {
         if (!_hasStarted)
             return;
-        
+
         _currentTime += gameTime.ElapsedGameTime.TotalMilliseconds;
         while (_currentTime > _invokeTime)
         {
             _currentTime -= _invokeTime;
             Trigger?.Invoke();
         }
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+    }
+
+    public void DrawStatic(SpriteBatch spriteBatch)
+    {
     }
 
     public void Start()
