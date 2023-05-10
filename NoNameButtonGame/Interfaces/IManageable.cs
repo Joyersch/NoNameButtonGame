@@ -5,6 +5,7 @@ namespace NoNameButtonGame.Interfaces;
 
 public interface IManageable
 {
+    public Rectangle Rectangle { get; }
     public void Update(GameTime gameTime);
 
     public void Draw(SpriteBatch spriteBatch);

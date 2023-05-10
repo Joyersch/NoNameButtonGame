@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Extensions;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Debug;
@@ -43,7 +44,7 @@ public class SampleLevel : ILevel, IDisposable
         ColorListener = new ColorListener();
 
         AutoManaged = new List<object>();
-        
+
         Camera = new Camera(Vector2.Zero, NoNameButtonGame.Display.Display.Size);
         Mouse = new MousePointer();
         SetMousePositionToCenter();
@@ -57,7 +58,8 @@ public class SampleLevel : ILevel, IDisposable
     {
         foreach (var obj in AutoManaged)
         {
-            if (obj is IManageable manageable)
+            if (obj is IManageable manageable &&
+                manageable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 manageable.Draw(spriteBatch);
         }
     }
@@ -76,7 +78,8 @@ public class SampleLevel : ILevel, IDisposable
         Camera.Update();
 
         var mouseVector = Microsoft.Xna.Framework.Input.Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / NoNameButtonGame.Display.Display.Width, Window.Y / NoNameButtonGame.Display.Display.Height);
+        var screenScale = new Vector2(Window.X / NoNameButtonGame.Display.Display.Width,
+            Window.Y / NoNameButtonGame.Display.Display.Height);
         var offset = NoNameButtonGame.Display.Display.Size / Camera.Zoom / 2;
         Mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
         Mouse.Update(gameTime);
@@ -87,7 +90,7 @@ public class SampleLevel : ILevel, IDisposable
         {
             if (obj is IInteractable interactable)
                 interactable.UpdateInteraction(gameTime, Actuator);
-            
+
             if (obj is IManageable manageable)
                 manageable.Update(gameTime);
         }

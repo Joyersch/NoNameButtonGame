@@ -13,7 +13,7 @@ public class GameObject : IHitbox, IManageable
     protected Vector2 FrameSize;
     protected Rectangle ImageLocation;
     public Color DrawColor;
-    public Rectangle Rectangle;
+    public Rectangle Rectangle { get; protected set; }
 
     protected TextureHitboxMapping TextureHitboxMapping;
     protected Rectangle[] Hitboxes;

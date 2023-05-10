@@ -16,7 +16,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 public class Quiz : IManageable, IInteractable
 {
     private QuizQuestionsCollection _questions;
-    private Rectangle _area;
+    public Rectangle Rectangle { get; private set; }
 
     private TextButton _buttonOne;
     private TextButton _buttonTwo;
@@ -37,10 +37,10 @@ public class Quiz : IManageable, IInteractable
     public event Action Reset;
     public event Action Finish;
 
-    public Quiz(QuizQuestionsCollection questions, Rectangle area, float scale)
+    public Quiz(QuizQuestionsCollection questions, Rectangle rectangle, float scale)
     {
         _questions = questions;
-        _area = area;
+        Rectangle = rectangle;
         if (questions.Any(q => q.Answers.Length > 3))
             throw new DataException("To many answers");
 
@@ -51,10 +51,10 @@ public class Quiz : IManageable, IInteractable
         _buttonTwo.Click += ButtonTwoClick;
         _buttonThree = new TextButton(string.Empty, scale, 0.5F * scale);
         _buttonThree.Click += ButtonThreeClick;
-        _question.GetCalculator(_area).OnCenter().OnY(3,10).Centered().Move();
-        _buttonOne.GetCalculator(_area).OnCenter().OnX(5,20).Centered().Move();
-        _buttonOne.GetCalculator(_area).OnCenter().Centered().Move();
-        _buttonThree.GetCalculator(_area).OnCenter().OnY(15,20).Centered().Move();
+        _question.GetCalculator(Rectangle).OnCenter().OnY(3,10).Centered().Move();
+        _buttonOne.GetCalculator(Rectangle).OnCenter().OnX(5,20).Centered().Move();
+        _buttonOne.GetCalculator(Rectangle).OnCenter().Centered().Move();
+        _buttonThree.GetCalculator(Rectangle).OnCenter().OnY(15,20).Centered().Move();
     }
 
     private void ButtonOneClick(object obj)
@@ -91,13 +91,13 @@ public class Quiz : IManageable, IInteractable
         
         SetQuestionText();
         _question.Update(gameTime);
-        _question.GetCalculator(_area).OnCenter().OnY(3,10).Centered().Move();
+        _question.GetCalculator(Rectangle).OnCenter().OnY(3,10).Centered().Move();
         _buttonOne.Update(gameTime);
-        _buttonOne.GetCalculator(_area).OnCenter().OnX(5,20).Centered().Move();
+        _buttonOne.GetCalculator(Rectangle).OnCenter().OnX(5,20).Centered().Move();
         _buttonTwo.Update(gameTime);
-        _buttonTwo.GetCalculator(_area).OnCenter().Centered().Move();
+        _buttonTwo.GetCalculator(Rectangle).OnCenter().Centered().Move();
         _buttonThree.Update(gameTime);
-        _buttonThree.GetCalculator(_area).OnCenter().OnX(15,20).Centered().Move();
+        _buttonThree.GetCalculator(Rectangle).OnCenter().OnX(15,20).Centered().Move();
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)

@@ -13,7 +13,7 @@ public class Text : IColorable, IMoveable, IManageable
     private string _represent;
     public Vector2 Position;
     public Vector2 Size;
-    public Rectangle Rectangle;
+    public Rectangle Rectangle { get; private set; }
     public string Value => _represent;
 
     public bool IsStatic;
@@ -123,10 +123,11 @@ public class Text : IColorable, IMoveable, IManageable
         Rectangle combination = Rectangle.Empty;
         foreach (Letter letter in _letters)
         {
+            Rectangle rec = letter.Rectangle;
             if (combination.IsEmpty)
                 combination = letter.Rectangle;
             else
-                Rectangle.Union(ref combination, ref letter.Rectangle, out combination);
+                Rectangle.Union(ref combination, ref rec, out combination);
         }
 
         Rectangle = combination;

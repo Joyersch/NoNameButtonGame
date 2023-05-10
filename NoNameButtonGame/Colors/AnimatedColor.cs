@@ -17,6 +17,8 @@ public class AnimatedColor : IManageable
     protected AnimatedColor()
         => Color = Array.Empty<Color>();
 
+    public Rectangle Rectangle { get; } = Rectangle.Empty;
+
     public virtual void Update(GameTime gameTime)
     {
         if (Color.Length == 0 || GameTimeStepInterval <= 0)

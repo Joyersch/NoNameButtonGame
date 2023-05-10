@@ -6,6 +6,7 @@ using System.Threading;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.Logging;
+using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 
@@ -14,6 +15,8 @@ public class Level : SampleLevel
     public const string QuestionPath = "Levels.Level7.Questions";
 
     private readonly Quiz quiz;
+
+    private readonly OverTimeMover _toSimonMover;
 
     public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
@@ -32,6 +35,9 @@ public class Level : SampleLevel
         quiz.Finish += QuizFinish;
         AutoManaged.Add(quiz);
 
+        _toSimonMover = new OverTimeMover(Camera, new Vector2(oneScreen.X * 2, Camera.Position.Y), 555F, OverTimeMover.MoveMode.Sin);
+        AutoManaged.Add(_toSimonMover);
+        
         var cursor = new Cursor(scale);
         Actuator = cursor;
         PositionListener.Add(Mouse, cursor);
@@ -40,6 +46,6 @@ public class Level : SampleLevel
 
     private void QuizFinish()
     {
-        Log.WriteLine("Next thing here");
+        _toSimonMover.Start();
     }
 }

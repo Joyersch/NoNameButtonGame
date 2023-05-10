@@ -19,6 +19,8 @@ public class OverTimeInvoker : IManageable
         _hasStarted = start;
     }
 
+    public Rectangle Rectangle { get; } = Rectangle.Empty;
+
     public void Update(GameTime gameTime)
     {
         if (!_hasStarted)

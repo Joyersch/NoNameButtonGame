@@ -35,6 +35,8 @@ public class OverTimeMover : IManageable
         _start = _moveable.GetPosition();
     }
 
+    public Rectangle Rectangle { get; } = Rectangle.Empty;
+
     public void Update(GameTime gameTime)
     {
         if (!IsMoving)
