@@ -25,9 +25,9 @@ public class OverTimeInvoker : IManageable
     {
         if (!_hasStarted)
             return;
-
+        
         _currentTime += gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (_currentTime > _invokeTime)
+        while (_currentTime > _invokeTime && _invokeTime != 0F)
         {
             _currentTime -= _invokeTime;
             Trigger?.Invoke();
@@ -44,4 +44,12 @@ public class OverTimeInvoker : IManageable
 
     public void Start()
         => _hasStarted = true;
+
+    public bool ChangeTime(float time)
+    {
+        if (_hasStarted)
+            return false;
+        _invokeTime = time;
+        return true;
+    }
 }

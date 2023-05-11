@@ -21,7 +21,7 @@ public class Level : SampleLevel
     public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 7 - Old school";
-        
+
         var oneScreen = NoNameButtonGame.Display.Display.Size;
         Camera.Zoom = 1F;
         var scale = 2F;
@@ -35,8 +35,15 @@ public class Level : SampleLevel
         quiz.Finish += QuizFinish;
         AutoManaged.Add(quiz);
 
-        _toSimonMover = new OverTimeMover(Camera, new Vector2(oneScreen.X * 2, Camera.Position.Y), 555F, OverTimeMover.MoveMode.Sin);
+        var simonArea = Camera.Rectangle;
+        simonArea.X += Camera.Rectangle.Width;
+
+        _toSimonMover = new OverTimeMover(Camera, simonArea.Center.ToVector2(), 555F,
+            OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_toSimonMover);
+        
+        var simon = new SimonSays(simonArea);
+        AutoManaged.Add(simon);
         
         var cursor = new Cursor(scale);
         Actuator = cursor;
