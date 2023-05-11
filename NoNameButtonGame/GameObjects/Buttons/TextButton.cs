@@ -17,7 +17,7 @@ public class TextButton : EmptyButton
     }
 
 
-    public TextButton(string text, float scale) : this(string.Empty, text, scale)
+    public TextButton(string text, float scale) : this(text, string.Empty, scale)
     {
     }
 

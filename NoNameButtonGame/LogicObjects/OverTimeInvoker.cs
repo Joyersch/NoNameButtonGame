@@ -27,7 +27,7 @@ public class OverTimeInvoker : IManageable
             return;
         
         _currentTime += gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (_currentTime > _invokeTime && _invokeTime != 0F)
+        while (_currentTime > _invokeTime)
         {
             _currentTime -= _invokeTime;
             Trigger?.Invoke();

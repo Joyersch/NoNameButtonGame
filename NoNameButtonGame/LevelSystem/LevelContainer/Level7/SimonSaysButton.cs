@@ -12,23 +12,25 @@ public class SimonSaysButton : TextButton
 {
     private readonly OverTimeInvoker _invoker;
     private readonly Color _color;
+    private readonly Color _hightlight;
+    public Color Color => _color;
 
     private bool _triggered;
 
     public event Action Finished;
-    public SimonSaysButton(Color color) : this(Vector2.Zero, DefaultSize * 2, string.Empty, Letter.Full.ToString()
-        , DefaultTextSize * 2, 1,
-        DefaultTexture, DefaultMapping, color)
+
+    public SimonSaysButton(Color color, Color highlight) : this(Vector2.Zero, DefaultSize * 2, string.Empty,
+        Letter.Full.ToString(), DefaultTextSize * 2, 1, DefaultTexture, DefaultMapping, color, highlight)
     {
     }
 
     public SimonSaysButton(Vector2 position, Vector2 size, string name, string text, Vector2 textSize, int spacing,
-        Texture2D texture, TextureHitboxMapping mapping, Color color) : base(position, size, name, text, textSize,
-        spacing, texture,
-        mapping)
+        Texture2D texture, TextureHitboxMapping mapping, Color color, Color highlight) : base(position, size, name,
+        text, textSize, spacing, texture, mapping)
     {
         _color = color;
-        _invoker = new OverTimeInvoker(0F);
+        _hightlight = highlight;
+        _invoker = new OverTimeInvoker(0F, false);
         _invoker.Trigger += ResetColor;
         _invoker.Trigger += InvokerTrigger;
         ResetColor();
@@ -42,13 +44,13 @@ public class SimonSaysButton : TextButton
         Finished?.Invoke();
     }
 
-    public bool Highlight(Color color, float time)
+    public bool Highlight(float time)
     {
         var wasSuccessful = _invoker.ChangeTime(time);
         if (!wasSuccessful)
             return false;
         _invoker.Start();
-        Text.ChangeColor(color);
+        Text.ChangeColor(_hightlight);
         _triggered = true;
         return true;
     }
