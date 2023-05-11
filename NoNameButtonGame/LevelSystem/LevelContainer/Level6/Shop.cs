@@ -47,7 +47,7 @@ public class Shop : GameObject, IInteractable
     private readonly List<string> _infoDisplayText = new()
     {
         "Clicks for you every Second. Stacks",
-        "5% change to crit (10x). Stacks",
+        "5% chance to crit (10x). Stacks",
         "Each bean increases in value by 1. Stacks",
         "Beans become suspicious. Does not Stack"
     };

@@ -14,6 +14,6 @@ public class SingleRandomColor : AnimatedColor
 
     public override void Update(GameTime gameTime)
     {
-        base.Color = new[] {new Color(_random.Next(0, 255), _random.Next(0, 255), _random.Next(0, 255))};
+        Color = new[] {new Color(_random.Next(0, 255), _random.Next(0, 255), _random.Next(0, 255))};
     }
 }
