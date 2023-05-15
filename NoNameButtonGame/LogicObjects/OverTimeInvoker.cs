@@ -45,6 +45,12 @@ public class OverTimeInvoker : IManageable
     public void Start()
         => _hasStarted = true;
 
+    public void Stop()
+    {
+        _hasStarted = false;
+        _currentTime = 0D;
+    }
+    
     public bool ChangeTime(float time)
     {
         if (_hasStarted)

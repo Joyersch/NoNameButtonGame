@@ -8,6 +8,7 @@ using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.Interfaces;
 using NoNameButtonGame.Logging;
+using NoNameButtonGame.LogicObjects;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
@@ -25,22 +26,24 @@ public class SimonSays : IManageable, IInteractable
     private readonly Text _enteredSequenceDisplay;
     private readonly int _length;
 
-    private bool _started;
+    private bool _hideStartButton;
+
     private bool _isPlaying;
-    private int _played;
+    private int _hits;
     private int _maxPlayed = 1;
 
-    private int _clicked;
+    private SimonSequence _sequence;
     private int[] _playedSequence;
-    private int[] _enteredSequence;
+
+    private OverTimeInvoker _invoker;
 
     private readonly Dictionary<int, Color> _values = new Dictionary<int, Color>()
     {
         {0, Color.White},
-        {1, Color.Gold},
-        {2, Color.DarkRed},
+        {1, Color.Yellow},
+        {2, Color.Red},
         {3, Color.Green},
-        {4, Color.DarkBlue},
+        {4, Color.Blue},
         {5, Color.Purple}
     };
 
@@ -49,16 +52,17 @@ public class SimonSays : IManageable, IInteractable
         _random = random;
         Rectangle = area;
         _length = length;
-        _playedSequence = new int[length];
-        _enteredSequence = new int[1];
-        for (int j = 0; j < length; j++)
-            _playedSequence[j] = _random.Next(0, _buttons.Length);
-
-        _buttons[0] = new SimonSaysButton(_values[1], Color.Yellow);
-        _buttons[1] = new SimonSaysButton(_values[2], Color.Red);
-        _buttons[2] = new SimonSaysButton(_values[3], Color.DarkGreen);
-        _buttons[3] = new SimonSaysButton(_values[4], Color.Blue);
-        _buttons[4] = new SimonSaysButton(_values[5], Color.Magenta);
+        _sequence = new SimonSequence(1, 5, length, random);
+        _playedSequence = new int[_maxPlayed];
+        _invoker = new OverTimeInvoker(500F, false);
+        _invoker.Trigger += Play;
+        _invoker.Trigger += _invoker.Stop;
+        
+        _buttons[0] = new SimonSaysButton(_values[1], Color.Black, Speed);
+        _buttons[1] = new SimonSaysButton(_values[2], Color.Black, Speed);
+        _buttons[2] = new SimonSaysButton(_values[3], Color.Black, Speed);
+        _buttons[3] = new SimonSaysButton(_values[4], Color.Black, Speed);
+        _buttons[4] = new SimonSaysButton(_values[5], Color.Black, Speed);
         _enteredSequenceDisplay = new Text(string.Empty, 2F);
         _enteredSequenceDisplay.GetCalculator(area).OnCenter().OnY(4, 5).Centered().Move();
         int i = 0;
@@ -80,69 +84,90 @@ public class SimonSays : IManageable, IInteractable
             return;
 
         var button = (SimonSaysButton) obj;
-        var id = _values.First(v => v.Value == button.Color).Key;
+        var id = _values.First(v => v.Value == button.Color).Key - 1;
 
-        if (_playedSequence[_clicked] != id)
+        bool hit = _sequence.Compare(_hits, id);
+
+        if (!hit)
+        {
             Reset();
-
-        _enteredSequence[_clicked++] = id;
-
-        if (_clicked != _maxPlayed)
+            PlayNext();
             return;
-        
-        _played = 0;
-        _clicked = 0;
-        _enteredSequence = new int[_maxPlayed++];
-        StartClick();
+        }
+
+        _playedSequence[_hits] = id + 1;
+        _hits++;
+        if (_hits == _maxPlayed)
+        {
+            _hits = 0;
+            _maxPlayed++;
+            _playedSequence = new int[_maxPlayed];
+            _invoker.Start();
+        }
     }
 
     private void StartClick()
     {
-        _started = true;
+        Reset();
+        _hideStartButton = true;
+        _invoker.Start();
+    }
+
+    private void Play()
+    {
         _isPlaying = true;
         PlayNext();
     }
 
     private void PlayNext()
     {
-        if (_played == _maxPlayed || !_started)
-        {
-            _isPlaying = false;
+        if (!_isPlaying)
             return;
+        var last = !_sequence.Next(_maxPlayed, out int button);
+        _buttons[button].Highlight();
+        if (last)
+        {           
+            _isPlaying = false;
         }
-        _buttons[_played++].Highlight(Speed);
+
     }
 
     private void Reset()
     {
-        _played = 0;
         _maxPlayed = 1;
-        _clicked = 0;
-        _started = false;
+        _hits = 0;
+        _hideStartButton = false;
         _isPlaying = false;
-        _enteredSequence = new int[1];
+        _playedSequence = new int[1];
     }
 
     private void SetEnteredText()
     {
-        Color[] color = new Color[_enteredSequence.Length];
+        Color[] color = new Color[_playedSequence.Length];
         int j = 0;
-        foreach (var i in _enteredSequence)
-            color[j++] = _values[i];
-        string value = _enteredSequence.Aggregate(string.Empty, (current, i) => current + Letter.Full);
+        foreach (var i in _playedSequence)
+        {
+            if (j == _sequence.Pointer && _isPlaying)
+                color[j] = Color.Black;
+            else
+                color[j] = _values[i];
+            j++;
+        }
+
+        string value = _playedSequence.Aggregate(string.Empty, (current, i) => current + Letter.Full);
         _enteredSequenceDisplay.ChangeText(value);
         _enteredSequenceDisplay.ChangeColor(color);
     }
+
     public void Update(GameTime gameTime)
     {
-        Log.WriteLine($"Played:{_played}/{_maxPlayed}");
-        Log.WriteLine($"Clicked:{_clicked}/{_maxPlayed}");
         foreach (var button in _buttons)
             button.Update(gameTime);
         SetEnteredText();
         _enteredSequenceDisplay.GetCalculator(Rectangle).OnCenter().OnY(4, 5).Centered().Move();
         _enteredSequenceDisplay.Update(gameTime);
         _start.Update(gameTime);
+        _invoker.Update(gameTime);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -156,7 +181,7 @@ public class SimonSays : IManageable, IInteractable
     {
         foreach (var button in _buttons)
             button.Draw(spriteBatch);
-        if (!_started)
+        if (!_hideStartButton)
             _start.Draw(spriteBatch);
         _enteredSequenceDisplay.Draw(spriteBatch);
     }
@@ -165,7 +190,7 @@ public class SimonSays : IManageable, IInteractable
     {
         foreach (var button in _buttons)
             button.DrawStatic(spriteBatch);
-        if (!_started)
+        if (!_hideStartButton)
             _start.DrawStatic(spriteBatch);
         _enteredSequenceDisplay.DrawStatic(spriteBatch);
     }
