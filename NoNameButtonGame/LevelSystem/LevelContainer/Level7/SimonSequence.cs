@@ -29,7 +29,6 @@ public class SimonSequence
 
     public bool Next(int limit, out int value)
     {
-         Log.WriteLine($"pointer:{pointer}");
         value = data[pointer++];
         if (pointer < _length && pointer < limit)
             return true;

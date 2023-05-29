@@ -15,8 +15,6 @@ public class SimonSaysButton : TextButton
     private readonly Color _hightlight;
     public Color Color => _color;
 
-    private bool _triggered;
-
     public event Action Finished;
 
     public SimonSaysButton(Color color, Color highlight, float time) : this(Vector2.Zero, DefaultSize * 2, string.Empty,
@@ -31,16 +29,14 @@ public class SimonSaysButton : TextButton
         _color = color;
         _hightlight = highlight;
         _invoker = new OverTimeInvoker(time, false);
-        _invoker.Trigger += ResetColor;
         _invoker.Trigger += InvokerTrigger;
         ResetColor();
     }
 
     private void InvokerTrigger()
     {
-        if (!_triggered)
-            return;
-        _triggered = false;
+        ResetColor();
+        _invoker.Stop();
         Finished?.Invoke();
     }
 
@@ -48,7 +44,6 @@ public class SimonSaysButton : TextButton
     {
         _invoker.Start();
         Text.ChangeColor(_hightlight);
-        _triggered = true;
     }
 
     private void ResetColor()
