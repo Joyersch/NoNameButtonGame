@@ -2,18 +2,19 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.LogicObjects;
+using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Objects;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
+using MonoUtils.Ui.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
 public class Shop : GameObject, IInteractable
 {
-    public new static Vector2 DefaultSize => Display.Display.Size / 2;
+    public new static Vector2 DefaultSize => Display.Size / 2;
 
     private StorageData _storage;
     private readonly Random _random;

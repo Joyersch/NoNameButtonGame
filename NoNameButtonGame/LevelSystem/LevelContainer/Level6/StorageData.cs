@@ -1,5 +1,5 @@
 using System;
-using NoNameButtonGame.Interfaces;
+using MonoUtils.Logic;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 

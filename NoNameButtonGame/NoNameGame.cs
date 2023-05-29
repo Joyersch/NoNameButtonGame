@@ -2,19 +2,25 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MonoUtils;
+using MonoUtils.Logic;
+using MonoUtils.Logic.Listener;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Ui;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Debug;
 using NoNameButtonGame.Extensions;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.GameObjects.TextSystem;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
-using NoNameButtonGame.LevelSystem.LevelContainer.Level7;
-using NoNameButtonGame.LogicObjects.Listener;
 using NoNameButtonGame.Storage;
+using ContentManager = Microsoft.Xna.Framework.Content.ContentManager;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame;
 
@@ -23,18 +29,23 @@ public class NoNameGame : Game
     private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    private Display.Display _display;
-    private readonly Storage.Storage _storage;
+    private Display _display;
+    private Storage.Storage _storage;
     private LevelManager _levelManager;
 
     private bool _showActualMousePos;
     private MousePointer _mousePointer;
 
+    private Dictionary<string, string> UtilsMapping = new()
+    {
+        {nameof(GameObject), "placeholder"},
+        {nameof(Cursor), "cursor"}
+    };
+    
+
     public NoNameGame()
     {
         _graphics = new GraphicsDeviceManager(this);
-        _storage = new Storage.Storage(Globals.SaveDirectory);
-
         Content.RootDirectory = "Content";
         IsMouseVisible = false;
     }
@@ -51,10 +62,10 @@ public class NoNameGame : Game
         if (!Directory.Exists(Globals.SaveDirectory))
             Directory.CreateDirectory(Globals.SaveDirectory);
 
-        // Load or generate settings file (as well as save)
-        if (!_storage.Load())
-            _storage.SetDefaults(); // fallback default settings
-        
+        SettingsManager.SetBasePath(Globals.SaveDirectory);
+        SettingsManager.Add(new GameData());
+        SettingsManager.Load();
+        _storage = new Storage.Storage();
         _storage.Save();
 
         // apply settings and register Change Event for reapplying
@@ -63,9 +74,9 @@ public class NoNameGame : Game
         _storage.GameData.HasChanged += ProgressMade;
 
         // register soundSettingsListener to change sound volume if 
-        Globals.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
+        Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
 
-        _display = new(GraphicsDevice);
+        _display = new Display(GraphicsDevice);
 
         // as OS mouse-pointer is disabled this is to show said position 
         _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, _showActualMousePos);
@@ -83,24 +94,23 @@ public class NoNameGame : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+        // Initialize the Textures of objects from MonoUtils
+        Global.Initialize(Content);
+        
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.
         // The Texture are being forwarded through the constructor unless otherwise specified.
-        GameObject.DefaultTexture = Content.GetTexture("placeholder");
-        Cursor.DefaultTexture = Content.GetTexture("cursor");
         MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
-        EmptyButton.DefaultTexture = Content.GetTexture("emptybutton");
         MiniTextButton.DefaultTexture = Content.GetTexture("minibutton");
         SquareTextButton.DefaultTexture = Content.GetTexture("squarebutton");
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
-        Letter.DefaultTexture = Content.GetTexture("font");
         Nbg.DefaultTexture = Content.GetTexture("NBG");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
-        Globals.SoundEffects.AddMusicToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
-        Globals.SoundEffects.AddSfxToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
-        Globals.SoundEffects.AddSfxToCache("Talking", Content.GetSfx("NoNameButtonSound"));
+        Global.SoundEffects.AddMusicToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
+        Global.SoundEffects.AddSfxToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
+        Global.SoundEffects.AddSfxToCache("Talking", Content.GetSfx("NoNameButtonSound"));
     }
 
     protected override void Update(GameTime gameTime)
@@ -125,7 +135,7 @@ public class NoNameGame : Game
     protected override void Draw(GameTime gameTime)
     {
         base.Draw(gameTime);
-        
+
         _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
         {
             if (_showActualMousePos)
@@ -135,7 +145,7 @@ public class NoNameGame : Game
 
     private void SettingsChanged(object obj, EventArgs e)
     {
-        if (obj is not Settings settings)
+        if (obj is not GeneralSettings settings)
             return;
 
         IsFixedTimeStep = settings.IsFixedStep;

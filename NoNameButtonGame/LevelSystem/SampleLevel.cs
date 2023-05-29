@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Logic.Listener;
+using MonoUtils.Logic.Management;
+using MonoUtils.Ui;
 using NoNameButtonGame.Extensions;
-using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.LogicObjects.Listener;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -24,7 +24,7 @@ public class SampleLevel : ILevel, IDisposable
     protected readonly MousePointer Mouse;
     protected Vector2 CameraPosition => Camera.Position;
 
-    protected readonly Display.Display Display;
+    protected readonly Display Display;
     public string Name;
     protected Random Random;
 
@@ -34,7 +34,7 @@ public class SampleLevel : ILevel, IDisposable
     protected readonly List<object> AutoManaged;
     protected IHitbox Actuator;
 
-    protected SampleLevel(Display.Display display, Vector2 window, Random random)
+    protected SampleLevel(Display display, Vector2 window, Random random)
     {
         Display = display;
         Random = random;
@@ -45,7 +45,7 @@ public class SampleLevel : ILevel, IDisposable
 
         AutoManaged = new List<object>();
 
-        Camera = new Camera(Vector2.Zero, NoNameButtonGame.Display.Display.Size);
+        Camera = new Camera(Vector2.Zero, Display.Size);
         Mouse = new MousePointer();
         SetMousePositionToCenter();
     }
@@ -78,9 +78,9 @@ public class SampleLevel : ILevel, IDisposable
         Camera.Update();
 
         var mouseVector = Microsoft.Xna.Framework.Input.Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / NoNameButtonGame.Display.Display.Width,
-            Window.Y / NoNameButtonGame.Display.Display.Height);
-        var offset = NoNameButtonGame.Display.Display.Size / Camera.Zoom / 2;
+        var screenScale = new Vector2(Window.X / Display.CustomWidth,
+            Window.Y / Display.CustomHeight);
+        var offset = Display.Size / Camera.Zoom / 2;
         Mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
         Mouse.Update(gameTime);
 

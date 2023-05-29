@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NoNameButtonGame.Interfaces
+namespace NoNameButtonGame.LevelSystem
 {
     internal interface ILevel
     {

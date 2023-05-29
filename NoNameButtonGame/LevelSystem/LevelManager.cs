@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using NoNameButtonGame.LogicObjects;
+using MonoUtils;
+using MonoUtils.Logic;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -16,7 +18,7 @@ internal class LevelManager
     private Selection.Level _level;
     private LevelFactory _levelFactory;
 
-    private Display.Display _display;
+    private Display _display;
     private Storage.Storage _storage;
 
     private MenuState _state;
@@ -49,7 +51,7 @@ internal class LevelManager
 
     public event Action<string> ChangeWindowName;
 
-    public LevelManager(Display.Display display, Storage.Storage storage, int? seed = null)
+    public LevelManager(Display display, Storage.Storage storage, int? seed = null)
     {
         _toDispose = new List<SampleLevel>();
         _disposer = new OverTimeInvoker(200);
@@ -61,7 +63,7 @@ internal class LevelManager
         _currentSelectLevel = storage.GameData.MaxLevel;
 
         _levelFactory = new LevelFactory(_display,
-            _storage.Settings.Resolution.ToVertor2(), random, storage);
+            _storage.Settings.Resolution.ToVector2(), random, storage);
 
         _startMenu = _levelFactory.GetStartLevel();
         _startMenu.StartClicked += StartMenuStartClicked;
@@ -171,7 +173,7 @@ internal class LevelManager
         if (newMusic == string.Empty)
             return;
 
-        _currentMusic = Globals.SoundEffects.GetMusicInstance(newMusic);
+        _currentMusic = Global.SoundEffects.GetMusicInstance(newMusic);
         _currentMusic.IsLooped = true;
         _currentMusic.Play();
     }

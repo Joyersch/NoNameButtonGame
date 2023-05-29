@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Texture;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 

@@ -1,18 +1,19 @@
 using System;
 using Microsoft.Xna.Framework;
+using MonoUtils.Ui;
 using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
 
 namespace NoNameButtonGame.LevelSystem;
 
 public class LevelFactory
 {
-    private readonly Display.Display _display;
+    private readonly Display _display;
     private readonly Random _random;
     private Vector2 _screen;
 
     private readonly Storage.Storage _storage;
 
-    public LevelFactory(Display.Display display, Vector2 screen, Random random, Storage.Storage storage)
+    public LevelFactory(Display display, Vector2 screen, Random random, Storage.Storage storage)
     {
         _display = display;
         _screen = screen;

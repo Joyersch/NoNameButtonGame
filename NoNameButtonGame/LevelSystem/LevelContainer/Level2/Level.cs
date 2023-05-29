@@ -1,18 +1,19 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects.AddOn;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.Interfaces;
+using MonoUtils.Logic;
+using MonoUtils.Logic.Objects.Buttons;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.Buttons.AddOn;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
 internal class Level : SampleLevel
 {
     private readonly LockButtonAddon _lockButtonAddon;
-    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 2 - Tutorial 1 - Button Addon: Lock";
         

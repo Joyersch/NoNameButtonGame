@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Extensions;
+using MonoUtils.Logic;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.Buttons.AddOn;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
 using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.AddOn;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.LogicObjects;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
@@ -42,14 +43,14 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display.Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
+    public Level(Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
     {
         Name = "Level 6 - Just like Cookie Clicker but with BEANS!";
 
         _storage = storage;
 
-        var oneScreen = NoNameButtonGame.Display.Display.Size / 2;
+        var oneScreen = Display.Size / 2;
         var shopScreen = new Vector2(oneScreen.X, 0);
 
         Camera.Move(oneScreen / 2);

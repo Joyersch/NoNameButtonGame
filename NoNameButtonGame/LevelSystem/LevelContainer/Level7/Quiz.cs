@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.Interfaces;
-using NoNameButtonGame.Logging;
+using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Logic.Management;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;

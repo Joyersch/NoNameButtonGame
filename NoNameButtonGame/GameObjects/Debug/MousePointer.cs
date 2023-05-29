@@ -1,7 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Texture;
-using NoNameButtonGame.Interfaces;
+using MonoUtils.Logic;
+using MonoUtils.Objects;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.GameObjects.Debug;
 

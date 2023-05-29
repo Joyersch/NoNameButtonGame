@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.GameObjects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
@@ -15,7 +17,7 @@ public class Level : SampleLevel
     private Vector2 _vectorResolution;
     public event Action<Vector2> WindowsResizeEventHandler;
 
-    public Level(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+    public Level(Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
         window, rand)
     {
         _storage = storage;

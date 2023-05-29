@@ -1,14 +1,15 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.LogicObjects;
+using MonoUtils.Logic;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 
 internal class Level : SampleLevel
 {
 
-    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 5";
         

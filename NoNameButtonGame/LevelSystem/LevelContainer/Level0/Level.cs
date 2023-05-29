@@ -1,15 +1,16 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
+using MonoUtils.Logic;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level0;
 
 internal class Level : SampleLevel
 {
-    public Level(Display.Display display, Vector2 window, Random rand) : base(display, window, rand)
+    public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
         Name = "Level 404";
 

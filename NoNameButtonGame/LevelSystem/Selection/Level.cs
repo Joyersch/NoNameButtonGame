@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
+using MonoUtils.Logic;
+using MonoUtils.Objects;
+using MonoUtils.Ui;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.LogicObjects;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -13,7 +14,7 @@ public class Level : SampleLevel
 
     private int _cameraLevel;
 
-    public Level(Display.Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+    public Level(Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
         window, rand)
     {
         Name = "Level Selection";
@@ -28,7 +29,7 @@ public class Level : SampleLevel
         for (int i = 0; i < screens; i++)
         {
             var down = new MiniTextButton(
-                new Vector2(-300, 138 + (NoNameButtonGame.Display.Display.Height / Camera.Zoom) * i)
+                new Vector2(-300, 138 + (Display.CustomHeight / Camera.Zoom) * i)
                 , new Vector2(64, 32)
                 , ""
                 , "⬇"
@@ -38,7 +39,7 @@ public class Level : SampleLevel
             AutoManaged.Add(down);
 
             var up = new MiniTextButton(
-                new Vector2(-300, 190 + (NoNameButtonGame.Display.Display.Height / Camera.Zoom) * i)
+                new Vector2(-300, 190 + (Display.CustomHeight / Camera.Zoom) * i)
                 , new Vector2(64, 32)
                 , ""
                 , "⬆"

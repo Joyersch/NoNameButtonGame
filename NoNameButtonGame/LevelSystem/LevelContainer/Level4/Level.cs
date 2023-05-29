@@ -1,16 +1,17 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.AddOn;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.Interfaces;
+using MonoUtils.Logic.Objects.Buttons;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.Buttons.AddOn;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
 internal class Level : SampleLevel
 {
-    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 4 - Tutorial 3 - Button Addon: Hold";
 

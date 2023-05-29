@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
+using MonoUtils.Objects;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;
@@ -16,7 +17,7 @@ public class Level : SampleLevel
     public event Action<object> CreditsClicked;
     public event Action<object> ExitClicked;
 
-    public Level(Display.Display display, Vector2 window, Random rand) : base(display, window, rand)
+    public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
         Name = "Start Menu";
 

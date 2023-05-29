@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects;
+using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Objects;
+using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.Interfaces;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 

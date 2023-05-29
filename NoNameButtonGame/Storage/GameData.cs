@@ -1,10 +1,11 @@
 using System;
-using NoNameButtonGame.Interfaces;
+using MonoUtils.Logic;
+using Newtonsoft.Json;
 using Level6 = NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
 namespace NoNameButtonGame.Storage;
 
-public class GameData : IChangeable
+public class GameData : IChangeable, ISettings
 {
     private int _maxLevel;
 
@@ -27,4 +28,17 @@ public class GameData : IChangeable
     }
 
     public event EventHandler HasChanged;
+    public string Name => nameof(GameData);
+    public void Load(string path)
+    {
+        var copy = (GameData) FileManager.LoadFile($"{path}/{Name}.json", typeof(GameData));
+        MaxLevel = copy.MaxLevel;
+        Level6 = copy.Level6;
+    }
+
+    public void Save(string path)
+        => FileManager.SaveFile($"{path}/{Name}.json", this);
+
+    public object Get()
+        => this;
 }

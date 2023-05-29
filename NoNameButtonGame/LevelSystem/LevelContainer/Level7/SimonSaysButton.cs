@@ -1,10 +1,10 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.GameObjects.Texture;
-using NoNameButtonGame.LogicObjects;
+using MonoUtils.Logic;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Ui;
+using MonoUtils.Ui.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 

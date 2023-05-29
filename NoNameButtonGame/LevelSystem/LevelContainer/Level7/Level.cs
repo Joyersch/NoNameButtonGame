@@ -1,12 +1,9 @@
 using System;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading;
 using Microsoft.Xna.Framework;
-using NoNameButtonGame.GameObjects;
-using NoNameButtonGame.Logging;
-using NoNameButtonGame.LogicObjects;
+using MonoUtils;
+using MonoUtils.Logic;
+using MonoUtils.Objects;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 
@@ -18,15 +15,15 @@ public class Level : SampleLevel
 
     private readonly OverTimeMover _toSimonMover;
 
-    public Level(Display.Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 7 - Old school";
 
-        var oneScreen = NoNameButtonGame.Display.Display.Size;
+        var oneScreen = Display.Size;
         Camera.Zoom = 1F;
         var scale = 2F;
         Camera.Move(oneScreen / 2);
-        string questions = Globals.ReadFromResources(QuestionPath);
+        string questions = Global.ReadFromResources(QuestionPath);
         QuizQuestionsCollection questionsCollection =
             Newtonsoft.Json.JsonConvert.DeserializeObject<QuizQuestionsCollection>(questions);
 

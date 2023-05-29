@@ -1,11 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects.AddOn;
-using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.GameObjects.TextSystem;
-using NoNameButtonGame.Interfaces;
+using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Logic.Objects.Buttons;
+using MonoUtils.Objects.Buttons;
+using MonoUtils.Objects.Buttons.AddOn;
+using MonoUtils.Objects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
