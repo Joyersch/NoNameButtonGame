@@ -50,4 +50,7 @@
       <LogicalName>Levels.Level7.Questions</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MonoUtils\MonoUtils\MonoUtils.csproj" />
+  </ItemGroup>
 </Project>
