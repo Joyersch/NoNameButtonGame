@@ -8,19 +8,14 @@ using System.Linq;
 using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Listener;
+using MonoUtils.Logic.Objects.Buttons;
 using MonoUtils.Objects;
-using MonoUtils.Objects.Buttons;
 using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Debug;
-using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.Storage;
-using ContentManager = Microsoft.Xna.Framework.Content.ContentManager;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame;
 
@@ -101,8 +96,6 @@ public class NoNameGame : Game
         // As all kind of objects have the same texture it is saved static in the object.
         // The Texture are being forwarded through the constructor unless otherwise specified.
         MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
-        MiniTextButton.DefaultTexture = Content.GetTexture("minibutton");
-        SquareTextButton.DefaultTexture = Content.GetTexture("squarebutton");
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
         Nbg.DefaultTexture = Content.GetTexture("NBG");
 

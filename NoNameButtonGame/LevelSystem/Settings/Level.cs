@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using MonoUtils.Logic.Objects.Buttons;
 using MonoUtils.Objects;
 using MonoUtils.Objects.Buttons;
 using MonoUtils.Objects.TextSystem;
 using MonoUtils.Ui;
 using MonoUtils.Ui.TextSystem;
-using NoNameButtonGame.GameObjects.Buttons.TexturedButtons;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 

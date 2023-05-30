@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Music" />
+    <Folder Include="GameObjects\Buttons" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MiniGames\**" />
