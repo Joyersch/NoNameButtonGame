@@ -1,6 +1,6 @@
 using System;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
 public class SimonSequence
 {

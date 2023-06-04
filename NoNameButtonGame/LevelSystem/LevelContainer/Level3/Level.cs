@@ -1,44 +1,55 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logic;
-using MonoUtils.Logic.Objects.Buttons;
 using MonoUtils.Objects;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.Buttons.AddOn;
-using MonoUtils.Objects.TextSystem;
 using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
-internal class Level : SampleLevel
+public class Level : SampleLevel
 {
+    public const string QuestionPath = "Levels.Level7.Questions";
+
+    private readonly Quiz quiz;
+
+    private readonly OverTimeMover _toSimonMover;
+
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
-        Name = "Level 3 - Tutorial 2 - Button Addon: Counter";
+        Name = "Level 7 - Old school";
 
-        var stateButton = new TextButton("Finish Level");
-        stateButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().Move();
+        var oneScreen = Display.Size;
+        Camera.Zoom = 1F;
+        var scale = 2F;
+        Camera.Move(oneScreen / 2);
+        string questions = Global.ReadFromResources(QuestionPath);
+        QuizQuestionsCollection questionsCollection =
+            Newtonsoft.Json.JsonConvert.DeserializeObject<QuizQuestionsCollection>(questions);
+
+        quiz = new Quiz(questionsCollection, Camera.Rectangle, scale);
+        quiz.Reset += Fail;
+        quiz.Finish += QuizFinish;
+        AutoManaged.Add(quiz);
+
+        var simonArea = Camera.Rectangle;
+        simonArea.X += Camera.Rectangle.Width;
+
+        _toSimonMover = new OverTimeMover(Camera, simonArea.Center.ToVector2(), 555F,
+            OverTimeMover.MoveMode.Sin);
+        AutoManaged.Add(_toSimonMover);
         
-        var infoAboutButton = new Text("This button has a counter");
-        infoAboutButton.GetCalculator(Camera.Rectangle).OnCenter().OnY(3, 10).Centered().Move();
-        AutoManaged.Add(infoAboutButton);
+        var simon = new SimonSays(simonArea, random, 10);
+        AutoManaged.Add(simon);
         
-        var infoAboutButton2 = new Text("Press the button to lower the counter and when it hits 0 you win!");
-        infoAboutButton2.GetCalculator(Camera.Rectangle).OnCenter().OnY(7, 10).Centered().Move();
-        AutoManaged.Add(infoAboutButton2);
-        
-        var counterButtonAddon = new CounterButtonAddon(new(stateButton), 5);
-        counterButtonAddon.Callback += (_, state) =>
-        {
-            if (state != IButtonAddon.CallState.Click)
-                return;
-            Finish();
-        };
-        AutoManaged.Add(counterButtonAddon);
-        
-        var mouseCursor = new Cursor();
-        PositionListener.Add(Mouse, mouseCursor);
-        Actuator = mouseCursor;
-        AutoManaged.Add(mouseCursor);
+        var cursor = new Cursor(scale);
+        Actuator = cursor;
+        PositionListener.Add(Mouse, cursor);
+        AutoManaged.Add(cursor);
+    }
+
+    private void QuizFinish()
+    {
+        _toSimonMover.Start();
     }
 }

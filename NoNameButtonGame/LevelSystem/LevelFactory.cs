@@ -37,12 +37,8 @@ public class LevelFactory
         => number switch
         {
             1 => new Levels.Level1.Level(_display, _screen, _random),
-            2 => new Levels.Level2.Level(_display, _screen, _random),
+            2 => new Levels.Level2.Level(_display, _screen, _random, _storage),
             3 => new Levels.Level3.Level(_display, _screen, _random),
-            4 => new Levels.Level4.Level(_display, _screen, _random),
-            5 => new Levels.Level5.Level(_display, _screen, _random),
-            6 => new Levels.Level6.Level(_display, _screen, _random, _storage),
-            7 => new Levels.Level7.Level(_display, _screen, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random),
         };
 }

@@ -211,6 +211,7 @@ internal class LevelManager
 
     private void LevelExitEventHandler()
     {
+        _storage.Save();
         _toDispose.Add(_currentLevel);
         
         if (_fromSelect)

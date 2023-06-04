@@ -8,7 +8,7 @@ using MonoUtils.Objects.Buttons;
 using MonoUtils.Objects.Buttons.AddOn;
 using MonoUtils.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
 public class ShopOption : IInteractable, IMoveable
 {

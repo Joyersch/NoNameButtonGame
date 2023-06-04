@@ -10,7 +10,7 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
 public class Shop : GameObject, IInteractable
 {
