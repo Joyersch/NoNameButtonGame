@@ -46,7 +46,7 @@ public class Level : SampleLevel
     public Level(Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
         window, random)
     {
-        Name = "Level 6 - Just like Cookie Clicker but with BEANS!";
+        Name = "Level 2 - Just like Cookie Clicker but with BEANS!";
 
         _storage = storage;
 
