@@ -28,7 +28,10 @@ public class SimonSaysButton : TextButton
     {
         _color = color;
         _hightlight = highlight;
-        _invoker = new OverTimeInvoker(time, false);
+        _invoker = new OverTimeInvoker(time, false)
+        {
+            InvokeOnce = true
+        };
         _invoker.Trigger += InvokerTrigger;
         ResetColor();
     }
@@ -36,7 +39,6 @@ public class SimonSaysButton : TextButton
     private void InvokerTrigger()
     {
         ResetColor();
-        _invoker.Stop();
         Finished?.Invoke();
     }
 

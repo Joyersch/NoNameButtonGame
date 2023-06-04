@@ -34,11 +34,14 @@ public class SimonSequence
         pointer = 0;
         return false;
     }
-    
+
     public bool Compare(int index, int value)
     {
         if (index > _length || index < 0)
             return false;
         return data[index] == value;
     }
+
+    public int[] GetRange(int start, int length)
+        => data[new Range(start, length)];
 }

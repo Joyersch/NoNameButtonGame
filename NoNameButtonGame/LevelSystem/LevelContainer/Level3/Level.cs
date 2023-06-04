@@ -39,7 +39,8 @@ public class Level : SampleLevel
             OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_toSimonMover);
         
-        var simon = new SimonSays(simonArea, random, 10);
+        var simon = new SimonSays(simonArea, random, 8);
+        simon.Finished += Finish;
         AutoManaged.Add(simon);
         
         var cursor = new Cursor(scale);
