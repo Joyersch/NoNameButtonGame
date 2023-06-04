@@ -9,15 +9,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
 public class Level : SampleLevel
 {
-    public const string QuestionPath = "Levels.Level7.Questions";
-
+    private const string QuestionPath = "Levels.Level7.Questions";
     private readonly Quiz quiz;
-
     private readonly OverTimeMover _toSimonMover;
 
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
-        Name = "Level 7 - Old school";
+        Name = "Level 3 - Old school";
 
         var oneScreen = Display.Size;
         Camera.Zoom = 1F;

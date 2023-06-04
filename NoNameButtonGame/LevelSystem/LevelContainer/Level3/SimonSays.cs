@@ -23,24 +23,16 @@ public class SimonSays : IManageable, IInteractable
 
 
     private readonly SimonSaysButton[] _buttons = new SimonSaysButton[5];
-    private readonly SimonSequence _sequence;
     private readonly TextButton _start;
     private readonly Text _enteredSequenceDisplay;
     private readonly OverTimeInvoker _waitBetweenColorHighlightInvoker;
+    private SimonSequence _sequence;
     private SimonAction _state;
 
     private readonly int _length;
 
     private int _maxPlayed = 1;
     private int _played;
-
-    /*
-    private bool _hideStartButton;
-    private bool _isPlaying;
-    private int _hits;
-
-     private int[] _playedSequence;
-    */
 
     public enum SimonAction
     {
@@ -155,6 +147,7 @@ public class SimonSays : IManageable, IInteractable
         _state = SimonAction.Before;
         _played = 0;
         _maxPlayed = 1;
+        _sequence = new SimonSequence(1, 5, _length, _random);
     }
 
     private void StartClick()
@@ -168,8 +161,6 @@ public class SimonSays : IManageable, IInteractable
         if (_state != SimonAction.Playing)
             return;
         var last = !_sequence.Next(_maxPlayed, out int button);
-        
-        Log.WriteLine($"SequencePointer:{_sequence.Pointer}");
         
         _buttons[button].Highlight();
         if (last)
