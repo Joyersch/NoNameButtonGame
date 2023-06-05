@@ -35,7 +35,7 @@ public class NoNameGame : Game
         {nameof(GameObject), "placeholder"},
         {nameof(Cursor), "cursor"}
     };
-    
+
 
     public NoNameGame()
     {
@@ -87,7 +87,7 @@ public class NoNameGame : Game
 
         // Initialize the Textures of objects from MonoUtils
         Global.Initialize(Content);
-        
+
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.
         // The Texture are being forwarded through the constructor unless otherwise specified.
@@ -110,11 +110,10 @@ public class NoNameGame : Game
         Console.SetCursorPosition(0, 1);
 #endif
 
-        MouseState mouse = Mouse.GetState();
-
         _display.Update(gameTime);
 
-        _levelManager.Update(gameTime);
+        if (IsActive)
+            _levelManager.Update(gameTime);
 
         // This will store the last key states
         InputReaderMouse.StoreButtonStates();
