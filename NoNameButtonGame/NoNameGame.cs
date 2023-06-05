@@ -29,7 +29,6 @@ public class NoNameGame : Game
     private LevelManager _levelManager;
 
     private bool _showActualMousePos;
-    private MousePointer _mousePointer;
 
     private Dictionary<string, string> UtilsMapping = new()
     {
@@ -73,9 +72,6 @@ public class NoNameGame : Game
 
         _display = new Display(GraphicsDevice);
 
-        // as OS mouse-pointer is disabled this is to show said position 
-        _mousePointer = new MousePointer(Vector2.Zero, Vector2.Zero, _showActualMousePos);
-
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, _storage);
         _levelManager.ChangeWindowName += ChangeTitle;
@@ -115,7 +111,6 @@ public class NoNameGame : Game
 #endif
 
         MouseState mouse = Mouse.GetState();
-        _mousePointer.Update(gameTime, mouse.Position.ToVector2());
 
         _display.Update(gameTime);
 
@@ -129,11 +124,7 @@ public class NoNameGame : Game
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
-        {
-            if (_showActualMousePos)
-                _mousePointer.Draw(spriteBatch);
-        });
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, _ => { });
     }
 
     private void SettingsChanged(object obj, EventArgs e)

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using MonoUtils;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Management;
@@ -29,6 +31,7 @@ public class SampleLevel : ILevel, IDisposable
     protected Random Random;
 
     protected readonly PositionListener PositionListener;
+    protected readonly RelativePositionListener RelativePositionListener;
     protected readonly ColorListener ColorListener;
 
     protected readonly List<object> AutoManaged;
@@ -41,18 +44,21 @@ public class SampleLevel : ILevel, IDisposable
         Window = window;
 
         PositionListener = new PositionListener();
+        RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();
 
         AutoManaged = new List<object>();
 
         Camera = new Camera(Vector2.Zero, Display.Size);
-        Mouse = new MousePointer();
-        SetMousePositionToCenter();
+        Mouse = new MousePointer(window, Camera, true)
+        {
+            IsStatic = true,
+            UseRelative = true
+        };
+        Mouse.SetMousePointerPositionToCenter();
+        RelativePositionListener.Add(Camera, Mouse);
     }
-
-    protected void SetMousePositionToCenter()
-        => Microsoft.Xna.Framework.Input.Mouse.SetPosition((int) Window.X / 2, (int) Window.Y / 2);
-
+    
 
     public virtual void Draw(SpriteBatch spriteBatch)
     {
@@ -62,6 +68,7 @@ public class SampleLevel : ILevel, IDisposable
                 manageable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 manageable.Draw(spriteBatch);
         }
+        Mouse.Draw(spriteBatch);
     }
 
     public virtual void DrawStatic(SpriteBatch spriteBatch)
@@ -71,20 +78,23 @@ public class SampleLevel : ILevel, IDisposable
             if (obj is IManageable manageable)
                 manageable.DrawStatic(spriteBatch);
         }
+        Mouse.DrawStatic(spriteBatch);
     }
 
     public virtual void Update(GameTime gameTime)
     {
         Camera.Update();
 
-        var mouseVector = Microsoft.Xna.Framework.Input.Mouse.GetState().Position.ToVector2();
-        var screenScale = new Vector2(Window.X / Display.CustomWidth,
-            Window.Y / Display.CustomHeight);
-        var offset = Display.Size / Camera.Zoom / 2;
-        Mouse.Move(mouseVector / screenScale / Camera.Zoom + Camera.Position - offset);
-        Mouse.Update(gameTime);
-
         PositionListener.Update(gameTime);
+        RelativePositionListener.Update(gameTime);
+        
+        Mouse.Update(gameTime);
+        
+        if (InputReaderKeyboard.CheckKey(Keys.F7, true))
+            Mouse.UseRelative = !Mouse.UseRelative;
+        
+        if (InputReaderKeyboard.CheckKey(Keys.F6, true))
+            Mouse.SetMousePointerPositionToCenter();
 
         foreach (var obj in AutoManaged)
         {
