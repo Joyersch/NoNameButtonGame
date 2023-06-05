@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils;
+using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
 using NoNameButtonGame.Extensions;
-using NoNameButtonGame.GameObjects.Debug;
 
 namespace NoNameButtonGame.LevelSystem;
 
