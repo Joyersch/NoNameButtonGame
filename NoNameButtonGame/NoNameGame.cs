@@ -26,6 +26,7 @@ public class NoNameGame : Game
     private Display _display;
     private Storage.Storage _storage;
     private LevelManager _levelManager;
+    private DevConsole _console;
 
     private bool _showActualMousePos;
 
@@ -50,7 +51,10 @@ public class NoNameGame : Game
 
         // Read argument(s)
         _showActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
-
+        _console = new DevConsole(Vector2.Zero, new Vector2(1280, 720))
+        {
+            IsStatic = true
+        };
         // Check Save directory
         if (!Directory.Exists(Globals.SaveDirectory))
             Directory.CreateDirectory(Globals.SaveDirectory);
@@ -114,6 +118,7 @@ public class NoNameGame : Game
         if (IsActive)
             _levelManager.Update(gameTime);
 
+        _console.Update(gameTime);
         // This will store the last key states
         InputReaderMouse.StoreButtonStates();
     }
@@ -122,7 +127,11 @@ public class NoNameGame : Game
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, _spriteBatch, _ => { });
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
+        {
+            _console.DrawStatic(spriteBatch);
+        });
+
     }
 
     private void SettingsChanged(object obj, EventArgs e)
