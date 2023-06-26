@@ -51,10 +51,6 @@ public class NoNameGame : Game
 
         // Read argument(s)
         _showActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
-        _console = new DevConsole(Vector2.Zero, new Vector2(1280, 720))
-        {
-            IsStatic = true
-        };
         // Check Save directory
         if (!Directory.Exists(Globals.SaveDirectory))
             Directory.CreateDirectory(Globals.SaveDirectory);
@@ -74,6 +70,11 @@ public class NoNameGame : Game
         Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
 
         _display = new Display(GraphicsDevice);
+        
+        _console = new DevConsole(Window, Vector2.Zero, new Vector2(1280, 720), _display.SimpleScale)
+        {
+            IsStatic = true
+        };
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, _storage);
@@ -131,7 +132,6 @@ public class NoNameGame : Game
         {
             _console.DrawStatic(spriteBatch);
         });
-
     }
 
     private void SettingsChanged(object obj, EventArgs e)
