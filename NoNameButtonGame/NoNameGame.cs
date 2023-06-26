@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MonoUtils;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Objects.Buttons;
@@ -75,6 +76,9 @@ public class NoNameGame : Game
         {
             IsStatic = true
         };
+        Log.Out = new LogAdapter(_console);
+        
+        CommandProcessor.Initialize();
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, _storage);
@@ -109,10 +113,6 @@ public class NoNameGame : Game
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-#if DEBUG
-        // For outputting info while debugging
-        Console.SetCursorPosition(0, 1);
-#endif
 
         _display.Update(gameTime);
 
