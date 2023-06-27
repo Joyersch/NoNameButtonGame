@@ -44,4 +44,7 @@ public class SimonSequence
 
     public int[] GetRange(int start, int length)
         => data[new Range(start, length)];
+
+    public int[] GetAll()
+        => data;
 }

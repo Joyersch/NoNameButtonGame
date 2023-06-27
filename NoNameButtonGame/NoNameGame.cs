@@ -8,6 +8,7 @@ using System.Linq;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Objects.Buttons;
 using MonoUtils.Objects;
@@ -27,6 +28,7 @@ public class NoNameGame : Game
     private Display _display;
     private Storage.Storage _storage;
     private LevelManager _levelManager;
+
     private DevConsole _console;
 
     private bool _showActualMousePos;
@@ -71,11 +73,12 @@ public class NoNameGame : Game
         Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
 
         _display = new Display(GraphicsDevice);
-        
+
         _console = new DevConsole(Window, Vector2.Zero, new Vector2(1280, 720), _display.SimpleScale)
         {
             IsStatic = true
         };
+
         Log.Out = new LogAdapter(_console);
 
         CommandProcessor.Initialize();
@@ -84,7 +87,7 @@ public class NoNameGame : Game
         _levelManager = new LevelManager(_display, _storage);
         _levelManager.ChangeWindowName += ChangeTitle;
         _levelManager.CloseGameEventHandler += Exit;
-        
+
         _console.Context.RegisterContext(nameof(LevelManager), _levelManager);
     }
 
@@ -122,6 +125,7 @@ public class NoNameGame : Game
             _levelManager.Update(gameTime);
 
         _console.Update(gameTime);
+        
         // This will store the last key states
         InputReaderMouse.StoreButtonStates();
     }
@@ -130,10 +134,7 @@ public class NoNameGame : Game
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
-        {
-            _console.DrawStatic(spriteBatch);
-        });
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch => { _console.DrawStatic(spriteBatch); });
     }
 
     private void SettingsChanged(object obj, EventArgs e)

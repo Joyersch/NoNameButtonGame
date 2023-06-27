@@ -29,6 +29,8 @@ public class SimonSays : IManageable, IInteractable
     private SimonSequence _sequence;
     private SimonAction _state;
 
+    public SimonSequence Sequence => _sequence;
+    
     private readonly int _length;
 
     private int _maxPlayed = 1;

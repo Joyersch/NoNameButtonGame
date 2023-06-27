@@ -1,6 +1,8 @@
 using System;
+using System.Text;
 using Microsoft.Xna.Framework;
 using MonoUtils;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Objects;
 using MonoUtils.Ui;
@@ -36,11 +38,12 @@ public class Level : SampleLevel
         _toSimonMover = new OverTimeMover(Camera, simonArea.Center.ToVector2(), 555F,
             OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_toSimonMover);
-        
+
         var simon = new SimonSays(simonArea, random, 8);
+
         simon.Finished += Finish;
         AutoManaged.Add(simon);
-        
+
         var cursor = new Cursor(scale);
         Actuator = cursor;
         PositionListener.Add(Mouse, cursor);
