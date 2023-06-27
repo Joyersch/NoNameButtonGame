@@ -10,10 +10,12 @@ public class LevelCommand : ICommand
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));
-        if (options.Length <= 1)
+        if (options.Length < 1)
             return new[] {"Usage:", "level [level]"};
 
-        var value = options[1].ToString();
-        return !levelManager.ChangeLevel(value) ? new[] {"parameter is not a valid level or is the current level!"} : new[] {$"changed level to {value}!"};
+        var value = options[0].ToString();
+        return !levelManager.ChangeLevel(value)
+            ? new[] {"parameter is not a valid level or is the current level!"}
+            : new[] {$"changed level to {value}!"};
     }
 }
