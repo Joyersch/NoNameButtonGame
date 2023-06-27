@@ -41,4 +41,15 @@ public class LevelFactory
             3 => new Levels.Level3.Level(_display, _screen, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random),
         };
+
+    public bool IsValidLevel(int number)
+    {
+        var level0 = new Levels.Level0.Level(_display, _screen, _random);
+        var levelRequest = GetLevel(number);
+        var isValid = levelRequest != level0;
+        
+        level0.Dispose();
+        levelRequest.Dispose();
+        return isValid;
+    }
 }

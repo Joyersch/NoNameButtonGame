@@ -35,7 +35,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands\" />
     <Folder Include="Content\Music" />
     <Folder Include="GameObjects\Buttons" />
     <Folder Include="GameObjects\Debug" />

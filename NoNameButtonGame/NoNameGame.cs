@@ -77,13 +77,15 @@ public class NoNameGame : Game
             IsStatic = true
         };
         Log.Out = new LogAdapter(_console);
-        
+
         CommandProcessor.Initialize();
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, _storage);
         _levelManager.ChangeWindowName += ChangeTitle;
         _levelManager.CloseGameEventHandler += Exit;
+        
+        _console.Context.RegisterContext(nameof(LevelManager), _levelManager);
     }
 
     private void ChangeTitle(string newName)

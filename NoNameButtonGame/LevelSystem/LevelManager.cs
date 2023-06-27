@@ -18,6 +18,22 @@ internal class LevelManager
     private Selection.Level _level;
     private LevelFactory _levelFactory;
 
+    private SampleLevel _shownLevel
+    {
+        get
+        {
+            return _state switch
+            {
+                MenuState.LevelSelect => _level,
+                MenuState.Level => _currentLevel,
+                MenuState.Settings => _settings,
+                _ => _startMenu,
+            };
+        }
+    }
+
+    public LevelFactory Factory => _levelFactory;
+
     private Display _display;
     private Storage.Storage _storage;
 
@@ -37,7 +53,8 @@ internal class LevelManager
         Settings,
         StartMenu,
         Level,
-        LevelSelect
+        LevelSelect,
+        Credits
     }
 
     public Camera CurrentCamera =>
@@ -80,7 +97,7 @@ internal class LevelManager
     }
 
     private void DisposerOnTrigger()
-    => _toDispose.ForEach(l => l.Dispose());
+        => _toDispose.ForEach(l => l.Dispose());
 
     private void InitializeLevelSelect()
     {
@@ -90,7 +107,7 @@ internal class LevelManager
         _level.CurrentMusicEventHandler += CurrentMusic;
         ChangeWindowName?.Invoke(_level.Name);
     }
-    
+
     private void SelectLevel(int level)
     {
         _currentLevel = _levelFactory.GetLevel(level);
@@ -103,13 +120,7 @@ internal class LevelManager
 
     public void Update(GameTime gameTime)
     {
-        SampleLevel level = _state switch
-        {
-            MenuState.LevelSelect => this._level,
-            MenuState.Level => _currentLevel,
-            MenuState.Settings => _settings,
-            _ => _startMenu,
-        };
+        var level = _shownLevel;
 
         if (InputReaderKeyboard.CheckKey(Keys.Escape, true))
         {
@@ -126,7 +137,8 @@ internal class LevelManager
         graphicsDevice.SetRenderTarget(_display.Target);
         graphicsDevice.Clear(new Color(50, 50, 50));
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: CurrentCamera.CameraMatrix);
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+            transformMatrix: CurrentCamera.CameraMatrix);
 
         SampleLevel level = _state switch
         {
@@ -137,39 +149,39 @@ internal class LevelManager
         };
 
         level.Draw(spriteBatch);
-        
+
         spriteBatch.End();
-        
+
 
         graphicsDevice.SetRenderTarget(null);
 
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
 
         graphicsDevice.Clear(Color.HotPink);
-        
+
         spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
-        
+
         level.DrawStatic(spriteBatch);
-        
+
         drawOnStatic?.Invoke(spriteBatch);
-        
+
         spriteBatch.End();
     }
-    
+
     private void CurrentMusic(string newMusic)
     {
         if (_currentMusicName == newMusic)
             return;
-        
+
         if (_currentMusic is not null)
         {
             _currentMusic.Stop();
             _currentMusic.Dispose();
             _currentMusic = null;
         }
-        
+
         _currentMusicName = newMusic;
-        
+
         if (newMusic == string.Empty)
             return;
 
@@ -213,7 +225,7 @@ internal class LevelManager
     {
         _storage.Save();
         _toDispose.Add(_currentLevel);
-        
+
         if (_fromSelect)
         {
             _fromSelect = false;
@@ -274,4 +286,31 @@ internal class LevelManager
         _levelFactory.ChangeScreenSize(newSize);
         _startMenu.Window = newSize;
     }
+
+    public bool ChangeLevel(string value)
+    {
+        if (int.TryParse(value, out int level))
+        {
+            SelectLevel(level);
+            _state = MenuState.Level;
+            return true;
+        }
+
+        var state = _state;
+        _state = value switch
+        {
+            "menu" => MenuState.StartMenu,
+            "settings" => MenuState.Settings,
+            "credits" => MenuState.Credits,
+            "select" => MenuState.LevelSelect,
+            _ => _state
+        };
+
+        ChangeWindowName?.Invoke(_shownLevel.Name);
+
+        return state != _state;
+    }
+
+    public void Exit()
+        => StartMenuExitClicked(_startMenu);
 }
