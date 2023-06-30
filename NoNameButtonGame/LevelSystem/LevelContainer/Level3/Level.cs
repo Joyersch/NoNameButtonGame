@@ -11,7 +11,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
 public class Level : SampleLevel
 {
-    private const string QuestionPath = "Levels.Level7.Questions";
+    private const string QuestionPath = "Levels.Level3.Questions";
     private readonly Quiz quiz;
     private readonly OverTimeMover _toSimonMover;
 
