@@ -31,8 +31,6 @@ public class NoNameGame : Game
 
     private DevConsole _console;
 
-    private bool _showActualMousePos;
-
     private Dictionary<string, string> UtilsMapping = new()
     {
         {nameof(GameObject), "placeholder"},
@@ -52,8 +50,6 @@ public class NoNameGame : Game
         // This will also call LoadContent()
         base.Initialize();
 
-        // Read argument(s)
-        _showActualMousePos = Environment.GetCommandLineArgs().Any(a => a == "-mp");
         // Check Save directory
         if (!Directory.Exists(Globals.SaveDirectory))
             Directory.CreateDirectory(Globals.SaveDirectory);
@@ -74,7 +70,7 @@ public class NoNameGame : Game
 
         _display = new Display(GraphicsDevice);
 
-        _console = new DevConsole(Window, Vector2.Zero, new Vector2(1280, 720), _display.SimpleScale)
+        _console = new DevConsole(Window, Vector2.Zero, _display.SimpleScale)
         {
             IsStatic = true
         };
@@ -119,13 +115,13 @@ public class NoNameGame : Game
     {
         base.Update(gameTime);
 
-        _display.Update(gameTime);
+        _display.Update();
 
         if (IsActive)
             _levelManager.Update(gameTime);
 
         _console.Update(gameTime);
-        
+
         // This will store the last key states
         InputReaderMouse.StoreButtonStates();
     }
@@ -150,6 +146,15 @@ public class NoNameGame : Game
 
         _graphics.PreferredBackBufferWidth = settings.Resolution.Width;
         _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
+
+        _display?.Update();
+        
+        if (_console != null)
+        {
+            _console = new DevConsole(Window, _console.Position, _display.SimpleScale, _console);
+            Log.Out.UpdateReference(_console);
+        }
+
         _graphics.ApplyChanges();
 
         // Update level screen

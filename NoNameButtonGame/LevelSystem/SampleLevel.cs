@@ -22,7 +22,7 @@ public class SampleLevel : ILevel, IDisposable
     public event Action<string> CurrentMusicEventHandler;
 
     public readonly Camera Camera;
-    public Vector2 Window;
+    public Vector2 Window { get; protected set; }
     protected readonly MousePointer Mouse;
     protected Vector2 CameraPosition => Camera.Position;
 
@@ -106,7 +106,11 @@ public class SampleLevel : ILevel, IDisposable
         }
     }
 
-    public virtual void SetScreen(Vector2 screen) => Window = screen;
+    public virtual void SetScreen(Vector2 screen)
+    {
+        Window = screen;
+        Mouse.UpdateWindow(screen);
+    }
 
     protected virtual void Fail(object sender)
         => Fail();

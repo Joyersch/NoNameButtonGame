@@ -284,7 +284,7 @@ internal class LevelManager
     private void SettingsWindowResize(Vector2 newSize)
     {
         _levelFactory.ChangeScreenSize(newSize);
-        _startMenu.Window = newSize;
+        _startMenu.SetScreen(newSize);
     }
 
     public bool ChangeLevel(string value)

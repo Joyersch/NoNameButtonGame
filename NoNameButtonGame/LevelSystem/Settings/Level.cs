@@ -126,8 +126,7 @@ public class Level : SampleLevel
         _vectorResolution = new Vector2(x, y);
         _storage.Settings.Resolution.Width = x;
         _storage.Settings.Resolution.Height = y;
-        Window.X = _vectorResolution.X;
-        Window.Y = _vectorResolution.Y;
+        SetScreen(_vectorResolution);
         WindowsResizeEventHandler?.Invoke(Window);
     }
 
