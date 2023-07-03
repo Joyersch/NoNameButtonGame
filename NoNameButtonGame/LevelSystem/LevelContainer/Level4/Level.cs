@@ -9,6 +9,7 @@ using MonoUtils.Logic.Hitboxes.Collision;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
@@ -36,7 +37,10 @@ public class Level : SampleLevel
             .Centered()
             .Move();
 
-        _overworld = new OverworldCollection();
+        _overworld = new OverworldCollection(Random, Camera);
+        _overworld.GenerateTrees(10000);
+        _overworld.GenerateVillage(40);
+        _overworld.SetColor();
         AutoManaged.Add(_overworld);
 
         _cursor = new Cursor();
@@ -72,7 +76,7 @@ public class Level : SampleLevel
 
         _infoMoveText.Update(gameTime);
         Log.WriteLine(Camera.Position.ToString(), 0);
-        
+
         base.Update(gameTime);
     }
 }
