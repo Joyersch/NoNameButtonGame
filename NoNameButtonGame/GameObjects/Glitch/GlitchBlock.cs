@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils.Logic;
 using MonoUtils.Ui.Objects;
-using MonoUtils.Ui;
+using MonoUtils;
 using MonoUtils.Ui.Color;
 
 namespace NoNameButtonGame.GameObjects.Glitch;

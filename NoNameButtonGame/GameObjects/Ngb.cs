@@ -1,9 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logic.Management;
-using MonoUtils.Ui.Objects;
-using MonoUtils.Ui;
 using NoNameButtonGame.Colors;
 
 namespace NoNameButtonGame.GameObjects;
@@ -47,20 +46,24 @@ public class Nbg : GameObject, IManageable
     {
         float by = (float) gameTime.ElapsedGameTime.TotalMilliseconds / 1000 * Speed;
 
-        Position.Y += MoveUp ? -by : by;
-        Position.X += MoveLeft ? -by : by;
-        if (Position.Y <= _area.Top ||
-            Position.Y + Size.Y >= _area.Bottom)
+        var position = Position;
+        position.Y += MoveUp ? -by : by;
+        position.X += MoveLeft ? -by : by;
+        if (position.Y <= _area.Top ||
+            position.Y + Size.Y >= _area.Bottom)
         {
             MoveUp = !MoveUp;
             SetNewColor(gameTime);
         }
-        if (Position.X <= _area.Left ||
-            Position.X + Size.X >= _area.Right)
+        if (position.X <= _area.Left ||
+            position.X + Size.X >= _area.Right)
         {
             MoveLeft = !MoveLeft;
             SetNewColor(gameTime);
         }
+        
+        Position = position;
+        
         base.Update(gameTime);
     }
 

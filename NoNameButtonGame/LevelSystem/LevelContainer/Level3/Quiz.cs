@@ -114,14 +114,6 @@ public class Quiz : IManageable, IInteractable
         _buttonThree.Draw(spriteBatch);
     }
 
-    public void DrawStatic(SpriteBatch spriteBatch)
-    {
-        _question.DrawStatic(spriteBatch);
-        _buttonOne.DrawStatic(spriteBatch);
-        _buttonTwo.DrawStatic(spriteBatch);
-        _buttonThree.DrawStatic(spriteBatch);
-    }
-
     private void SetQuestionText()
     {
         _question.ChangeText(CurrentQuestion.Question);

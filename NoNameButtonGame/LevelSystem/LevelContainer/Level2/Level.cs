@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
@@ -125,12 +126,9 @@ public class Level : SampleLevel
         _counter.GetCalculator(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
         AutoManaged.Add(_counter);
 
-        _objectiveDisplay = new Text(ObjectiveText, Display.SimpleScale)
-        {
-            IsStatic = true
-        };
+        _objectiveDisplay = new Text(ObjectiveText, Display.SimpleScale);
         _objectiveDisplay.GetCalculator(Display.Screen).OnX(0.01F).OnY(0.01F).Move();
-        AutoManaged.Add(_objectiveDisplay);
+        AutoManagedStatic.Add(_objectiveDisplay);
 
         var nbg = new Nbg(new Rectangle((int) -oneScreen.X, 0, (int) oneScreen.X, (int) oneScreen.Y), random, 2.5F);
         AutoManaged.Add(nbg);

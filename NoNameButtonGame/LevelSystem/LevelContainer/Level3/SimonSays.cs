@@ -229,13 +229,4 @@ public class SimonSays : IManageable, IInteractable
             _start.Draw(spriteBatch);
         _enteredSequenceDisplay.Draw(spriteBatch);
     }
-
-    public void DrawStatic(SpriteBatch spriteBatch)
-    {
-        foreach (var button in _buttons)
-            button.DrawStatic(spriteBatch);
-        if (_state == SimonAction.Before)
-            _start.DrawStatic(spriteBatch);
-        _enteredSequenceDisplay.DrawStatic(spriteBatch);
-    }
 }

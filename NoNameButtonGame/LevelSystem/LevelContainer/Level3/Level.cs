@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;

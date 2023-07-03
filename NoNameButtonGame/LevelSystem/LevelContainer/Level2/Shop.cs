@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Objects;
+using MonoUtils;
 using MonoUtils.Ui.Objects.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 

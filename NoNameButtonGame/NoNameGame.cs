@@ -68,10 +68,7 @@ public class NoNameGame : Game
 
         _display = new Display(GraphicsDevice);
 
-        _console = new DevConsole(Window, Vector2.Zero, _display.SimpleScale)
-        {
-            IsStatic = true
-        };
+        _console = new DevConsole(Window, Vector2.Zero, _display.SimpleScale);
 
         Log.Out = new LogAdapter(_console);
 
@@ -128,7 +125,7 @@ public class NoNameGame : Game
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch => { _console.DrawStatic(spriteBatch); });
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch => { _console.Draw(spriteBatch); });
     }
 
     private void SettingsChanged(object obj, EventArgs e)

@@ -36,6 +36,7 @@ public class SampleLevel : ILevel, IDisposable
     protected readonly ColorListener ColorListener;
 
     protected readonly List<object> AutoManaged;
+    protected readonly List<object> AutoManagedStatic;
     protected IHitbox Actuator;
 
     protected SampleLevel(Display display, Vector2 window, Random random)
@@ -49,11 +50,11 @@ public class SampleLevel : ILevel, IDisposable
         ColorListener = new ColorListener();
 
         AutoManaged = new List<object>();
-
+        AutoManagedStatic = new List<object>();
+        
         Camera = new Camera(Vector2.Zero, Display.Size);
         Mouse = new MousePointer(window, Camera, true)
         {
-            IsStatic = true,
             UseRelative = true
         };
         Mouse.SetMousePointerPositionToCenter();
@@ -74,12 +75,12 @@ public class SampleLevel : ILevel, IDisposable
 
     public virtual void DrawStatic(SpriteBatch spriteBatch)
     {
-        foreach (var obj in AutoManaged)
+        foreach (var obj in AutoManagedStatic)
         {
             if (obj is IManageable manageable)
-                manageable.DrawStatic(spriteBatch);
+                manageable.Draw(spriteBatch);
         }
-        Mouse.DrawStatic(spriteBatch);
+        Mouse.Draw(spriteBatch);
     }
 
     public virtual void Update(GameTime gameTime)
