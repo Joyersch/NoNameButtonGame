@@ -14,6 +14,7 @@ using MonoUtils.Ui.Objects.Console;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
+using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
 using NoNameButtonGame.Storage;
 
 namespace NoNameButtonGame;
@@ -98,6 +99,12 @@ public class NoNameGame : Game
         MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
         Nbg.DefaultTexture = Content.GetTexture("NBG");
+        
+        // Level 4
+        SmallTree.DefaultTexture = Content.GetTexture("OverworldTileSmallTree");
+        BigTree.DefaultTexture = Content.GetTexture("OverworldTileBigTree");
+        House.DefaultTexture = Content.GetTexture("OverworldTileHouse");
+        Human.DefaultTexture = Content.GetTexture("OverworldTileHuman");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
