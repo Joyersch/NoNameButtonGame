@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils.Logic;
-using MonoUtils.Objects;
+using MonoUtils.Ui.Objects;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
-using MonoUtils.Logic.Objects.Buttons;
-using MonoUtils.Objects;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Objects;
+using MonoUtils.Ui.Objects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 

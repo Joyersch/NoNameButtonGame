@@ -2,9 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
-using MonoUtils.Objects.Buttons;
 using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 

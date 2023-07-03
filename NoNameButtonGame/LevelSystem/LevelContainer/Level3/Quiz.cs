@@ -1,14 +1,13 @@
 using System;
 using System.Data;
 using System.Linq;
-using System.Net.Mime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;

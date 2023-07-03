@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
-using MonoUtils.Logic.Objects.Buttons;
-using MonoUtils.Objects;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.Buttons.AddOn;
-using MonoUtils.Objects.TextSystem;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Objects;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.Buttons.AddOn;
+using MonoUtils.Ui.Objects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level1;
 

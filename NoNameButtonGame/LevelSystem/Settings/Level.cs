@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using MonoUtils.Logic.Objects.Buttons;
-using MonoUtils.Objects;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.TextSystem;
 using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
+using MonoUtils.Ui.Objects;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 

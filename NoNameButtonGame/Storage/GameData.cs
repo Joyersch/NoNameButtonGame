@@ -1,5 +1,6 @@
 using System;
 using MonoUtils.Logic;
+using MonoUtils.Settings;
 using Level2 = NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
 namespace NoNameButtonGame.Storage;

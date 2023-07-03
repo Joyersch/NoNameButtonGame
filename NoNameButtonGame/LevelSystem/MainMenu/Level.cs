@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using MonoUtils.Objects;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.TextSystem;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Objects;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.TextSystem;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;

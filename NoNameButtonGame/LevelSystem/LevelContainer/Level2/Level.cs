@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
-using MonoUtils.Objects;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.Buttons.AddOn;
-using MonoUtils.Objects.TextSystem;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Objects;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.Buttons.AddOn;
+using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 

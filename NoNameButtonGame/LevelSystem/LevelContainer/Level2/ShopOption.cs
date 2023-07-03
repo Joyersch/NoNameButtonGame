@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Objects.Buttons;
-using MonoUtils.Objects.Buttons;
-using MonoUtils.Objects.Buttons.AddOn;
-using MonoUtils.Objects.TextSystem;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.Buttons.AddOn;
+using MonoUtils.Ui.Objects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 

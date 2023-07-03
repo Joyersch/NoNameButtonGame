@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MonoUtils.Objects;
+using MonoUtils.Ui.Objects.Console;
 using NoNameButtonGame.LevelSystem;
 
 namespace NoNameButtonGame.Commands;
