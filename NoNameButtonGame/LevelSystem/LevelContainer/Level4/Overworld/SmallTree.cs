@@ -22,5 +22,6 @@ public class SmallTree : GameObject
         DefaultTexture,
         DefaultMapping)
     {
+        DrawColor = Color.Green;
     }
 }

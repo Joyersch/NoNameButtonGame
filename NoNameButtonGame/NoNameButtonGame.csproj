@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Music" />
+    <Folder Include="Data\Levels\Level4\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MiniGames\**" />
@@ -46,8 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Data\Levels\Level7\Questions.json" />
-    <EmbeddedResource Include="Data\Levels\Level7\Questions.json">
+    <EmbeddedResource Include="Data\Levels\Level3\Questions.json">
       <LogicalName>Levels.Level3.Questions</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Levels\Level4\Quests.json">
+      <LogicalName>Levels.Level4.Quests</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

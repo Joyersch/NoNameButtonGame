@@ -8,7 +8,7 @@ public class BigTree : GameObject
 {
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize;
     public new static Texture2D DefaultTexture;
-    
+
     public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
     {
         ImageSize = new Vector2(16, 16),
@@ -22,5 +22,6 @@ public class BigTree : GameObject
         DefaultTexture,
         DefaultMapping)
     {
+        DrawColor = Color.DarkGreen;
     }
 }

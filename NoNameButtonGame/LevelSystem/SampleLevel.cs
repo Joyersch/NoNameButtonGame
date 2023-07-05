@@ -70,7 +70,7 @@ public class SampleLevel : ILevel, IDisposable
                 manageable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 manageable.Draw(spriteBatch);
         }
-        Mouse.Draw(spriteBatch);
+        //Mouse.Draw(spriteBatch);
     }
 
     public virtual void DrawStatic(SpriteBatch spriteBatch)

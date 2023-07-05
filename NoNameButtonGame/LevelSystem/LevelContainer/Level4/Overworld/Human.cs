@@ -35,16 +35,19 @@ public class Human : GameObject
     {
         _random = random;
         _area = new Rectangle((int) position.X - 10, (int) position.Y - 10, 20, 20);
-        _invoker = new OverTimeInvoker(25);
-        _invoker.Trigger += () =>
-        {
-            Vector2 potentialPosition = Vector2.Zero;
-            do
-            {
-                potentialPosition = Position + new Vector2(_random.Next(-1, 2), _random.Next(-1, 2));
-            } while (!_area.Intersects(new Rectangle(potentialPosition.ToPoint(), new Point(1, 1))));
+        _invoker = new OverTimeInvoker(75);
+        _invoker.Trigger += MoveAround;
+        DrawColor = Color.Pink;
+    }
 
-            Move(potentialPosition);
-        };
+    private void MoveAround()
+    {
+        Vector2 potentialPosition = Vector2.Zero;
+        do
+        {
+            potentialPosition = Position + new Vector2(_random.Next(-1, 2), _random.Next(-1, 2));
+        } while (!_area.Intersects(new Rectangle(potentialPosition.ToPoint(), new Point(1, 1))));
+
+        Move(potentialPosition);
     }
 }

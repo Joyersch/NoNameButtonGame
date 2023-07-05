@@ -15,7 +15,6 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
-using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld.Quest;
 using NoNameButtonGame.Storage;
 
 namespace NoNameButtonGame;
@@ -70,11 +69,9 @@ public class NoNameGame : Game
 
         _display = new Display(GraphicsDevice);
 
-        _console = new DevConsole(Window, Vector2.Zero, _display.SimpleScale);
+        _console = new DevConsole(Global.CommandProcessor, Window, Vector2.Zero, _display.SimpleScale);
 
         Log.Out = new LogAdapter(_console);
-
-        CommandProcessor.Initialize();
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, _storage);
@@ -100,14 +97,13 @@ public class NoNameGame : Game
         MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
         Nbg.DefaultTexture = Content.GetTexture("NBG");
-        
+
         // Level 4
         SmallTree.DefaultTexture = Content.GetTexture("OverworldTileSmallTree");
         BigTree.DefaultTexture = Content.GetTexture("OverworldTileBigTree");
         House.DefaultTexture = Content.GetTexture("OverworldTileHouse");
         Human.DefaultTexture = Content.GetTexture("OverworldTileHuman");
-        QuestIndicator.DefaultTexture = Content.GetTexture("OverworldTileQuestIcon");
-        QuestItem.DefaultTexture = Content.GetTexture("OverworldTileQuestItem");
+        Castle.DefaultTexture = Content.GetTexture("OverworldTileCastle");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
@@ -153,10 +149,11 @@ public class NoNameGame : Game
         _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
 
         _display?.Update();
-        
+
         if (_console != null)
         {
-            _console = new DevConsole(Window, _console.Position, _display.SimpleScale, _console);
+            _console = new DevConsole(Global.CommandProcessor, Window, _console.Position, _display.SimpleScale,
+                _console);
             Log.Out.UpdateReference(_console);
         }
 

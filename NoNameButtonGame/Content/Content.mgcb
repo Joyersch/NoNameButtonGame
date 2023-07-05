@@ -97,7 +97,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/OverworldTileHuman.png
 
-#begin Textures/OverworldTileQuestItem.png
+#begin Textures/OverworldTileCastle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,19 +107,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/OverworldTileQuestItem.png
-
-#begin Textures/OverworldTileQuestIcon.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/OverworldTileQuestIcon.png
+/build:Textures/OverworldTileCastle.png
 
 #begin Music/NoNameTitleMusic.wav
 /importer:WavImporter

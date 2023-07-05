@@ -22,5 +22,6 @@ public class House : GameObject
         DefaultTexture,
         DefaultMapping)
     {
+        DrawColor = Color.Gray;
     }
 }
