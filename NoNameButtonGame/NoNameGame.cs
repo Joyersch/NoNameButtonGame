@@ -14,6 +14,7 @@ using MonoUtils.Ui.Objects.Console;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
+using NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
 using NoNameButtonGame.Storage;
 
@@ -71,6 +72,7 @@ public class NoNameGame : Game
 
         _console = new DevConsole(Global.CommandProcessor, Window, Vector2.Zero, _display.SimpleScale);
 
+        Global.CommandProcessor.Initialize();
         Log.Out = new LogAdapter(_console);
 
         // contains start-menu, settings, credits and all other levels
@@ -104,12 +106,12 @@ public class NoNameGame : Game
         House.DefaultTexture = Content.GetTexture("OverworldTileHouse");
         Human.DefaultTexture = Content.GetTexture("OverworldTileHuman");
         Castle.DefaultTexture = Content.GetTexture("OverworldTileCastle");
+        UserInterface.DefaultTexture = Content.GetTexture("LocationInterface");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
         Global.SoundEffects.AddMusicToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
         Global.SoundEffects.AddSfxToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
-        Global.SoundEffects.AddSfxToCache("Talking", Content.GetSfx("NoNameButtonSound"));
     }
 
     protected override void Update(GameTime gameTime)

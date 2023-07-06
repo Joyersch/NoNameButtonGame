@@ -24,10 +24,11 @@ public class Village : GameObject, IManageable, IInteractable, ILocation
     
     public event Action Interacted;
 
-    public Village(Vector2 position, Random random)
+    public Village(Vector2 position, Random random, string name)
     {
         Position = position;
         _random = random;
+        _name = name;
         _houses = new List<Household>();
 
         int houses = _random.Next(2, 11);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -19,10 +20,14 @@ public class Level : SampleLevel
     private bool _isLooking;
     private Text _objective;
     private Guid _castle;
-    
+
     private State _state;
     private UpdateState _updateState;
-    
+    private ViewState _viewState;
+
+    private ResourceManager _resourceManager;
+    private UserInterface _userInterface;
+
     private enum State
     {
         Start,
@@ -30,7 +35,13 @@ public class Level : SampleLevel
         SeenCastle,
         EnteredCastle
     }
-    
+
+    private enum ViewState
+    {
+        Overworld,
+        Ui
+    }
+
     private enum UpdateState
     {
         Overworld,
@@ -53,9 +64,6 @@ public class Level : SampleLevel
 
         _objective = new Text(string.Empty, display.SimpleScale);
 
-        string questions = Global.ReadFromResources(QuestsPath);
-
-
         _infoMoveText = new DelayedText("Use Right-click to move around", false)
         {
             StartAfter = 3000F,
@@ -75,40 +83,72 @@ public class Level : SampleLevel
         _overworld.Interaction += OpenLocationUserInterface;
         AutoManaged.Add(_overworld);
 
+        // will be set when required
+        _userInterface = null;
+
         _cursor = new Cursor();
         Actuator = _cursor;
-        AutoManaged.Add(_cursor);
         PositionListener.Add(Mouse, _cursor);
+
+        string questions = Global.ReadFromResources(QuestsPath);
     }
 
     private void OpenLocationUserInterface(ILocation obj)
     {
         if (_state == State.SeenCastle && _castle == obj.GetGuid())
             _state++;
-        
+
+        _userInterface = new UserInterface(_resourceManager, obj.GetName(), 1F);
+        _userInterface.Exit += UserInterfaceOnExit;
+        _userInterface.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
+        _viewState = ViewState.Ui;
         Log.Write(obj.GetName() ?? obj.GetType().Name);
+    }
+
+    private void UserInterfaceOnExit()
+    {
+        _userInterface = null;
+        _viewState = ViewState.Overworld;
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
         _infoMoveText.Draw(spriteBatch);
+        _userInterface?.Draw(spriteBatch);
+        _cursor.Draw(spriteBatch);
     }
 
     public override void DrawStatic(SpriteBatch spriteBatch)
     {
         base.DrawStatic(spriteBatch);
+        if (_viewState == ViewState.Ui)
+            return;
+
         if (_state > State.Start)
             _objective.Draw(spriteBatch);
     }
 
     public override void Update(GameTime gameTime)
     {
+        base.Update(gameTime);
+        _cursor.Update(gameTime);
+        Log.WriteLine(Camera.Position.ToString(), 0);
+        if (_viewState == ViewState.Ui)
+        {
+            _userInterface?.UpdateInteraction(gameTime, _cursor);
+            _userInterface?.Update(gameTime);
+            return;
+        }
+
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Right, false))
         {
             if (_state == State.Start)
                 _state++;
-            
+
             if (!_isLooking)
             {
                 _savedPosition = Mouse.Position;
@@ -126,7 +166,6 @@ public class Level : SampleLevel
 
         _infoMoveText.Update(gameTime);
 
-        base.Update(gameTime);
         if (_overworld.CastleOnScreen && _state == State.Moved)
             _state++;
     }

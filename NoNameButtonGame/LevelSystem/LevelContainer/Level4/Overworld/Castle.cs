@@ -29,11 +29,12 @@ public class Castle : GameObject, IInteractable, ILocation
         }
     };
 
-    public Castle(Vector2 position, float scale) : base(position, DefaultSize * scale,
+    public Castle(Vector2 position, float scale, string name) : base(position, DefaultSize * scale,
         DefaultTexture,
         DefaultMapping)
     {
         DrawColor = Color.Gray;
+        _name = name;
     }
     
     public override void Update(GameTime gameTime)

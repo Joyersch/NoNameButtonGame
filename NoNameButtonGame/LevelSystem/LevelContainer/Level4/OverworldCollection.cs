@@ -72,7 +72,7 @@ public class OverworldCollection : IManageable, IInteractable
     {
         for (int villageNumber = 0; villageNumber < amount; villageNumber++)
         {
-            var village = new Village(GetOuterLocation(100F), _random);
+            var village = new Village(GetOuterLocation(100F), _random, villageNumber.ToString());
             village.Interacted += () => Interaction?.Invoke(village);
             _overworld.Add(village);
         }
@@ -93,7 +93,7 @@ public class OverworldCollection : IManageable, IInteractable
 
     public Guid GenerateCastle()
     {
-        var castle = new Castle(GetOuterLocation(200F), 1F);
+        var castle = new Castle(GetOuterLocation(200F), 1F, "castle");
         castle.Interacted += () => Interaction?.Invoke(castle);
         
         _overworld.Add(castle);

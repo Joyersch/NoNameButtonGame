@@ -37,6 +37,7 @@
   <ItemGroup>
     <Folder Include="Content\Music" />
     <Folder Include="Data\Levels\Level4\" />
+    <Folder Include="LevelSystem\LevelContainer\Level4\Interface\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MiniGames\**" />
