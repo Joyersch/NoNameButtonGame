@@ -14,6 +14,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
 public class Level : SampleLevel
 {
+    private readonly GameWindow _gameWindow;
     private const string QuestsPath = "Levels.Level4.Quests";
     private Cursor _cursor;
     private Vector2 _savedPosition;
@@ -27,6 +28,7 @@ public class Level : SampleLevel
 
     private ResourceManager _resourceManager;
     private UserInterface _userInterface;
+    private readonly Dictionary<Guid, UserInterface> _userInterfaces;
 
     private enum State
     {
@@ -58,8 +60,9 @@ public class Level : SampleLevel
     private DelayedText _infoMoveText;
     private OverworldCollection _overworld;
 
-    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, GameWindow gameWindow, Random random) : base(display, window, random)
     {
+        _gameWindow = gameWindow;
         Name = "Level 4 - RPG";
 
         _objective = new Text(string.Empty, display.SimpleScale);
@@ -85,6 +88,7 @@ public class Level : SampleLevel
 
         // will be set when required
         _userInterface = null;
+        _userInterfaces = new Dictionary<Guid, UserInterface>();
 
         _cursor = new Cursor();
         Actuator = _cursor;
@@ -95,17 +99,30 @@ public class Level : SampleLevel
 
     private void OpenLocationUserInterface(ILocation obj)
     {
-        if (_state == State.SeenCastle && _castle == obj.GetGuid())
+        var guid = obj.GetGuid();
+        var name = obj.GetName();
+        
+        if (_state == State.SeenCastle && _castle == guid)
             _state++;
 
-        _userInterface = new UserInterface(_resourceManager, obj.GetName(), 1F);
-        _userInterface.Exit += UserInterfaceOnExit;
+        if (!_userInterfaces.ContainsKey(guid))
+        {
+            _userInterface = new UserInterface(_resourceManager,_gameWindow, name, 1F);
+            _userInterface.Exit += UserInterfaceOnExit;
+            _userInterfaces.Add(guid, _userInterface);
+        }
+        else
+            _userInterface = _userInterfaces[guid];
+        
         _userInterface.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .Centered()
             .Move();
+
         _viewState = ViewState.Ui;
-        Log.Write(obj.GetName() ?? obj.GetType().Name);
+        
+        Log.Write(name ?? obj.GetType().Name);
+        Log.WriteLine(_userInterfaces.Count.ToString(), 4);
     }
 
     private void UserInterfaceOnExit()

@@ -76,7 +76,7 @@ public class NoNameGame : Game
         Log.Out = new LogAdapter(_console);
 
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(_display, _storage);
+        _levelManager = new LevelManager(_display, Window, _storage);
         _levelManager.ChangeWindowName += ChangeTitle;
         _levelManager.CloseGameEventHandler += Exit;
 

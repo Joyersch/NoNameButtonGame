@@ -35,6 +35,7 @@ public class Castle : GameObject, IInteractable, ILocation
     {
         DrawColor = Color.Gray;
         _name = name;
+        _guid = Guid.NewGuid();
     }
     
     public override void Update(GameTime gameTime)

@@ -68,7 +68,7 @@ internal class LevelManager
 
     public event Action<string> ChangeWindowName;
 
-    public LevelManager(Display display, Storage.Storage storage, int? seed = null)
+    public LevelManager(Display display, GameWindow gameWindow, Storage.Storage storage, int? seed = null)
     {
         _toDispose = new List<SampleLevel>();
         _disposer = new OverTimeInvoker(200);
@@ -80,7 +80,7 @@ internal class LevelManager
         _currentSelectLevel = storage.GameData.MaxLevel;
 
         _levelFactory = new LevelFactory(_display,
-            _storage.Settings.Resolution.ToVector2(), random, storage);
+            _storage.Settings.Resolution.ToVector2(), random, gameWindow, storage);
 
         _startMenu = _levelFactory.GetStartLevel();
         _startMenu.StartClicked += StartMenuStartClicked;
