@@ -21,6 +21,7 @@ public class UserInterface : GameObject, IInteractable
     private static CommandProcessor _commandProcessor;
     private bool _isInputActive;
     private bool _isConsoleHover;
+    private Resource _resource;
 
     public event Action Exit;
 
@@ -76,6 +77,9 @@ public class UserInterface : GameObject, IInteractable
             .OnX(0.035F)
             .OnY(0.2275F)
             .Move();
+
+        _resource = new Resource(position, scale * 3, Resource.Type.Sapphire);
+        Log.WriteLine(_resource.Position.ToString(), 3);
     }
 
     public override void Update(GameTime gameTime)
@@ -86,13 +90,14 @@ public class UserInterface : GameObject, IInteractable
 
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
             _isInputActive = _isConsoleHover;
-        
+
         if (_isInputActive)
             _input.ActivateInput();
         else
             _input.DeactivateInput();
-        
+
         _input.Update(gameTime);
+        _resource.Update(gameTime);
         Log.WriteLine(_input.Position.ToString(), 2);
     }
 
@@ -102,6 +107,7 @@ public class UserInterface : GameObject, IInteractable
         _close.Draw(spriteBatch);
         _text.Draw(spriteBatch);
         _input.Draw(spriteBatch);
+        _resource.Draw(spriteBatch);
     }
 
     public override void Move(Vector2 newPosition)
@@ -111,6 +117,7 @@ public class UserInterface : GameObject, IInteractable
         _close.Move(_close.Position + offset);
         _text.Move(_text.Position + offset);
         _input.Move(_input.Position + offset);
+        _resource.Move(_resource.Position + offset);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
