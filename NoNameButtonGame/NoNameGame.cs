@@ -107,6 +107,7 @@ public class NoNameGame : Game
         Human.DefaultTexture = Content.GetTexture("OverworldTileHuman");
         Castle.DefaultTexture = Content.GetTexture("OverworldTileCastle");
         UserInterface.DefaultTexture = Content.GetTexture("LocationInterface");
+        Resource.DefaultTexture = Content.GetTexture("Resources");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
