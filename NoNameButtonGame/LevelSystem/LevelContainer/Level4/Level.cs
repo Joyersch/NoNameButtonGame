@@ -80,8 +80,9 @@ public class Level : SampleLevel
             .Move();
 
         _overworld = new OverworldCollection(Random, Camera);
-        _overworld.GenerateTrees(100000);
-        _overworld.GenerateVillages(40);
+        int villageCount = 40;
+        _overworld.GenerateTrees(1000);
+        _overworld.GenerateVillages(villageCount);
         _castle = _overworld.GenerateCastle();
         _overworld.Interaction += OpenLocationUserInterface;
         AutoManaged.Add(_overworld);
@@ -90,37 +91,40 @@ public class Level : SampleLevel
         _userInterface = null;
         _userInterfaces = new Dictionary<Guid, UserInterface>();
 
+        _resourceManager = new ResourceManager(random, villageCount);
+
         _cursor = new Cursor();
         Actuator = _cursor;
         PositionListener.Add(Mouse, _cursor);
 
         string questions = Global.ReadFromResources(QuestsPath);
+        
     }
 
     private void OpenLocationUserInterface(ILocation obj)
     {
         var guid = obj.GetGuid();
         var name = obj.GetName();
-        
+
         if (_state == State.SeenCastle && _castle == guid)
             _state++;
 
         if (!_userInterfaces.ContainsKey(guid))
         {
-            _userInterface = new UserInterface(_resourceManager,_gameWindow, name, 1F);
+            _userInterface = new UserInterface(_resourceManager.GetTrades(guid), _resourceManager, _gameWindow, name, 1F);
             _userInterface.Exit += UserInterfaceOnExit;
             _userInterfaces.Add(guid, _userInterface);
         }
         else
             _userInterface = _userInterfaces[guid];
-        
+
         _userInterface.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .Centered()
             .Move();
 
         _viewState = ViewState.Ui;
-        
+
         Log.Write(name ?? obj.GetType().Name);
         Log.WriteLine(_userInterfaces.Count.ToString(), 4);
     }
@@ -153,7 +157,7 @@ public class Level : SampleLevel
     {
         base.Update(gameTime);
         _cursor.Update(gameTime);
-        Log.WriteLine(Camera.Position.ToString(), 0);
+
         if (_viewState == ViewState.Ui)
         {
             _userInterface?.UpdateInteraction(gameTime, _cursor);

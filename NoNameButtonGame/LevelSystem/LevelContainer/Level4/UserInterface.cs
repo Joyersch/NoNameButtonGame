@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -9,19 +11,21 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Console;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Interface;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
 public class UserInterface : GameObject, IInteractable
 {
+    private readonly List<TradeBar> _trades;
     private readonly ResourceManager _manager;
+    private readonly ResourceBar _resourceBar;
     private readonly Text _text;
     private readonly SquareTextButton _close;
     private readonly DevConsole _input;
     private static CommandProcessor _commandProcessor;
     private bool _isInputActive;
     private bool _isConsoleHover;
-    private Resource _resource;
 
     public event Action Exit;
 
@@ -37,18 +41,29 @@ public class UserInterface : GameObject, IInteractable
         }
     };
 
-    public UserInterface(ResourceManager manager, GameWindow window, string name, float scale) : this(manager, window,
-        name, scale, Vector2.Zero,
-        DefaultSize * scale)
+    public UserInterface(IEnumerable<ResourceTrade> trades, ResourceManager manager, GameWindow window, string name,
+        float scale) : this(trades, manager, window, name, scale, Vector2.Zero, DefaultSize * scale)
     {
     }
 
-    public UserInterface(ResourceManager manager, GameWindow window, string name, float scale, Vector2 position,
-        Vector2 size) : base(
-        position, size, DefaultTexture, DefaultMapping)
+    public UserInterface(IEnumerable<ResourceTrade> trades, ResourceManager manager, GameWindow window, string name,
+        float scale, Vector2 position, Vector2 size) : base(position, size, DefaultTexture, DefaultMapping)
     {
-        DrawColor = new Color(75, 75, 75);
+        var resourceTrades = trades.ToList();
+        _trades = new List<TradeBar>();
+        int c = 0;
+        foreach (var trade in resourceTrades)
+        {
+            var tradeBar = new TradeBar(trade, position, scale);
+            tradeBar.GetCalculator(position, size)
+                .OnX(0.55F)
+                .OnY(0.1F + 0.1F * c++)
+                .Move();
+            _trades.Add(tradeBar);
+        }
+
         _manager = manager;
+        DrawColor = new Color(75, 75, 75);
 
         if (_commandProcessor is null)
         {
@@ -78,8 +93,12 @@ public class UserInterface : GameObject, IInteractable
             .OnY(0.2275F)
             .Move();
 
-        _resource = new Resource(position, scale * 3, Resource.Type.Sapphire);
-        Log.WriteLine(_resource.Position.ToString(), 3);
+        _resourceBar = new ResourceBar(_manager, position, scale * 1.25F);
+        _resourceBar.GetCalculator(Rectangle)
+            .OnCenter()
+            .OnY(0.7F)
+            .Centered()
+            .Move();
     }
 
     public override void Update(GameTime gameTime)
@@ -97,8 +116,17 @@ public class UserInterface : GameObject, IInteractable
             _input.DeactivateInput();
 
         _input.Update(gameTime);
-        _resource.Update(gameTime);
-        Log.WriteLine(_input.Position.ToString(), 2);
+
+        _resourceBar.GetCalculator(Rectangle)
+            .OnCenter()
+            .OnY(0.85F)
+            .Centered()
+            .Move();
+
+        _resourceBar.Update(gameTime);
+
+        foreach (var trade in _trades)
+            trade.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -107,22 +135,28 @@ public class UserInterface : GameObject, IInteractable
         _close.Draw(spriteBatch);
         _text.Draw(spriteBatch);
         _input.Draw(spriteBatch);
-        _resource.Draw(spriteBatch);
+        _resourceBar.Draw(spriteBatch);
+        foreach (var trade in _trades)
+            trade.Draw(spriteBatch);
     }
 
     public override void Move(Vector2 newPosition)
     {
         var offset = newPosition - Position;
-        base.Move(newPosition);
         _close.Move(_close.Position + offset);
         _text.Move(_text.Position + offset);
         _input.Move(_input.Position + offset);
-        _resource.Move(_resource.Position + offset);
+        _resourceBar.Move(_resourceBar.Position + offset);
+        foreach (var trade in _trades)
+            trade.Move(trade.GetPosition() + offset);
+        base.Move(newPosition);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
         _isConsoleHover = toCheck.Hitbox.Any(h => _input.Hitbox.Any(hh => hh.Intersects(h)));
+        foreach (var trade in _trades)
+            trade.UpdateInteraction(gameTime, toCheck);
         _close.UpdateInteraction(gameTime, toCheck);
     }
 }
