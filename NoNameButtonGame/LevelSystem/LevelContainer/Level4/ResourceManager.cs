@@ -139,16 +139,10 @@ public class ResourceManager
     private void HandleTrade(ResourceTrade sender)
     {
         foreach (var fromItem in sender.FromItem)
-        {
-            Log.Write($"{fromItem.Item}-={fromItem.Amount}");
             DecreaseUserValue(fromItem.Item, fromItem.Amount);
-        }
 
 
         foreach (var toItem in sender.ToItems)
-        {
-            Log.Write($"{toItem.Item}+={toItem.Amount}");
             IncreaseUserValue(toItem.Item, toItem.Amount);
-        }
     }
 }
