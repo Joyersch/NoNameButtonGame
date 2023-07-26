@@ -85,7 +85,6 @@ public class Level : SampleLevel
         _overworld.GenerateVillages(villageCount);
         _castle = _overworld.GenerateCastle();
         _overworld.Interaction += OpenLocationUserInterface;
-        AutoManaged.Add(_overworld);
 
         // will be set when required
         _userInterface = null;
@@ -98,7 +97,6 @@ public class Level : SampleLevel
         PositionListener.Add(Mouse, _cursor);
 
         string questions = Global.ReadFromResources(QuestsPath);
-        
     }
 
     private void OpenLocationUserInterface(ILocation obj)
@@ -111,7 +109,8 @@ public class Level : SampleLevel
 
         if (!_userInterfaces.ContainsKey(guid))
         {
-            _userInterface = new UserInterface(_resourceManager.GetTrades(guid), _resourceManager, _gameWindow, name, 1F);
+            _userInterface =
+                new UserInterface(_resourceManager.GetTrades(guid), _resourceManager, _gameWindow, name, 1F);
             _userInterface.Exit += UserInterfaceOnExit;
             _userInterfaces.Add(guid, _userInterface);
         }
@@ -138,6 +137,7 @@ public class Level : SampleLevel
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
+        _overworld.Draw(spriteBatch);
         _infoMoveText.Draw(spriteBatch);
         _userInterface?.Draw(spriteBatch);
         _cursor.Draw(spriteBatch);
@@ -158,13 +158,18 @@ public class Level : SampleLevel
         base.Update(gameTime);
         _cursor.Update(gameTime);
 
+        if (_viewState != ViewState.Ui)
+            _overworld.UpdateInteraction(gameTime, _cursor);
+
+        _overworld.Update(gameTime);
+        
         if (_viewState == ViewState.Ui)
         {
             _userInterface?.UpdateInteraction(gameTime, _cursor);
             _userInterface?.Update(gameTime);
             return;
         }
-
+        
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Right, false))
         {
             if (_state == State.Start)
