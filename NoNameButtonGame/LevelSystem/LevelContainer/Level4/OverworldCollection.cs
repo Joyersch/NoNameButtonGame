@@ -79,6 +79,11 @@ public class OverworldCollection : IManageable, IInteractable
             
     }
 
+    public void GenerateForests(int amount)
+    {
+        
+    }
+    
     public void GenerateTrees(int amount)
     {
         for (int i = 0; i < amount; i++)

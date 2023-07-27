@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -81,9 +82,29 @@ public class Level : SampleLevel
 
         _overworld = new OverworldCollection(Random, Camera);
         int villageCount = 40;
-        _overworld.GenerateTrees(1000);
+
         _overworld.GenerateVillages(villageCount);
         _castle = _overworld.GenerateCastle();
+        _overworld.GenerateForests(100);
+        _overworld.GenerateTrees(1000);
+
+        List<ConnectedGameObject> csgos = new List<ConnectedGameObject>();
+
+        for (int x = 0; x < 7; x++)
+        {
+            for (int y = 0; y < 7; y++)
+            {
+                if (!(y == 3 || x == 3) || x <= 1 || x >= 5 || y <= 1 || y >= 5)
+                    csgos.Add(new ConnectedGameObject(new Vector2(x * 32, y * 32), new Vector2(32, 32)));
+            }
+        }
+
+        foreach (var csgo in csgos)
+        {
+            csgo.SetTextureLocation(csgos);
+            AutoManaged.Add(csgo);
+        }
+
         _overworld.Interaction += OpenLocationUserInterface;
 
         // will be set when required
@@ -123,9 +144,6 @@ public class Level : SampleLevel
             .Move();
 
         _viewState = ViewState.Ui;
-
-        Log.Write(name ?? obj.GetType().Name);
-        Log.WriteLine(_userInterfaces.Count.ToString(), 4);
     }
 
     private void UserInterfaceOnExit()
@@ -162,14 +180,14 @@ public class Level : SampleLevel
             _overworld.UpdateInteraction(gameTime, _cursor);
 
         _overworld.Update(gameTime);
-        
+
         if (_viewState == ViewState.Ui)
         {
             _userInterface?.UpdateInteraction(gameTime, _cursor);
             _userInterface?.Update(gameTime);
             return;
         }
-        
+
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Right, false))
         {
             if (_state == State.Start)
