@@ -16,8 +16,8 @@ public class Storage : IChangeable
         Settings.HasChanged += (_,_) => HasChanged?.Invoke(Settings, EventArgs.Empty);
     }
 
-    public GeneralSettings Settings;
-    public GameData GameData;
+    public readonly GeneralSettings Settings;
+    public readonly GameData GameData;
     
     public void Load()
     {

@@ -33,8 +33,8 @@ public class NoNameGame : Game
 
     private Dictionary<string, string> UtilsMapping = new()
     {
-        {nameof(GameObject), "placeholder"},
-        {nameof(Cursor), "cursor"}
+        { nameof(GameObject), "placeholder" },
+        { nameof(Cursor), "cursor" }
     };
 
 
@@ -49,6 +49,13 @@ public class NoNameGame : Game
     {
         // This will also call LoadContent()
         base.Initialize();
+
+        _display = new Display(GraphicsDevice);
+
+        _console = new DevConsole(Global.CommandProcessor, Window, Vector2.Zero, _display.SimpleScale);
+
+        Global.CommandProcessor.Initialize();
+        Log.Out = new LogAdapter(_console);
 
         // Check Save directory
         if (!Directory.Exists(Globals.SaveDirectory))
@@ -65,15 +72,8 @@ public class NoNameGame : Game
         _storage.Settings.HasChanged += SettingsChanged;
         _storage.GameData.HasChanged += ProgressMade;
 
-        // register soundSettingsListener to change sound volume if 
+        // register soundSettingsListener to change sound volume if
         Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
-
-        _display = new Display(GraphicsDevice);
-
-        _console = new DevConsole(Global.CommandProcessor, Window, Vector2.Zero, _display.SimpleScale);
-
-        Global.CommandProcessor.Initialize();
-        Log.Out = new LogAdapter(_console);
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, Window, _storage);
@@ -108,6 +108,7 @@ public class NoNameGame : Game
         Castle.DefaultTexture = Content.GetTexture("OverworldTileCastle");
         UserInterface.DefaultTexture = Content.GetTexture("LocationInterface");
         Resource.DefaultTexture = Content.GetTexture("Resources");
+        Forest.DefaultTexture = Content.GetTexture("Forest");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.

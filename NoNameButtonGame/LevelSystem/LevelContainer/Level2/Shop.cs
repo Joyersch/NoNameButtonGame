@@ -82,29 +82,21 @@ public class Shop : GameObject, IInteractable
         _optionOne.GetCalculator(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
         _optionOne.Purchased += DecreaseBeanCount;
         _optionOne.Purchased += OptionOnePurchased;
-        _optionOne.ButtonEnter += OptionOneEnter;
-        _optionOne.ButtonLeave += OptionLeave;
 
         _optionTwo = new ShopOption(size.Y, "Jelly Beans", storage.Upgrade2, 150, 1.32D, 20);
         _optionTwo.GetCalculator(_rectangle).OnX(0.35F).BySizeX(-0.5F).Move();
         _optionTwo.Purchased += DecreaseBeanCount;
         _optionTwo.Purchased += OptionTwoPurchased;
-        _optionTwo.ButtonEnter += OptionTwoEnter;
-        _optionTwo.ButtonLeave += OptionLeave;
 
         _optionThree = new ShopOption(size.Y, "Magic Beans", storage.Upgrade3, 3000, 1.46D, 10);
         _optionThree.GetCalculator(_rectangle).OnX(0.55F).BySizeX(-0.5F).Move();
         _optionThree.Purchased += DecreaseBeanCount;
         _optionThree.Purchased += OptionThreePurchased;
-        _optionThree.ButtonEnter += OptionThreeEnter;
-        _optionThree.ButtonLeave += OptionLeave;
 
         _optionFour = new ShopOption(size.Y, "Suspicious Beans", storage.Upgrade4, 250000, 99D, 1);
         _optionFour.GetCalculator(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
-        _optionFour.ButtonEnter += OptionFourEnter;
-        _optionFour.ButtonLeave += OptionLeave;
 
         _infoDiplay = new Text(string.Empty);
         _infoDiplay.GetCalculator(_rectangle).OnCenter().OnY(0.875F).BySize(-0.5F).Move();
@@ -114,22 +106,6 @@ public class Shop : GameObject, IInteractable
         _beanDisplay = new Text(BeanDisplay);
         _beanDisplay.GetCalculator(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
     }
-
-    private void OptionOneEnter()
-        => _infoDiplay.ChangeText(_infoDisplayText[0]);
-    
-    private void OptionTwoEnter()
-        => _infoDiplay.ChangeText(_infoDisplayText[1]);
-    
-    private void OptionThreeEnter()
-        => _infoDiplay.ChangeText(_infoDisplayText[2]);
-    
-    private void OptionFourEnter()
-        => _infoDiplay.ChangeText(_infoDisplayText[3]);
-    
-    private void OptionLeave()
-        => _infoDiplay.ChangeText(string.Empty);
-
 
     public void IncreaseBeanCount()
     {
@@ -195,6 +171,18 @@ public class Shop : GameObject, IInteractable
         _optionTwo.UpdateInteraction(gameTime, toCheck);
         _optionThree.UpdateInteraction(gameTime, toCheck);
         _optionFour.UpdateInteraction(gameTime, toCheck);
+
+        if (_optionOne.IsHoverOnButton())
+            _infoDiplay.ChangeText(_infoDisplayText[0]);
+        else if (_optionTwo.IsHoverOnButton())
+            _infoDiplay.ChangeText(_infoDisplayText[1]);
+        else if (_optionThree.IsHoverOnButton())
+            _infoDiplay.ChangeText(_infoDisplayText[2]);
+        else if (_optionFour.IsHoverOnButton())
+            _infoDiplay.ChangeText(_infoDisplayText[3]);
+        else
+            _infoDiplay.ChangeText(string.Empty);
+
     }
 
     public override void Draw(SpriteBatch spriteBatch)

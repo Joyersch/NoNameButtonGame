@@ -91,6 +91,8 @@ public class SampleLevel : ILevel, IDisposable
         RelativePositionListener.Update(gameTime);
         
         Mouse.Update(gameTime);
+
+
         
         if (InputReaderKeyboard.CheckKey(Keys.F7, true))
             Mouse.UseRelative = !Mouse.UseRelative;
