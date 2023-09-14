@@ -6,24 +6,25 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
 
 public class Forest : ConnectedGameObject
 {
-    public Forest() : this(Vector2.Zero)
+    public Forest(int variation = 0) : this(Vector2.Zero, variation)
     {
     }
 
-    public Forest(Vector2 position) : this(position, 1F)
+    public Forest(Vector2 position, int variation) : this(position, 1F, variation)
     {
     }
 
-    public Forest(Vector2 position, float scale) : this(position, scale * DefaultSize)
+    public Forest(Vector2 position, float scale, int variation) : this(position, scale * DefaultSize, variation)
     {
     }
 
-    public Forest(Vector2 position, Vector2 size) : this(position, size, DefaultTexture, DefaultMapping)
+    public Forest(Vector2 position, Vector2 size, int variation) : this(position, size, variation, DefaultTexture, DefaultMapping)
     {
     }
 
-    public Forest(Vector2 position, Vector2 size, Texture2D texture, TextureHitboxMapping mapping) : base(position, size, texture, mapping)
+    public Forest(Vector2 position, Vector2 size, int variation, Texture2D texture, TextureHitboxMapping mapping) : base(position, size, variation, texture, mapping)
     {
+        DrawColor = Color.Green;
     }
 
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize;

@@ -88,22 +88,6 @@ public class Level : SampleLevel
         _overworld.GenerateForests(100);
         //_overworld.GenerateTrees(1000);
 
-        List<ConnectedGameObject> csgos = new List<ConnectedGameObject>();
-
-        for (int x = 0; x < 7; x++)
-        {
-            for (int y = 0; y < 7; y++)
-            {
-                if (!(y == 3 || x == 3) || x <= 1 || x >= 5 || y <= 1 || y >= 5)
-                    csgos.Add(new Forest(new Vector2(x * 32, y * 32), new Vector2(32, 32)){DrawColor = Color.Green});
-            }
-        }
-
-        foreach (var csgo in csgos)
-        {
-            csgo.SetTextureLocation(csgos);
-            AutoManaged.Add(csgo);
-        }
 
         _overworld.Interaction += OpenLocationUserInterface;
 

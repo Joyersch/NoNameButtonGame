@@ -81,7 +81,30 @@ public class OverworldCollection : IManageable, IInteractable
 
     public void GenerateForests(int amount)
     {
-        
+        // Generate a big forest around the center (x:0, y:0)
+        var forestCollection = new List<ConnectedGameObject>();
+
+        Vector2 forestStart = Rectangle.Location.ToVector2();
+        Vector2 shrunkSize = Rectangle.Size.ToVector2() / 32;
+        for (int x = 0; x < shrunkSize.X; x++)
+        {
+            for (int y = 0; y < shrunkSize.Y; y++)
+            {
+                var coords = forestStart + new Vector2(32 * x, 32 * y);
+                if (Vector2.Distance(coords, Vector2.Zero) <= 200 ||
+                    _overworld.Any(o => Vector2.Distance(coords,o.Rectangle.Center.ToVector2()) <= 100))
+                    continue;
+
+                var forest = new Forest(coords, _random.Next(0,3));
+                forestCollection.Add(forest);
+            }
+        }
+
+        foreach (var forest in forestCollection)
+        {
+            forest.SetTextureLocation(forestCollection.Where(f=> Vector2.Distance(forest.Position, f.Position) < 33).ToList());
+            _overworld.Add(forest);
+        }
     }
     
     public void GenerateTrees(int amount)
