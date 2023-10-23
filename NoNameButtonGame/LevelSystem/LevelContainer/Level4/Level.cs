@@ -6,10 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
+using MonoUtils.Logic.Threading;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
+using MonoUtils.Ui.Menu;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
@@ -22,6 +24,9 @@ public class Level : SampleLevel
     private bool _isLooking;
     private Text _objective;
     private Guid _castle;
+
+    private LoadingScreen _loadingScreen;
+    private LazyUpdater _lazyUpdater;
 
     private State _state;
     private UpdateState _updateState;
@@ -80,14 +85,10 @@ public class Level : SampleLevel
             .Centered()
             .Move();
 
-        _overworld = new OverworldCollection(Random, Camera);
+        _overworld = new OverworldCollection(Random, Camera, new Vector2(1000, 1000));
         int villageCount = 40;
 
-        _overworld.GenerateVillages(villageCount);
-        _castle = _overworld.GenerateCastle();
-        _overworld.GenerateForests(100);
-        //_overworld.GenerateTrees(1000);
-
+        //base.Camera.Zoom = 0.5F;
 
         _overworld.Interaction += OpenLocationUserInterface;
 
@@ -102,6 +103,13 @@ public class Level : SampleLevel
         PositionListener.Add(Mouse, _cursor);
 
         string questions = Global.ReadFromResources(QuestsPath);
+
+        _loadingScreen =
+            new LoadingScreen(Vector2.Zero, Window, _overworld.UpdatesRequired, Display.SimpleScale);
+        _loadingScreen.ProgressEnabled = false;
+
+        _lazyUpdater = new LazyUpdater();
+        _lazyUpdater.SetFunc(_overworld.Generate);
     }
 
     private void OpenLocationUserInterface(ILocation obj)
@@ -139,6 +147,10 @@ public class Level : SampleLevel
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
+
+        if (!_overworld.HasFullyGenerated)
+            return;
+
         _overworld.Draw(spriteBatch);
         _infoMoveText.Draw(spriteBatch);
         _userInterface?.Draw(spriteBatch);
@@ -148,16 +160,36 @@ public class Level : SampleLevel
     public override void DrawStatic(SpriteBatch spriteBatch)
     {
         base.DrawStatic(spriteBatch);
+        if (!_overworld.HasFullyGenerated)
+        {
+            _loadingScreen.Draw(spriteBatch);
+            return;
+        }
+
         if (_viewState == ViewState.Ui)
             return;
 
         if (_state > State.Start)
             _objective.Draw(spriteBatch);
+
     }
 
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+        if (!_overworld.HasFullyGenerated)
+        {
+            _lazyUpdater.Update(gameTime);
+            _loadingScreen.SetCurrent(_overworld.UpdatesCurrent);
+            _loadingScreen.SetMax(_overworld.UpdatesRequired);
+            _loadingScreen.Update(gameTime);
+            _overworld.Update(gameTime);
+            Console.SetCursorPosition(0,2);
+            Console.WriteLine($"{_overworld.UpdatesCurrent}/{_overworld.UpdatesRequired}");
+            Console.WriteLine($"Done:{_overworld.HasFullyGenerated}");
+            return;
+        }
+
         _cursor.Update(gameTime);
 
         if (_viewState != ViewState.Ui)

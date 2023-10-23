@@ -72,6 +72,13 @@ public class NoNameGame : Game
         _storage.Settings.HasChanged += SettingsChanged;
         _storage.GameData.HasChanged += ProgressMade;
 
+        // settings update windows size, so console will need to be recreated.
+        // However loading settings could fail requiring an output for logging beforehand
+        _display.Update();
+        _console = new DevConsole(Global.CommandProcessor, Window, _console.Position, _display.SimpleScale,
+            _console);
+        Log.Out.UpdateReference(_console);
+
         // register soundSettingsListener to change sound volume if
         Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
 

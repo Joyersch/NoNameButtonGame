@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -9,6 +10,7 @@ using MonoUtils.Logging;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Color;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -19,26 +21,54 @@ public class OverworldCollection : IManageable, IInteractable
     private readonly Random _random;
     private readonly Camera _camera;
     private readonly List<IManageable> _overworld;
+
+    public bool HasFullyGenerated { get; private set; }
     public bool CastleOnScreen { get; private set; }
 
     private IEnumerable<Village> _villagesView => _overworld.OfType<Village>().OrderBy(v => v.Houses);
 
-    private Vector2 _bounds => new Vector2(2000, 2000);
+
+    private Vector2 _bounds;
+
+    public int UpdatesRequired = 0;
+    public int UpdatesCurrent => _onUpdate;
+    private int _onUpdate = 0;
 
     public Rectangle Rectangle =>
-        new Rectangle(-(int) _bounds.X, -(int) _bounds.Y, (int) _bounds.X * 2, (int) _bounds.Y * 2);
+        new Rectangle(-(int)_bounds.X * 32, -(int)_bounds.Y * 32, (int)_bounds.X * 2 * 32, (int)_bounds.Y * 2 * 32);
 
     public event Action<ILocation> Interaction;
 
-    public OverworldCollection(Random random, Camera camera)
+    private enum Tile
+    {
+        Forest = 0,
+        Castle = 1,
+        Village = 2,
+        Path = 3
+    }
+
+    public OverworldCollection(Random random, Camera camera, Vector2 bounds)
     {
         _random = random;
         _camera = camera;
+        _bounds = bounds;
         _overworld = new List<IManageable>();
+        UpdatesRequired = (int)(_bounds.X * _bounds.Y);
     }
 
     public void Update(GameTime gameTime)
     {
+        if (!HasFullyGenerated)
+        {
+            if (_onUpdate >= UpdatesRequired)
+            {
+                HasFullyGenerated = true;
+                // forests.ForEach(f => f.SetTextureLocation(forests));
+                // _overworld.AddRange(forests);
+            }
+            return;
+        }
+
         CastleOnScreen = false;
         foreach (var obj in _overworld)
         {
@@ -68,78 +98,47 @@ public class OverworldCollection : IManageable, IInteractable
         }
     }
 
-    public void GenerateVillages(int amount)
+    public bool Generate()
     {
-        for (int villageNumber = 0; villageNumber < amount; villageNumber++)
+        _onUpdate++;
+        if (_onUpdate == 1)
         {
-            var village = new Village(GetOuterLocation(100F), _random, villageNumber.ToString());
-            village.Interacted += () => Interaction?.Invoke(village);
+            var castle = new Castle(Vector2.Zero, 1F, "castle");
+            castle.Interacted += () => Interaction?.Invoke(castle);
+            _overworld.Add(castle);
+            return false;
+        }
+
+        int x = _onUpdate % (int)_bounds.X;
+        int y = _onUpdate / (int)_bounds.Y;
+        int rand = _random.Next(0, 1000);
+
+        if (rand < 900)
+            return false;
+
+        float positionX = x * 32 - _bounds.X / 2 * 32;
+        float positionY = y * 32 - _bounds.Y / 2 * 32;
+        var position = new Vector2(positionX, positionY);
+
+        if (rand < 999)
+        {
+            var forest = new Forest(position, _random.Next(0, 2));
+            //forests.Add(forest);
+        }
+        else
+        {
+            var village = new Village(position, _random, new Guid().ToString());
             _overworld.Add(village);
         }
-            
+
+        return _onUpdate >= UpdatesRequired;
     }
 
-    public void GenerateForests(int amount)
+    private string GetCastleName()
     {
-        // Generate a big forest around the center (x:0, y:0)
-        var forestCollection = new List<ConnectedGameObject>();
-
-        Vector2 forestStart = Rectangle.Location.ToVector2();
-        Vector2 shrunkSize = Rectangle.Size.ToVector2() / 32;
-        for (int x = 0; x < shrunkSize.X; x++)
-        {
-            for (int y = 0; y < shrunkSize.Y; y++)
-            {
-                var coords = forestStart + new Vector2(32 * x, 32 * y);
-                if (Vector2.Distance(coords, Vector2.Zero) <= 200 ||
-                    _overworld.Any(o => Vector2.Distance(coords,o.Rectangle.Center.ToVector2()) <= 100))
-                    continue;
-
-                var forest = new Forest(coords, _random.Next(0,3));
-                forestCollection.Add(forest);
-            }
-        }
-
-        foreach (var forest in forestCollection)
-        {
-            forest.SetTextureLocation(forestCollection.Where(f=> Vector2.Distance(forest.Position, f.Position) < 33).ToList());
-            _overworld.Add(forest);
-        }
-    }
-    
-    public void GenerateTrees(int amount)
-    {
-        for (int i = 0; i < amount; i++)
-        {
-            var location = new Vector2(_random.Next(-(int) (_bounds.X + 320), (int) (_bounds.X + 320)),
-                _random.Next(-(int) (_bounds.Y + 200), (int) (_bounds.Y + 200)));
-            _overworld.Add(_random.Next(0, 2) == 0
-                ? new SmallTree(location, 1F)
-                : new BigTree(location, 1F));
-        }
+        return "castle";
     }
 
-    public Guid GenerateCastle()
-    {
-        var castle = new Castle(GetOuterLocation(200F), 1F, "castle");
-        castle.Interacted += () => Interaction?.Invoke(castle);
-        
-        _overworld.Add(castle);
-        return castle.GetGuid();
-    }
-
-    private Vector2 GetOuterLocation(float range)
-    {
-        Vector2 location;
-        do
-        {
-            location = new Vector2(_random.Next(-(int) _bounds.X, (int) _bounds.X),
-                _random.Next(-(int) _bounds.Y, (int) _bounds.Y));
-        } while (!(location.X < -600 || location.X > 600 || location.Y > 400 || location.Y < -400) && !IsAroundAVillage(location, range));
-
-        return location;
-    }
-
-    private bool IsAroundAVillage(Vector2 position, float distance)
-        => _villagesView.Any(v => Vector2.Distance(v.Position, position) <= distance);
+    public Guid GetCastle()
+        => ((Castle)_overworld.First(m => m is Castle)).GetGuid();
 }

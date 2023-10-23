@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using MonoUtils.Logging;
+using MonoUtils.Ui.Color;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
@@ -28,7 +30,10 @@ public class ResourceManager
         _random = random;
         RareResource = (Resource.Type) random.Next(0, 8);
 
-        Log.Write($"RareResource => {RareResource}");
+        ColorBuilder builder = new ColorBuilder();
+        builder.AddColor(Color.White, 16);
+        builder.AddColor(Color.Gold, RareResource.ToString().Length);
+        Log.WriteColor($"RareResource => {RareResource}", builder.GetColor());
 
         /*Same length as field Count for Resource.Type*/
         int resourceCount = 8;
