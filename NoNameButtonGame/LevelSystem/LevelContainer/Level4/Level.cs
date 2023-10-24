@@ -106,7 +106,7 @@ public class Level : SampleLevel
 
         _loadingScreen =
             new LoadingScreen(Vector2.Zero, Window, _overworld.UpdatesRequired, Display.SimpleScale);
-        _loadingScreen.ProgressEnabled = false;
+        //_loadingScreen.ProgressEnabled = false;
 
         _lazyUpdater = new LazyUpdater();
         _lazyUpdater.SetFunc(_overworld.Generate);
