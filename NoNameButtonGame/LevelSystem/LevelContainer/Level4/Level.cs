@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -85,7 +84,7 @@ public class Level : SampleLevel
             .Centered()
             .Move();
 
-        _overworld = new OverworldCollection(Random, Camera, new Vector2(1000, 1000));
+        _overworld = new OverworldCollection(Random, Camera, new Vector2(100, 100));
         int villageCount = 40;
 
         //base.Camera.Zoom = 0.5F;
@@ -105,7 +104,8 @@ public class Level : SampleLevel
         string questions = Global.ReadFromResources(QuestsPath);
 
         _loadingScreen =
-            new LoadingScreen(Vector2.Zero, Window, _overworld.UpdatesRequired, Display.SimpleScale);
+            new LoadingScreen(Vector2.Zero, Window, _overworld.GenerateRequired, Display.SimpleScale,
+                _overworld.GenerateGoal);
         //_loadingScreen.ProgressEnabled = false;
 
         _lazyUpdater = new LazyUpdater();
@@ -171,7 +171,6 @@ public class Level : SampleLevel
 
         if (_state > State.Start)
             _objective.Draw(spriteBatch);
-
     }
 
     public override void Update(GameTime gameTime)
@@ -180,13 +179,11 @@ public class Level : SampleLevel
         if (!_overworld.HasFullyGenerated)
         {
             _lazyUpdater.Update(gameTime);
-            _loadingScreen.SetCurrent(_overworld.UpdatesCurrent);
-            _loadingScreen.SetMax(_overworld.UpdatesRequired);
+            _loadingScreen.SetCurrent(_overworld.GenerateCurrent);
+            _loadingScreen.SetMax(_overworld.GenerateRequired);
+            _loadingScreen.SetGoal(_overworld.GenerateGoal);
             _loadingScreen.Update(gameTime);
             _overworld.Update(gameTime);
-            Console.SetCursorPosition(0,2);
-            Console.WriteLine($"{_overworld.UpdatesCurrent}/{_overworld.UpdatesRequired}");
-            Console.WriteLine($"Done:{_overworld.HasFullyGenerated}");
             return;
         }
 
@@ -215,11 +212,35 @@ public class Level : SampleLevel
                 _isLooking = true;
             }
 
-            var offset = _savedPosition - Mouse.Position;
+            var difference = _savedPosition - Mouse.Position;
 
-            var newPosition = Camera.Position + Vector2.Floor(offset);
-            if (_overworld.Rectangle.Intersects(new Rectangle(newPosition.ToPoint(), new Point(1, 1))))
-                Camera.Move(newPosition);
+            Camera.Move(Camera.Position + difference);
+            var overlap = Rectangle.Intersect(Camera.Rectangle, _overworld.Rectangle);
+            if (overlap != Camera.Rectangle)
+            {
+                Vector2 correction = Vector2.Zero;
+
+                var left = overlap.Left - Camera.Rectangle.Left;
+                var right = overlap.Right - Camera.Rectangle.Right;
+                var top = overlap.Top - Camera.Rectangle.Top;
+                var bottom = overlap.Bottom - Camera.Rectangle.Bottom;
+
+                var width = Camera.Rectangle.Width - overlap.Width;
+                var height = Camera.Rectangle.Height - overlap.Height;
+
+                if (left != 0)
+                    correction.X += width;
+
+                if (right != 0)
+                    correction.X -= width;
+
+                if (top != 0)
+                    correction.Y += height;
+
+                if (bottom != 0)
+                    correction.Y -= height;
+                Camera.Move(Camera.Position + correction);
+            }
         }
         else
             _isLooking = false;

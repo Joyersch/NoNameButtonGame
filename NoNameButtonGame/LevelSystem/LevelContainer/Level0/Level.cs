@@ -10,7 +10,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level0;
 
 internal class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
+    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         Name = "Level 404";
 

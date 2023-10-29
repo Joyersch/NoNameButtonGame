@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
+using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.TextSystem;
