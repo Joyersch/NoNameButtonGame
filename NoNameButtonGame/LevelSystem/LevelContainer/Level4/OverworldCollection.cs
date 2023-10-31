@@ -30,9 +30,6 @@ public class OverworldCollection : IManageable, IInteractable
     public bool HasFullyGenerated { get; private set; }
     public bool CastleOnScreen { get; private set; }
 
-    private IEnumerable<Village> _villagesView => _overworld.OfType<Village>().OrderBy(v => v.Houses);
-    private IEnumerable<Forest> _forestView => _overworld.OfType<Forest>();
-
     private Vector2 _bounds;
 
     public long GenerateRequired { get; private set; } = 0;
@@ -73,7 +70,7 @@ public class OverworldCollection : IManageable, IInteractable
     private int _y;
     private bool _stageOne = true;
     private int _forestsSet;
-    private List<ConnectedGameObject> _forests;
+    private ConnectedGameObject[] _forests;
     // forest generation
 
     // path generation
@@ -155,7 +152,7 @@ public class OverworldCollection : IManageable, IInteractable
         {
             LoadingState.Castle => 1,
             LoadingState.Villages => VillageCount,
-            LoadingState.Paths => 100,
+            LoadingState.Paths => VillageCount,
             LoadingState.Forests => 200,
             LoadingState.Done => 0,
             _ => 0
@@ -182,8 +179,8 @@ public class OverworldCollection : IManageable, IInteractable
         _radius = GenerateCurrent switch
         {
             0 => 800,
-            3 => 1100,
-            9 => 1400,
+            3 => 1000,
+            9 => 1300,
             _ => _radius
         };
 
@@ -193,7 +190,8 @@ public class OverworldCollection : IManageable, IInteractable
                 _angle += (float)(1F / 3F * Math.PI * 2);
                 break;
             case < 12 and >= 3:
-                _firstThree ??= _villagesView.ToArray();
+                _firstThree ??= new Village[]
+                    { (Village)_overworld[1], (Village)_overworld[2], (Village)_overworld[3] };
                 origin = (int)GenerateCurrent % 3;
                 _offset = _firstThree[origin].Position;
                 _angle = GenerateCurrent switch
@@ -204,7 +202,12 @@ public class OverworldCollection : IManageable, IInteractable
                 };
                 break;
             case < 30 and >= 12:
-                _firstTwelve ??= _villagesView.ToArray();
+                _firstTwelve ??= new Village[]
+                {
+                    (Village)_overworld[1], (Village)_overworld[2], (Village)_overworld[3], (Village)_overworld[4],
+                    (Village)_overworld[5], (Village)_overworld[6], (Village)_overworld[7], (Village)_overworld[8],
+                    (Village)_overworld[9], (Village)_overworld[10], (Village)_overworld[11], (Village)_overworld[12]
+                };
                 origin = (int)GenerateCurrent % 9 + 3;
                 _offset = _firstTwelve[origin].Position;
                 origin = (int)GenerateCurrent % 3;
@@ -249,8 +252,36 @@ public class OverworldCollection : IManageable, IInteractable
         GenerateCurrent++;
     }
 
+    private int _villagePointer = -1;
+    private List<Vector2> _paths = new();
+
     private void GeneratePaths()
     {
+        int origin;
+        Vector2 position1 = Vector2.Zero;
+        switch (GenerateCurrent)
+        {
+            case < 3:
+                position1 = ((Castle)_overworld[0]).Position;
+                break;
+            case < 12 and >= 3:
+                origin = (int)GenerateCurrent % 3;
+                position1 = _firstThree[origin].Position;
+                break;
+            case < 30 and >= 12:
+                origin = (int)GenerateCurrent % 9 + 3;
+                position1 = _firstTwelve[origin].Position;
+                break;
+        }
+
+        Vector2 position2 = ((Village)_overworld[1 + (int)GenerateCurrent]).Position;
+
+        Vector2 path = position2 - position1;
+        Vector2 normalizedPath = Vector2.Normalize(path);
+        int pathLength = (int)path.Length() / 32;
+        for (int i = 0; i < pathLength; i++)
+            _paths.Add(position1 + normalizedPath * 32 * i);
+
         GenerateCurrent++;
     }
 
@@ -261,12 +292,33 @@ public class OverworldCollection : IManageable, IInteractable
         if (_stageOne)
         {
             var topLeft = Rectangle.TopLeftCorner();
-            if (_villagesView.All(v => Vector2.Distance(topLeft + toCheck, v.Position) >= 304F))
+            bool stop = false;
+            for (int i = 0; i < VillageCount && !stop; i++)
             {
-                // toDo: variations
+                var village = (Village)_overworld[1 + i];
+                if (Vector2.Distance(topLeft + toCheck, village.Position) <= 240F)
+                {
+                    stop = true;
+                    break;
+                }
+
+            }
+
+            for (int i = 0; i < _paths.Count; i++)
+            {
+                if (Vector2.Distance(topLeft + toCheck, _paths[i]) <= 128F)
+                {
+                    stop = true;
+                    break;
+                }
+            }
+
+            if (!stop)
+            {
                 var forest = new Forest(topLeft + toCheck, _random.Next(0, 2));
                 _overworld.Add(forest);
             }
+
             _x++;
             if (_x > _bounds.X * 2)
             {
@@ -276,17 +328,44 @@ public class OverworldCollection : IManageable, IInteractable
 
             if (_y > _bounds.Y * 2)
                 _stageOne = false;
-            GenerateCurrent = (int)(_y / (_bounds.Y * 2) * 100) ;
+            GenerateCurrent = (int)(_y / (_bounds.Y * 2) * 100);
             return;
         }
 
-        _forests ??= _forestView.ToList<ConnectedGameObject>();
-        var toSet = _forests[_forestsSet];
-        toSet.SetTextureLocation(_forests.Where(f => Vector2.Distance(f.Position, toSet.Position) < 40F)
-            .ToList());
-        _forestsSet++;
-        GenerateCurrent = 100 + (int)((float)_forestsSet / (float)_forests.Count * 100);
+        if (_forests is null)
+        {
+            _forests = new ConnectedGameObject[_overworld.Count - VillageCount - 1];
+            for (int i = 0; i < _forests.Length; i++)
+            {
+                _forests[i] = (ConnectedGameObject)_overworld[VillageCount + 1 + i];
+            }
+        }
 
+        if (_forests.Length != 0)
+        {
+            var toSet = _forests[_forestsSet];
+            var toSetGridPosition = toSet.Position / 32F;
+            List<ConnectedGameObject> limitedForests = new();
+
+            for (int i = 0; i < _forests.Length; i++)
+            {
+
+                var forest = _forests[i];
+                var gridPosition = forest.Position / 32;
+                var offset = toSetGridPosition - gridPosition;
+
+                if (offset.X < -1 || offset.Y < -1 || offset.X > 1 || offset.Y > 1)
+                    continue;
+
+                limitedForests.Add(forest);
+            }
+
+            toSet.SetTextureLocation(limitedForests);
+            _forestsSet++;
+            GenerateCurrent = 100 + (int)((float)_forestsSet / (float)_forests.Length * 100);
+        }
+        else
+            GenerateCurrent = 200;
     }
 
     public Guid GetCastle()
