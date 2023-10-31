@@ -180,7 +180,7 @@ public class Level : SampleLevel
         if (InputReaderKeyboard.CheckKey(Keys.F1, true))
             Camera.Zoom = 2F;
         if (InputReaderKeyboard.CheckKey(Keys.F2, true))
-            Camera.Zoom = 0.2F;
+            Camera.Zoom = 0.1F;
         if (InputReaderKeyboard.CheckKey(Keys.F3, true))
             Camera.Zoom = 100F;
 
