@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 using MonoUtils.Logging;
+using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
@@ -21,14 +24,14 @@ public class OverworldCollection : IManageable, IInteractable
     private readonly Random _random;
     private readonly Camera _camera;
     private readonly List<IManageable> _overworld;
-    private GameObject _worldIndicator;
+    private GameObject genShowcase;
+    public readonly int VillageCount = 30;
 
     public bool HasFullyGenerated { get; private set; }
     public bool CastleOnScreen { get; private set; }
 
-    // ToDo: still needed?
     private IEnumerable<Village> _villagesView => _overworld.OfType<Village>().OrderBy(v => v.Houses);
-
+    private IEnumerable<Forest> _forestView => _overworld.OfType<Forest>();
 
     private Vector2 _bounds;
 
@@ -48,12 +51,34 @@ public class OverworldCollection : IManageable, IInteractable
     public enum LoadingState
     {
         Start = -1,
-        Villages = 0,
-        Castle = 1,
+        Castle = 0,
+        Villages = 1,
         Paths = 2,
         Forests = 3,
         Done = 4,
     }
+
+
+    // village generation
+    private float _angle = 0F;
+    private Vector2 _offset = Vector2.Zero;
+    private Village[] _firstThree = null;
+    private Village[] _firstTwelve = null;
+    private float[] _angles = null;
+    private int _radius;
+    // village generation
+
+    // forest generation
+    private int _x;
+    private int _y;
+    private bool _stageOne = true;
+    private int _forestsSet;
+    private List<ConnectedGameObject> _forests;
+    // forest generation
+
+    // path generation
+
+    // path generation
 
     public OverworldCollection(Random random, Camera camera, Vector2 bounds)
     {
@@ -62,7 +87,7 @@ public class OverworldCollection : IManageable, IInteractable
         _bounds = bounds;
         _overworld = new List<IManageable>();
         GenerateGoal = _generateProgress.ToString();
-        _worldIndicator = new GameObject(Rectangle.Location.ToVector2(), Rectangle.Size.ToVector2());
+        genShowcase = new GameObject(Vector2.Zero, Village.DefaultSize);
         Log.Write($"Bounds:{Rectangle}");
     }
 
@@ -79,7 +104,8 @@ public class OverworldCollection : IManageable, IInteractable
                     CastleOnScreen = true;
             }
         }
-        _worldIndicator.Update(gameTime);
+
+        genShowcase.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -87,7 +113,7 @@ public class OverworldCollection : IManageable, IInteractable
         foreach (var obj in _overworld)
             if (obj.Rectangle.Intersects(_camera.Rectangle))
                 obj.Draw(spriteBatch);
-        _worldIndicator.Draw(spriteBatch);
+        genShowcase.Draw(spriteBatch);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -103,11 +129,14 @@ public class OverworldCollection : IManageable, IInteractable
     {
         switch (_generateProgress)
         {
-            case LoadingState.Villages:
-                GenerateVillages();
+            case LoadingState.Start:
+                GenerateStart();
                 break;
             case LoadingState.Castle:
                 GenerateCastle();
+                break;
+            case LoadingState.Villages:
+                GenerateVillages();
                 break;
             case LoadingState.Paths:
                 GeneratePaths();
@@ -117,17 +146,17 @@ public class OverworldCollection : IManageable, IInteractable
                 break;
         }
 
-        if (GenerateCurrent <= GenerateRequired &&
+        if (GenerateCurrent < GenerateRequired &&
             (_generateProgress != LoadingState.Done && _generateProgress != LoadingState.Start))
             return false;
         _generateProgress++;
 
         GenerateRequired = _generateProgress switch
         {
-            LoadingState.Villages => 40,
             LoadingState.Castle => 1,
+            LoadingState.Villages => VillageCount,
             LoadingState.Paths => 100,
-            LoadingState.Forests => 100,
+            LoadingState.Forests => 200,
             LoadingState.Done => 0,
             _ => 0
         };
@@ -137,103 +166,86 @@ public class OverworldCollection : IManageable, IInteractable
         return HasFullyGenerated = _generateProgress == LoadingState.Done;
     }
 
-    private float angle;
-    private float distance;
-    private Vector2 oldPosition;
-    private float oldAngle;
-    private float angleOffset = 20F;
 
-    private List<Vector2> _oldPositions = new List<Vector2>();
-    private bool _backtracking;
-    private int _backtrackCount;
+    private void GenerateStart()
+    {
+        // If something requires precalculating // setup do it here!
+    }
 
     private void GenerateVillages()
     {
-        Vector2? position = null;
+        _angles ??= new float[VillageCount];
+        int origin = 0;
 
         if (GenerateCurrent == 0)
+            _angle = (float)(_random.NextDouble() * Math.PI * 2);
+        _radius = GenerateCurrent switch
         {
-            angle = _random.NextSingle() * (float)Math.PI * 2;
-            distance = 200F;
-            position = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * distance;
-        }
+            0 => 800,
+            3 => 1100,
+            9 => 1400,
+            _ => _radius
+        };
 
-        if (angle >= 360F)
+        switch (GenerateCurrent)
         {
-            if (_backtracking)
-            {
-                _backtrackCount++;
-                if (_backtrackCount >= _oldPositions.Count)
+            case < 3:
+                _angle += (float)(1F / 3F * Math.PI * 2);
+                break;
+            case < 12 and >= 3:
+                _firstThree ??= _villagesView.ToArray();
+                origin = (int)GenerateCurrent % 3;
+                _offset = _firstThree[origin].Position;
+                _angle = GenerateCurrent switch
                 {
-                    // fail save in case generation breaks
-                    Log.WriteError("Unable to generate 40 villages! Restarting village generation!");
-                    GenerateCurrent = 0;
-                    position = null;
-                    _oldPositions.Clear();
-                    _overworld.RemoveAll(m => m is Village);
-                    _backtracking = false;
-                    oldPosition = Vector2.Zero;
-                    angle = 0;
-                    distance = 0;
-                    angleOffset = 0F;
-                    _backtrackCount = 0;
-                    return;
-                }
-
-                oldPosition = _oldPositions[^_backtrackCount];
-            }
-
-            angleOffset = 0F;
-            angle = 0F;
-            _backtracking = true;
+                    < 6 => _angles[origin] - MathHelper.ToRadians(70F),
+                    < 9 => _angles[origin],
+                    _ => _angles[origin] + MathHelper.ToRadians(70F)
+                };
+                break;
+            case < 30 and >= 12:
+                _firstTwelve ??= _villagesView.ToArray();
+                origin = (int)GenerateCurrent % 9 + 3;
+                _offset = _firstTwelve[origin].Position;
+                origin = (int)GenerateCurrent % 3;
+                _angle = GenerateCurrent switch
+                {
+                    < 15 /*6 + 9*/ => _angles[origin] - MathHelper.ToRadians(30F),
+                    < 24 /*15 + 9*/ => _angles[origin],
+                    _ => _angles[origin] + MathHelper.ToRadians(30F)
+                };
+                break;
+            default:
+                _offset = Vector2.One * -3000;
+                break;
         }
 
-        if (distance == 0)
-        {
-            distance = _bounds.X * 32 / 4;
-        }
-
-        angle += 0.1F;
-        Vector2 calculatedPosition =
-            oldPosition + new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * distance;
-
-        Rectangle calculatedRectangle = new Rectangle(calculatedPosition.ToPoint(), Village.DefaultSize.ToPoint());
-
-        if ( // position is in bounds
-            Rectangle.Intersect(Rectangle, calculatedRectangle) == calculatedRectangle &&
-            // does is not the same as prior based on minimum offset
-            angle + angleOffset > oldAngle || angle - angleOffset < oldAngle &&
-            // position is not close enough to other villages
-            _villagesView.All(v => Vector2.Distance(v.Position, calculatedPosition) >= distance)
-           )
-        {
-            position = calculatedPosition;
-            oldPosition = calculatedPosition;
-            angleOffset = (float)Math.PI * _random.NextSingle();
-            _oldPositions.Add(calculatedPosition);
-            _backtrackCount = 0;
-            _backtracking = false;
-        }
-
-
-        if (position is null)
-            return;
-
-        angle = 0F;
-        distance = 0F;
+        _angles[GenerateCurrent] = _angle;
+        Vector2 position = _offset + new Vector2((float)Math.Cos(_angle), (float)Math.Sin(_angle)) * _radius;
 
         // ToDo: name from file (add with localization)
         string villageName = GenerateCurrent.ToString();
 
-        var village = new Village((position ?? Vector2.Zero), _random, villageName);
+        Vector2 grid = position - new Vector2(position.X % 32F, position.Y % 32F);
+
+        var village = new Village(grid, _random, villageName);
         village.Interacted += () => Interaction?.Invoke(village);
-        Log.WriteInformation($"{GenerateCurrent}:{position.ToString()}");
+        Log.WriteInformation($"{GenerateCurrent}:{grid.ToString()}");
         _overworld.Add(village);
         GenerateCurrent++;
     }
 
+
     private void GenerateCastle()
     {
+        // ToDo: name from file
+        var castle = new Castle(Vector2.Zero, 1F, GenerateCurrent.ToString());
+        castle.GetCalculator(Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
+        castle.Interacted += () => Interaction?.Invoke(castle);
+        _overworld.Add(castle);
         GenerateCurrent++;
     }
 
@@ -244,7 +256,37 @@ public class OverworldCollection : IManageable, IInteractable
 
     private void GenerateForests()
     {
-        GenerateCurrent++;
+        Vector2 toCheck = new Vector2(_x * 32, _y * 32);
+
+        if (_stageOne)
+        {
+            var topLeft = Rectangle.TopLeftCorner();
+            if (_villagesView.All(v => Vector2.Distance(topLeft + toCheck, v.Position) >= 304F))
+            {
+                // toDo: variations
+                var forest = new Forest(topLeft + toCheck, _random.Next(0, 2));
+                _overworld.Add(forest);
+            }
+            _x++;
+            if (_x > _bounds.X * 2)
+            {
+                _x = 0;
+                _y++;
+            }
+
+            if (_y > _bounds.Y * 2)
+                _stageOne = false;
+            GenerateCurrent = (int)(_y / (_bounds.Y * 2) * 100) ;
+            return;
+        }
+
+        _forests ??= _forestView.ToList<ConnectedGameObject>();
+        var toSet = _forests[_forestsSet];
+        toSet.SetTextureLocation(_forests.Where(f => Vector2.Distance(f.Position, toSet.Position) < 40F)
+            .ToList());
+        _forestsSet++;
+        GenerateCurrent = 100 + (int)((float)_forestsSet / (float)_forests.Count * 100);
+
     }
 
     public Guid GetCastle()

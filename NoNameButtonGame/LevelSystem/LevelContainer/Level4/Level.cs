@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -85,7 +86,6 @@ public class Level : SampleLevel
             .Move();
 
         _overworld = new OverworldCollection(Random, Camera, new Vector2(100, 100));
-        int villageCount = 40;
 
         //base.Camera.Zoom = 0.5F;
 
@@ -95,7 +95,7 @@ public class Level : SampleLevel
         _userInterface = null;
         _userInterfaces = new Dictionary<Guid, UserInterface>();
 
-        _resourceManager = new ResourceManager(random, villageCount);
+        _resourceManager = new ResourceManager(random, _overworld.VillageCount);
 
         _cursor = new Cursor();
         Actuator = _cursor;
@@ -176,6 +176,14 @@ public class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+
+        if (InputReaderKeyboard.CheckKey(Keys.F1, true))
+            Camera.Zoom = 2F;
+        if (InputReaderKeyboard.CheckKey(Keys.F2, true))
+            Camera.Zoom = 0.2F;
+        if (InputReaderKeyboard.CheckKey(Keys.F3, true))
+            Camera.Zoom = 100F;
+
         if (!_overworld.HasFullyGenerated)
         {
             _lazyUpdater.Update(gameTime);
@@ -183,7 +191,7 @@ public class Level : SampleLevel
             _loadingScreen.SetMax(_overworld.GenerateRequired);
             _loadingScreen.SetGoal(_overworld.GenerateGoal);
             _loadingScreen.Update(gameTime);
-            _overworld.Update(gameTime);
+            //_overworld.Update(gameTime);
             return;
         }
 
@@ -214,7 +222,7 @@ public class Level : SampleLevel
 
             var difference = _savedPosition - Mouse.Position;
 
-            Camera.Move(Camera.Position + difference);
+            Camera.Move(Camera.Position + Vector2.Floor(difference));
             var overlap = Rectangle.Intersect(Camera.Rectangle, _overworld.Rectangle);
             if (overlap != Camera.Rectangle)
             {
@@ -239,7 +247,7 @@ public class Level : SampleLevel
 
                 if (bottom != 0)
                     correction.Y -= height;
-                Camera.Move(Camera.Position + correction);
+                Camera.Move(Camera.Position + Vector2.Floor(correction));
             }
         }
         else
