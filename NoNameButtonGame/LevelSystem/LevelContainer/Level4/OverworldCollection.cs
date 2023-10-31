@@ -291,20 +291,21 @@ public class OverworldCollection : IManageable, IInteractable
         {
             _forests ??= new ConnectedGameObject[(int)(_bounds.X * 2 * (_bounds.Y * 2))];
             var topLeft = Rectangle.TopLeftCorner();
+            var toGenerate = topLeft + toCheck;
             bool stop = false;
             for (int i = 0; i < VillageCount && !stop; i++)
             {
                 var village = (Village)_overworld[1 + i];
-                if (Vector2.Distance(topLeft + toCheck, village.Position) <= 160F)
+                if (Vector2.Distance(toGenerate, village.Position) <= 160F)
                 {
                     stop = true;
                     break;
                 }
             }
 
-            for (int i = 0; i < _paths.Count; i++)
+            for (int i = 0; i < _paths.Count && !stop; i++)
             {
-                if (Vector2.Distance(topLeft + toCheck, _paths[i]) <= 128F)
+                if (Vector2.Distance(toGenerate, _paths[i]) <= 128F)
                 {
                     stop = true;
                     break;
@@ -387,10 +388,9 @@ public class OverworldCollection : IManageable, IInteractable
                     continue;
                 _overworld.Add(_forests[i]);
             }
+            Log.WriteWarning(_paths.Count.ToString());
         }
     }
-
-    private Dictionary<int, int> _skippedForestTiles = new();
 
     public Guid GetCastle()
         => ((Castle)_overworld.First(m => m is Castle)).GetGuid();
