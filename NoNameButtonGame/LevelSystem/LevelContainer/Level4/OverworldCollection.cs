@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Numerics;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -13,7 +9,6 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Color;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -21,24 +16,13 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
 public class OverworldCollection : IManageable, IInteractable
 {
-    private readonly Random _random;
-    private readonly Camera _camera;
-    private readonly List<IManageable> _overworld;
-    private GameObject genShowcase;
-    public readonly int VillageCount = 30;
-
     public bool HasFullyGenerated { get; private set; }
-    public bool CastleOnScreen { get; private set; }
 
-    private Vector2 _bounds;
-
-    public long GenerateRequired { get; private set; } = 0;
+    public long GenerateRequired { get; private set; }
 
     public long GenerateCurrent { get; private set; }
 
     public string GenerateGoal { get; private set; }
-
-    private LoadingState _generateProgress = LoadingState.Start;
 
     public Rectangle Rectangle =>
         new Rectangle(-(int)_bounds.X * 32, -(int)_bounds.Y * 32, (int)_bounds.X * 2 * 32, (int)_bounds.Y * 2 * 32);
@@ -55,6 +39,12 @@ public class OverworldCollection : IManageable, IInteractable
         Done = 4,
     }
 
+    private readonly Random _random;
+    private readonly Camera _camera;
+    private readonly List<IManageable> _overworld;
+    public readonly int VillageCount = 30;
+    private Vector2 _bounds;
+    private LoadingState _generateProgress = LoadingState.Start;
 
     // village generation
     private float _angle = 0F;
@@ -75,7 +65,7 @@ public class OverworldCollection : IManageable, IInteractable
 
     // path generation
     private int _villagePointer = -1;
-    private List<Vector2> _paths = new();
+    private readonly List<Vector2> _paths = new();
     // path generation
 
     public OverworldCollection(Random random, Camera camera, Vector2 bounds)
@@ -85,25 +75,15 @@ public class OverworldCollection : IManageable, IInteractable
         _bounds = bounds;
         _overworld = new List<IManageable>();
         GenerateGoal = _generateProgress.ToString();
-        genShowcase = new GameObject(Vector2.Zero, Village.DefaultSize);
-        Log.Write($"Bounds:{Rectangle}");
     }
 
     public void Update(GameTime gameTime)
     {
-        CastleOnScreen = false;
         foreach (var obj in _overworld)
         {
             if (obj.Rectangle.Intersects(_camera.Rectangle))
-            {
                 obj.Update(gameTime);
-
-                if (obj is Castle)
-                    CastleOnScreen = true;
-            }
         }
-
-        genShowcase.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -111,7 +91,6 @@ public class OverworldCollection : IManageable, IInteractable
         foreach (var obj in _overworld)
             if (obj.Rectangle.Intersects(_camera.Rectangle))
                 obj.Draw(spriteBatch);
-        genShowcase.Draw(spriteBatch);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -127,9 +106,6 @@ public class OverworldCollection : IManageable, IInteractable
     {
         switch (_generateProgress)
         {
-            case LoadingState.Start:
-                GenerateStart();
-                break;
             case LoadingState.Castle:
                 GenerateCastle();
                 break;
@@ -144,9 +120,11 @@ public class OverworldCollection : IManageable, IInteractable
                 break;
         }
 
-        if (GenerateCurrent < GenerateRequired &&
-            (_generateProgress != LoadingState.Done && _generateProgress != LoadingState.Start))
+        if (GenerateCurrent < GenerateRequired
+            && _generateProgress != LoadingState.Done
+            && _generateProgress != LoadingState.Start)
             return false;
+
         _generateProgress++;
 
         GenerateRequired = _generateProgress switch
@@ -164,11 +142,6 @@ public class OverworldCollection : IManageable, IInteractable
         return HasFullyGenerated = _generateProgress == LoadingState.Done;
     }
 
-
-    private void GenerateStart()
-    {
-        // If something requires precalculating // setup do it here!
-    }
 
     private void GenerateVillages()
     {
@@ -234,7 +207,6 @@ public class OverworldCollection : IManageable, IInteractable
 
         var village = new Village(grid, _random, villageName);
         village.Interacted += () => Interaction?.Invoke(village);
-        Log.WriteInformation($"{GenerateCurrent}:{grid.ToString()}");
         _overworld.Add(village);
         GenerateCurrent++;
     }
@@ -370,7 +342,6 @@ public class OverworldCollection : IManageable, IInteractable
                 }
                 */
 
-
                 toSet.SetTextureLocation(limitedForests);
             }
 
@@ -388,10 +359,9 @@ public class OverworldCollection : IManageable, IInteractable
                     continue;
                 _overworld.Add(_forests[i]);
             }
-            Log.WriteWarning(_paths.Count.ToString());
         }
     }
 
-    public Guid GetCastle()
+    public Guid GetCastleGuid()
         => ((Castle)_overworld.First(m => m is Castle)).GetGuid();
 }

@@ -28,21 +28,12 @@ public class Level : SampleLevel
     private LoadingScreen _loadingScreen;
     private LazyUpdater _lazyUpdater;
 
-    private State _state;
     private UpdateState _updateState;
     private ViewState _viewState;
 
     private ResourceManager _resourceManager;
     private UserInterface _userInterface;
     private readonly Dictionary<Guid, UserInterface> _userInterfaces;
-
-    private enum State
-    {
-        Start,
-        Moved,
-        SeenCastle,
-        EnteredCastle
-    }
 
     private enum ViewState
     {
@@ -117,9 +108,6 @@ public class Level : SampleLevel
         var guid = obj.GetGuid();
         var name = obj.GetName();
 
-        if (_state == State.SeenCastle && _castle == guid)
-            _state++;
-
         if (!_userInterfaces.ContainsKey(guid))
         {
             _userInterface =
@@ -168,9 +156,7 @@ public class Level : SampleLevel
 
         if (_viewState == ViewState.Ui)
             return;
-
-        if (_state > State.Start)
-            _objective.Draw(spriteBatch);
+        _objective.Draw(spriteBatch);
     }
 
     public override void Update(GameTime gameTime)
@@ -211,9 +197,6 @@ public class Level : SampleLevel
 
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Right, false))
         {
-            if (_state == State.Start)
-                _state++;
-
             if (!_isLooking)
             {
                 _savedPosition = Mouse.Position;
@@ -254,8 +237,5 @@ public class Level : SampleLevel
             _isLooking = false;
 
         _infoMoveText.Update(gameTime);
-
-        if (_overworld.CastleOnScreen && _state == State.Moved)
-            _state++;
     }
 }

@@ -7,9 +7,11 @@ using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Listener;
+using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
+using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Console;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
@@ -78,6 +80,7 @@ public class NoNameGame : Game
         _console = new DevConsole(Global.CommandProcessor, Window, _console.Position, _display.SimpleScale,
             _console);
         Log.Out.UpdateReference(_console);
+        TextProvider.Initialize();
 
         // register soundSettingsListener to change sound volume if
         Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);

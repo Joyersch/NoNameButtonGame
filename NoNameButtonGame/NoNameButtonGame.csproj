@@ -43,10 +43,6 @@
     <Compile Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="LevelSystem\LevelContainer\Level7\Questions.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Data\Levels\Level7\Questions.json" />
     <EmbeddedResource Include="Data\Levels\Level3\Questions.json">
       <LogicalName>Levels.Level3.Questions</LogicalName>
     </EmbeddedResource>
@@ -58,5 +54,13 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MonoUtils\MonoUtils\MonoUtils.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Text\Levels\Level0\de_DE.json">
+      <LogicalName>Text.Levels.Level0.de_DE</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Level0\en_US.json">
+      <LogicalName>Text.Levels.Level0.en_US</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
