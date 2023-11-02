@@ -2,5 +2,9 @@
   {
     "key": "Text",
     "value": "Unbekannte level Anfrage [404]"
+  },
+  {
+    "key": "Button",
+    "value": "Neustarten"
   }
 ]

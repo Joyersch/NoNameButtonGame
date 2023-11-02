@@ -15,16 +15,19 @@ internal class Level : SampleLevel
     {
         Name = "Level 404";
 
-        var text = TextProvider.GetText("Levels.Level0");
-        var failButton = new TextButton("Restart");
+
+        var textComponent = TextProvider.GetText("Levels.Level0");
+
+        var failButton = new TextButton(textComponent.GetValue("Button"));
         failButton.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .Centered()
             .Move();
         failButton.Click += Fail;
         AutoManaged.Add(failButton);
-        
-        var info = new Text(text.GetValue("Text"));
+
+
+        var info = new Text(textComponent.GetValue("Text"));
         info.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .OnY(3,10)
