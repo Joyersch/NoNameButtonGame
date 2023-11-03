@@ -1,7 +1,7 @@
 using System;
 using MonoUtils.Logic;
 using MonoUtils.Settings;
-using Level2 = NoNameButtonGame.LevelSystem.LevelContainer.Level2;
+using Level11 = NoNameButtonGame.LevelSystem.LevelContainer.Level11;
 
 namespace NoNameButtonGame.Storage;
 
@@ -19,12 +19,12 @@ public class GameData : IChangeable, ISettings
         }
     }
 
-    public Level2.StorageData Level2;
+    public Level11.StorageData Level11;
 
     public GameData()
     {
-        Level2 = new Level2.StorageData();
-        Level2.HasChanged += (_, _) => HasChanged?.Invoke(this, EventArgs.Empty);
+        Level11 = new Level11.StorageData();
+        Level11.HasChanged += (_, _) => HasChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public event EventHandler HasChanged;
@@ -33,7 +33,7 @@ public class GameData : IChangeable, ISettings
     {
         var copy = (GameData) FileManager.LoadFile($"{path}/{Name}.json", typeof(GameData));
         MaxLevel = copy.MaxLevel;
-        Level2 = copy.Level2;
+        Level11 = copy.Level11;
     }
 
     public void Save(string path)

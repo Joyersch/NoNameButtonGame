@@ -1,2 +1,159 @@
-{
-}
+[
+  {
+    "key": "Name",
+    "value": "Level 2 - Grid"
+  },
+  {
+    "key": "Info",
+    "value": "Click the button with the {0} \"{1}\""
+  },
+  {
+    "key": "Colors",
+    "value": [
+      {
+        "Text": "Lime",
+        "Color": {
+          "R": 0,
+          "G": 255,
+          "B": 0,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Olive",
+        "Color": {
+          "R": 128,
+          "G": 128,
+          "B": 0,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Salmon",
+        "Color": {
+          "R": 250,
+          "G": 128,
+          "B": 114,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Tan",
+        "Color": {
+          "R": 210,
+          "G": 180,
+          "B": 140,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Sienna",
+        "Color": {
+          "R": 160,
+          "G": 82,
+          "B": 45,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Coral",
+        "Color": {
+          "R": 255,
+          "G": 127,
+          "B": 80,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Maroon",
+        "Color": {
+          "R": 128,
+          "G": 0,
+          "B": 0,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Crimson",
+        "Color": {
+          "R": 220,
+          "G": 20,
+          "B": 60,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Plum",
+        "Color": {
+          "R": 221,
+          "G": 160,
+          "B": 221,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Fuchsia",
+        "Color": {
+          "R": 255,
+          "G": 0,
+          "B": 255,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Azure",
+        "Color": {
+          "R": 240,
+          "G": 255,
+          "B": 255,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Turquoise",
+        "Color": {
+          "R": 64,
+          "G": 224,
+          "B": 208,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Aquamarine",
+        "Color": {
+          "R": 127,
+          "G": 255,
+          "B": 212,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Thistle",
+        "Color": {
+          "R": 216,
+          "G": 191,
+          "B": 216,
+          "A": 255
+        }
+      },
+      {
+        "Text": "Wheat",
+        "Color": {
+          "R": 245,
+          "G": 222,
+          "B": 179,
+          "A": 255
+        }
+      },
+      {
+        "Text": "SeaShell",
+        "Color": {
+          "R": 255,
+          "G": 245,
+          "B": 238,
+          "A": 255
+        }
+      }
+    ]
+  }
+]

@@ -6,5 +6,9 @@
   {
     "key": "Button",
     "value": "Restart"
+  },
+  {
+    "key": "Name",
+    "value": "Level 404"
   }
 ]

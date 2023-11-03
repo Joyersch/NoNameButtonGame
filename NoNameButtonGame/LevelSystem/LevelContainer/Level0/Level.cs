@@ -13,10 +13,9 @@ internal class Level : SampleLevel
 {
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
-        Name = "Level 404";
-
-
         var textComponent = TextProvider.GetText("Levels.Level0");
+
+        Name = textComponent.GetValue("Name");
 
         var failButton = new TextButton(textComponent.GetValue("Button"));
         failButton.GetCalculator(Camera.Rectangle)

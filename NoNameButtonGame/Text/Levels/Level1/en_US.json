@@ -1,2 +1,50 @@
-{
-}
+[
+  {
+    "key": "Name",
+    "value": "Level 1 - Click the Button! (Tutorial)"
+  },
+  {
+    "key": "Button1",
+    "value": "Start"
+  },
+  {
+    "key": "Info1",
+    "value": "How hard can it be?"
+  },
+  {
+    "key": "Button2",
+    "value": "Unlock"
+  },
+  {
+    "key": "ButtonSkip",
+    "value": "Next"
+  },
+  {
+    "key": "Info2",
+    "value": "This button here is locked!"
+  },
+  {
+    "key": "Info3",
+    "value": "The button below will unlock the button above!"
+  },
+  {
+    "key": "Info4",
+    "value": "This button has a counter."
+  },
+  {
+    "key": "Info5",
+    "value": "Press the button to lower the counter and when it hits 0 you win!"
+  },
+  {
+    "key": "Info6",
+    "value": "This button has a timer."
+  },
+  {
+    "key": "Info7",
+    "value": "Press the button to lower the timer."
+  },
+  {
+    "key": "Info8",
+    "value": "Now that you know the basics. Lets start!"
+  }
+]

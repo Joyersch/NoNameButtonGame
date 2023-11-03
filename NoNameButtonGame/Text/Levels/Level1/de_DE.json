@@ -1,2 +1,50 @@
-{
-}
+[
+  {
+    "key": "Name",
+    "value": "Level 1 - Drueck den Knopf! (Anleitung)"
+  },
+  {
+    "key": "Button1",
+    "value": "Anfangen"
+  },
+  {
+    "key": "Info1",
+    "value": "Wie schwer kann es sein?"
+  },
+  {
+    "key": "Button2",
+    "value": "Entsperren"
+  },
+  {
+    "key": "ButtonSkip",
+    "value": "Weiter"
+  },
+  {
+    "key": "Info2",
+    "value": "Dieser Knopf ist gesperrt!"
+  },
+  {
+    "key": "Info3",
+    "value": "Der untere Knopf entsperrt den oberen Knopf!"
+  },
+  {
+    "key": "Info4",
+    "value": "Dieser Knopf hat einen Zeahler."
+  },
+  {
+    "key": "Info5",
+    "value": "Druecke den Knopf um den Zaehler zu senken."
+  },
+  {
+    "key": "Info6",
+    "value": "Dieser Knopf hat einen Zeitgeber"
+  },
+  {
+    "key": "Info7",
+    "value": "Druecke den Knopf um den Zeitgeber zu senken!"
+  },
+  {
+    "key": "Info8",
+    "value": "Da du nun die Grundlagen kennst, koennen wir anfangen!"
+  }
+]

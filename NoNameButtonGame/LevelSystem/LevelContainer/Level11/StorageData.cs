@@ -1,7 +1,7 @@
 using System;
 using MonoUtils.Logic;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
 
 public class StorageData : IChangeable
 {

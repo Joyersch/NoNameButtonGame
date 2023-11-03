@@ -53,6 +53,7 @@ internal class LevelManager
         Settings,
         StartMenu,
         Level,
+        LevelFinish,
         LevelSelect,
         Credits
     }

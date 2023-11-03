@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
+using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
@@ -19,56 +20,58 @@ internal class Level : SampleLevel
 
     private int _screen;
     private int _maxScreen;
+
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
-        Name = "Level 1 - Click the Button! (Tutorial)";
+        TextComponent textComponent = TextProvider.GetText("Levels.Level1");
+        Name = textComponent.GetValue("Name");
 
         var screen = Camera.Rectangle;
-        
+
         #region StartScreen
-        
-        var startButton = new TextButton("Start");
+
+        var startButton = new TextButton(textComponent.GetValue("Button1"));
         startButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
             .Move();
         startButton.Click += MoveToNextScreen;
         AutoManaged.Add(startButton);
-        
-        var infoText = new Text("How hard can it be?");
+
+        var infoText = new Text(textComponent.GetValue("Info1"));
         infoText.GetCalculator(screen)
             .OnCenter()
-            .OnY(3,10)
+            .OnY(3, 10)
             .Centered()
             .Move();
         AutoManaged.Add(infoText);
-        
+
         #endregion // StartScreen
 
         screen.Y += Camera.Rectangle.Height;
         _maxScreen++;
-        
+
         _mover = new OverTimeMover(Camera, screen.Location.ToVector2(), 600F, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);
-        
+
         #region LockButtonScreen
 
-        var magicButton = new TextButton("Unlock");
+        var magicButton = new TextButton(textComponent.GetValue("Button2"));
         magicButton.GetCalculator(screen)
             .OnCenter()
-            .OnY(13,16)
+            .OnY(13, 16)
             .Centered()
             .Move();
         magicButton.Click += MagicButtonOnClick;
         AutoManaged.Add(magicButton);
 
-        var lockButton = new TextButton("Next");
+        var lockButton = new TextButton(textComponent.GetValue("ButtonSkip"));
         lockButton.GetCalculator(screen)
             .OnCenter()
-            .OnY(3,16)
+            .OnY(3, 16)
             .Centered()
             .Move();
-        
+
         _lockButtonAddon = new LockButtonAddon(new(lockButton));
         _lockButtonAddon.Callback += (_, state) =>
         {
@@ -77,19 +80,19 @@ internal class Level : SampleLevel
             MoveToNextScreen(_lockButtonAddon);
         };
         AutoManaged.Add(_lockButtonAddon);
-        
-        var info1 = new Text("This button here is locked!");
+
+        var info1 = new Text(textComponent.GetValue("Info2"));
         info1.GetCalculator(screen)
             .OnCenter()
-            .OnY(7,20)
+            .OnY(7, 20)
             .Centered()
             .Move();
         AutoManaged.Add(info1);
-        
-        var info2 = new Text("The button below will unlock the button above!");
+
+        var info2 = new Text(textComponent.GetValue("Info3"));
         info2.GetCalculator(screen)
             .OnCenter()
-            .OnY(13,20)
+            .OnY(13, 20)
             .Centered()
             .Move();
         AutoManaged.Add(info2);
@@ -98,31 +101,31 @@ internal class Level : SampleLevel
 
         screen.Y += Camera.Rectangle.Height;
         _maxScreen++;
-        
+
         #region CounterButtonScreen
 
-        var counterButton = new TextButton("Next");
+        var counterButton = new TextButton(textComponent.GetValue("ButtonSkip"));
         counterButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
             .Move();
-        
-        var infoAboutCounterButton = new Text("This button has a counter");
+
+        var infoAboutCounterButton = new Text(textComponent.GetValue("Info4"));
         infoAboutCounterButton.GetCalculator(screen)
             .OnCenter()
             .OnY(3, 10)
             .Centered()
             .Move();
         AutoManaged.Add(infoAboutCounterButton);
-        
-        var infoAboutCounterButton2 = new Text("Press the button to lower the counter and when it hits 0 you win!");
+
+        var infoAboutCounterButton2 = new Text(textComponent.GetValue("Info5"));
         infoAboutCounterButton2.GetCalculator(screen)
             .OnCenter()
             .OnY(7, 10)
             .Centered()
             .Move();
         AutoManaged.Add(infoAboutCounterButton2);
-        
+
         var counterButtonAddon = new CounterButtonAddon(new(counterButton), 5);
         counterButtonAddon.Callback += (_, state) =>
         {
@@ -139,7 +142,7 @@ internal class Level : SampleLevel
 
         #region HoldButtonScreen
 
-        var stateButton = new TextButton("Next");
+        var stateButton = new TextButton(textComponent.GetValue("ButtonSkip"));
         stateButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
@@ -153,16 +156,16 @@ internal class Level : SampleLevel
             MoveToNextScreen(holdButtonAddon);
         };
         AutoManaged.Add(holdButtonAddon);
-        
-        var infoAboutButton = new Text("This button has a timer");
+
+        var infoAboutButton = new Text(textComponent.GetValue("Info6"));
         infoAboutButton.GetCalculator(screen)
             .OnCenter()
             .OnY(3, 10)
             .Centered()
             .Move();
         AutoManaged.Add(infoAboutButton);
-        
-        var infoAboutButton2 = new Text("Press the button to lower the timer and when it hits 0 you win!");
+
+        var infoAboutButton2 = new Text(textComponent.GetValue("Info7"));
         infoAboutButton2.GetCalculator(screen)
             .OnCenter()
             .OnY(7, 10)
@@ -174,10 +177,10 @@ internal class Level : SampleLevel
 
         screen.Y += Camera.Rectangle.Height;
         _maxScreen++;
-        
+
         #region FinishingText
 
-        _endText = new DelayedText("Now that you know the basics. Lets actually start!", false)
+        _endText = new DelayedText(textComponent.GetValue("Info8"), false)
         {
             DisplayDelay = 56,
             StartAfter = 100
@@ -204,12 +207,12 @@ internal class Level : SampleLevel
     {
         if (_mover.IsMoving)
             return;
-        
+
         _mover.ChangeDestination(new Vector2(Camera.Position.X, Camera.Position.Y + Camera.Rectangle.Height));
         _mover.Start();
         _screen++;
     }
-    
+
     private void MagicButtonOnClick(object obj)
     {
         if (_lockButtonAddon.IsLocked)
@@ -221,19 +224,19 @@ internal class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        
+
         if (_screen != _maxScreen)
             return;
 
         if (_mover.IsMoving)
             return;
-        
+
         if (!_endText.IsPlaying && !_endText.HasPlayed)
             _endText.Start();
-        
+
         if (!_endText.HasPlayed)
             return;
-        
+
         _invoker.Start();
     }
 }
