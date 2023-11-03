@@ -51,9 +51,6 @@ public class LevelFactory
         var level0 = new Levels.Level0.Level(_display, _screen, _random);
         var levelRequest = GetLevel(number);
         var isValid = levelRequest != level0;
-
-        level0.Dispose();
-        levelRequest.Dispose();
         return isValid;
     }
 }

@@ -155,6 +155,5 @@ public class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        CurrentMusic("TitleMusic");
     }
 }

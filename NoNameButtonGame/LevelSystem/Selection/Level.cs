@@ -11,7 +11,7 @@ namespace NoNameButtonGame.LevelSystem.Selection;
 public class Level : SampleLevel
 {
     private readonly OverTimeMover _mover;
-    public event Action<int> LevelSelectedEventHandler;
+    public event Action<int> OnLevelSelect;
 
     private int _cameraLevel;
 
@@ -69,7 +69,7 @@ public class Level : SampleLevel
     }
 
     private void SelectLevel(object sender)
-        => LevelSelectedEventHandler?.Invoke(int.Parse(((MiniTextButton) sender).Name));
+        => OnLevelSelect?.Invoke(int.Parse(((MiniTextButton) sender).Name));
 
     private void MoveDown(object sender)
     {
@@ -97,6 +97,5 @@ public class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        base.CurrentMusic(string.Empty);
     }
 }

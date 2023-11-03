@@ -16,7 +16,6 @@ public class Level : SampleLevel
     public event Action<object> SettingsClicked;
 
     public event Action<object> CreditsClicked;
-    public event Action<object> ExitClicked;
 
     public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
@@ -59,7 +58,6 @@ public class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        base.CurrentMusic("TitleMusic");
     }
 
     private void StartButtonPressed(object sender)
@@ -75,5 +73,5 @@ public class Level : SampleLevel
         => CreditsClicked?.Invoke(sender);
 
     private void ExitButtonPressed(object sender)
-        => ExitClicked?.Invoke(sender);
+        => Exit(sender);
 }

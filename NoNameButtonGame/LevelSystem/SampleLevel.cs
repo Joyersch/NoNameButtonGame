@@ -15,11 +15,11 @@ using MonoUtils.Ui.Objects;
 
 namespace NoNameButtonGame.LevelSystem;
 
-public class SampleLevel : ILevel, IDisposable
+public class SampleLevel : ILevel
 {
-    public event Action FailEventHandler;
-    public event Action ExitEventHandler;
-    public event Action FinishEventHandler;
+    public event Action OnFail;
+    public event Action OnExit;
+    public event Action OnFinish;
 
     public event Action<string> CurrentMusicEventHandler;
 
@@ -93,13 +93,14 @@ public class SampleLevel : ILevel, IDisposable
         
         Mouse.Update(gameTime);
 
-
-        
         if (InputReaderKeyboard.CheckKey(Keys.F7, true))
             Mouse.UseRelative = !Mouse.UseRelative;
         
         if (InputReaderKeyboard.CheckKey(Keys.F6, true))
             Mouse.SetMousePointerPositionToCenter();
+
+        if (InputReaderKeyboard.CheckKey(Keys.Escape, true))
+            Exit();
 
         foreach (var obj in AutoManaged)
         {
@@ -121,29 +122,17 @@ public class SampleLevel : ILevel, IDisposable
         => Fail();
 
     protected virtual void Fail()
-        => FailEventHandler?.Invoke();
+        => OnFail?.Invoke();
 
     protected virtual void Finish(object sender)
         => Finish();
 
     protected virtual void Finish()
-        => FinishEventHandler?.Invoke();
+        => OnFinish?.Invoke();
 
     public virtual void Exit(object sender)
         => Exit();
 
     public virtual void Exit()
-        => ExitEventHandler?.Invoke();
-
-    protected virtual void CurrentMusic(string music)
-        => CurrentMusicEventHandler?.Invoke(music);
-
-    public void Dispose()
-    {
-        foreach (var g in AutoManaged)
-        {
-            if (g is IDisposable d)
-                d.Dispose();
-        }
-    }
+        => OnExit?.Invoke();
 }

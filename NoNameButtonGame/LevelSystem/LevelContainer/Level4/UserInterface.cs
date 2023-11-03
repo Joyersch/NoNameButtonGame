@@ -84,9 +84,8 @@ public class UserInterface : GameObject, IInteractable
             .Move();
         _close.Click += _ => Exit?.Invoke();
 
-        _input = new DevConsole(_commandProcessor, window, Vector2.Zero, scale * 0.5F);
-        _input.Activator = null;
-        _input.Activate();
+        _input = new DevConsole(_commandProcessor, Vector2.Zero, scale * 0.5F);
+        // ToDo: add hook for window.TextInput for _input.TextInput event handle method
         _input.DrawColor = Color.Transparent;
         _input.GetCalculator(Rectangle)
             .OnX(0.035F)
@@ -110,11 +109,13 @@ public class UserInterface : GameObject, IInteractable
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
             _isInputActive = _isConsoleHover;
 
-        if (_isInputActive)
+        /*
+         ToDo: handle user input registration from window
+          if (_isInputActive)
             _input.ActivateInput();
         else
             _input.DeactivateInput();
-
+             */
         _input.Update(gameTime);
 
         _resourceBar.GetCalculator(Rectangle)

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -32,6 +33,7 @@ public class NoNameGame : Game
     private LevelManager _levelManager;
 
     private DevConsole _console;
+    private bool _isConsoleActive;
 
     private Dictionary<string, string> UtilsMapping = new()
     {
@@ -53,8 +55,9 @@ public class NoNameGame : Game
         base.Initialize();
 
         _display = new Display(GraphicsDevice);
+        Window.TextInput += OnTextInput;
 
-        _console = new DevConsole(Global.CommandProcessor, Window, Vector2.Zero, _display.SimpleScale);
+        _console = new DevConsole(Global.CommandProcessor, Vector2.Zero, _display.SimpleScale);
 
         Global.CommandProcessor.Initialize();
         Log.Out = new LogAdapter(_console);
@@ -77,7 +80,7 @@ public class NoNameGame : Game
         // settings update windows size, so console will need to be recreated.
         // However loading settings could fail requiring an output for logging beforehand
         _display.Update();
-        _console = new DevConsole(Global.CommandProcessor, Window, _console.Position, _display.SimpleScale,
+        _console = new DevConsole(Global.CommandProcessor, _console.Position, _display.SimpleScale,
             _console);
         Log.Out.UpdateReference(_console);
         TextProvider.Initialize();
@@ -87,10 +90,12 @@ public class NoNameGame : Game
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(_display, Window, _storage);
-        _levelManager.ChangeWindowName += ChangeTitle;
-        _levelManager.CloseGameEventHandler += Exit;
+        //_levelManager.ChangeWindowName += ChangeTitle;
+        _levelManager.CloseGame += Exit;
 
+        // register context for console commands
         _console.Context.RegisterContext(nameof(LevelManager), _levelManager);
+        _console.Context.RegisterContext(nameof(Storage), _storage);
     }
 
     private void ChangeTitle(string newName)
@@ -135,7 +140,11 @@ public class NoNameGame : Game
         if (IsActive)
             _levelManager.Update(gameTime);
 
-        _console.Update(gameTime);
+        if (InputReaderKeyboard.CheckKey(Keys.F10, true))
+            _isConsoleActive = !_isConsoleActive;
+
+        if (_isConsoleActive)
+            _console.Update(gameTime);
 
         // This will store the last key states
         InputReaderMouse.StoreButtonStates();
@@ -145,7 +154,11 @@ public class NoNameGame : Game
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch => { _console.Draw(spriteBatch); });
+        _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
+        {
+            if (_isConsoleActive)
+                _console.Draw(spriteBatch);
+        });
     }
 
     private void SettingsChanged(object obj, EventArgs e)
@@ -166,7 +179,7 @@ public class NoNameGame : Game
 
         if (_console != null)
         {
-            _console = new DevConsole(Global.CommandProcessor, Window, _console.Position, _display.SimpleScale,
+            _console = new DevConsole(Global.CommandProcessor, _console.Position, _display.SimpleScale,
                 _console);
             Log.Out.UpdateReference(_console);
         }
@@ -179,4 +192,15 @@ public class NoNameGame : Game
 
     private void ProgressMade(object sender, EventArgs e)
         => _storage.Save();
+
+    private void OnTextInput(object sender, TextInputEventArgs e)
+    {
+        if (_console is null)
+            return;
+
+        if (!_isConsoleActive)
+            return;
+
+        _console.TextInput(sender, e);
+    }
 }

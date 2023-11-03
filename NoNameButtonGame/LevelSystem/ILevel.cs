@@ -4,8 +4,8 @@ namespace NoNameButtonGame.LevelSystem
 {
     internal interface ILevel
     {
-        public event Action FailEventHandler;
-        public event Action ExitEventHandler;
-        public event Action FinishEventHandler;
+        public event Action OnFail;
+        public event Action OnExit;
+        public event Action OnFinish;
     }
 }
