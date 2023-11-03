@@ -42,8 +42,6 @@ internal class LevelManager
         _levelFactory = new LevelFactory(display,
             storage.Settings.Resolution.ToVector2(), random, gameWindow, storage);
         _levelState = LevelState.Menu;
-        _levelId = storage.GameData.MaxLevel + 1;
-
         ChangeLevel();
     }
 
@@ -117,6 +115,7 @@ internal class LevelManager
     private void RegisterEvents()
     {
         _currentLevel.OnFinish += LevelFinishes;
+        _currentLevel.OnFail += FailLevel;
 
         if (_currentLevel is MainMenu.Level mainMenu)
         {
@@ -125,6 +124,7 @@ internal class LevelManager
             {
                 Log.WriteInformation($"Starting level {_levelId}");
                 _levelState = LevelState.Level;
+                _levelId = _storage.GameData.MaxLevel + 1;
                 ChangeLevel(_levelId);
             };
 
@@ -151,6 +151,8 @@ internal class LevelManager
             selectLevel.OnExit += ExitLevel;
             selectLevel.OnLevelSelect += delegate(int level)
             {
+                _levelId = level;
+                Log.WriteInformation($"Selecting level {level}");
                 _levelState = LevelState.SelectLevel;
                 ChangeLevel(level);
             };
@@ -199,6 +201,12 @@ internal class LevelManager
             LevelState.SelectLevel => LevelState.Select,
             _ => LevelState.Menu
         };
+        ChangeLevel();
+    }
+
+    private void FailLevel()
+    {
+        Log.WriteInformation($"Level failed. Current level: {_levelId}");
         ChangeLevel();
     }
 }
