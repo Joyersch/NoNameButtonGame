@@ -19,18 +19,19 @@ public class Level : SampleLevel
 
         Name = textComponent.GetValue("Name");
 
-
         ColorComponent[] colors =
             Newtonsoft.Json.JsonConvert.DeserializeObject<ColorComponent[]>(textComponent.GetValue("Colors"));
         ColorComponentShuffler shuffler = new(colors, random);
 
-        int usedColor = random.Next(0, 16);
+        shuffler.Shuffle();
+
+        int selectedColor = random.Next(0, 16);
         bool useText = random.Next() % 2 == 0;
+        int usedText = shuffler.ResolveText(selectedColor);
+        int usedColor = shuffler.ResolveColor(selectedColor);
 
         string infoText = textComponent.GetValue("Info");
-        string infoMessage = string.Format(infoText, useText ? "text" : "color", shuffler.GetText(usedColor));
-
-        //shuffler.Shuffle();
+        string infoMessage = string.Format(infoText, useText ? "text" : "color", shuffler.GetText(usedText));
 
         var info = new Text(infoMessage);
         info.GetCalculator(Camera.Rectangle)
@@ -54,7 +55,7 @@ public class Level : SampleLevel
                     .OnY(y * 4 + 5, 20)
                     .Centered()
                     .Move();
-                if (index == usedColor)
+                if (index == (useText ? usedText : usedColor))
                     button.Click += Finish;
                 else
                     button.Click += Fail;
