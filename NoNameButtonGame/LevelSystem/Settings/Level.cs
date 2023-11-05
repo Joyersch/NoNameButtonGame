@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
@@ -17,12 +18,9 @@ public class Level : SampleLevel
 {
     private readonly Storage.Storage _storage;
 
-    private Vector2 _vectorResolution;
-    private OverTimeMover _overTimeMoverDown;
-    private OverTimeMover _overTimeMoverUp;
     private Cursor _cursor;
 
-    public event Action<Vector2> WindowsResizeEventHandler;
+    public event Action<Vector2> OnWindowResize;
 
     private ManagmentCollection _generalCollection;
     private ManagmentCollection _videoCollection;
@@ -30,6 +28,11 @@ public class Level : SampleLevel
     private ManagmentCollection _languageCollection;
     private ManagmentCollection _keybindsCollection;
 
+    private TextButton _generalButton;
+    private TextButton _videoButton;
+    private TextButton _audioButton;
+    private TextButton _languageButton;
+    private TextButton _keybindsButton;
 
     private MenuState _menuState;
 
@@ -53,91 +56,161 @@ public class Level : SampleLevel
         _languageCollection = new ManagmentCollection();
         _keybindsCollection = new ManagmentCollection();
 
-        var generalButton = new TextButton("General");
-        generalButton.GetCalculator(Camera.Rectangle)
+        // ToDo: when more settings are available, remove this
+        _menuState = MenuState.Video;
+
+        _generalButton = new TextButton("General");
+        _generalButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.1F)
             .Centered()
             .Move();
-        generalButton.Click += _ => _menuState = MenuState.General;
-        AutoManaged.Add(generalButton);
+        _generalButton.Click += _ => _menuState = MenuState.General;
+        AutoManaged.Add(_generalButton);
 
-        var videoButton = new TextButton("Video");
-        videoButton.GetCalculator(Camera.Rectangle)
+        _videoButton = new TextButton("Video");
+        _videoButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.3F)
             .Centered()
             .Move();
-        videoButton.Click += _ => _menuState = MenuState.Video;
-        AutoManaged.Add(videoButton);
+        _videoButton.Click += _ => _menuState = MenuState.Video;
+        AutoManaged.Add(_videoButton);
 
-        var audioButton = new TextButton("Audio");
-        audioButton.GetCalculator(Camera.Rectangle)
+        _audioButton = new TextButton("Audio");
+        _audioButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.5F)
             .Centered()
             .Move();
-        audioButton.Click += _ => _menuState = MenuState.Audio;
-        AutoManaged.Add(audioButton);
+        _audioButton.Click += _ => _menuState = MenuState.Audio;
+        AutoManaged.Add(_audioButton);
 
-        var languageButton = new TextButton("Language");
-        languageButton.GetCalculator(Camera.Rectangle)
+        _languageButton = new TextButton("Language");
+        _languageButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.7F)
             .Centered()
             .Move();
-        languageButton.Click += _ => _menuState = MenuState.Language;
-        AutoManaged.Add(languageButton);
+        _languageButton.Click += _ => _menuState = MenuState.Language;
+        AutoManaged.Add(_languageButton);
 
-        var keybindsButton = new TextButton("Keybinds");
-        keybindsButton.GetCalculator(Camera.Rectangle)
+        _keybindsButton = new TextButton("Keybinds");
+        _keybindsButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.9F)
             .Centered()
             .Move();
-        keybindsButton.Click += _ => _menuState = MenuState.Keybinds;
-        AutoManaged.Add(keybindsButton);
+        _keybindsButton.Click += _ => _menuState = MenuState.Keybinds;
+        AutoManaged.Add(_keybindsButton);
 
+        #region Video
 
-        string settingOne = Letter.Crossout.ToString(), settingTwo = Letter.Crossout.ToString();
+        List<object> resolutions = new List<object>()
+        {
+            new Resolution(1280, 720),
+            new Resolution(1920, 1080),
+            new Resolution(2560, 1440),
+            new Resolution(3840, 2160),
+        };
+
+        var index = resolutions.IndexOf(resolutions.First(r =>
+            ((Resolution)r).Width == _storage.Settings.Resolution.Width));
+
+        var resolution = new ValueSelection(Vector2.Zero, 1, resolutions, index);
+        resolution.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.33F)
+            .Centered()
+            .Move();
+
+        resolution.ValueChanged += delegate(object o)
+        {
+            var resolution = (Resolution)o;
+            _storage.Settings.Resolution.Width = resolution.Width;
+            _storage.Settings.Resolution.Height = resolution.Height;
+            SetScreen(resolution.Size);
+            OnWindowResize?.Invoke(Window);
+            Log.WriteInformation(resolution.ToString());
+        };
+
+        _videoCollection.Add(resolution);
+
+        var resolutionInfo = new Text("Resolution");
+        resolutionInfo.Move(resolution.Position + new Vector2(0, -resolutionInfo.Size.Y));
+        _videoCollection.Add(resolutionInfo);
+
+        var fixedStep = new Checkbox(!_storage.Settings.IsFixedStep);
+        fixedStep.Move(resolution.Position + new Vector2(0, resolution.Size.Y + Checkbox.DefaultSize.Y / 8));
+        fixedStep.ValueChanged += delegate(bool value)
+        {
+            _storage.Settings.IsFixedStep = !value;
+        };
+
+        _videoCollection.Add(fixedStep);
+
+        var fixedStepLabel = new Text("FPS-Limit");
+        Rectangle toCompare = new Rectangle(fixedStep.Position.ToPoint(), resolution.Rectangle.Size);
+        fixedStepLabel.GetCalculator(toCompare)
+            .OnCenter()
+            .Centered()
+            .Move();
+
+        _videoCollection.Add(fixedStepLabel);
+
+        var fullscreen = new Checkbox(!_storage.Settings.IsFullscreen);
+        fullscreen.Move(fixedStep.Position + new Vector2(0, resolution.Size.Y + Checkbox.DefaultSize.Y / 8));
+        fullscreen.ValueChanged += delegate(bool value)
+        {
+            _storage.Settings.IsFullscreen = !value;
+        };
+
+        _videoCollection.Add(fullscreen);
+
+        var fullscreenLabel = new Text("Fullscreen");
+        toCompare = new Rectangle(fullscreen.Position.ToPoint(), resolution.Rectangle.Size);
+        fullscreenLabel.GetCalculator(toCompare)
+            .OnCenter()
+            .Centered()
+            .Move();
+
+        _videoCollection.Add(fullscreenLabel);
+
+        #endregion // Video
+
+        _cursor = new Cursor();
+        Actuator = _cursor;
+        PositionListener.Add(Mouse, _cursor);
+
+        return;
+
+        char settingOne = Letter.Crossout, settingTwo = Letter.Crossout;
         if (storage.Settings.IsFixedStep)
-            settingOne = Letter.Checkmark.ToString();
+            settingOne = Letter.Checkmark;
         if (storage.Settings.IsFullscreen)
-            settingTwo = Letter.Checkmark.ToString();
-
-        var leftAnchor = new Vector2(-196, -64);
-        var rightAnchor = new Vector2(16, -64);
+            settingTwo = Letter.Checkmark;
 
         Name = "Start Menu";
 
-        List<string> resolutions = new List<string>()
-        {
-            "1280x720",
-            "1920x1080",
-            "2560x1440",
-            "3840x2160"
-        };
 
         var savedResolution = storage.Settings.Resolution;
         var saved = savedResolution.Width + "x" + savedResolution.Height;
-        var index = resolutions.IndexOf(saved);
 
         if (index == -1)
             index++;
 
-        var resolutionInfo = new Text("Resolution", leftAnchor);
-        _generalCollection.Add(resolutionInfo);
 
-        leftAnchor += new Vector2(0, resolutionInfo.Rectangle.Height + 4);
+        var leftAnchor = Vector2.Zero;
+        var rightAnchor = Vector2.Zero;
 
-        var resolution = new ValueSelection(leftAnchor, 1, resolutions, index);
-        resolution.ValueChanged += ChangeResolution;
+        //var resolution = new ValueSelection(leftAnchor, 1, resolutions, index);
+        //resolution.ValueChanged += ChangeResolution;
         _generalCollection.Add(resolution);
 
         leftAnchor += new Vector2(0, resolution.Rectangle.Height + 4);
 
-        var fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo);
-        fullscreenButton.Text.ChangeColor(new[] { settingTwo == Letter.Crossout.ToString() ? Color.Red : Color.Green });
+        var fullscreenButton = new SquareTextButton(leftAnchor, "Fullscreen", settingTwo.ToString());
+        fullscreenButton.Text.ChangeColor(new[] { settingTwo == Letter.Crossout ? Color.Red : Color.Green });
         fullscreenButton.Click += ChangePressState;
         _generalCollection.Add(fullscreenButton);
 
@@ -149,8 +222,8 @@ public class Level : SampleLevel
 
         leftAnchor += new Vector2(0, fullscreenButton.Rectangle.Height + 4);
 
-        var fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne);
-        fixedStepButton.Text.ChangeColor(new[] { settingOne == Letter.Crossout.ToString() ? Color.Red : Color.Green });
+        var fixedStepButton = new SquareTextButton(leftAnchor, "IsFixedStep", settingOne.ToString());
+        fixedStepButton.Text.ChangeColor(new[] { settingOne == Letter.Crossout ? Color.Red : Color.Green });
         fixedStepButton.Click += ChangePressState;
         _generalCollection.Add(fixedStepButton);
 
@@ -168,26 +241,20 @@ public class Level : SampleLevel
 
         rightAnchor += new Vector2(0, musicInfo.Rectangle.Height + 4);
 
-        var musicVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.MusicVolume);
-        musicVolume.ValueChanged += MusicVolumeChanged;
-        _generalCollection.Add(musicVolume);
+        //var musicVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.MusicVolume);
+        //musicVolume.ValueChanged += MusicVolumeChanged;
+        //_generalCollection.Add(musicVolume);
 
-        rightAnchor += new Vector2(0, musicVolume.Rectangle.Height + 4);
+        //rightAnchor += new Vector2(0, musicVolume.Rectangle.Height + 4);
 
         var sfxInfo = new Text("SFX Volume", rightAnchor);
         _generalCollection.Add(sfxInfo);
 
         rightAnchor += new Vector2(0, sfxInfo.Rectangle.Height + 4);
 
-        var sfxVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.SfxVolume);
-        sfxVolume.ValueChanged += SFXVolumeOnValueChanged;
-        _generalCollection.Add(sfxVolume);
-
-        _vectorResolution = window;
-
-        _cursor = new Cursor();
-        Actuator = _cursor;
-        PositionListener.Add(Mouse, _cursor);
+        //var sfxVolume = new ValueSelection(rightAnchor, 1, volumeValues, storage.Settings.SfxVolume);
+        //sfxVolume.ValueChanged += SFXVolumeOnValueChanged;
+        //_generalCollection.Add(sfxVolume);
     }
 
     private void SFXVolumeOnValueChanged(string obj)
@@ -201,11 +268,11 @@ public class Level : SampleLevel
         var split = newValue.Split('x');
         var x = int.Parse(split[0]);
         var y = int.Parse(split[1]);
-        _vectorResolution = new Vector2(x, y);
+        //_vectorResolution = new Vector2(x, y);
         _storage.Settings.Resolution.Width = x;
         _storage.Settings.Resolution.Height = y;
-        SetScreen(_vectorResolution);
-        WindowsResizeEventHandler?.Invoke(Window);
+        //SetScreen(_vectorResolution);
+        OnWindowResize?.Invoke(Window);
     }
 
     private void ChangePressState(object sender)
@@ -236,25 +303,36 @@ public class Level : SampleLevel
     {
         base.Update(gameTime);
         _cursor.Update(gameTime);
+        _generalButton.Text.ChangeColor(Color.Gray);
+        _videoButton.Text.ChangeColor(Color.Gray);
+        _audioButton.Text.ChangeColor(Color.Gray);
+        _languageButton.Text.ChangeColor(Color.Gray);
+        _keybindsButton.Text.ChangeColor(Color.Gray);
+
         switch (_menuState)
         {
             case MenuState.General:
+                _generalButton.Text.ChangeColor(Color.White);
                 _generalCollection.UpdateInteraction(gameTime, _cursor);
                 _generalCollection.Update(gameTime);
                 break;
             case MenuState.Video:
+                _videoButton.Text.ChangeColor(Color.White);
                 _videoCollection.UpdateInteraction(gameTime, _cursor);
                 _videoCollection.Update(gameTime);
                 break;
             case MenuState.Audio:
+                _audioButton.Text.ChangeColor(Color.White);
                 _audioCollection.UpdateInteraction(gameTime, _cursor);
                 _audioCollection.Update(gameTime);
                 break;
             case MenuState.Language:
+                _languageButton.Text.ChangeColor(Color.White);
                 _languageCollection.UpdateInteraction(gameTime, _cursor);
                 _languageCollection.Update(gameTime);
                 break;
             case MenuState.Keybinds:
+                _keybindsButton.Text.ChangeColor(Color.White);
                 _keybindsCollection.UpdateInteraction(gameTime, _cursor);
                 _keybindsCollection.Update(gameTime);
                 break;

@@ -157,6 +157,14 @@ internal class LevelManager
                 ChangeLevel(level);
             };
         }
+        else if (_currentLevel is Settings.Level settingsLevel)
+        {
+            settingsLevel.OnExit += ExitLevel;
+            settingsLevel.OnWindowResize += delegate(Vector2 screen)
+            {
+                _levelFactory.ChangeScreenSize(screen);
+            };
+        }
         else
         {
             _currentLevel.OnExit += ExitLevel;
