@@ -31,7 +31,10 @@ public class Level : SampleLevel
         int usedColor = shuffler.ResolveColor(selectedColor);
 
         string infoText = textComponent.GetValue("Info");
-        string infoMessage = string.Format(infoText, useText ? "text" : "color", shuffler.GetText(usedText));
+        string t = textComponent.GetValue("Text");
+        string c = textComponent.GetValue("Color");
+
+        string infoMessage = string.Format(infoText, useText ? t : c, shuffler.GetText(usedText));
 
         var info = new Text(infoMessage);
         info.GetCalculator(Camera.Rectangle)

@@ -8,6 +8,14 @@
     "value": "Click the button with the {0} \"{1}\""
   },
   {
+    "key": "Color",
+    "value": "color"
+  },
+  {
+    "key": "Text",
+    "value": "text"
+  },
+  {
     "key": "Colors",
     "value": [
       {
