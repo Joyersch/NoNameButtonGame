@@ -2,14 +2,18 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logging;
+using MonoUtils.Settings;
 using MonoUtils.Ui;
+using NoNameButtonGame.Saves;
 
 namespace NoNameButtonGame.LevelSystem;
 
 internal class LevelManager
 {
     private readonly Display _display;
-    private readonly Storage.Storage _storage;
+    private readonly SettingsManager _settingsManager;
+    private readonly VideoSettings _videoSettings;
+    private readonly Progress _progress;
 
     private LevelFactory _levelFactory;
 
@@ -22,6 +26,9 @@ internal class LevelManager
     private LevelState _levelState;
 
     public event Action CloseGame;
+    public event Action SettingsChanged;
+
+    public event Action<string> ChangeTitle;
 
     private enum LevelState
     {
@@ -34,13 +41,15 @@ internal class LevelManager
         Level
     }
 
-    public LevelManager(Display display, GameWindow gameWindow, Storage.Storage storage, int? seed = null)
+    public LevelManager(Display display, GameWindow gameWindow, SettingsManager settingsManager, int? seed = null)
     {
         _display = display;
-        _storage = storage;
+        _settingsManager = settingsManager;
+        _videoSettings = _settingsManager.GetSetting<VideoSettings>();
+        _progress = _settingsManager.GetSetting<Progress>();
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display,
-            storage.Settings.Resolution.ToVector2(), random, gameWindow, storage);
+            _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager);
         _levelState = LevelState.Menu;
         ChangeLevel();
     }
@@ -108,6 +117,7 @@ internal class LevelManager
                 return ChangeLevel(_levelId);
         }
 
+        ChangeTitle?.Invoke(_currentLevel.Name);
         RegisterEvents();
         return true;
     }
@@ -124,8 +134,9 @@ internal class LevelManager
             {
                 Log.WriteInformation($"Starting level {_levelId}");
                 _levelState = LevelState.Level;
-                _levelId = _storage.GameData.MaxLevel + 1;
+                _levelId = _progress.MaxLevel + 1;
                 ChangeLevel(_levelId);
+                ChangeTitle?.Invoke(_currentLevel.Name);
             };
 
             mainMenu.SelectClicked += delegate
@@ -155,15 +166,14 @@ internal class LevelManager
                 Log.WriteInformation($"Selecting level {level}");
                 _levelState = LevelState.SelectLevel;
                 ChangeLevel(level);
+                ChangeTitle?.Invoke(_currentLevel.Name);
             };
         }
         else if (_currentLevel is Settings.Level settingsLevel)
         {
             settingsLevel.OnExit += ExitLevel;
-            settingsLevel.OnWindowResize += delegate(Vector2 screen)
-            {
-                _levelFactory.ChangeScreenSize(screen);
-            };
+            settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
+            settingsLevel.OnSettingsChange += Save;
         }
         else
         {
@@ -183,12 +193,14 @@ internal class LevelManager
         switch (_levelState)
         {
             case LevelState.Level:
-                int max = _storage.GameData.MaxLevel;
+                int max = _progress.MaxLevel;
                 if (_levelId > max)
                 {
-                    _storage.GameData.MaxLevel = _levelId;
+                    _progress.MaxLevel = _levelId;
                     Log.WriteInformation($"Updated max level value to {_levelId}");
+                    Save();
                 }
+
                 _levelId++;
                 Log.WriteInformation($"Increased level id to {_levelId}");
                 break;
@@ -204,11 +216,15 @@ internal class LevelManager
 
     private void ExitLevel()
     {
+        if (_levelState == LevelState.Settings)
+            Save();
+
         _levelState = _levelState switch
         {
             LevelState.SelectLevel => LevelState.Select,
             _ => LevelState.Menu
         };
+
         ChangeLevel();
     }
 
@@ -216,5 +232,13 @@ internal class LevelManager
     {
         Log.WriteInformation($"Level failed. Current level: {_levelId}");
         ChangeLevel();
+    }
+
+    private void Save()
+    {
+        _settingsManager.Save();
+        Log.WriteInformation("Saved the game!");
+        if (_levelState == LevelState.Settings)
+            SettingsChanged?.Invoke();
     }
 }

@@ -15,7 +15,7 @@ public class Shop : GameObject, IInteractable
 {
     public new static Vector2 DefaultSize => Display.Size / 2;
 
-    private StorageData _storage;
+    private LevelSettings _storage;
     private readonly Random _random;
     private Rectangle _rectangle;
 
@@ -52,7 +52,7 @@ public class Shop : GameObject, IInteractable
         "Beans become suspicious. Does not Stack"
     };
 
-    public Shop(Vector2 position, Vector2 size, StorageData storage, Random random) : base(position, DefaultSize,
+    public Shop(Vector2 position, Vector2 size, LevelSettings storage, Random random) : base(position, DefaultSize,
         DefaultTexture,
         DefaultMapping)
     {
@@ -71,8 +71,7 @@ public class Shop : GameObject, IInteractable
         else
             SetIcon();
 
-        if (storage.Snake)
-            _unlockedDistraction = true;
+        _unlockedDistraction = storage.CanSeeDistraction;
 
         for (int i = 0; i < storage.Upgrade1; i++)
             _autoClicker.Add(GetNewInvoker(false));
@@ -160,7 +159,7 @@ public class Shop : GameObject, IInteractable
         if (BeanCount >= 10000 || _unlockedDistraction)
         {
             _unlockedDistraction = true;
-            _storage.Snake = true;
+            _storage.CanSeeDistraction = true;
             UnlockedDistraction?.Invoke();
         }
     }

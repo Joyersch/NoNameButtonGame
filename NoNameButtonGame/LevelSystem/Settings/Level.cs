@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
+using MonoUtils.Settings;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
@@ -16,11 +17,13 @@ namespace NoNameButtonGame.LevelSystem.Settings;
 
 public class Level : SampleLevel
 {
-    private readonly Storage.Storage _storage;
+    private readonly VideoSettings _videoSettings;
+    private readonly LanguageSettings _languageSettings;
 
     private Cursor _cursor;
 
     public event Action<Vector2> OnWindowResize;
+    public event Action OnSettingsChange;
 
     private ManagmentCollection _generalCollection;
     private ManagmentCollection _videoCollection;
@@ -45,10 +48,12 @@ public class Level : SampleLevel
         Keybinds
     }
 
-    public Level(Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+    public Level(Display display, Vector2 window, Random rand, SettingsManager settings) : base(display,
         window, rand)
     {
-        _storage = storage;
+        Name = "Settings";
+        _videoSettings = settings.GetSetting<VideoSettings>();
+        _languageSettings = settings.GetSetting<LanguageSettings>();
 
         _generalCollection = new ManagmentCollection();
         _videoCollection = new ManagmentCollection();
@@ -115,7 +120,7 @@ public class Level : SampleLevel
         };
 
         var index = resolutions.IndexOf(resolutions.First(r =>
-            ((Resolution)r).Width == _storage.Settings.Resolution.Width));
+            ((Resolution)r).Width == _videoSettings.Resolution.Width));
 
         var resolution = new ValueSelection(Vector2.Zero, 1, resolutions, index);
         resolution.GetCalculator(Camera.Rectangle)
@@ -127,11 +132,11 @@ public class Level : SampleLevel
         resolution.ValueChanged += delegate(object o)
         {
             var resolution = (Resolution)o;
-            _storage.Settings.Resolution.Width = resolution.Width;
-            _storage.Settings.Resolution.Height = resolution.Height;
-            SetScreen(resolution.Size);
+            _videoSettings.Resolution = resolution;
+            SetScreen(resolution.ToVector2());
+            Log.WriteInformation($"Changed resolution to: {resolution}");
             OnWindowResize?.Invoke(Window);
-            Log.WriteInformation(resolution.ToString());
+            OnSettingsChange?.Invoke();
         };
 
         _videoCollection.Add(resolution);
@@ -140,11 +145,12 @@ public class Level : SampleLevel
         resolutionInfo.Move(resolution.Position + new Vector2(0, -resolutionInfo.Size.Y));
         _videoCollection.Add(resolutionInfo);
 
-        var fixedStep = new Checkbox(!_storage.Settings.IsFixedStep);
+        var fixedStep = new Checkbox(!_videoSettings.IsFixedStep);
         fixedStep.Move(resolution.Position + new Vector2(0, resolution.Size.Y + Checkbox.DefaultSize.Y / 8));
         fixedStep.ValueChanged += delegate(bool value)
         {
-            _storage.Settings.IsFixedStep = !value;
+            _videoSettings.IsFixedStep = !value;
+            OnSettingsChange?.Invoke();
         };
 
         _videoCollection.Add(fixedStep);
@@ -158,11 +164,12 @@ public class Level : SampleLevel
 
         _videoCollection.Add(fixedStepLabel);
 
-        var fullscreen = new Checkbox(!_storage.Settings.IsFullscreen);
+        var fullscreen = new Checkbox(!_videoSettings.IsFullscreen);
         fullscreen.Move(fixedStep.Position + new Vector2(0, resolution.Size.Y + Checkbox.DefaultSize.Y / 8));
         fullscreen.ValueChanged += delegate(bool value)
         {
-            _storage.Settings.IsFullscreen = !value;
+            _videoSettings.IsFullscreen = !value;
+            OnSettingsChange?.Invoke();
         };
 
         _videoCollection.Add(fullscreen);

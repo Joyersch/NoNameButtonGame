@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
+using MonoUtils.Settings;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
@@ -16,7 +17,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
 
 public class Level : SampleLevel
 {
-    private Storage.Storage _storage;
+    private LevelSettings _settings;
 
     private OverTimeMover _overTimeMoverShop;
     private OverTimeMover _overTimeMoverMain;
@@ -44,12 +45,12 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display display, Vector2 window, Random random, Storage.Storage storage) : base(display,
+    public Level(Display display, Vector2 window, Random random, SettingsManager settings) : base(display,
         window, random)
     {
-        Name = "Level 2 - Just like Cookie Clicker but with BEANS!";
+        Name = "Level 11 - Just like Cookie Clicker but with BEANS!";
 
-        _storage = storage;
+        _settings = settings.GetSetting<LevelSettings>();
 
         var oneScreen = Display.Size / 2;
         var shopScreen = new Vector2(oneScreen.X, 0);
@@ -113,7 +114,7 @@ public class Level : SampleLevel
         _finishButton.Click += FinishLevel;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
-        _shop = new Shop(shopScreen, oneScreen, _storage.GameData.Level11, random);
+        _shop = new Shop(shopScreen, oneScreen, _settings, random);
         _shop.UnlockedShop += shopButton1.Unlock;
         _shop.UnlockedShop += toShopLockSnake.Unlock;
         _shop.UnlockedShop += UnlockedShop;
@@ -140,7 +141,7 @@ public class Level : SampleLevel
 
     private void FinishLevel(object obj)
     {
-        _storage.GameData.Level11 = new StorageData();
+
         Finish();
     }
 

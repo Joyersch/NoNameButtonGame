@@ -27,8 +27,8 @@ public class Level : SampleLevel
             { "clickStart", textComponent.GetValue("clickStart") },
             { "playingSequence", textComponent.GetValue("playingSequence") },
         };
-        var simon = new SimonSays(Camera.Rectangle, random, 3, text);
 
+        var simon = new SimonSays(Camera.Rectangle, random, 3, text);
         simon.Finished += Finish;
         AutoManaged.Add(simon);
 

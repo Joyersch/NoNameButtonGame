@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Xna.Framework;
+using MonoUtils.Settings;
 using MonoUtils.Ui;
+using NoNameButtonGame.Saves;
 using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -12,15 +14,15 @@ public class LevelFactory
     private readonly GameWindow _gameWindow;
     private Vector2 _screen;
 
-    private readonly Storage.Storage _storage;
+    private readonly SettingsManager _settings;
 
-    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, Storage.Storage storage)
+    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, SettingsManager settings)
     {
         _display = display;
         _screen = screen;
         _random = random;
         _gameWindow = gameWindow;
-        _storage = storage;
+        _settings = settings;
     }
 
     public void ChangeScreenSize(Vector2 screen)
@@ -30,10 +32,10 @@ public class LevelFactory
         => new MainMenu.Level(_display, _screen, _random);
 
     public Settings.Level GetSettingsLevel()
-        => new Settings.Level(_display, _screen, _random, _storage);
+        => new Settings.Level(_display, _screen, _random, _settings);
 
     public Selection.Level GetSelectLevel()
-        => new Selection.Level(_display, _screen, _random, _storage);
+        => new Selection.Level(_display, _screen, _random, _settings.GetSetting<Progress>());
 
     public SampleLevel GetLevel(int number)
         => number switch
@@ -42,7 +44,7 @@ public class LevelFactory
             2 => new Levels.Level2.Level(_display, _screen, _random),
             3 => new Levels.Level3.Level(_display, _screen, _random),
             4 => new Levels.Level4.Level(_display, _screen, _random),
-            11 => new Levels.Level11.Level(_display, _screen, _random, _storage),
+            11 => new Levels.Level11.Level(_display, _screen, _random, _settings),
             12 => new Levels.Level12.Level(_display, _screen, _gameWindow, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random)
         };

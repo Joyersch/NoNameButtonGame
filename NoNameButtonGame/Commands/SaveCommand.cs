@@ -21,6 +21,7 @@ public class SaveCommand : ICommand
         if (options.Length >= 2)
             value = options[1].ToString();
 
+        /*
         var storage = context.GetValue<Storage.Storage>(nameof(Storage));
 
         if (key == "maxlevel")
@@ -50,6 +51,7 @@ public class SaveCommand : ICommand
             storage.Save();
             return new[] { $"Saved!" };
         }
+        */
 
         return new[] { $"Unknown key!" };
     }

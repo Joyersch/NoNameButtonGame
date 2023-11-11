@@ -5,6 +5,7 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
+using NoNameButtonGame.Saves;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -15,7 +16,7 @@ public class Level : SampleLevel
 
     private int _cameraLevel;
 
-    public Level(Display display, Vector2 window, Random rand, Storage.Storage storage) : base(display,
+    public Level(Display display, Vector2 window, Random rand, Progress progress) : base(display,
         window, rand)
     {
         Name = "Level Selection";
@@ -23,7 +24,7 @@ public class Level : SampleLevel
         _mover = new OverTimeMover(Camera, Vector2.Zero, 500, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);
         
-        int maxLevel = storage.GameData.MaxLevel;
+        int maxLevel = progress.MaxLevel;
         int screens = maxLevel / 30;
 
 

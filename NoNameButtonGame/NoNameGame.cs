@@ -7,19 +7,16 @@ using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
-using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
-using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Console;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level12;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
-using NoNameButtonGame.Storage;
 
 namespace NoNameButtonGame;
 
@@ -29,7 +26,7 @@ public class NoNameGame : Game
     private SpriteBatch _spriteBatch;
 
     private Display _display;
-    private Storage.Storage _storage;
+    private SettingsManager _settingsManager;
     private LevelManager _levelManager;
 
     private DevConsole _console;
@@ -57,45 +54,36 @@ public class NoNameGame : Game
         _display = new Display(GraphicsDevice);
         Window.TextInput += OnTextInput;
 
-        _console = new DevConsole(Global.CommandProcessor, Vector2.Zero, _display.SimpleScale);
-
         Global.CommandProcessor.Initialize();
-        Log.Out = new LogAdapter(_console);
 
         // Check Save directory
         if (!Directory.Exists(Globals.SaveDirectory))
             Directory.CreateDirectory(Globals.SaveDirectory);
 
-        SettingsManager.SetBasePath(Globals.SaveDirectory);
-        SettingsManager.Add(new GameData());
-        SettingsManager.Load();
-        _storage = new Storage.Storage();
-        _storage.Save();
+        _settingsManager = new SettingsManager(Globals.SaveDirectory, 0);
+        if (!_settingsManager.Load())
+            _settingsManager.Save();
 
-        // apply settings and register Change Event for reapplying
-        SettingsChanged(_storage.Settings, EventArgs.Empty);
-        _storage.Settings.HasChanged += SettingsChanged;
-        _storage.GameData.HasChanged += ProgressMade;
+        ApplySettings();
 
-        // settings update windows size, so console will need to be recreated.
-        // However loading settings could fail requiring an output for logging beforehand
-        _display.Update();
-        _console = new DevConsole(Global.CommandProcessor, _console.Position, _display.SimpleScale,
+        _console = new DevConsole(Global.CommandProcessor, Vector2.Zero, _display.SimpleScale,
             _console);
-        Log.Out.UpdateReference(_console);
+        Log.Out = new LogAdapter(_console);
+
         TextProvider.Initialize();
 
         // register soundSettingsListener to change sound volume if
-        Global.SoundSettingsListener = new SoundSettingsListener(_storage.Settings);
+        //Global.SoundSettingsListener = new SoundSettingsListener(_settingsManager.Settings);
 
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(_display, Window, _storage);
-        //_levelManager.ChangeWindowName += ChangeTitle;
+        _levelManager = new LevelManager(_display, Window, _settingsManager);
+        _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
+        _levelManager.SettingsChanged += ApplySettings;
 
         // register context for console commands
         _console.Context.RegisterContext(nameof(LevelManager), _levelManager);
-        _console.Context.RegisterContext(nameof(Storage), _storage);
+        _console.Context.RegisterContext(nameof(_settingsManager), _settingsManager);
     }
 
     private void ChangeTitle(string newName)
@@ -161,19 +149,18 @@ public class NoNameGame : Game
         });
     }
 
-    private void SettingsChanged(object obj, EventArgs e)
+    private void ApplySettings()
     {
-        if (obj is not GeneralSettings settings)
-            return;
+        var settings = _settingsManager.GetSetting<VideoSettings>();
 
         IsFixedTimeStep = settings.IsFixedStep;
 
-        if ((!_graphics.IsFullScreen && settings.IsFullscreen) ||
-            (!settings.IsFullscreen && _graphics.IsFullScreen))
+        if (_graphics.IsFullScreen != settings.IsFullscreen)
             _graphics.ToggleFullScreen();
 
         _graphics.PreferredBackBufferWidth = settings.Resolution.Width;
         _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
+        _graphics.ApplyChanges();
 
         _display?.Update();
 
@@ -184,14 +171,7 @@ public class NoNameGame : Game
             Log.Out.UpdateReference(_console);
         }
 
-        _graphics.ApplyChanges();
-
-        // Update level screen
-        _storage.Save();
     }
-
-    private void ProgressMade(object sender, EventArgs e)
-        => _storage.Save();
 
     private void OnTextInput(object sender, TextInputEventArgs e)
     {
