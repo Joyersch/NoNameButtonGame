@@ -30,6 +30,7 @@ public class SimonSays : IManageable, IInteractable
     public SimonSequence Sequence => _sequence;
     
     private readonly int _length;
+    private readonly Dictionary<string, string> _text;
 
     private int _maxPlayed = 1;
     private int _played;
@@ -53,12 +54,13 @@ public class SimonSays : IManageable, IInteractable
         {5, Color.Purple}
     };
 
-    public SimonSays(Rectangle area, Random random, int length)
+    public SimonSays(Rectangle area, Random random, int length, Dictionary<string, string> text)
     {
         _random = random;
         Rectangle = area;
         _state = SimonAction.Before;
         _length = length;
+        _text = text;
         _sequence = new SimonSequence(1, 5, length, random);
 
         _buttons[0] = new SimonSaysButton(_values[1], Color.Black, Speed);
@@ -87,7 +89,7 @@ public class SimonSays : IManageable, IInteractable
             button.Click += SimonButtonClick;
         }
 
-        _start = new TextButton("Start", 2F);
+        _start = new TextButton(text["start"], 2F);
         _start.GetCalculator(area).OnCenter().OnY(1, 3).Centered().Move();
         _start.Click += _ => StartClick();
     }
@@ -187,11 +189,11 @@ public class SimonSays : IManageable, IInteractable
                 break;
             }
             case SimonAction.Before:
-                _enteredSequenceDisplay.ChangeText("Click Start!");
+                _enteredSequenceDisplay.ChangeText(_text["clickStart"]);
                 break;
             case SimonAction.Playing:
             case SimonAction.Played:
-                _enteredSequenceDisplay.ChangeText("Playing Sequence");
+                _enteredSequenceDisplay.ChangeText(_text["playingSequence"]);
                 break;
         }
     }

@@ -10,7 +10,7 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
 public class Quiz : IManageable, IInteractable
 {

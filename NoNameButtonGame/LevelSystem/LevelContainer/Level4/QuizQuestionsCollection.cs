@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
 
 public class QuizQuestionsCollection : List<QuizQuestionsCollection.QuizQuestion>
 {

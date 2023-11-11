@@ -1,2 +1,45 @@
-{
-}
+[
+  {
+    "key": "Name",
+    "value": "Level ??? - Zeit fuer ein Raetzel"
+  },
+  {
+    "key": "Questions",
+    "value": [
+      {
+        "Question": "Fangen wir einfach an. Was ist 2+2",
+        "Answers": [
+          {
+            "Answer": "6",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "4",
+            "IsCorrect": true
+          },
+          {
+            "Answer": "Fisch",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Question": "Gute Arbeit. Was fuer ein Level ist dies?",
+        "Answers": [
+          {
+            "Answer": "4",
+            "IsCorrect": true
+          },
+          {
+            "Answer": "5",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "6",
+            "IsCorrect": false
+          }
+        ]
+      }
+    ]
+  }
+]

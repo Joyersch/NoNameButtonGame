@@ -1,2 +1,18 @@
-{
-}
+[
+  {
+    "key": "Name",
+    "value": "Level 3 - Old School"
+  },
+  {
+    "key": "Start",
+    "value": "Start"
+  },
+  {
+    "key": "clickStart",
+    "value": "Click Start!"
+  },
+  {
+    "key": "playingSequence",
+    "value": "Playing Sequence"
+  }
+]

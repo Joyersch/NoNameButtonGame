@@ -1,2 +1,18 @@
-{
-}
+[
+  {
+    "key": "Name",
+    "value": "Level 3 - Alte Schule"
+  },
+  {
+    "key": "Start",
+    "value": "Start"
+  },
+  {
+    "key": "clickStart",
+    "value": "Druecke Start"
+  },
+  {
+    "key": "playingSequence",
+    "value": "Spiele Sequenz"
+  }
+]
