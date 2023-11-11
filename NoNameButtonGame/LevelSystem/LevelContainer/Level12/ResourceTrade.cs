@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12;
 
 public class ResourceTrade
 {

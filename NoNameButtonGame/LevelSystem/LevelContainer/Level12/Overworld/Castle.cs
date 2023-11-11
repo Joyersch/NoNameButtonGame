@@ -8,7 +8,7 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
 
 public class Castle : GameObject, IInteractable, ILocation
 {

@@ -2,13 +2,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
 
-public class BigTree : GameObject
+public class House : GameObject
 {
     public new static Vector2 DefaultSize => DefaultMapping.ImageSize;
     public new static Texture2D DefaultTexture;
-
+    
     public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
     {
         ImageSize = new Vector2(16, 16),
@@ -18,10 +18,10 @@ public class BigTree : GameObject
         }
     };
     
-    public BigTree(Vector2 position, float scale) : base(position, DefaultSize * scale,
+    public House(Vector2 position, float scale) : base(position, DefaultSize * scale,
         DefaultTexture,
         DefaultMapping)
     {
-        DrawColor = Color.DarkGreen;
+        DrawColor = Color.Gray;
     }
 }

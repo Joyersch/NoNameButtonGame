@@ -5,7 +5,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4.Interface;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Interface;
 
 public class ResourcePair : IManageable, IMoveable
 {

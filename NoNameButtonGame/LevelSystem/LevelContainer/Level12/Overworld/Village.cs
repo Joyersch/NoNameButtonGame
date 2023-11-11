@@ -9,7 +9,7 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Logic;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4.Overworld;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
 
 public class Village : GameObject, IManageable, IInteractable, ILocation
 {
