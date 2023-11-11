@@ -1,7 +1,7 @@
 [
   {
     "key": "Name",
-    "value": "Level 1 - Drueck den Knopf! (Anleitung)"
+    "value": "Level 1 - Drück den Knopf! (Anleitung)"
   },
   {
     "key": "Button1",
@@ -29,11 +29,11 @@
   },
   {
     "key": "Info4",
-    "value": "Dieser Knopf hat einen Zeahler."
+    "value": "Dieser Knopf hat einen Zähler."
   },
   {
     "key": "Info5",
-    "value": "Druecke den Knopf um den Zaehler zu senken."
+    "value": "Drücke den Knopf um den Zähler zu senken."
   },
   {
     "key": "Info6",
@@ -41,10 +41,10 @@
   },
   {
     "key": "Info7",
-    "value": "Druecke den Knopf um den Zeitgeber zu senken!"
+    "value": "Drücke den Knopf um den Zeitgeber zu senken!"
   },
   {
     "key": "Info8",
-    "value": "Da du nun die Grundlagen kennst, koennen wir anfangen!"
+    "value": "Da du nun die Grundlagen kennst, können wir anfangen!"
   }
 ]

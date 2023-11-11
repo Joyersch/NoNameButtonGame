@@ -11,7 +11,7 @@ public class Level : SampleLevel
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         var textComponent = TextProvider.GetText("Levels.Level4");
-        Name = "Level 4 - Old school";
+        Name = textComponent.GetValue("Name");
 
         Camera.Zoom = 1F;
         var scale = 2F;

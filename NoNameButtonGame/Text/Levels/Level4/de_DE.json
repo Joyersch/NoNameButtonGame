@@ -1,7 +1,7 @@
 [
   {
     "key": "Name",
-    "value": "Level ??? - Zeit fuer ein Raetzel"
+    "value": "Level ??? - Zeit für ein Rätzel"
   },
   {
     "key": "Questions",
@@ -24,7 +24,7 @@
         ]
       },
       {
-        "Question": "Gute Arbeit. Was fuer ein Level ist dies?",
+        "Question": "Gute Arbeit. Was für ein Level ist dieses Level?",
         "Answers": [
           {
             "Answer": "4",
