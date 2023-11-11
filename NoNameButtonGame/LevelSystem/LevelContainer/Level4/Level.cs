@@ -22,11 +22,8 @@ public class Level : SampleLevel
         var scale = 2F;
         Camera.Move(Display.Size / 2);
 
-        // ToDo: Localisation instead of this
         string questions = textComponent.GetValue("Questions");
-        QuizQuestionsCollection questionsCollection =
-            Newtonsoft.Json.JsonConvert.DeserializeObject<QuizQuestionsCollection>(questions);
-
+        var questionsCollection = Newtonsoft.Json.JsonConvert.DeserializeObject<QuizQuestionsCollection>(questions);
         quiz = new Quiz(questionsCollection, Camera.Rectangle, scale);
         quiz.Reset += Fail;
         quiz.Finish += Finish;

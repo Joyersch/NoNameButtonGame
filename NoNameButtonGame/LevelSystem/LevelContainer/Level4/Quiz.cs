@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
@@ -41,19 +42,37 @@ public class Quiz : IManageable, IInteractable
         _questions = questions;
         Rectangle = rectangle;
         if (questions.Any(q => q.Answers.Length > 3))
-            throw new DataException("To many answers");
+            Log.WriteWarning("A question has more answers that supported!");
 
         _question = new Text(string.Empty, scale);
+        _question.GetCalculator(Rectangle)
+            .OnCenter()
+            .OnY(3, 10)
+            .Centered()
+            .Move();
+
         _buttonOne = new TextButton(string.Empty, scale, 0.5F * scale);
         _buttonOne.Click += ButtonOneClick;
+        _buttonOne.GetCalculator(Rectangle)
+            .OnCenter()
+            .OnX(5, 20)
+            .Centered()
+            .Move();
+
         _buttonTwo = new TextButton(string.Empty, scale, 0.5F * scale);
         _buttonTwo.Click += ButtonTwoClick;
+        _buttonOne.GetCalculator(Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
+
         _buttonThree = new TextButton(string.Empty, scale, 0.5F * scale);
         _buttonThree.Click += ButtonThreeClick;
-        _question.GetCalculator(Rectangle).OnCenter().OnY(3,10).Centered().Move();
-        _buttonOne.GetCalculator(Rectangle).OnCenter().OnX(5,20).Centered().Move();
-        _buttonOne.GetCalculator(Rectangle).OnCenter().Centered().Move();
-        _buttonThree.GetCalculator(Rectangle).OnCenter().OnY(15,20).Centered().Move();
+        _buttonThree.GetCalculator(Rectangle)
+            .OnCenter()
+            .OnY(15, 20)
+            .Centered()
+            .Move();
     }
 
     private void ButtonOneClick(object obj)
@@ -63,7 +82,7 @@ public class Quiz : IManageable, IInteractable
         else
             Reset?.Invoke();
     }
-    
+
     private void ButtonTwoClick(object obj)
     {
         if (ButtonTwoIsCorrect)
@@ -71,7 +90,7 @@ public class Quiz : IManageable, IInteractable
         else
             Reset?.Invoke();
     }
-    
+
     private void ButtonThreeClick(object obj)
     {
         if (ButtonThreeIsCorrect)
@@ -87,16 +106,20 @@ public class Quiz : IManageable, IInteractable
             Finish?.Invoke();
             _questionsPointer = 0;
         }
-        
+
         SetQuestionText();
+
+        _question.GetCalculator(Rectangle).OnCenter().OnY(3, 10).Centered().Move();
         _question.Update(gameTime);
-        _question.GetCalculator(Rectangle).OnCenter().OnY(3,10).Centered().Move();
+
+        _buttonOne.GetCalculator(Rectangle).OnCenter().OnX(5, 20).Centered().Move();
         _buttonOne.Update(gameTime);
-        _buttonOne.GetCalculator(Rectangle).OnCenter().OnX(5,20).Centered().Move();
-        _buttonTwo.Update(gameTime);
+
         _buttonTwo.GetCalculator(Rectangle).OnCenter().Centered().Move();
+        _buttonTwo.Update(gameTime);
+
+        _buttonThree.GetCalculator(Rectangle).OnCenter().OnX(15, 20).Centered().Move();
         _buttonThree.Update(gameTime);
-        _buttonThree.GetCalculator(Rectangle).OnCenter().OnX(15,20).Centered().Move();
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
