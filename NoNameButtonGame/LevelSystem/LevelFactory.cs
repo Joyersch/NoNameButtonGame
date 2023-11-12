@@ -2,7 +2,6 @@ using System;
 using Microsoft.Xna.Framework;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
-using NoNameButtonGame.Saves;
 using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -35,7 +34,7 @@ public class LevelFactory
         => new Settings.Level(_display, _screen, _random, _settings);
 
     public Selection.Level GetSelectLevel()
-        => new Selection.Level(_display, _screen, _random, _settings.GetSetting<Progress>());
+        => new Selection.Level(_display, _screen, _random, _settings.GetSave<Progress>());
 
     public SampleLevel GetLevel(int number)
         => number switch

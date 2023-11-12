@@ -4,7 +4,7 @@ using MonoUtils.Settings;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
 
-public class LevelSettings : ISettings
+public class LevelSave : ISave
 {
     public long Beans { get; set; }
 
@@ -14,4 +14,14 @@ public class LevelSettings : ISettings
     public int Upgrade4 { get; set; }
 
     public bool CanSeeDistraction { get; set; }
+
+    public void Reset()
+    {
+        Beans = 0;
+        Upgrade1 = 0;
+        Upgrade2 = 0;
+        Upgrade3 = 0;
+        Upgrade4 = 0;
+        CanSeeDistraction = false;
+    }
 }

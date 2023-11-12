@@ -60,15 +60,15 @@ public class NoNameGame : Game
         if (!Directory.Exists(Globals.SaveDirectory))
             Directory.CreateDirectory(Globals.SaveDirectory);
 
+        _console = new DevConsole(Global.CommandProcessor, Vector2.Zero, _display.SimpleScale,
+            _console);
+        Log.Out = new LogAdapter(_console);
+
         _settingsManager = new SettingsManager(Globals.SaveDirectory, 0);
         if (!_settingsManager.Load())
             _settingsManager.Save();
 
         ApplySettings();
-
-        _console = new DevConsole(Global.CommandProcessor, Vector2.Zero, _display.SimpleScale,
-            _console);
-        Log.Out = new LogAdapter(_console);
 
         TextProvider.Initialize();
 

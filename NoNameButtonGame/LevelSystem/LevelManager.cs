@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logging;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
-using NoNameButtonGame.Saves;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -46,7 +45,7 @@ internal class LevelManager
         _display = display;
         _settingsManager = settingsManager;
         _videoSettings = _settingsManager.GetSetting<VideoSettings>();
-        _progress = _settingsManager.GetSetting<Progress>();
+        _progress = _settingsManager.GetSave<Progress>();
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display,
             _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager);

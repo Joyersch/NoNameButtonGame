@@ -15,7 +15,7 @@ public class Shop : GameObject, IInteractable
 {
     public new static Vector2 DefaultSize => Display.Size / 2;
 
-    private LevelSettings _storage;
+    private LevelSave _storage;
     private readonly Random _random;
     private Rectangle _rectangle;
 
@@ -52,7 +52,7 @@ public class Shop : GameObject, IInteractable
         "Beans become suspicious. Does not Stack"
     };
 
-    public Shop(Vector2 position, Vector2 size, LevelSettings storage, Random random) : base(position, DefaultSize,
+    public Shop(Vector2 position, Vector2 size, LevelSave storage, Random random) : base(position, DefaultSize,
         DefaultTexture,
         DefaultMapping)
     {

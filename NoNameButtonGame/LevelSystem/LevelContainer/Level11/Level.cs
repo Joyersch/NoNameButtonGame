@@ -17,7 +17,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
 
 public class Level : SampleLevel
 {
-    private LevelSettings _settings;
+    private LevelSave _save;
 
     private OverTimeMover _overTimeMoverShop;
     private OverTimeMover _overTimeMoverMain;
@@ -50,7 +50,7 @@ public class Level : SampleLevel
     {
         Name = "Level 11 - Just like Cookie Clicker but with BEANS!";
 
-        _settings = settings.GetSetting<LevelSettings>();
+        _save = settings.GetSave<LevelSave>();
 
         var oneScreen = Display.Size / 2;
         var shopScreen = new Vector2(oneScreen.X, 0);
@@ -114,7 +114,7 @@ public class Level : SampleLevel
         _finishButton.Click += FinishLevel;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
-        _shop = new Shop(shopScreen, oneScreen, _settings, random);
+        _shop = new Shop(shopScreen, oneScreen, _save, random);
         _shop.UnlockedShop += shopButton1.Unlock;
         _shop.UnlockedShop += toShopLockSnake.Unlock;
         _shop.UnlockedShop += UnlockedShop;
@@ -131,7 +131,7 @@ public class Level : SampleLevel
         _objectiveDisplay.GetCalculator(Display.Screen).OnX(0.01F).OnY(0.01F).Move();
         AutoManagedStatic.Add(_objectiveDisplay);
 
-        var nbg = new Nbg(new Rectangle((int) -oneScreen.X, 0, (int) oneScreen.X, (int) oneScreen.Y), random, 2.5F);
+        var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 2.5F);
         AutoManaged.Add(nbg);
         var cursor = new Cursor();
         Actuator = cursor;
@@ -141,7 +141,7 @@ public class Level : SampleLevel
 
     private void FinishLevel(object obj)
     {
-
+        _save.Reset();
         Finish();
     }
 

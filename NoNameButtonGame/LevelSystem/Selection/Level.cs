@@ -5,7 +5,6 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
-using NoNameButtonGame.Saves;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -23,45 +22,55 @@ public class Level : SampleLevel
 
         _mover = new OverTimeMover(Camera, Vector2.Zero, 500, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);
-        
+
         int maxLevel = progress.MaxLevel;
-        int screens = maxLevel / 30;
+        int screens = (int)Math.Ceiling(maxLevel / 10F);
 
-
+        int placed = 0;
         for (int i = 0; i < screens; i++)
         {
-            var down = new MiniTextButton(
-                new Vector2(-300, 138 + (Display.CustomHeight / Camera.Zoom) * i)
-                , new Vector2(64, 32)
-                , ""
-                , "⬇"
-                , new Vector2(16, 16));
+            for (int y = 0; y < 2 && placed < maxLevel; y++)
+            {
+                for (int x = 0; x < 5 && placed < maxLevel; x++)
+                {
+                    var levelButton =
+                        new MiniTextButton(Vector2.Zero, (placed + 1).ToString(), (placed + 1).ToString());
+                    levelButton.GetCalculator(Camera.Rectangle)
+                        .OnX(0.20F + 0.15F * x)
+                        .OnY(0.4F + 0.2F * y)
+                        .ByGridY(i)
+                        .Centered()
+                        .Move();
+                    levelButton.Click += SelectLevel;
+                    AutoManaged.Add(levelButton);
+                    placed++;
+                }
+            }
 
+            if (maxLevel <= placed)
+                break;
+
+            var down = new MiniTextButton(Vector2.Zero, "⬇");
+            down.GetCalculator(Camera.Rectangle)
+                .OnX(0.1F)
+                .OnY(0.9F)
+                .ByGridY(i)
+                .Centered()
+                .Move();
             down.Click += MoveDown;
             AutoManaged.Add(down);
 
-            var up = new MiniTextButton(
-                new Vector2(-300, 190 + (Display.CustomHeight / Camera.Zoom) * i)
-                , new Vector2(64, 32)
-                , ""
-                , "⬆"
-                , new Vector2(16, 16));
+            var up = new MiniTextButton(Vector2.Zero, "⬆");
+            up.GetCalculator(Camera.Rectangle)
+                .OnX(0.1F)
+                .OnY(1.1F)
+                .ByGridY(i)
+                .Centered()
+                .Move();
             up.Click += MoveUp;
             AutoManaged.Add(up);
         }
 
-        for (int i = 0; i < maxLevel; i++)
-        {
-            var levelButton = new MiniTextButton(
-                new Vector2(-200 + 100 * (i % 5), -140 + 50 * (i / 5) + 60 * (i / 30))
-                , new Vector2(64, 32)
-                , (i + 1).ToString()
-                , (i + 1).ToString()
-                , new Vector2(16, 16));
-
-            levelButton.Click += SelectLevel;
-            AutoManaged.Add(levelButton);
-        }
 
         var cursor = new Cursor();
         Actuator = cursor;
@@ -70,7 +79,7 @@ public class Level : SampleLevel
     }
 
     private void SelectLevel(object sender)
-        => OnLevelSelect?.Invoke(int.Parse(((MiniTextButton) sender).Name));
+        => OnLevelSelect?.Invoke(int.Parse(((MiniTextButton)sender).Name));
 
     private void MoveDown(object sender)
     {
