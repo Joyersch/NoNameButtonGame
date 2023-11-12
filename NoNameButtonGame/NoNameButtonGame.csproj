@@ -37,6 +37,7 @@
   <ItemGroup>
     <Folder Include="Content\Music" />
     <Folder Include="Text\Levels\MainMenu\" />
+    <Folder Include="Text\Levels\Settings\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="MiniGames\**" />
@@ -129,6 +130,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\MainMenu\en_US.json">
       <LogicalName>Text.Levels.MainMenu.en_US</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Settings\de_DE.json">
+      <LogicalName>Text.Levels.Settings.de_DE</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Settings\en_US.json">
+      <LogicalName>Text.Levels.Settings.en_US</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

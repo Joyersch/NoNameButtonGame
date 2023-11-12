@@ -17,6 +17,7 @@ using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level12;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
+using NoNameButtonGame.LevelSystem.Settings;
 
 namespace NoNameButtonGame;
 
@@ -28,6 +29,8 @@ public class NoNameGame : Game
     private Display _display;
     private SettingsManager _settingsManager;
     private LevelManager _levelManager;
+
+    private GeneralSettings _generalSettings;
 
     private DevConsole _console;
     private bool _isConsoleActive;
@@ -67,6 +70,8 @@ public class NoNameGame : Game
         _settingsManager = new SettingsManager(Globals.SaveDirectory, 0);
         if (!_settingsManager.Load())
             _settingsManager.Save();
+
+        _generalSettings = _settingsManager.GetSetting<GeneralSettings>();
 
         ApplySettings();
 
@@ -131,7 +136,7 @@ public class NoNameGame : Game
         if (InputReaderKeyboard.CheckKey(Keys.F10, true))
             _isConsoleActive = !_isConsoleActive;
 
-        if (_isConsoleActive)
+        if (_isConsoleActive && _generalSettings.ConsoleEnabled)
             _console.Update(gameTime);
 
         // This will store the last key states
@@ -144,7 +149,7 @@ public class NoNameGame : Game
 
         _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
         {
-            if (_isConsoleActive)
+            if (_isConsoleActive && _generalSettings.ConsoleEnabled)
                 _console.Draw(spriteBatch);
         });
     }

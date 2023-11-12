@@ -1,0 +1,42 @@
+[
+  {
+    "key": "Name",
+    "value": "Settings"
+  },
+  {
+    "key": "General",
+    "value": "General"
+  },
+  {
+    "key": "Video",
+    "value": "Video"
+  },
+  {
+    "key": "Audio",
+    "value": "Audio"
+  },
+  {
+    "key": "Language",
+    "value": "Language"
+  },
+  {
+    "key": "Keybinds",
+    "value": "Keybinds"
+  },
+  {
+    "key": "Resolution",
+    "value": "Resolution"
+  },
+  {
+    "key": "FPSLimit",
+    "value": "FPS-Limit"
+  },
+  {
+    "key": "Fullscreen",
+    "value": "Fullscreen"
+  },
+  {
+    "key": "DevConsoleEnabled",
+    "value": "Developer console enabled"
+  }
+]
