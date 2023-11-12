@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
@@ -19,28 +20,29 @@ public class Level : SampleLevel
 
     public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
-        Name = "Start Menu";
+        var textComponent = TextProvider.GetText("Levels.MainMenu");
+        Name = textComponent.GetValue("Name");
 
         const int startPositionY = -(64 * 2 + 32);
         int x = -304;
 
-        var startButton = new TextButton(new Vector2(x, startPositionY), "Start");
+        var startButton = new TextButton(new Vector2(x, startPositionY), textComponent.GetValue("StartButton"));
         startButton.Click += StartButtonPressed;
         AutoManaged.Add(startButton);
 
-        var selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), "Select Level");
+        var selectLevelButton = new TextButton(new Vector2(x, startPositionY + 64), textComponent.GetValue("SelectButton"));
         selectLevelButton.Click += SelectButtonPressed;
         AutoManaged.Add(selectLevelButton);
 
-        var settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), "Settings");
+        var settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2), textComponent.GetValue("SettingsButton"));
         settingsButton.Click += SettingsButtonPressed;
         AutoManaged.Add(settingsButton);
 
-        var creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), "Credits");
+        var creditButton = new TextButton(new Vector2(x, startPositionY + 64 * 3), textComponent.GetValue("CreditsButton"));
         creditButton.Click += CreditButtonPressed;
         AutoManaged.Add(creditButton);
 
-        var exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), "Exit");
+        var exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), textComponent.GetValue("ExitButton"));
         exitButton.Click += ExitButtonPressed;
         AutoManaged.Add(exitButton);
 

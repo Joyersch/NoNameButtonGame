@@ -1,0 +1,26 @@
+[
+  {
+    "key": "Name",
+    "value": "Start Menu"
+  },
+  {
+    "key": "StartButton",
+    "value": "Start"
+  },
+  {
+    "key": "SelectButton",
+    "value": "Select"
+  },
+  {
+    "key": "SettingsButton",
+    "value": "Settings"
+  },
+  {
+    "key": "CreditsButton",
+    "value": "Credits"
+  },
+  {
+    "key": "ExitButton",
+    "value": "Exit"
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "key": "Name",
+    "value": "Hauptmenü"
+  },
+  {
+    "key": "StartButton",
+    "value": "Start"
+  },
+  {
+    "key": "SelectButton",
+    "value": "Auswahl"
+  },
+  {
+    "key": "SettingsButton",
+    "value": "Einstellungen"
+  },
+  {
+    "key": "CreditsButton",
+    "value": "Abspann"
+  },
+  {
+    "key": "ExitButton",
+    "value": "Verlassen"
+  }
+]
