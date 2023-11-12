@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
+using System.Threading;
 using Microsoft.Xna.Framework;
+using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
@@ -47,19 +50,26 @@ public class Level : SampleLevel
         AutoManaged.Add(exitButton);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
-        header.Move(-header.Rectangle.Size.ToVector2() / 2 +
-                               new Vector2(TextButton.DefaultSize.X, -TextButton.DefaultSize.Y) / 2);
+        header.GetCalculator(Camera.Rectangle)
+            .OnX(0.605F)
+            .OnY(0.25F)
+            .Centered()
+            .Move();
         AutoManaged.Add(header);
+
+        var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
+        var version = new Text($"v{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}", Vector2.Zero, 0.5F);
+        version.GetCalculator(Camera.Rectangle)
+            .OnX(0.905F)
+            .OnY(0.315F)
+            .Centered()
+            .Move();
+        AutoManaged.Add(version);
 
         var mouseCursor = new Cursor();
         Actuator = mouseCursor;
         PositionListener.Add(Mouse, mouseCursor);
         AutoManaged.Add(mouseCursor);
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
     }
 
     private void StartButtonPressed(object sender)
