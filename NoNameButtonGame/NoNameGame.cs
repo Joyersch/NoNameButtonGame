@@ -31,6 +31,7 @@ public class NoNameGame : Game
     private LevelManager _levelManager;
 
     private GeneralSettings _generalSettings;
+    private LanguageSettings _languageSettings;
 
     private DevConsole _console;
     private bool _isConsoleActive;
@@ -72,6 +73,7 @@ public class NoNameGame : Game
             _settingsManager.Save();
 
         _generalSettings = _settingsManager.GetSetting<GeneralSettings>();
+        _languageSettings = _settingsManager.GetSetting<LanguageSettings>();
 
         ApplySettings();
 
@@ -108,7 +110,10 @@ public class NoNameGame : Game
         GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
         Nbg.DefaultTexture = Content.GetTexture("NBG");
 
-        // Level 4
+        // Settings
+        Flag.DefaultTexture = Content.GetTexture("Flags");
+
+        // Level 12
         SmallTree.DefaultTexture = Content.GetTexture("OverworldTileSmallTree");
         BigTree.DefaultTexture = Content.GetTexture("OverworldTileBigTree");
         House.DefaultTexture = Content.GetTexture("OverworldTileHouse");
@@ -169,6 +174,7 @@ public class NoNameGame : Game
 
         _display?.Update();
 
+
         if (_console != null)
         {
             _console = new DevConsole(Global.CommandProcessor, _console.Position, _display.SimpleScale,
@@ -176,6 +182,7 @@ public class NoNameGame : Game
             Log.Out.UpdateReference(_console);
         }
 
+        TextProvider.Localization = _languageSettings.Localization;
     }
 
     private void OnTextInput(object sender, TextInputEventArgs e)

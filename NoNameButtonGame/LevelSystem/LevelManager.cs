@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logging;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
+using NoNameButtonGame.LevelSystem.Settings;
 
 namespace NoNameButtonGame.LevelSystem;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
@@ -21,6 +22,10 @@ public class Level : SampleLevel
     private readonly GeneralSettings _generalSettings;
     private readonly VideoSettings _videoSettings;
     private readonly LanguageSettings _languageSettings;
+
+    private readonly GameObject _anchorLeft;
+    private readonly GameObject _anchorMiddle;
+    private readonly GameObject _anchorRight;
 
     private Cursor _cursor;
 
@@ -50,8 +55,8 @@ public class Level : SampleLevel
         Keybinds
     }
 
-    public Level(Display display, Vector2 window, Random rand, SettingsManager settings) : base(display,
-        window, rand)
+    public Level(Display display, Vector2 window, Random random, SettingsManager settings) : base(display,
+        window, random)
     {
         var textComponent = TextProvider.GetText("Levels.Settings");
         Name = textComponent.GetValue("Name");
@@ -59,6 +64,25 @@ public class Level : SampleLevel
         _generalSettings = settings.GetSetting<GeneralSettings>();
         _videoSettings = settings.GetSetting<VideoSettings>();
         _languageSettings = settings.GetSetting<LanguageSettings>();
+
+        _anchorLeft = new GameObject(Vector2.Zero, Vector2.One);
+        _anchorLeft.GetCalculator(Camera.Rectangle)
+            .OnX(1, 4)
+            .OnY(0.3F)
+            .Move();
+
+        _anchorMiddle = new GameObject(Vector2.Zero, Vector2.One);
+        _anchorMiddle.GetCalculator(Camera.Rectangle)
+            .OnX(2, 4)
+            .OnY(0.3F)
+            .Move();
+
+        _anchorRight = new GameObject(Vector2.Zero, Vector2.One);
+        _anchorRight.GetCalculator(Camera.Rectangle)
+            .OnX(3, 4)
+            .OnY(0.3F)
+            .Move();
+
 
         _generalCollection = new ManagmentCollection();
         _videoCollection = new ManagmentCollection();
@@ -114,14 +138,11 @@ public class Level : SampleLevel
         #region General
 
         var consoleEnabled = new Checkbox(_generalSettings.ConsoleEnabled);
-        consoleEnabled.ValueChanged += delegate(bool value)
-        {
-            _generalSettings.ConsoleEnabled = value;
-        };
-        consoleEnabled.GetAnchor(_generalButton)
-            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
-            .SetSubAnchor(AnchorCalculator.Anchor.Top)
-            .SetDistanceY(4F)
+        consoleEnabled.ValueChanged += delegate(bool value) { _generalSettings.ConsoleEnabled = value; };
+        consoleEnabled.GetAnchor(_anchorLeft)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            //.SetDistanceY(4F)
             .Move();
 
         _generalCollection.Add(consoleEnabled);
@@ -140,7 +161,7 @@ public class Level : SampleLevel
         #region Video
 
         var resolutionInfo = new Text(textComponent.GetValue("Resolution"));
-        resolutionInfo.GetAnchor(_generalButton)
+        resolutionInfo.GetAnchor(_anchorLeft)
             .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
             .SetSubAnchor(AnchorCalculator.Anchor.Top)
             .SetDistanceY(4F)
@@ -232,6 +253,38 @@ public class Level : SampleLevel
 
         #endregion // Video
 
+        #region Language
+
+        Flag flag = new Flag(TextProvider.Language.en_US);
+        flag.DrawColor *= 0.7F;
+        flag.GetAnchor(_anchorLeft)
+            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetSubAnchor(AnchorCalculator.Anchor.Top)
+            .Move();
+
+        flag.Click += OnFlagClick;
+
+        _languageCollection.Add(flag);
+
+        flag = new Flag(TextProvider.Language.de_DE);
+        flag.DrawColor *= 0.7F;
+        flag.GetAnchor(_anchorMiddle)
+            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetSubAnchor(AnchorCalculator.Anchor.Top)
+            .Move();
+
+        flag.Click += OnFlagClick;
+
+        _languageCollection.Add(flag);
+
+        foreach (var f in _languageCollection.OfType<Flag>())
+        {
+            if (f.Language == _languageSettings.Localization)
+                f.DrawColor = Color.White;
+        }
+
+        #endregion // Language
+
         _cursor = new Cursor();
         Actuator = _cursor;
         PositionListener.Add(Mouse, _cursor);
@@ -300,5 +353,16 @@ public class Level : SampleLevel
         }
 
         _cursor.Draw(spriteBatch);
+    }
+
+    private void OnFlagClick(object sender)
+    {
+        foreach (Flag f in _languageCollection.OfType<Flag>())
+            f.DrawColor = Color.White * 0.7F;
+
+        Flag flag = (Flag)sender;
+
+        flag.DrawColor = Color.White;
+        _languageSettings.Localization = flag.Language;
     }
 }
