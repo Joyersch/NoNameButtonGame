@@ -174,6 +174,7 @@ internal class LevelManager
             settingsLevel.OnExit += ExitLevel;
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
             settingsLevel.OnSettingsChange += Save;
+            settingsLevel.OnNameChange += delegate { ChangeTitle?.Invoke(settingsLevel.Name); };
         }
         else
         {

@@ -32,6 +32,8 @@ public class Level : SampleLevel
     public event Action<Vector2> OnWindowResize;
     public event Action OnSettingsChange;
 
+    public event Action OnNameChange;
+
     private ManagmentCollection _generalCollection;
     private ManagmentCollection _videoCollection;
     private ManagmentCollection _audioCollection;
@@ -43,6 +45,16 @@ public class Level : SampleLevel
     private TextButton _audioButton;
     private TextButton _languageButton;
     private TextButton _keybindsButton;
+
+    private Text _consoleEnabledLabel;
+    private Text _resolutionInfo;
+    private Text _fixedStepLabel;
+
+    private TextComponent _textComponent;
+    private Checkbox _consoleEnabled;
+    private Checkbox _fixedStep;
+    private Checkbox _fullscreen;
+    private Text _fullscreenLabel;
 
     private MenuState _menuState;
 
@@ -58,9 +70,6 @@ public class Level : SampleLevel
     public Level(Display display, Vector2 window, Random random, SettingsManager settings) : base(display,
         window, random)
     {
-        var textComponent = TextProvider.GetText("Levels.Settings");
-        Name = textComponent.GetValue("Name");
-
         _generalSettings = settings.GetSetting<GeneralSettings>();
         _videoSettings = settings.GetSetting<VideoSettings>();
         _languageSettings = settings.GetSetting<LanguageSettings>();
@@ -90,7 +99,7 @@ public class Level : SampleLevel
         _languageCollection = new ManagmentCollection();
         _keybindsCollection = new ManagmentCollection();
 
-        _generalButton = new TextButton(textComponent.GetValue("General"));
+        _generalButton = new TextButton(string.Empty);
         _generalButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.1F)
@@ -99,7 +108,7 @@ public class Level : SampleLevel
         _generalButton.Click += _ => _menuState = MenuState.General;
         AutoManaged.Add(_generalButton);
 
-        _videoButton = new TextButton(textComponent.GetValue("Video"));
+        _videoButton = new TextButton(string.Empty);
         _videoButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.3F)
@@ -108,7 +117,7 @@ public class Level : SampleLevel
         _videoButton.Click += _ => _menuState = MenuState.Video;
         AutoManaged.Add(_videoButton);
 
-        _audioButton = new TextButton(textComponent.GetValue("Audio"));
+        _audioButton = new TextButton(string.Empty);
         _audioButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.5F)
@@ -117,7 +126,7 @@ public class Level : SampleLevel
         _audioButton.Click += _ => _menuState = MenuState.Audio;
         AutoManaged.Add(_audioButton);
 
-        _languageButton = new TextButton(textComponent.GetValue("Language"));
+        _languageButton = new TextButton(string.Empty);
         _languageButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.7F)
@@ -126,7 +135,7 @@ public class Level : SampleLevel
         _languageButton.Click += _ => _menuState = MenuState.Language;
         AutoManaged.Add(_languageButton);
 
-        _keybindsButton = new TextButton(textComponent.GetValue("Keybinds"));
+        _keybindsButton = new TextButton(string.Empty);
         _keybindsButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.9F)
@@ -137,37 +146,27 @@ public class Level : SampleLevel
 
         #region General
 
-        var consoleEnabled = new Checkbox(_generalSettings.ConsoleEnabled);
-        consoleEnabled.ValueChanged += delegate(bool value) { _generalSettings.ConsoleEnabled = value; };
-        consoleEnabled.GetAnchor(_anchorLeft)
+        _consoleEnabled = new Checkbox(_generalSettings.ConsoleEnabled);
+        _consoleEnabled.ValueChanged += delegate(bool value) { _generalSettings.ConsoleEnabled = value; };
+        _consoleEnabled.GetAnchor(_anchorLeft)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             //.SetDistanceY(4F)
             .Move();
 
-        _generalCollection.Add(consoleEnabled);
+        _generalCollection.Add(_consoleEnabled);
 
-        var consoleEnabledLabel = new Text(textComponent.GetValue("DevConsoleEnabled"));
-        consoleEnabledLabel.GetAnchor(consoleEnabled)
-            .SetMainAnchor(AnchorCalculator.Anchor.Right)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(4F)
-            .Move();
+        _consoleEnabledLabel = new Text(string.Empty);
 
-        _generalCollection.Add(consoleEnabledLabel);
+        _generalCollection.Add(_consoleEnabledLabel);
 
         #endregion // General
 
         #region Video
 
-        var resolutionInfo = new Text(textComponent.GetValue("Resolution"));
-        resolutionInfo.GetAnchor(_anchorLeft)
-            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
-            .SetSubAnchor(AnchorCalculator.Anchor.Top)
-            .SetDistanceY(4F)
-            .Move();
+        _resolutionInfo = new Text(string.Empty);
 
-        _videoCollection.Add(resolutionInfo);
+        _videoCollection.Add(_resolutionInfo);
 
         List<object> resolutions = new List<object>()
         {
@@ -182,11 +181,11 @@ public class Level : SampleLevel
 
         var resolution = new ValueSelection(Vector2.Zero, 1, resolutions, index);
         var forCalucation = new Checkbox();
-
-        forCalucation.GetAnchor(resolutionInfo)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+        forCalucation.GetAnchor(_anchorLeft)
+            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceY(4F + forCalucation.Size.Y / 2)
+            .SetDistanceY(36F)
+            .SetDistanceX(4F)
             .Move();
 
         resolution.Move(forCalucation.Position);
@@ -203,74 +202,67 @@ public class Level : SampleLevel
 
         _videoCollection.Add(resolution);
 
-        var fixedStep = new Checkbox(_videoSettings.IsFixedStep);
-        fixedStep.GetAnchor(resolution)
+        _fixedStep = new Checkbox(_videoSettings.IsFixedStep);
+        _fixedStep.GetAnchor(resolution)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceY(4F + fixedStep.Size.Y / 2)
+            .SetDistanceY(4F + _fixedStep.Size.Y / 2)
             .Move();
 
-        fixedStep.ValueChanged += delegate(bool value)
+        _fixedStep.ValueChanged += delegate(bool value)
         {
             _videoSettings.IsFixedStep = !value;
             OnSettingsChange?.Invoke();
         };
 
-        _videoCollection.Add(fixedStep);
+        _videoCollection.Add(_fixedStep);
 
-        var fixedStepLabel = new Text(textComponent.GetValue("FPSLimit"));
-        fixedStepLabel.GetAnchor(fixedStep)
-            .SetMainAnchor(AnchorCalculator.Anchor.Right)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(4F)
-            .Move();
+        _fixedStepLabel = new Text(string.Empty);
+  
 
-        _videoCollection.Add(fixedStepLabel);
+        _videoCollection.Add(_fixedStepLabel);
 
-        var fullscreen = new Checkbox(_videoSettings.IsFullscreen);
-        fullscreen.GetAnchor(fixedStep)
+        _fullscreen = new Checkbox(_videoSettings.IsFullscreen);
+        _fullscreen.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceY(4F + fullscreen.Size.Y / 2)
+            .SetDistanceY(4F + _fullscreen.Size.Y / 2)
             .Move();
 
-        fullscreen.ValueChanged += delegate(bool value)
+        _fullscreen.ValueChanged += delegate(bool value)
         {
             _videoSettings.IsFullscreen = value;
             OnSettingsChange?.Invoke();
         };
 
-        _videoCollection.Add(fullscreen);
+        _videoCollection.Add(_fullscreen);
 
-        var fullscreenLabel = new Text(textComponent.GetValue("Fullscreen"));
-        fullscreenLabel.GetAnchor(fullscreen)
-            .SetMainAnchor(AnchorCalculator.Anchor.Right)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(4F)
-            .Move();
+        _fullscreenLabel = new Text(string.Empty);
 
-        _videoCollection.Add(fullscreenLabel);
+        _videoCollection.Add(_fullscreenLabel);
 
         #endregion // Video
 
         #region Language
 
-        Flag flag = new Flag(TextProvider.Language.en_US);
+        Flag flag = new Flag(TextProvider.Language.en_US, 2.5F);
         flag.DrawColor *= 0.7F;
-        flag.GetAnchor(_anchorLeft)
-            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
-            .SetSubAnchor(AnchorCalculator.Anchor.Top)
+        flag.GetCalculator(Camera.Rectangle)
+            .OnY(0.55F)
+            .OnX(0.33F)
+            .Centered()
             .Move();
 
         flag.Click += OnFlagClick;
 
         _languageCollection.Add(flag);
 
-        flag = new Flag(TextProvider.Language.de_DE);
+        flag = new Flag(TextProvider.Language.de_DE, 2.5F);
         flag.DrawColor *= 0.7F;
-        flag.GetAnchor(_anchorMiddle)
-            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
-            .SetSubAnchor(AnchorCalculator.Anchor.Top)
+        flag.GetCalculator(Camera.Rectangle)
+            .OnY(0.55F)
+            .OnX(0.66F)
+            .Centered()
             .Move();
 
         flag.Click += OnFlagClick;
@@ -285,6 +277,9 @@ public class Level : SampleLevel
 
         #endregion // Language
 
+
+        ApplyText();
+
         _cursor = new Cursor();
         Actuator = _cursor;
         PositionListener.Add(Mouse, _cursor);
@@ -294,36 +289,29 @@ public class Level : SampleLevel
     {
         base.Update(gameTime);
         _cursor.Update(gameTime);
-        _generalButton.Text.ChangeColor(Color.Gray);
-        _videoButton.Text.ChangeColor(Color.Gray);
-        _audioButton.Text.ChangeColor(Color.Gray);
-        _languageButton.Text.ChangeColor(Color.Gray);
-        _keybindsButton.Text.ChangeColor(Color.Gray);
+
+        // Does not need to be run every frame, only when a menu button is clicked
+        UpdateButtonSelection();
 
         switch (_menuState)
         {
             case MenuState.General:
-                _generalButton.Text.ChangeColor(Color.White);
                 _generalCollection.UpdateInteraction(gameTime, _cursor);
                 _generalCollection.Update(gameTime);
                 break;
             case MenuState.Video:
-                _videoButton.Text.ChangeColor(Color.White);
                 _videoCollection.UpdateInteraction(gameTime, _cursor);
                 _videoCollection.Update(gameTime);
                 break;
             case MenuState.Audio:
-                _audioButton.Text.ChangeColor(Color.White);
                 _audioCollection.UpdateInteraction(gameTime, _cursor);
                 _audioCollection.Update(gameTime);
                 break;
             case MenuState.Language:
-                _languageButton.Text.ChangeColor(Color.White);
                 _languageCollection.UpdateInteraction(gameTime, _cursor);
                 _languageCollection.Update(gameTime);
                 break;
             case MenuState.Keybinds:
-                _keybindsButton.Text.ChangeColor(Color.White);
                 _keybindsCollection.UpdateInteraction(gameTime, _cursor);
                 _keybindsCollection.Update(gameTime);
                 break;
@@ -364,5 +352,77 @@ public class Level : SampleLevel
 
         flag.DrawColor = Color.White;
         _languageSettings.Localization = flag.Language;
+        TextProvider.Localization = flag.Language;
+        ApplyText();
+    }
+
+    private void UpdateButtonSelection()
+    {
+        _generalButton.Text.ChangeColor(Color.Gray);
+        _videoButton.Text.ChangeColor(Color.Gray);
+        _audioButton.Text.ChangeColor(Color.Gray);
+        _languageButton.Text.ChangeColor(Color.Gray);
+        _keybindsButton.Text.ChangeColor(Color.Gray);
+
+        switch (_menuState)
+        {
+            case MenuState.General:
+                _generalButton.Text.ChangeColor(Color.White);
+                break;
+            case MenuState.Video:
+                _videoButton.Text.ChangeColor(Color.White);
+                break;
+            case MenuState.Audio:
+                _audioButton.Text.ChangeColor(Color.White);
+                break;
+            case MenuState.Language:
+                _languageButton.Text.ChangeColor(Color.White);
+                break;
+            case MenuState.Keybinds:
+                _keybindsButton.Text.ChangeColor(Color.White);
+                break;
+        }
+    }
+
+    private void ApplyText()
+    {
+        _textComponent = TextProvider.GetText("Levels.Settings");
+        Name = _textComponent.GetValue("Name");
+        OnNameChange?.Invoke();
+
+        _generalButton.Text.ChangeText(_textComponent.GetValue("General"));
+        _videoButton.Text.ChangeText(_textComponent.GetValue("Video"));
+        _audioButton.Text.ChangeText(_textComponent.GetValue("Audio"));
+        _languageButton.Text.ChangeText(_textComponent.GetValue("Language"));
+        _keybindsButton.Text.ChangeText(_textComponent.GetValue("Keybinds"));
+        UpdateButtonSelection();
+
+        _consoleEnabledLabel.ChangeText(_textComponent.GetValue("DevConsoleEnabled"));
+        _consoleEnabledLabel.GetAnchor(_consoleEnabled)
+            .SetMainAnchor(AnchorCalculator.Anchor.Right)
+            .SetSubAnchor(AnchorCalculator.Anchor.Left)
+            .SetDistanceX(4F)
+            .Move();
+        
+        _resolutionInfo.ChangeText(_textComponent.GetValue("Resolution"));
+        _resolutionInfo.GetAnchor(_anchorLeft)
+            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetSubAnchor(AnchorCalculator.Anchor.Left)
+            .SetDistance(4F)
+            .Move();
+        
+        _fixedStepLabel.ChangeText( _textComponent.GetValue("FPSLimit"));
+        _fixedStepLabel.GetAnchor(_fixedStep)
+            .SetMainAnchor(AnchorCalculator.Anchor.Right)
+            .SetSubAnchor(AnchorCalculator.Anchor.Left)
+            .SetDistanceX(4F)
+            .Move();
+
+        _fullscreenLabel.ChangeText(_textComponent.GetValue("Fullscreen"));
+        _fullscreenLabel.GetAnchor(_fullscreen)
+            .SetMainAnchor(AnchorCalculator.Anchor.Right)
+            .SetSubAnchor(AnchorCalculator.Anchor.Left)
+            .SetDistanceX(4F)
+            .Move();
     }
 }
