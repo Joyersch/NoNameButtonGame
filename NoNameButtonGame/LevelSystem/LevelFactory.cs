@@ -14,14 +14,16 @@ public class LevelFactory
     private Vector2 _screen;
 
     private readonly SettingsManager _settings;
+    private readonly NoNameGame _game;
 
-    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, SettingsManager settings)
+    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, SettingsManager settings, NoNameGame game)
     {
         _display = display;
         _screen = screen;
         _random = random;
         _gameWindow = gameWindow;
         _settings = settings;
+        _game = game;
     }
 
     public void ChangeScreenSize(Vector2 screen)
@@ -31,7 +33,7 @@ public class LevelFactory
         => new MainMenu.Level(_display, _screen, _random);
 
     public Settings.Level GetSettingsLevel()
-        => new Settings.Level(_display, _screen, _random, _settings);
+        => new Settings.Level(_display, _screen, _random, _settings, _game);
 
     public Selection.Level GetSelectLevel()
         => new Selection.Level(_display, _screen, _random, _settings.GetSave<Progress>());

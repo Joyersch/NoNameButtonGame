@@ -38,5 +38,13 @@
   {
     "key": "DevConsoleEnabled",
     "value": "Entwicklungskonsole aktiviert"
+  },
+  {
+    "key": "Save",
+    "value": "Speichern"
+  },
+  {
+    "key": "Discard",
+    "value": "Verwerfen"
   }
 ]

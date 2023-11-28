@@ -38,5 +38,13 @@
   {
     "key": "DevConsoleEnabled",
     "value": "Developer console enabled"
+  },
+  {
+    "key": "Save",
+    "value": "Save"
+  },
+  {
+    "key": "Discard",
+    "value": "Discard"
   }
 ]

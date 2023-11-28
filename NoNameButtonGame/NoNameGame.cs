@@ -30,11 +30,11 @@ public class NoNameGame : Game
     private SettingsManager _settingsManager;
     private LevelManager _levelManager;
 
-    private AdvancedSettings _advancedSettings;
-    private LanguageSettings _languageSettings;
+    private AdvancedSettings advancedSettings;
 
     private DevConsole _console;
     private bool _isConsoleActive;
+    private bool _isConsoleEnabled;
 
     private Dictionary<string, string> UtilsMapping = new()
     {
@@ -72,9 +72,6 @@ public class NoNameGame : Game
         if (!_settingsManager.Load())
             _settingsManager.Save();
 
-        _advancedSettings = _settingsManager.GetSetting<AdvancedSettings>();
-        _languageSettings = _settingsManager.GetSetting<LanguageSettings>();
-
         ApplySettings();
 
         TextProvider.Initialize();
@@ -83,7 +80,7 @@ public class NoNameGame : Game
         //Global.SoundSettingsListener = new SoundSettingsListener(_settingsManager.Settings);
 
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(_display, Window, _settingsManager);
+        _levelManager = new LevelManager(_display, Window, _settingsManager, this);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
         _levelManager.SettingsChanged += ApplySettings;
@@ -112,6 +109,7 @@ public class NoNameGame : Game
 
         // Settings
         Flag.DefaultTexture = Content.GetTexture("Flags");
+        Dot.DefaultTexture = Content.GetTexture("Dot");
 
         // Level 12
         SmallTree.DefaultTexture = Content.GetTexture("OverworldTileSmallTree");
@@ -141,7 +139,7 @@ public class NoNameGame : Game
         if (InputReaderKeyboard.CheckKey(Keys.F10, true))
             _isConsoleActive = !_isConsoleActive;
 
-        if (_isConsoleActive && _advancedSettings.ConsoleEnabled)
+        if (_isConsoleActive && _isConsoleEnabled)
             _console.Update(gameTime);
 
         // This will store the last key states
@@ -154,26 +152,35 @@ public class NoNameGame : Game
 
         _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
         {
-            if (_isConsoleActive && _advancedSettings.ConsoleEnabled)
+            if (_isConsoleActive && _isConsoleEnabled)
                 _console.Draw(spriteBatch);
         });
     }
 
-    private void ApplySettings()
+    public void ApplySettings()
     {
         var settings = _settingsManager.GetSetting<VideoSettings>();
+        var languageSettings = _settingsManager.GetSetting<LanguageSettings>();
+        var advancedSettings = _settingsManager.GetSetting<AdvancedSettings>();
 
-        IsFixedTimeStep = settings.IsFixedStep;
+        ApplySettings(settings);
 
-        if (_graphics.IsFullScreen != settings.IsFullscreen)
-            _graphics.ToggleFullScreen();
+        TextProvider.Localization = languageSettings.Localization;
+        _isConsoleEnabled = advancedSettings.ConsoleEnabled;
+    }
 
-        _graphics.PreferredBackBufferWidth = settings.Resolution.Width;
-        _graphics.PreferredBackBufferHeight = settings.Resolution.Height;
+    public void ApplySettings(VideoSettings settings)
+    {
+        ApplyResolution(settings.Resolution);
+        ApplyFullscreen(settings.IsFullscreen);
+        ApplyFixedStep(settings.IsFixedStep);
+    }
+
+    public void ApplyResolution(Resolution resolution)
+    {
+        _graphics.PreferredBackBufferWidth = resolution.Width;
+        _graphics.PreferredBackBufferHeight = resolution.Height;
         _graphics.ApplyChanges();
-
-        _display?.Update();
-
 
         if (_console != null)
         {
@@ -182,8 +189,22 @@ public class NoNameGame : Game
             Log.Out.UpdateReference(_console);
         }
 
-        TextProvider.Localization = _languageSettings.Localization;
+        _display?.Update();
     }
+
+    public void ApplyFullscreen(bool fullscreen)
+    {
+        if (_graphics.IsFullScreen != fullscreen)
+            _graphics.ToggleFullScreen();
+    }
+
+    public void ApplyFixedStep(bool fixedStep)
+    {
+        IsFixedTimeStep = fixedStep;
+    }
+
+    public void ApplyConsole(bool isEnabled)
+        => _isConsoleEnabled = isEnabled;
 
     private void OnTextInput(object sender, TextInputEventArgs e)
     {

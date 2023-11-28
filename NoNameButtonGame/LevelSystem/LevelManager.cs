@@ -12,6 +12,7 @@ internal class LevelManager
 {
     private readonly Display _display;
     private readonly SettingsManager _settingsManager;
+    private readonly NoNameGame _game;
     private readonly VideoSettings _videoSettings;
     private readonly Progress _progress;
 
@@ -41,15 +42,16 @@ internal class LevelManager
         Level
     }
 
-    public LevelManager(Display display, GameWindow gameWindow, SettingsManager settingsManager, int? seed = null)
+    public LevelManager(Display display, GameWindow gameWindow, SettingsManager settingsManager, NoNameGame game, int? seed = null)
     {
         _display = display;
         _settingsManager = settingsManager;
+        _game = game;
         _videoSettings = _settingsManager.GetSetting<VideoSettings>();
         _progress = _settingsManager.GetSave<Progress>();
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display,
-            _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager);
+            _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager, game);
         _levelState = LevelState.Menu;
         ChangeLevel();
     }
@@ -171,9 +173,20 @@ internal class LevelManager
         }
         else if (_currentLevel is Settings.Level settingsLevel)
         {
-            settingsLevel.OnExit += ExitLevel;
+            settingsLevel.OnDiscard += delegate
+            {
+                _settingsManager.Load();
+                _game.ApplySettings();
+                var videoSettings = _settingsManager.GetSetting<VideoSettings>();
+                _levelFactory.ChangeScreenSize(videoSettings.Resolution.ToVector2());
+                ExitLevel();
+            };
+            settingsLevel.OnSave += delegate
+            {
+                _settingsManager.Save();
+                ExitLevel();
+            };
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
-            settingsLevel.OnSettingsChange += Save;
             settingsLevel.OnNameChange += delegate { ChangeTitle?.Invoke(settingsLevel.Name); };
         }
         else
@@ -217,9 +230,6 @@ internal class LevelManager
 
     private void ExitLevel()
     {
-        if (_levelState == LevelState.Settings)
-            Save();
-
         _levelState = _levelState switch
         {
             LevelState.SelectLevel => LevelState.Select,

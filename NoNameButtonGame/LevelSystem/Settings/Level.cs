@@ -14,11 +14,13 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
 public class Level : SampleLevel
 {
+    private readonly NoNameGame _game;
     private readonly AdvancedSettings _advancedSettings;
     private readonly VideoSettings _videoSettings;
     private readonly LanguageSettings _languageSettings;
@@ -30,7 +32,9 @@ public class Level : SampleLevel
     private Cursor _cursor;
 
     public event Action<Vector2> OnWindowResize;
-    public event Action OnSettingsChange;
+
+    public event Action OnSave;
+    public event Action OnDiscard;
 
     public event Action OnNameChange;
 
@@ -57,6 +61,11 @@ public class Level : SampleLevel
     private Text _fullscreenLabel;
 
     private MenuState _menuState;
+    private bool _saveDialog;
+
+    private TextButton _saveButton;
+    private TextButton _discardButton;
+    private Dot _highlight;
 
     private enum MenuState
     {
@@ -67,12 +76,23 @@ public class Level : SampleLevel
         Advanced
     }
 
-    public Level(Display display, Vector2 window, Random random, SettingsManager settings) : base(display,
+    public Level(Display display, Vector2 window, Random random, SettingsManager settings, NoNameGame game) : base(display,
         window, random)
     {
+        _game = game;
         _advancedSettings = settings.GetSetting<AdvancedSettings>();
         _videoSettings = settings.GetSetting<VideoSettings>();
         _languageSettings = settings.GetSetting<LanguageSettings>();
+
+        OnExit += delegate
+        {
+            if (_saveDialog)
+            {
+                OnDiscard?.Invoke();
+            }
+            else
+                _saveDialog = true;
+        };
 
         _anchorLeft = new GameObject(Vector2.Zero, Vector2.One);
         _anchorLeft.GetCalculator(Camera.Rectangle)
@@ -108,7 +128,6 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         _videoButton.Click += _ => _menuState = MenuState.Video;
-        AutoManaged.Add(_videoButton);
 
         _audioButton = new TextButton(string.Empty);
         _audioButton.GetCalculator(Camera.Rectangle)
@@ -117,7 +136,6 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         _audioButton.Click += _ => _menuState = MenuState.Audio;
-        AutoManaged.Add(_audioButton);
 
         _languageButton = new TextButton(string.Empty);
         _languageButton.GetCalculator(Camera.Rectangle)
@@ -126,7 +144,6 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         _languageButton.Click += _ => _menuState = MenuState.Language;
-        AutoManaged.Add(_languageButton);
 
         _keybindsButton = new TextButton(string.Empty);
         _keybindsButton.GetCalculator(Camera.Rectangle)
@@ -135,7 +152,6 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         _keybindsButton.Click += _ => _menuState = MenuState.Keybinds;
-        AutoManaged.Add(_keybindsButton);
 
         _advancedButton = new TextButton(string.Empty);
         _advancedButton.GetCalculator(Camera.Rectangle)
@@ -144,7 +160,6 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         _advancedButton.Click += _ => _menuState = MenuState.Advanced;
-        AutoManaged.Add(_advancedButton);
 
         #region Video
 
@@ -181,7 +196,7 @@ public class Level : SampleLevel
             SetScreen(resolution.ToVector2());
             Log.WriteInformation($"Changed resolution to: {resolution}");
             OnWindowResize?.Invoke(Window);
-            OnSettingsChange?.Invoke();
+            _game.ApplyResolution(resolution);
         };
 
         _videoCollection.Add(resolution);
@@ -196,7 +211,7 @@ public class Level : SampleLevel
         _fixedStep.ValueChanged += delegate(bool value)
         {
             _videoSettings.IsFixedStep = !value;
-            OnSettingsChange?.Invoke();
+            _game.ApplyFixedStep(!value);
         };
 
         _videoCollection.Add(_fixedStep);
@@ -216,7 +231,7 @@ public class Level : SampleLevel
         _fullscreen.ValueChanged += delegate(bool value)
         {
             _videoSettings.IsFullscreen = value;
-            OnSettingsChange?.Invoke();
+           _game.ApplyFullscreen(value);
         };
 
         _videoCollection.Add(_fullscreen);
@@ -264,7 +279,11 @@ public class Level : SampleLevel
         #region Advanced
 
         _consoleEnabled = new Checkbox(_advancedSettings.ConsoleEnabled);
-        _consoleEnabled.ValueChanged += delegate(bool value) { _advancedSettings.ConsoleEnabled = value; };
+        _consoleEnabled.ValueChanged += delegate(bool value)
+        {
+            _advancedSettings.ConsoleEnabled = value;
+            _game.ApplyConsole(value);
+        };
         _consoleEnabled.GetAnchor(_anchorLeft)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -279,6 +298,39 @@ public class Level : SampleLevel
 
         #endregion // Advanced
 
+        #region SaveSettings
+
+        _saveButton = new TextButton(string.Empty);
+        _saveButton.GetCalculator(Camera.Rectangle)
+            .OnY(0.55F)
+            .OnX(0.36F)
+            .Centered()
+            .Move();
+
+        _saveButton.Click += delegate
+        {
+            OnSave?.Invoke();
+        };
+
+        _discardButton = new TextButton(string.Empty);
+        _discardButton.GetCalculator(Camera.Rectangle)
+            .OnY(0.55F)
+            .OnX(0.64F)
+            .Centered()
+            .Move();
+
+        _discardButton.Click += delegate
+        {
+            OnDiscard?.Invoke();
+        };
+
+        _highlight = new Dot(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
+        {
+            DrawColor = new Color(0,0,0,128)
+        };
+
+        #endregion
+
         ApplyText();
 
         _cursor = new Cursor();
@@ -289,39 +341,72 @@ public class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-        _cursor.Update(gameTime);
-
-        // Does not need to be run every frame, only when a menu button is clicked
-        UpdateButtonSelection();
-
-        switch (_menuState)
+        if (!_saveDialog)
         {
-            case MenuState.Video:
-                _videoCollection.UpdateInteraction(gameTime, _cursor);
-                _videoCollection.Update(gameTime);
-                break;
-            case MenuState.Audio:
-                _audioCollection.UpdateInteraction(gameTime, _cursor);
-                _audioCollection.Update(gameTime);
-                break;
-            case MenuState.Language:
-                _languageCollection.UpdateInteraction(gameTime, _cursor);
-                _languageCollection.Update(gameTime);
-                break;
-            case MenuState.Keybinds:
-                _keybindsCollection.UpdateInteraction(gameTime, _cursor);
-                _keybindsCollection.Update(gameTime);
-                break;
-            case MenuState.Advanced:
-                _advancedCollection.UpdateInteraction(gameTime, _cursor);
-                _advancedCollection.Update(gameTime);
-                break;
+            _videoButton.UpdateInteraction(gameTime, _cursor);
+            _videoButton.Update(gameTime);
+
+            _audioButton.UpdateInteraction(gameTime, _cursor);
+            _audioButton.Update(gameTime);
+
+            _languageButton.UpdateInteraction(gameTime, _cursor);
+            _languageButton.Update(gameTime);
+
+            _keybindsButton.UpdateInteraction(gameTime, _cursor);
+            _keybindsButton.Update(gameTime);
+
+            _advancedButton.UpdateInteraction(gameTime, _cursor);
+            _advancedButton.Update(gameTime);
+
+            _cursor.Update(gameTime);
+            // Does not need to be run every frame, only when a menu button is clicked
+            UpdateButtonSelection();
+
+            switch (_menuState)
+            {
+                case MenuState.Video:
+                    _videoCollection.UpdateInteraction(gameTime, _cursor);
+                    _videoCollection.Update(gameTime);
+                    break;
+                case MenuState.Audio:
+                    _audioCollection.UpdateInteraction(gameTime, _cursor);
+                    _audioCollection.Update(gameTime);
+                    break;
+                case MenuState.Language:
+                    _languageCollection.UpdateInteraction(gameTime, _cursor);
+                    _languageCollection.Update(gameTime);
+                    break;
+                case MenuState.Keybinds:
+                    _keybindsCollection.UpdateInteraction(gameTime, _cursor);
+                    _keybindsCollection.Update(gameTime);
+                    break;
+                case MenuState.Advanced:
+                    _advancedCollection.UpdateInteraction(gameTime, _cursor);
+                    _advancedCollection.Update(gameTime);
+                    break;
+            }
+
+            return;
         }
+
+        _cursor.Update(gameTime);
+        _highlight.Update(gameTime);
+        _saveButton.UpdateInteraction(gameTime, _cursor);
+        _saveButton.Update(gameTime);
+        _discardButton.UpdateInteraction(gameTime, _cursor);
+        _discardButton.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
+
+        _videoButton.Draw(spriteBatch);
+        _audioButton.Draw(spriteBatch);
+        _languageButton.Draw(spriteBatch);
+        _keybindsButton.Draw(spriteBatch);
+        _advancedButton.Draw(spriteBatch);
+
         switch (_menuState)
         {
             case MenuState.Video:
@@ -341,6 +426,15 @@ public class Level : SampleLevel
                 break;
         }
 
+        if (!_saveDialog)
+        {
+            _cursor.Draw(spriteBatch);
+            return;
+        }
+
+        _highlight.Draw(spriteBatch);
+        _saveButton.Draw(spriteBatch);
+        _discardButton.Draw(spriteBatch);
         _cursor.Draw(spriteBatch);
     }
 
@@ -427,5 +521,10 @@ public class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
             .SetDistanceX(4F)
             .Move();
+
+        _saveButton.Text.ChangeText(_textComponent.GetValue("Save"));
+        _saveButton.Text.ChangeColor(Color.Green);
+        _discardButton.Text.ChangeText(_textComponent.GetValue("Discard"));
+        _discardButton.Text.ChangeColor(Color.Red);
     }
 }
