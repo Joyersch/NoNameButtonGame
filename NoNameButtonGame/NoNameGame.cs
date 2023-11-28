@@ -30,7 +30,7 @@ public class NoNameGame : Game
     private SettingsManager _settingsManager;
     private LevelManager _levelManager;
 
-    private GeneralSettings _generalSettings;
+    private AdvancedSettings _advancedSettings;
     private LanguageSettings _languageSettings;
 
     private DevConsole _console;
@@ -72,7 +72,7 @@ public class NoNameGame : Game
         if (!_settingsManager.Load())
             _settingsManager.Save();
 
-        _generalSettings = _settingsManager.GetSetting<GeneralSettings>();
+        _advancedSettings = _settingsManager.GetSetting<AdvancedSettings>();
         _languageSettings = _settingsManager.GetSetting<LanguageSettings>();
 
         ApplySettings();
@@ -141,7 +141,7 @@ public class NoNameGame : Game
         if (InputReaderKeyboard.CheckKey(Keys.F10, true))
             _isConsoleActive = !_isConsoleActive;
 
-        if (_isConsoleActive && _generalSettings.ConsoleEnabled)
+        if (_isConsoleActive && _advancedSettings.ConsoleEnabled)
             _console.Update(gameTime);
 
         // This will store the last key states
@@ -154,7 +154,7 @@ public class NoNameGame : Game
 
         _levelManager.Draw(GraphicsDevice, _spriteBatch, spriteBatch =>
         {
-            if (_isConsoleActive && _generalSettings.ConsoleEnabled)
+            if (_isConsoleActive && _advancedSettings.ConsoleEnabled)
                 _console.Draw(spriteBatch);
         });
     }

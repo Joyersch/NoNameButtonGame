@@ -19,7 +19,7 @@ namespace NoNameButtonGame.LevelSystem.Settings;
 
 public class Level : SampleLevel
 {
-    private readonly GeneralSettings _generalSettings;
+    private readonly AdvancedSettings _advancedSettings;
     private readonly VideoSettings _videoSettings;
     private readonly LanguageSettings _languageSettings;
 
@@ -34,13 +34,13 @@ public class Level : SampleLevel
 
     public event Action OnNameChange;
 
-    private ManagmentCollection _generalCollection;
+    private ManagmentCollection _advancedCollection;
     private ManagmentCollection _videoCollection;
     private ManagmentCollection _audioCollection;
     private ManagmentCollection _languageCollection;
     private ManagmentCollection _keybindsCollection;
 
-    private TextButton _generalButton;
+    private TextButton _advancedButton;
     private TextButton _videoButton;
     private TextButton _audioButton;
     private TextButton _languageButton;
@@ -60,17 +60,17 @@ public class Level : SampleLevel
 
     private enum MenuState
     {
-        General,
         Video,
         Audio,
         Language,
-        Keybinds
+        Keybinds,
+        Advanced
     }
 
     public Level(Display display, Vector2 window, Random random, SettingsManager settings) : base(display,
         window, random)
     {
-        _generalSettings = settings.GetSetting<GeneralSettings>();
+        _advancedSettings = settings.GetSetting<AdvancedSettings>();
         _videoSettings = settings.GetSetting<VideoSettings>();
         _languageSettings = settings.GetSetting<LanguageSettings>();
 
@@ -93,25 +93,18 @@ public class Level : SampleLevel
             .Move();
 
 
-        _generalCollection = new ManagmentCollection();
+        _advancedCollection = new ManagmentCollection();
         _videoCollection = new ManagmentCollection();
         _audioCollection = new ManagmentCollection();
         _languageCollection = new ManagmentCollection();
         _keybindsCollection = new ManagmentCollection();
 
-        _generalButton = new TextButton(string.Empty);
-        _generalButton.GetCalculator(Camera.Rectangle)
-            .OnY(0.1F)
-            .OnX(0.1F)
-            .Centered()
-            .Move();
-        _generalButton.Click += _ => _menuState = MenuState.General;
-        AutoManaged.Add(_generalButton);
+        AutoManaged.Add(_advancedButton);
 
         _videoButton = new TextButton(string.Empty);
         _videoButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.3F)
+            .OnX(0.1F)
             .Centered()
             .Move();
         _videoButton.Click += _ => _menuState = MenuState.Video;
@@ -120,7 +113,7 @@ public class Level : SampleLevel
         _audioButton = new TextButton(string.Empty);
         _audioButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.5F)
+            .OnX(0.3F)
             .Centered()
             .Move();
         _audioButton.Click += _ => _menuState = MenuState.Audio;
@@ -129,7 +122,7 @@ public class Level : SampleLevel
         _languageButton = new TextButton(string.Empty);
         _languageButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.7F)
+            .OnX(0.5F)
             .Centered()
             .Move();
         _languageButton.Click += _ => _menuState = MenuState.Language;
@@ -138,29 +131,20 @@ public class Level : SampleLevel
         _keybindsButton = new TextButton(string.Empty);
         _keybindsButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.9F)
+            .OnX(0.7F)
             .Centered()
             .Move();
         _keybindsButton.Click += _ => _menuState = MenuState.Keybinds;
         AutoManaged.Add(_keybindsButton);
 
-        #region General
-
-        _consoleEnabled = new Checkbox(_generalSettings.ConsoleEnabled);
-        _consoleEnabled.ValueChanged += delegate(bool value) { _generalSettings.ConsoleEnabled = value; };
-        _consoleEnabled.GetAnchor(_anchorLeft)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            //.SetDistanceY(4F)
+        _advancedButton = new TextButton(string.Empty);
+        _advancedButton.GetCalculator(Camera.Rectangle)
+            .OnY(0.1F)
+            .OnX(0.9F)
+            .Centered()
             .Move();
-
-        _generalCollection.Add(_consoleEnabled);
-
-        _consoleEnabledLabel = new Text(string.Empty);
-
-        _generalCollection.Add(_consoleEnabledLabel);
-
-        #endregion // General
+        _advancedButton.Click += _ => _menuState = MenuState.Advanced;
+        AutoManaged.Add(_advancedButton);
 
         #region Video
 
@@ -277,6 +261,23 @@ public class Level : SampleLevel
 
         #endregion // Language
 
+        #region Advanced
+
+        _consoleEnabled = new Checkbox(_advancedSettings.ConsoleEnabled);
+        _consoleEnabled.ValueChanged += delegate(bool value) { _advancedSettings.ConsoleEnabled = value; };
+        _consoleEnabled.GetAnchor(_anchorLeft)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            //.SetDistanceY(4F)
+            .Move();
+
+        _advancedCollection.Add(_consoleEnabled);
+
+        _consoleEnabledLabel = new Text(string.Empty);
+
+        _advancedCollection.Add(_consoleEnabledLabel);
+
+        #endregion // Advanced
 
         ApplyText();
 
@@ -295,10 +296,6 @@ public class Level : SampleLevel
 
         switch (_menuState)
         {
-            case MenuState.General:
-                _generalCollection.UpdateInteraction(gameTime, _cursor);
-                _generalCollection.Update(gameTime);
-                break;
             case MenuState.Video:
                 _videoCollection.UpdateInteraction(gameTime, _cursor);
                 _videoCollection.Update(gameTime);
@@ -315,6 +312,10 @@ public class Level : SampleLevel
                 _keybindsCollection.UpdateInteraction(gameTime, _cursor);
                 _keybindsCollection.Update(gameTime);
                 break;
+            case MenuState.Advanced:
+                _advancedCollection.UpdateInteraction(gameTime, _cursor);
+                _advancedCollection.Update(gameTime);
+                break;
         }
     }
 
@@ -323,9 +324,6 @@ public class Level : SampleLevel
         base.Draw(spriteBatch);
         switch (_menuState)
         {
-            case MenuState.General:
-                _generalCollection.Draw(spriteBatch);
-                break;
             case MenuState.Video:
                 _videoCollection.Draw(spriteBatch);
                 break;
@@ -337,6 +335,9 @@ public class Level : SampleLevel
                 break;
             case MenuState.Keybinds:
                 _keybindsCollection.Draw(spriteBatch);
+                break;
+            case MenuState.Advanced:
+                _advancedCollection.Draw(spriteBatch);
                 break;
         }
 
@@ -358,7 +359,7 @@ public class Level : SampleLevel
 
     private void UpdateButtonSelection()
     {
-        _generalButton.Text.ChangeColor(Color.Gray);
+        _advancedButton.Text.ChangeColor(Color.Gray);
         _videoButton.Text.ChangeColor(Color.Gray);
         _audioButton.Text.ChangeColor(Color.Gray);
         _languageButton.Text.ChangeColor(Color.Gray);
@@ -366,9 +367,6 @@ public class Level : SampleLevel
 
         switch (_menuState)
         {
-            case MenuState.General:
-                _generalButton.Text.ChangeColor(Color.White);
-                break;
             case MenuState.Video:
                 _videoButton.Text.ChangeColor(Color.White);
                 break;
@@ -381,6 +379,9 @@ public class Level : SampleLevel
             case MenuState.Keybinds:
                 _keybindsButton.Text.ChangeColor(Color.White);
                 break;
+            case MenuState.Advanced:
+                _advancedButton.Text.ChangeColor(Color.White);
+                break;
         }
     }
 
@@ -390,11 +391,13 @@ public class Level : SampleLevel
         Name = _textComponent.GetValue("Name");
         OnNameChange?.Invoke();
 
-        _generalButton.Text.ChangeText(_textComponent.GetValue("General"));
+
         _videoButton.Text.ChangeText(_textComponent.GetValue("Video"));
         _audioButton.Text.ChangeText(_textComponent.GetValue("Audio"));
         _languageButton.Text.ChangeText(_textComponent.GetValue("Language"));
         _keybindsButton.Text.ChangeText(_textComponent.GetValue("Keybinds"));
+        _advancedButton.Text.ChangeText(_textComponent.GetValue("Advanced"));
+
         UpdateButtonSelection();
 
         _consoleEnabledLabel.ChangeText(_textComponent.GetValue("DevConsoleEnabled"));
