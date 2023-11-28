@@ -245,7 +245,7 @@ public class Level : SampleLevel
 
         #region Language
 
-        Flag flag = new Flag(TextProvider.Language.en_US, 2.5F);
+        Flag flag = new Flag(TextProvider.Language.en_GB, 2.5F);
         flag.DrawColor *= 0.7F;
         flag.GetCalculator(Camera.Rectangle)
             .OnY(0.55F)

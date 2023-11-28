@@ -50,92 +50,92 @@
     <EmbeddedResource Include="Text\Levels\Level0\de_DE.json">
       <LogicalName>Text.Levels.Level0.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level0\en_US.json">
-      <LogicalName>Text.Levels.Level0.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level0\en_GB.json">
+      <LogicalName>Text.Levels.Level0.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level1\de_DE.json">
       <LogicalName>Text.Levels.Level1.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level1\en_US.json">
-      <LogicalName>Text.Levels.Level1.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level1\en_GB.json">
+      <LogicalName>Text.Levels.Level1.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level2\de_DE.json">
       <LogicalName>Text.Levels.Level2.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level2\en_US.json">
-      <LogicalName>Text.Levels.Level2.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level2\en_GB.json">
+      <LogicalName>Text.Levels.Level2.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level3\de_DE.json">
       <LogicalName>Text.Levels.Level3.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level3\en_US.json">
-      <LogicalName>Text.Levels.Level3.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level3\en_GB.json">
+      <LogicalName>Text.Levels.Level3.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level4\de_DE.json">
       <LogicalName>Text.Levels.Level4.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level4\en_US.json">
-      <LogicalName>Text.Levels.Level4.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level4\en_GB.json">
+      <LogicalName>Text.Levels.Level4.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level5\de_DE.json">
       <LogicalName>Text.Levels.Level5.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level5\en_US.json">
-      <LogicalName>Text.Levels.Level5.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level5\en_GB.json">
+      <LogicalName>Text.Levels.Level5.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level6\de_DE.json">
       <LogicalName>Text.Levels.Level6.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level6\en_US.json">
-      <LogicalName>Text.Levels.Level6.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level6\en_GB.json">
+      <LogicalName>Text.Levels.Level6.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level7\de_DE.json">
       <LogicalName>Text.Levels.Level7.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level7\en_US.json">
-      <LogicalName>Text.Levels.Level7.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level7\en_GB.json">
+      <LogicalName>Text.Levels.Level7.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level8\de_DE.json">
       <LogicalName>Text.Levels.Level8.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level8\en_US.json">
-      <LogicalName>Text.Levels.Level8.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level8\en_GB.json">
+      <LogicalName>Text.Levels.Level8.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level9\de_DE.json">
       <LogicalName>Text.Levels.Level9.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level9\en_US.json">
-      <LogicalName>Text.Levels.Level9.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level9\en_GB.json">
+      <LogicalName>Text.Levels.Level9.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level10\de_DE.json">
       <LogicalName>Text.Levels.Level10.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level10\en_US.json">
-      <LogicalName>Text.Levels.Level10.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level10\en_GB.json">
+      <LogicalName>Text.Levels.Level10.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level11\de_DE.json">
       <LogicalName>Text.Levels.Level11.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level11\en_US.json">
-      <LogicalName>Text.Levels.Level11.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level11\en_GB.json">
+      <LogicalName>Text.Levels.Level11.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level12\de_DE.json">
       <LogicalName>Text.Levels.Level12.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level12\en_US.json">
-      <LogicalName>Text.Levels.Level12.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Level12\en_GB.json">
+      <LogicalName>Text.Levels.Level12.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\MainMenu\de_DE.json">
       <LogicalName>Text.Levels.MainMenu.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\MainMenu\en_US.json">
-      <LogicalName>Text.Levels.MainMenu.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\MainMenu\en_GB.json">
+      <LogicalName>Text.Levels.MainMenu.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Settings\de_DE.json">
       <LogicalName>Text.Levels.Settings.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Settings\en_US.json">
-      <LogicalName>Text.Levels.Settings.en_US</LogicalName>
+    <EmbeddedResource Include="Text\Levels\Settings\en_GB.json">
+      <LogicalName>Text.Levels.Settings.en_GB</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
