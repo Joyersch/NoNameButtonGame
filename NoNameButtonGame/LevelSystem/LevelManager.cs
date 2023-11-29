@@ -27,7 +27,6 @@ internal class LevelManager
     private LevelState _levelState;
 
     public event Action CloseGame;
-    public event Action SettingsChanged;
 
     public event Action<string> ChangeTitle;
 
@@ -42,7 +41,8 @@ internal class LevelManager
         Level
     }
 
-    public LevelManager(Display display, GameWindow gameWindow, SettingsManager settingsManager, NoNameGame game, int? seed = null)
+    public LevelManager(Display display, GameWindow gameWindow, SettingsManager settingsManager, NoNameGame game,
+        int? seed = null)
     {
         _display = display;
         _settingsManager = settingsManager;
@@ -249,7 +249,5 @@ internal class LevelManager
     {
         _settingsManager.Save();
         Log.WriteInformation("Saved the game!");
-        if (_levelState == LevelState.Settings)
-            SettingsChanged?.Invoke();
     }
 }

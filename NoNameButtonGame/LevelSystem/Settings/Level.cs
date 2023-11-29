@@ -58,6 +58,7 @@ public class Level : SampleLevel
     private Checkbox _consoleEnabled;
     private Checkbox _fixedStep;
     private Checkbox _fullscreen;
+    private ValueSelection _resolution;
     private Text _fullscreenLabel;
 
     private MenuState _menuState;
@@ -76,7 +77,8 @@ public class Level : SampleLevel
         Advanced
     }
 
-    public Level(Display display, Vector2 window, Random random, SettingsManager settings, NoNameGame game) : base(display,
+    public Level(Display display, Vector2 window, Random random, SettingsManager settings, NoNameGame game) : base(
+        display,
         window, random)
     {
         _game = game;
@@ -111,7 +113,6 @@ public class Level : SampleLevel
             .OnX(3, 4)
             .OnY(0.3F)
             .Move();
-
 
         _advancedCollection = new ManagmentCollection();
         _videoCollection = new ManagmentCollection();
@@ -178,18 +179,15 @@ public class Level : SampleLevel
         var index = resolutions.IndexOf(resolutions.First(r =>
             ((Resolution)r).Width == _videoSettings.Resolution.Width));
 
-        var resolution = new ValueSelection(Vector2.Zero, 1, resolutions, index);
-        var forCalucation = new Checkbox();
-        forCalucation.GetAnchor(_anchorLeft)
-            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceY(36F)
-            .SetDistanceX(4F)
+        _resolution = new ValueSelection(Vector2.Zero, 1, resolutions, index);
+
+        _resolution.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.4F)
+            .Centered()
             .Move();
 
-        resolution.Move(forCalucation.Position);
-
-        resolution.ValueChanged += delegate(object o)
+        _resolution.ValueChanged += delegate(object o)
         {
             var resolution = (Resolution)o;
             _videoSettings.Resolution = resolution;
@@ -199,39 +197,39 @@ public class Level : SampleLevel
             _game.ApplyResolution(resolution);
         };
 
-        _videoCollection.Add(resolution);
+        _videoCollection.Add(_resolution);
 
         _fixedStep = new Checkbox(_videoSettings.IsFixedStep);
-        _fixedStep.GetAnchor(resolution)
+        _fixedStep.GetAnchor(_resolution)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceY(4F + _fixedStep.Size.Y / 2)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .SetDistanceY(Checkbox.DefaultSize.Y / 4)
             .Move();
 
         _fixedStep.ValueChanged += delegate(bool value)
         {
-            _videoSettings.IsFixedStep = !value;
-            _game.ApplyFixedStep(!value);
+            _videoSettings.IsFixedStep = value;
+            _game.ApplyFixedStep(value);
         };
 
         _videoCollection.Add(_fixedStep);
 
         _fixedStepLabel = new Text(string.Empty);
-  
+
 
         _videoCollection.Add(_fixedStepLabel);
 
         _fullscreen = new Checkbox(_videoSettings.IsFullscreen);
         _fullscreen.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceY(4F + _fullscreen.Size.Y / 2)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .SetDistanceY(Checkbox.DefaultSize.Y / 4)
             .Move();
 
         _fullscreen.ValueChanged += delegate(bool value)
         {
             _videoSettings.IsFullscreen = value;
-           _game.ApplyFullscreen(value);
+            _game.ApplyFullscreen(value);
         };
 
         _videoCollection.Add(_fullscreen);
@@ -307,10 +305,7 @@ public class Level : SampleLevel
             .Centered()
             .Move();
 
-        _saveButton.Click += delegate
-        {
-            OnSave?.Invoke();
-        };
+        _saveButton.Click += delegate { OnSave?.Invoke(); };
 
         _discardButton = new TextButton(string.Empty);
         _discardButton.GetCalculator(Camera.Rectangle)
@@ -319,14 +314,11 @@ public class Level : SampleLevel
             .Centered()
             .Move();
 
-        _discardButton.Click += delegate
-        {
-            OnDiscard?.Invoke();
-        };
+        _discardButton.Click += delegate { OnDiscard?.Invoke(); };
 
         _highlight = new Dot(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
         {
-            DrawColor = new Color(0,0,0,128)
+            DrawColor = new Color(0, 0, 0, 128)
         };
 
         #endregion
@@ -359,6 +351,24 @@ public class Level : SampleLevel
             _advancedButton.Update(gameTime);
 
             _cursor.Update(gameTime);
+
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseUp, true))
+            {
+                if (_menuState == MenuState.Advanced)
+                    _menuState = MenuState.Video;
+                else
+                    _menuState++;
+            }
+
+
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseDown, true))
+            {
+                if (_menuState == MenuState.Video)
+                    _menuState = MenuState.Advanced;
+                else
+                    _menuState--;
+            }
+
             // Does not need to be run every frame, only when a menu button is clicked
             UpdateButtonSelection();
 
@@ -500,26 +510,26 @@ public class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
             .SetDistanceX(4F)
             .Move();
-        
+
         _resolutionInfo.ChangeText(_textComponent.GetValue("Resolution"));
-        _resolutionInfo.GetAnchor(_anchorLeft)
-            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
-            .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistance(4F)
+        _resolutionInfo.GetAnchor(_resolution)
+            .SetMainAnchor(AnchorCalculator.Anchor.Top)
+            .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetDistanceY(4F)
             .Move();
-        
-        _fixedStepLabel.ChangeText( _textComponent.GetValue("FPSLimit"));
+
+        _fixedStepLabel.ChangeText(_textComponent.GetValue("FPSLimit"));
         _fixedStepLabel.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(4F)
+            .SetDistanceX(Checkbox.DefaultSize.Y / 2)
             .Move();
 
         _fullscreenLabel.ChangeText(_textComponent.GetValue("Fullscreen"));
         _fullscreenLabel.GetAnchor(_fullscreen)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(4F)
+            .SetDistanceX(Checkbox.DefaultSize.Y / 2)
             .Move();
 
         _saveButton.Text.ChangeText(_textComponent.GetValue("Save"));

@@ -30,8 +30,6 @@ public class NoNameGame : Game
     private SettingsManager _settingsManager;
     private LevelManager _levelManager;
 
-    private AdvancedSettings advancedSettings;
-
     private DevConsole _console;
     private bool _isConsoleActive;
     private bool _isConsoleEnabled;
@@ -72,9 +70,8 @@ public class NoNameGame : Game
         if (!_settingsManager.Load())
             _settingsManager.Save();
 
-        ApplySettings();
-
         TextProvider.Initialize();
+        ApplySettings();
 
         // register soundSettingsListener to change sound volume if
         //Global.SoundSettingsListener = new SoundSettingsListener(_settingsManager.Settings);
@@ -83,7 +80,6 @@ public class NoNameGame : Game
         _levelManager = new LevelManager(_display, Window, _settingsManager, this);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
-        _levelManager.SettingsChanged += ApplySettings;
 
         // register context for console commands
         _console.Context.RegisterContext(nameof(LevelManager), _levelManager);
@@ -182,14 +178,14 @@ public class NoNameGame : Game
         _graphics.PreferredBackBufferHeight = resolution.Height;
         _graphics.ApplyChanges();
 
+        _display?.Update();
+
         if (_console != null)
         {
             _console = new DevConsole(Global.CommandProcessor, _console.Position, _display.SimpleScale,
                 _console);
             Log.Out.UpdateReference(_console);
         }
-
-        _display?.Update();
     }
 
     public void ApplyFullscreen(bool fullscreen)
