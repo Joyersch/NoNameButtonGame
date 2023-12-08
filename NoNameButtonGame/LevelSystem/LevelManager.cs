@@ -49,6 +49,7 @@ internal class LevelManager
         _game = game;
         _videoSettings = _settingsManager.GetSetting<VideoSettings>();
         _progress = _settingsManager.GetSave<Progress>();
+        _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display,
             _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager, game);
@@ -175,7 +176,7 @@ internal class LevelManager
         {
             settingsLevel.OnDiscard += delegate
             {
-                _settingsManager.Load();
+                _settingsManager.LoadSettings();
                 _game.ApplySettings();
                 var videoSettings = _settingsManager.GetSetting<VideoSettings>();
                 _levelFactory.ChangeScreenSize(videoSettings.Resolution.ToVector2());
@@ -183,7 +184,7 @@ internal class LevelManager
             };
             settingsLevel.OnSave += delegate
             {
-                _settingsManager.Save();
+                _settingsManager.SaveSettings();
                 ExitLevel();
             };
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
@@ -212,7 +213,8 @@ internal class LevelManager
                 {
                     _progress.MaxLevel = _levelId;
                     Log.WriteInformation($"Updated max level value to {_levelId}");
-                    Save();
+                    _settingsManager.SaveSave();
+                    Log.WriteInformation("Saved progress!");
                 }
 
                 _levelId++;
@@ -243,11 +245,5 @@ internal class LevelManager
     {
         Log.WriteInformation($"Level failed. Current level: {_levelId}");
         ChangeLevel();
-    }
-
-    private void Save()
-    {
-        _settingsManager.Save();
-        Log.WriteInformation("Saved the game!");
     }
 }

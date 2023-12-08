@@ -46,5 +46,13 @@
   {
     "key": "Discard",
     "value": "Verwerfen"
+  },
+  {
+    "key": "ShowTotalGameTime",
+    "value": "Zeige ganze Spielzeit seit Öffnung"
+  },
+  {
+    "key": "DeleteSave",
+    "value": "Lösche Spielstand"
   }
 ]

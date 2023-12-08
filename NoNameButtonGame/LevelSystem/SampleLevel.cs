@@ -90,6 +90,7 @@ public class SampleLevel : ILevel
 
         PositionListener.Update(gameTime);
         RelativePositionListener.Update(gameTime);
+        ColorListener.Update(gameTime);
         
         Mouse.Update(gameTime);
 

@@ -13,7 +13,9 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
@@ -42,20 +44,20 @@ public class Level : SampleLevel
     private ManagmentCollection _videoCollection;
     private ManagmentCollection _audioCollection;
     private ManagmentCollection _languageCollection;
-    private ManagmentCollection _keybindsCollection;
 
     private TextButton _advancedButton;
     private TextButton _videoButton;
     private TextButton _audioButton;
     private TextButton _languageButton;
-    private TextButton _keybindsButton;
 
     private Text _consoleEnabledLabel;
     private Text _resolutionInfo;
     private Text _fixedStepLabel;
+    private Text _elapsedTimeLabel;
 
     private TextComponent _textComponent;
     private Checkbox _consoleEnabled;
+    private Checkbox _showElapsedTime;
     private Checkbox _fixedStep;
     private Checkbox _fullscreen;
     private ValueSelection _resolution;
@@ -68,12 +70,15 @@ public class Level : SampleLevel
     private TextButton _discardButton;
     private Dot _highlight;
 
+    private int _deleteButtonClicked = 0;
+    private TextButton _deleteSave;
+    private PulsatingRed _deleteColor;
+
     private enum MenuState
     {
         Video,
         Audio,
         Language,
-        Keybinds,
         Advanced
     }
 
@@ -118,14 +123,13 @@ public class Level : SampleLevel
         _videoCollection = new ManagmentCollection();
         _audioCollection = new ManagmentCollection();
         _languageCollection = new ManagmentCollection();
-        _keybindsCollection = new ManagmentCollection();
 
         AutoManaged.Add(_advancedButton);
 
         _videoButton = new TextButton(string.Empty);
         _videoButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.1F)
+            .OnX(0.2F)
             .Centered()
             .Move();
         _videoButton.Click += _ => _menuState = MenuState.Video;
@@ -133,7 +137,7 @@ public class Level : SampleLevel
         _audioButton = new TextButton(string.Empty);
         _audioButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.3F)
+            .OnX(0.4F)
             .Centered()
             .Move();
         _audioButton.Click += _ => _menuState = MenuState.Audio;
@@ -141,23 +145,15 @@ public class Level : SampleLevel
         _languageButton = new TextButton(string.Empty);
         _languageButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.5F)
+            .OnX(0.6F)
             .Centered()
             .Move();
         _languageButton.Click += _ => _menuState = MenuState.Language;
 
-        _keybindsButton = new TextButton(string.Empty);
-        _keybindsButton.GetCalculator(Camera.Rectangle)
-            .OnY(0.1F)
-            .OnX(0.7F)
-            .Centered()
-            .Move();
-        _keybindsButton.Click += _ => _menuState = MenuState.Keybinds;
-
         _advancedButton = new TextButton(string.Empty);
         _advancedButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.9F)
+            .OnX(0.8F)
             .Centered()
             .Move();
         _advancedButton.Click += _ => _menuState = MenuState.Advanced;
@@ -294,6 +290,54 @@ public class Level : SampleLevel
 
         _advancedCollection.Add(_consoleEnabledLabel);
 
+
+        _showElapsedTime = new Checkbox(_advancedSettings.ShowElapsedTime);
+        _showElapsedTime.ValueChanged += (c) =>
+        {
+            _advancedSettings.ShowElapsedTime = c;
+            _game.ShowElapsedTime(c);
+        };
+        _showElapsedTime.GetAnchor(_consoleEnabled)
+            .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetSubAnchor(AnchorCalculator.Anchor.Top)
+            .SetDistanceY(8F)
+            .Move();
+
+        _advancedCollection.Add(_showElapsedTime);
+
+        _elapsedTimeLabel = new Text(string.Empty);
+
+        _advancedCollection.Add(_elapsedTimeLabel);
+
+        _deleteSave = new TextButton(string.Empty);
+        _deleteSave.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.7F)
+            .Centered()
+            .Move();
+
+        var deleteSaveHold = new HoldButtonAddon(new ButtonAddonAdapter(_deleteSave), 5000F);
+        deleteSaveHold.Callback += (o, state) =>
+        {
+            if (state != IButtonAddon.CallState.Click)
+                return;
+
+            settings.DeleteSave();
+            _game.Exit();
+        };
+
+        _advancedCollection.Add(deleteSaveHold);
+
+        _deleteColor = new PulsatingRed
+        {
+            GameTimeStepInterval = 14F,
+            Increment = 1,
+            NoGradient = true
+        };
+
+        AutoManaged.Add(_deleteColor);
+        ColorListener.Add(_deleteColor, _deleteSave);
+
         #endregion // Advanced
 
         #region SaveSettings
@@ -344,9 +388,6 @@ public class Level : SampleLevel
             _languageButton.UpdateInteraction(gameTime, _cursor);
             _languageButton.Update(gameTime);
 
-            _keybindsButton.UpdateInteraction(gameTime, _cursor);
-            _keybindsButton.Update(gameTime);
-
             _advancedButton.UpdateInteraction(gameTime, _cursor);
             _advancedButton.Update(gameTime);
 
@@ -386,10 +427,6 @@ public class Level : SampleLevel
                     _languageCollection.UpdateInteraction(gameTime, _cursor);
                     _languageCollection.Update(gameTime);
                     break;
-                case MenuState.Keybinds:
-                    _keybindsCollection.UpdateInteraction(gameTime, _cursor);
-                    _keybindsCollection.Update(gameTime);
-                    break;
                 case MenuState.Advanced:
                     _advancedCollection.UpdateInteraction(gameTime, _cursor);
                     _advancedCollection.Update(gameTime);
@@ -414,7 +451,6 @@ public class Level : SampleLevel
         _videoButton.Draw(spriteBatch);
         _audioButton.Draw(spriteBatch);
         _languageButton.Draw(spriteBatch);
-        _keybindsButton.Draw(spriteBatch);
         _advancedButton.Draw(spriteBatch);
 
         switch (_menuState)
@@ -427,9 +463,6 @@ public class Level : SampleLevel
                 break;
             case MenuState.Language:
                 _languageCollection.Draw(spriteBatch);
-                break;
-            case MenuState.Keybinds:
-                _keybindsCollection.Draw(spriteBatch);
                 break;
             case MenuState.Advanced:
                 _advancedCollection.Draw(spriteBatch);
@@ -451,7 +484,7 @@ public class Level : SampleLevel
     private void OnFlagClick(object sender)
     {
         foreach (Flag f in _languageCollection.OfType<Flag>())
-            f.DrawColor = Color.White * 0.7F;
+            f.DrawColor = Color.White * 0.6F;
 
         Flag flag = (Flag)sender;
 
@@ -467,7 +500,6 @@ public class Level : SampleLevel
         _videoButton.Text.ChangeColor(Color.Gray);
         _audioButton.Text.ChangeColor(Color.Gray);
         _languageButton.Text.ChangeColor(Color.Gray);
-        _keybindsButton.Text.ChangeColor(Color.Gray);
 
         switch (_menuState)
         {
@@ -479,9 +511,6 @@ public class Level : SampleLevel
                 break;
             case MenuState.Language:
                 _languageButton.Text.ChangeColor(Color.White);
-                break;
-            case MenuState.Keybinds:
-                _keybindsButton.Text.ChangeColor(Color.White);
                 break;
             case MenuState.Advanced:
                 _advancedButton.Text.ChangeColor(Color.White);
@@ -499,7 +528,6 @@ public class Level : SampleLevel
         _videoButton.Text.ChangeText(_textComponent.GetValue("Video"));
         _audioButton.Text.ChangeText(_textComponent.GetValue("Audio"));
         _languageButton.Text.ChangeText(_textComponent.GetValue("Language"));
-        _keybindsButton.Text.ChangeText(_textComponent.GetValue("Keybinds"));
         _advancedButton.Text.ChangeText(_textComponent.GetValue("Advanced"));
 
         UpdateButtonSelection();
@@ -536,5 +564,14 @@ public class Level : SampleLevel
         _saveButton.Text.ChangeColor(Color.Green);
         _discardButton.Text.ChangeText(_textComponent.GetValue("Discard"));
         _discardButton.Text.ChangeColor(Color.Red);
+
+        _elapsedTimeLabel.ChangeText(_textComponent.GetValue("ShowTotalGameTime"));
+        _elapsedTimeLabel.GetAnchor(_showElapsedTime)
+            .SetMainAnchor(AnchorCalculator.Anchor.Right)
+            .SetSubAnchor(AnchorCalculator.Anchor.Left)
+            .SetDistanceX(4F)
+            .Move();
+
+        _deleteSave.Text.ChangeText(_textComponent.GetValue("DeleteSave"));
     }
 }

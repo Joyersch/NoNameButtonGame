@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using MonoUtils;
 using MonoUtils.Logging;
@@ -7,6 +8,7 @@ using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Console;
+using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
@@ -19,7 +21,8 @@ namespace NoNameButtonGame;
 public class NoNameGame : SimpleGame
 {
     private LevelManager _levelManager;
-
+    private bool _showElapsedTime;
+    private Text _elapsedTime;
 
     public NoNameGame()
     {
@@ -36,6 +39,8 @@ public class NoNameGame : SimpleGame
 
         // register soundSettingsListener to change sound volume if
         //Global.SoundSettingsListener = new SoundSettingsListener(SettingsManager.Settings);
+
+        _elapsedTime = new Text(string.Empty, 3F);
 
         // contains start-menu, settings, credits and all other levels
         _levelManager = new LevelManager(Display, Window, SettingsManager, this);
@@ -83,7 +88,20 @@ public class NoNameGame : SimpleGame
     protected override void Update(GameTime gameTime)
     {
         if (IsActive)
+        {
             _levelManager.Update(gameTime);
+            if (_showElapsedTime)
+            {
+
+                _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
+                _elapsedTime.GetCalculator(Display.Window)
+                    .ByGridY(1)
+                    .BySizeY(-1F)
+                    .Move();
+            }
+
+            _elapsedTime.Update(gameTime);
+        }
 
         base.Update(gameTime);
     }
@@ -96,6 +114,10 @@ public class NoNameGame : SimpleGame
         {
             if (IsConsoleActive && IsConsoleEnabled)
                 Console.Draw(spriteBatch);
+            if (_showElapsedTime)
+            {
+                _elapsedTime.Draw(spriteBatch);
+            }
         });
     }
 
@@ -109,6 +131,7 @@ public class NoNameGame : SimpleGame
 
         TextProvider.Localization = languageSettings.Localization;
         IsConsoleEnabled = advancedSettings.ConsoleEnabled;
+        _showElapsedTime = advancedSettings.ShowElapsedTime;
     }
 
     public void ApplySettings(VideoSettings settings)
@@ -129,5 +152,10 @@ public class NoNameGame : SimpleGame
         Console = new DevConsole(Global.CommandProcessor, Console.Position, Display.SimpleScale,
             Console);
         Log.Out.UpdateReference(Console);
+    }
+
+    public void ShowElapsedTime(bool show)
+    {
+        _showElapsedTime = show;
     }
 }

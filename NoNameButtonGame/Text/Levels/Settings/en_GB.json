@@ -46,5 +46,13 @@
   {
     "key": "Discard",
     "value": "Discard"
+  },
+  {
+    "key": "ShowTotalGameTime",
+    "value": "Show total game time since launch"
+  },
+  {
+    "key": "DeleteSave",
+    "value": "Delete save"
   }
 ]
