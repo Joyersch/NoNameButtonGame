@@ -29,7 +29,7 @@
   },
   {
     "key": "FPSLimit",
-    "value": "FPS-Limit"
+    "value": "FPS-Limit (60)"
   },
   {
     "key": "Fullscreen",

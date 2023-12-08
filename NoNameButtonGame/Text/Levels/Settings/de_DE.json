@@ -29,7 +29,7 @@
   },
   {
     "key": "FPSLimit",
-    "value": "FPS-Begrenzung"
+    "value": "FPS-Begrenzung (60)"
   },
   {
     "key": "Fullscreen",
@@ -53,6 +53,6 @@
   },
   {
     "key": "DeleteSave",
-    "value": "Lösche Spielstand"
+    "value": "Spielstand löschen"
   }
 ]

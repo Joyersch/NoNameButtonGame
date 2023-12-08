@@ -239,7 +239,6 @@ public class Level : SampleLevel
         #region Language
 
         Flag flag = new Flag(TextProvider.Language.en_GB, 2.5F);
-        flag.DrawColor *= 0.7F;
         flag.GetCalculator(Camera.Rectangle)
             .OnY(0.55F)
             .OnX(0.33F)
@@ -251,7 +250,6 @@ public class Level : SampleLevel
         _languageCollection.Add(flag);
 
         flag = new Flag(TextProvider.Language.de_DE, 2.5F);
-        flag.DrawColor *= 0.7F;
         flag.GetCalculator(Camera.Rectangle)
             .OnY(0.55F)
             .OnX(0.66F)
@@ -261,12 +259,6 @@ public class Level : SampleLevel
         flag.Click += OnFlagClick;
 
         _languageCollection.Add(flag);
-
-        foreach (var f in _languageCollection.OfType<Flag>())
-        {
-            if (f.Language == _languageSettings.Localization)
-                f.DrawColor = Color.White;
-        }
 
         #endregion // Language
 
@@ -367,7 +359,12 @@ public class Level : SampleLevel
 
         #endregion
 
-        ApplyText();
+
+        foreach (var f in _languageCollection.OfType<Flag>())
+        {
+            if (f.Language == _languageSettings.Localization)
+                OnFlagClick(f); // Calls ApplyText
+        }
 
         _cursor = new Cursor();
         Actuator = _cursor;
@@ -483,8 +480,9 @@ public class Level : SampleLevel
 
     private void OnFlagClick(object sender)
     {
+        float multiplier = 0.5F;
         foreach (Flag f in _languageCollection.OfType<Flag>())
-            f.DrawColor = Color.White * 0.6F;
+            f.DrawColor = new Color(multiplier, multiplier, multiplier);
 
         Flag flag = (Flag)sender;
 
