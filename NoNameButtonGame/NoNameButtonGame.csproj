@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Music" />
+    <Folder Include="Text\Levels\Credits\" />
     <Folder Include="Text\Levels\MainMenu\" />
     <Folder Include="Text\Levels\Settings\" />
   </ItemGroup>
@@ -130,6 +131,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\MainMenu\en_GB.json">
       <LogicalName>Text.Levels.MainMenu.en_GB</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Select\de_DE.json">
+      <LogicalName>Text.Levels.Select.de_DE</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Select\en_GB.json">
+      <LogicalName>Text.Levels.Select.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Settings\de_DE.json">
       <LogicalName>Text.Levels.Settings.de_DE</LogicalName>

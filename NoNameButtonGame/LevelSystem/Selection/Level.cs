@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
+using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
@@ -18,7 +19,8 @@ public class Level : SampleLevel
     public Level(Display display, Vector2 window, Random rand, Progress progress) : base(display,
         window, rand)
     {
-        Name = "Level Selection";
+        var textComponent = TextProvider.GetText("Levels.Select");
+        Name = textComponent.GetValue("Name");
 
         _mover = new OverTimeMover(Camera, Vector2.Zero, 500, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);
