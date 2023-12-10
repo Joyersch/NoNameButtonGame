@@ -98,6 +98,7 @@ internal class LevelManager
     public bool ChangeLevel(int level)
     {
         _currentLevel = _levelFactory.GetLevel(level);
+        ChangeTitle?.Invoke(_currentLevel.Name);
         RegisterEvents();
         return true;
     }
@@ -139,7 +140,6 @@ internal class LevelManager
                 _levelState = LevelState.Level;
                 _levelId = _progress.MaxLevel + 1;
                 ChangeLevel(_levelId);
-                ChangeTitle?.Invoke(_currentLevel.Name);
             };
 
             mainMenu.SelectClicked += delegate
@@ -169,7 +169,6 @@ internal class LevelManager
                 Log.WriteInformation($"Selecting level {level}");
                 _levelState = LevelState.SelectLevel;
                 ChangeLevel(level);
-                ChangeTitle?.Invoke(_currentLevel.Name);
             };
         }
         else if (_currentLevel is Settings.Level settingsLevel)
