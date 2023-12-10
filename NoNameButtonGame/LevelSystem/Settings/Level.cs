@@ -56,6 +56,7 @@ public class Level : SampleLevel
     private Text _elapsedTimeLabel;
     private Text _musicVolumeLabel;
     private Text _soundEffectVolumeLabel;
+    private Text _saveChangesLabel;
 
     private TextComponent _textComponent;
     private Checkbox _consoleEnabled;
@@ -282,7 +283,7 @@ public class Level : SampleLevel
         _soundEffectVolume.ValueChanged += delegate(object o)
         {
             Volume v = (Volume)o;
-            _audioSettings.MusicVolume = v.Value;
+            _audioSettings.SoundEffectVolume = v.Value;
         };
         _audioCollection.Add(_soundEffectVolume);
 
@@ -389,6 +390,8 @@ public class Level : SampleLevel
 
         #region SaveSettings
 
+        _saveChangesLabel = new Text(string.Empty);
+
         _saveButton = new TextButton(string.Empty);
         _saveButton.GetCalculator(Camera.Rectangle)
             .OnY(0.55F)
@@ -409,7 +412,7 @@ public class Level : SampleLevel
 
         _highlight = new Dot(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
         {
-            DrawColor = new Color(0, 0, 0, 128)
+            DrawColor = new Color(32, 32, 32, 240)
         };
 
         #endregion
@@ -489,6 +492,7 @@ public class Level : SampleLevel
 
         _cursor.Update(gameTime);
         _highlight.Update(gameTime);
+        _saveChangesLabel.Update(gameTime);
         _saveButton.UpdateInteraction(gameTime, _cursor);
         _saveButton.Update(gameTime);
         _discardButton.UpdateInteraction(gameTime, _cursor);
@@ -529,6 +533,7 @@ public class Level : SampleLevel
         _highlight.Draw(spriteBatch);
         _saveButton.Draw(spriteBatch);
         _discardButton.Draw(spriteBatch);
+        _saveChangesLabel.Draw(spriteBatch);
         _cursor.Draw(spriteBatch);
     }
 
@@ -575,7 +580,6 @@ public class Level : SampleLevel
         _textComponent = TextProvider.GetText("Levels.Settings");
         Name = _textComponent.GetValue("Name");
         OnNameChange?.Invoke();
-
 
         _videoButton.Text.ChangeText(_textComponent.GetValue("Video"));
         _audioButton.Text.ChangeText(_textComponent.GetValue("Audio"));
@@ -638,6 +642,14 @@ public class Level : SampleLevel
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
             .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
             .SetDistance(4F)
+            .Move();
+
+        _saveChangesLabel.ChangeText(_textComponent.GetValue("SaveChanges"));
+        _saveChangesLabel.ChangeColor(Color.DeepSkyBlue);
+        _saveChangesLabel.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.33F)
+            .Centered()
             .Move();
     }
 }

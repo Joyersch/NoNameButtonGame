@@ -62,5 +62,9 @@
   {
     "key": "SoundEffectVolume",
     "value": "Effektlautstärke"
+  },
+  {
+    "key": "SaveChanges",
+    "value": "Änderungen speichern?"
   }
 ]

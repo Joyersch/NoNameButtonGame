@@ -62,5 +62,9 @@
   {
     "key": "SoundEffectVolume",
     "value": "Sound effect volume"
+  },
+  {
+    "key": "SaveChanges",
+    "value": "Save changes?"
   }
 ]
