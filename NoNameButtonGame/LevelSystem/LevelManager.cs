@@ -140,6 +140,9 @@ internal class LevelManager
             case LevelState.SelectLevel:
             case LevelState.Level:
                 return ChangeLevel(_levelId);
+            case LevelState.Credits:
+                _currentLevel = _levelFactory.GetCredits();
+                break;
         }
 
         ChangeTitle?.Invoke(_currentLevel.Name);
@@ -177,8 +180,8 @@ internal class LevelManager
 
             mainMenu.CreditsClicked += delegate
             {
-                // ToDo: Credits
-                Log.WriteCritical("Credits not defined!");
+                _levelState = LevelState.Credits;
+                ChangeLevel();
             };
         }
         else if (_currentLevel is Selection.Level selectLevel)

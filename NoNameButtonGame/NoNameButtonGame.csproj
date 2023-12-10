@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Music" />
-    <Folder Include="Text\Levels\Credits\" />
     <Folder Include="Text\Levels\MainMenu\" />
     <Folder Include="Text\Levels\Settings\" />
   </ItemGroup>
@@ -149,6 +148,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\FinishScreen\en_GB.json">
       <LogicalName>Text.Levels.FinishScreen.en_GB</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Credits\de_DE.json">
+      <LogicalName>Text.Levels.Credits.de_DE</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Credits\en_GB.json">
+      <LogicalName>Text.Levels.Credits.en_GB</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -60,4 +60,7 @@ public class LevelFactory
 
     public FinishScreen.Level GetFinishScreen()
     => new FinishScreen.Level(_display, _screen, _random);
+
+    public Credits.Level GetCredits()
+        => new Credits.Level(_display, _screen, _random);
 }
