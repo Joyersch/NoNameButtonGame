@@ -57,4 +57,7 @@ public class LevelFactory
         var isValid = levelRequest != level0;
         return isValid;
     }
+
+    public FinishScreen.Level GetFinishScreen()
+    => new FinishScreen.Level(_display, _screen, _random);
 }

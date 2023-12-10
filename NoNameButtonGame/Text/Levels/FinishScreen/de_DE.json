@@ -1,0 +1,14 @@
+[
+  {
+    "key": "Name",
+    "value": "Level ist fertig!"
+  },
+  {
+    "key": "PressToContinue",
+    "value": "Drücke die linke Maustaste für das nächste Level"
+  },
+  {
+    "key": "LevelFinished",
+    "value": "Level abgeschlossen!"
+  }
+]

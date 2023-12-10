@@ -21,7 +21,9 @@ internal class LevelManager
     private SampleLevel _currentLevel;
     private MainMenu.Level _startMenu;
     private Settings.Level _settings;
+    private FinishScreen.Level _finishScreen;
 
+    private bool _onFinishScreen;
     private int _levelId;
     private Selection.Level _level;
     private LevelState _levelState;
@@ -35,7 +37,6 @@ internal class LevelManager
         Menu,
         Settings,
         Credits,
-        Changelog,
         Select,
         SelectLevel,
         Level
@@ -53,13 +54,21 @@ internal class LevelManager
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display,
             _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager, game);
+        _finishScreen = _levelFactory.GetFinishScreen();
+        _finishScreen.OnFinish += FinishScreenDisplayed;
         _levelState = LevelState.Menu;
         ChangeLevel();
     }
 
     public void Update(GameTime gameTime)
     {
-        _currentLevel.Update(gameTime);
+        if (!_onFinishScreen)
+        {
+            _currentLevel.Update(gameTime);
+            return;
+        }
+
+        _finishScreen.Update(gameTime);
     }
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Action<SpriteBatch> drawOnStatic)
@@ -67,12 +76,24 @@ internal class LevelManager
         graphicsDevice.SetRenderTarget(_display.Target);
         graphicsDevice.Clear(new Color(50, 50, 50));
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-            transformMatrix: _currentLevel.Camera.CameraMatrix);
+        if (!_onFinishScreen)
+        {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+                transformMatrix: _currentLevel.Camera.CameraMatrix);
 
-        _currentLevel.Draw(spriteBatch);
+            _currentLevel.Draw(spriteBatch);
 
-        spriteBatch.End();
+            spriteBatch.End();
+        }
+        else
+        {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+                transformMatrix: _finishScreen.Camera.CameraMatrix);
+
+            _finishScreen.Draw(spriteBatch);
+
+            spriteBatch.End();
+        }
 
         graphicsDevice.SetRenderTarget(null);
 
@@ -197,13 +218,14 @@ internal class LevelManager
 
     private void LevelFinishes()
     {
-        Log.WriteInformation("Finished level");
-        // ToDo: Finish Screen here
-        FinishScreenDisplayed();
+        Log.WriteInformation("On finish screen");
+        _onFinishScreen = true;
     }
 
     private void FinishScreenDisplayed()
     {
+        _onFinishScreen = false;
+        Log.WriteInformation("Finished level");
         switch (_levelState)
         {
             case LevelState.Level:
