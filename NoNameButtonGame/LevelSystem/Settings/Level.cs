@@ -10,7 +10,6 @@ using MonoUtils.Logic.Management;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
@@ -23,9 +22,10 @@ namespace NoNameButtonGame.LevelSystem.Settings;
 public class Level : SampleLevel
 {
     private readonly NoNameGame _game;
-    private readonly AdvancedSettings _advancedSettings;
     private readonly VideoSettings _videoSettings;
+    private readonly AudioSettings _audioSettings;
     private readonly LanguageSettings _languageSettings;
+    private readonly AdvancedSettings _advancedSettings;
 
     private readonly GameObject _anchorLeft;
     private readonly GameObject _anchorMiddle;
@@ -54,6 +54,8 @@ public class Level : SampleLevel
     private Text _resolutionInfo;
     private Text _fixedStepLabel;
     private Text _elapsedTimeLabel;
+    private Text _musicVolumeLabel;
+    private Text _soundEffectVolumeLabel;
 
     private TextComponent _textComponent;
     private Checkbox _consoleEnabled;
@@ -62,6 +64,9 @@ public class Level : SampleLevel
     private Checkbox _fullscreen;
     private ValueSelection _resolution;
     private Text _fullscreenLabel;
+
+    private ValueSelection _musicVolume;
+    private ValueSelection _soundEffectVolume;
 
     private MenuState _menuState;
     private bool _saveDialog;
@@ -90,6 +95,7 @@ public class Level : SampleLevel
         _advancedSettings = settings.GetSetting<AdvancedSettings>();
         _videoSettings = settings.GetSetting<VideoSettings>();
         _languageSettings = settings.GetSetting<LanguageSettings>();
+        _audioSettings = settings.GetSetting<AudioSettings>();
 
         OnExit += delegate
         {
@@ -119,12 +125,10 @@ public class Level : SampleLevel
             .OnY(0.3F)
             .Move();
 
-        _advancedCollection = new ManagmentCollection();
         _videoCollection = new ManagmentCollection();
         _audioCollection = new ManagmentCollection();
         _languageCollection = new ManagmentCollection();
-
-        AutoManaged.Add(_advancedButton);
+        _advancedCollection = new ManagmentCollection();
 
         _videoButton = new TextButton(string.Empty);
         _videoButton.GetCalculator(Camera.Rectangle)
@@ -235,6 +239,57 @@ public class Level : SampleLevel
         _videoCollection.Add(_fullscreenLabel);
 
         #endregion // Video
+
+        #region Audio
+
+        List<object> volumeValues = new List<object>()
+        {
+            new Volume(0),
+            new Volume(0.1F),
+            new Volume(0.2F),
+            new Volume(0.3F),
+            new Volume(0.4F),
+            new Volume(0.5F),
+            new Volume(0.6F),
+            new Volume(0.7F),
+            new Volume(0.8F),
+            new Volume(0.9F),
+            new Volume(1F),
+        };
+
+        _musicVolume = new ValueSelection(Vector2.Zero, 1F, volumeValues, (int)(_audioSettings.MusicVolume * 10F));
+        _musicVolume.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.4F)
+            .Centered()
+            .Move();
+        _musicVolume.ValueChanged += delegate(object o)
+        {
+            Volume v = (Volume)o;
+            _audioSettings.MusicVolume = v.Value;
+        };
+        _audioCollection.Add(_musicVolume);
+
+        _musicVolumeLabel = new Text(string.Empty);
+        _audioCollection.Add(_musicVolumeLabel);
+
+        _soundEffectVolume = new ValueSelection(Vector2.Zero, 1F, volumeValues, (int)(_audioSettings.SoundEffectVolume * 10F));
+        _soundEffectVolume.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.6F)
+            .Centered()
+            .Move();
+        _soundEffectVolume.ValueChanged += delegate(object o)
+        {
+            Volume v = (Volume)o;
+            _audioSettings.MusicVolume = v.Value;
+        };
+        _audioCollection.Add(_soundEffectVolume);
+
+        _soundEffectVolumeLabel = new Text(string.Empty);
+        _audioCollection.Add(_soundEffectVolumeLabel);
+
+        #endregion // Audio
 
         #region Language
 
@@ -358,7 +413,6 @@ public class Level : SampleLevel
         };
 
         #endregion
-
 
         foreach (var f in _languageCollection.OfType<Flag>())
         {
@@ -571,5 +625,19 @@ public class Level : SampleLevel
             .Move();
 
         _deleteSave.Text.ChangeText(_textComponent.GetValue("DeleteSave"));
+
+        _musicVolumeLabel.ChangeText(_textComponent.GetValue("MusicVolume"));
+        _musicVolumeLabel.GetAnchor(_musicVolume)
+            .SetMainAnchor(AnchorCalculator.Anchor.Top)
+            .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetDistance(4F)
+            .Move();
+
+        _soundEffectVolumeLabel.ChangeText(_textComponent.GetValue("SoundEffectVolume"));
+        _soundEffectVolumeLabel.GetAnchor(_soundEffectVolume)
+            .SetMainAnchor(AnchorCalculator.Anchor.Top)
+            .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetDistance(4F)
+            .Move();
     }
 }

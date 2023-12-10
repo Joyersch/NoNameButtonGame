@@ -54,5 +54,13 @@
   {
     "key": "DeleteSave",
     "value": "Delete save"
+  },
+  {
+    "key": "MusicVolume",
+    "value": "Music volume"
+  },
+  {
+    "key": "SoundEffectVolume",
+    "value": "Sound effect volume"
   }
 ]

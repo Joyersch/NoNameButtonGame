@@ -54,5 +54,13 @@
   {
     "key": "DeleteSave",
     "value": "Spielstand löschen"
+  },
+  {
+    "key": "MusicVolume",
+    "value": "Musiklautstärke"
+  },
+  {
+    "key": "SoundEffectVolume",
+    "value": "Effektlautstärke"
   }
 ]
