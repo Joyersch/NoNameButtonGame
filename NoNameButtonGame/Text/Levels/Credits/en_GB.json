@@ -2,5 +2,9 @@
   {
     "key": "Name",
     "value": "Credits"
+  },
+  {
+    "key": "Test",
+    "value": "Test successful"
   }
 ]

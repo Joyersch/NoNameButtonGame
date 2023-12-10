@@ -47,6 +47,9 @@
     <ProjectReference Include="..\MonoUtils\MonoUtils\MonoUtils.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Text\Credits.md">
+      <LogicalName>Text.Credits</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\Level0\de_DE.json">
       <LogicalName>Text.Levels.Level0.de_DE</LogicalName>
     </EmbeddedResource>
