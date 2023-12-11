@@ -4,7 +4,27 @@
     "value": "Credits"
   },
   {
-    "key": "Test",
-    "value": "Test successful"
+    "key": "AGame",
+    "value": "A game made by:"
+  },
+  {
+    "key": "Music",
+    "value": "Music was made by:"
+  },
+  {
+    "key": "Art",
+    "value": "Art was made by:"
+  },
+  {
+    "key": "Source",
+    "value": "The code for the game can be found under:"
+  },
+  {
+    "key": "SpecialThanks",
+    "value": "Special thanks to:"
+  },
+  {
+    "key": "Testing",
+    "value": "The game was tested by:"
   }
 ]

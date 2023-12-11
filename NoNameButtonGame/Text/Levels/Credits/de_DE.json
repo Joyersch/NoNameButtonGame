@@ -4,7 +4,27 @@
     "value": "Abspann"
   },
   {
-    "key": "Test",
-    "value": "Test erfolgreich"
+    "key": "AGame",
+    "value": "Ein spiel von:"
+  },
+  {
+    "key": "Music",
+    "value": "Musik von:"
+  },
+  {
+    "key": "Art",
+    "value": "Grafiken von:"
+  },
+  {
+    "key": "Source",
+    "value": "Den Quellcode des Spiels findet man unter:"
+  },
+  {
+    "key": "SpecialThanks",
+    "value": "Besonderer Dank an:"
+  },
+  {
+    "key": "Testing",
+    "value": "Das Spiel wurde getestet durch:"
   }
 ]
