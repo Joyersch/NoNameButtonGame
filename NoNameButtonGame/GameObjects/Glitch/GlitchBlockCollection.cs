@@ -1,24 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using MonoUtils;
 using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Color;
+using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable
+internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable, IInteractable
 {
-    private readonly GlitchBlock[] _glitchBlocksGrid;
-    private bool _hover;
+    private readonly List<GlitchBlock> _glitchBlocksGrid;
 
     public event Action<object> Leave;
     public event Action<object> Enter;
     public event Action<object> Click;
 
-    private Color _oldDrawColor;
+    private MouseActionsMat _mouseActionsMat;
+
+    public GlitchBlockCollection(Vector2 size) : this(Vector2.Zero, size, GlitchBlock.DefaultSize)
+    {
+    }
 
     public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.DefaultSize)
     {
@@ -29,7 +36,8 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size, DefaultTexture, DefaultMapping)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size,
+        DefaultTexture, DefaultMapping)
     {
         var grid = size / singleSize;
         var gridEdge = new Vector2(size.X % singleSize.X, size.Y % singleSize.Y);
@@ -37,8 +45,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         grid.Floor();
         grid += Vector2.Ceiling(gridEdge / singleSize);
 
-
-        _glitchBlocksGrid = new GlitchBlock[(int) grid.X * (int) grid.Y];
+        _glitchBlocksGrid = new();
         for (int y = 0; y < grid.Y; y++)
         {
             for (int x = 0; x < grid.X; x++)
@@ -50,46 +57,41 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
                     newSize.Y = gridEdge.Y;
 
                 var block = new GlitchBlock(
-                    new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y), newSize);
-                _glitchBlocksGrid[y * (int) grid.X + x] = block;
+                    new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y),
+                    newSize,
+                    new Rectangle(Vector2.Zero.ToPoint(), (newSize / 2).ToPoint()));
+                _glitchBlocksGrid.Add(block);
             }
         }
+
+        _mouseActionsMat = new MouseActionsMat(this);
+        _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
+        _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
+        _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
     }
 
 
-    public void Update(GameTime gameTime, Rectangle mousePosition)
+    public override void Update(GameTime gameTime)
     {
-        for (int i = 0; i < _glitchBlocksGrid.Length; i++)
+        for (int i = 0; i < _glitchBlocksGrid.Count; i++)
         {
-            _glitchBlocksGrid[i].Update(gameTime, mousePosition);
+            _glitchBlocksGrid[i].Update(gameTime);
         }
 
-        if (HitboxCheck(mousePosition))
-        {
-            if (!_hover)
-                Enter?.Invoke(this);
-            _hover = true;
-        }
-        else if (_hover)
-        {
-            Leave?.Invoke(this);
-            _hover = false;
-        }
         base.Update(gameTime);
-        if (DrawColor != _oldDrawColor)
-        {
-            for (int i = 0; i < _glitchBlocksGrid.Length; i++)
-            {
-                _glitchBlocksGrid[i].DrawColor = DrawColor;
-            }
-        }
+    }
 
-        _oldDrawColor = DrawColor;
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    {
+        for (int i = 0; i < _glitchBlocksGrid.Count; i++)
+        {
+            _glitchBlocksGrid[i].UpdateInteraction(gameTime, toCheck);
+        }
     }
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        for (int i = 0; i < _glitchBlocksGrid.Length; i++)
+        for (int i = 0; i < _glitchBlocksGrid.Count; i++)
         {
             _glitchBlocksGrid[i].Draw(spriteBatch);
         }

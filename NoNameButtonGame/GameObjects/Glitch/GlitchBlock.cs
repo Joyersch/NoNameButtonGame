@@ -5,27 +5,26 @@ using Microsoft.Xna.Framework.Input;
 using MonoUtils.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils;
+using MonoUtils.Logging;
+using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Color;
+using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
+internal class GlitchBlock : GameObject, IColorable, IInteractable, IMouseActions
 {
-    private int _framePosition;
-    private readonly int _frameMaximum;
-    private const int FrameSpeed = 1000 / 64 * 2;
-
-    private float _savedGameTime;
-
-    private bool _hover;
-
-    public event Action<object> Enter;
     public event Action<object> Leave;
+    public event Action<object> Enter;
     public event Action<object> Click;
 
+    private MouseActionsMat _mouseActionsMat;
+
     public new static Vector2 DefaultSize = DefaultMapping.ImageSize * 2;
-    
+
     public new static Texture2D DefaultTexture;
+
     public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
     {
         ImageSize = new Vector2(16, 16),
@@ -33,75 +32,47 @@ internal class GlitchBlock : GameObject, IMouseActions, IColorable, IMoveable
         {
             new Rectangle(0, 0, 16, 16)
         },
-        AnimationsFrames = 64,
-        AnimationFromTop = true
+        AnimationFrames = 64,
+        AnimationFromTop = true,
+        AnimationSpeed = 31
     };
 
-    public GlitchBlock(Vector2 position) : this(position, DefaultSize)
+    public GlitchBlock(Vector2 position) : this(position, DefaultSize,
+        new Rectangle(Vector2.Zero.ToPoint(), DefaultMapping.ImageSize.ToPoint()))
     {
     }
 
-    public GlitchBlock(Vector2 position, float scale) : this(position, DefaultSize * scale)
+    public GlitchBlock(Vector2 position, Rectangle framePosition) : this(position, 1F, framePosition)
     {
     }
 
-    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size, DefaultTexture, DefaultMapping)
+    public GlitchBlock(Vector2 position, float scale, Rectangle framePosition) : this(position, DefaultSize * scale,
+        framePosition)
     {
-        var initialScale = size / DefaultMapping.ImageSize;
-        _frameMaximum = TextureHitboxMapping.AnimationsFrames;
-        FrameSize = initialScale / (initialScale.X > initialScale.Y ? initialScale.X : initialScale.Y) *
-                    FrameSize;
     }
 
-    public void Update(GameTime gameTime, Rectangle mousePosition)
+    public GlitchBlock(Vector2 position, Vector2 size, Rectangle framePosition) : base(position, size, DefaultTexture,
+        DefaultMapping)
     {
-        Mouse.GetState();
-        _savedGameTime += (float) gameTime.ElapsedGameTime.TotalMilliseconds;
-        while (_savedGameTime > FrameSpeed)
-        {
-            _savedGameTime -= FrameSpeed;
-            _framePosition++;
-            if (_framePosition == _frameMaximum) _framePosition = 0;
-            ImageLocation = new Rectangle(
-                !TextureHitboxMapping.AnimationFromTop ?? false
-                    ? _framePosition * (int) TextureHitboxMapping.ImageSize.Y
-                    : 0
-                , TextureHitboxMapping.AnimationFromTop ?? true
-                    ? _framePosition * (int) TextureHitboxMapping.ImageSize.X
-                    : 0
-                , (int) FrameSize.X, (int) FrameSize.Y);
-        }
+        FramePosition = framePosition;
+        _mouseActionsMat = new MouseActionsMat(this);
+        _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
+        _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
+        _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
+    }
 
-        if (HitboxCheck(mousePosition))
-        {
-            if (!_hover)
-                Enter?.Invoke(this);
-            _hover = true;
-        }
-        else if (_hover)
-        {
-            Leave?.Invoke(this);
-            _hover = false;
-        }
-
+    public override void Update(GameTime gameTime)
+    {
         base.Update(gameTime);
+    }
+
+    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    {
+        _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
     }
 
     public void ChangeColor(Color[] input)
         => DrawColor = input[0];
 
     public int ColorLength() => 1;
-
-    public Vector2 GetPosition()
-        => Position;
-
-    public Vector2 GetSize()
-        => Size;
-
-    public void Move(Vector2 newPosition)
-    {
-        Position = newPosition;
-        UpdateRectangle();
-        CalculateHitboxes();
-    }
 }
