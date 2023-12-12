@@ -87,10 +87,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        for (int i = 0; i < _glitchBlocksGrid.Count; i++)
-        {
-            _glitchBlocksGrid[i].UpdateInteraction(gameTime, toCheck);
-        }
+       _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
     }
 
     public override void Draw(SpriteBatch spriteBatch)
@@ -122,6 +119,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         {
             block.Move(block.Position + offset);
         }
+        UpdateRectangle();
     }
 
     public void ChangeColor(Color[] input)
