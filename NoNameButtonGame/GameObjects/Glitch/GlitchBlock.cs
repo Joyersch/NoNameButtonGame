@@ -21,40 +21,39 @@ internal class GlitchBlock : GameObject, IColorable, IInteractable, IMouseAction
 
     private MouseActionsMat _mouseActionsMat;
 
-    public new static Vector2 DefaultSize = DefaultMapping.ImageSize * 2;
+    public new static Vector2 DefaultSize = DefaultMapping.ImageSize * 4;
 
     public new static Texture2D DefaultTexture;
 
+    public static Color Color = new Color(181, 54, 54);
+
     public new static TextureHitboxMapping DefaultMapping => new TextureHitboxMapping()
     {
-        ImageSize = new Vector2(16, 16),
+        ImageSize = new Vector2(8, 8),
         Hitboxes = new[]
         {
-            new Rectangle(0, 0, 16, 16)
+            new Rectangle(0, 0, 8, 8)
         },
-        AnimationFrames = 64,
+        AnimationFrames = 16,
         AnimationFromTop = true,
-        AnimationSpeed = 31
+        AnimationSpeed = 128
     };
 
-    public GlitchBlock(Vector2 position) : this(position, DefaultSize,
-        new Rectangle(Vector2.Zero.ToPoint(), DefaultMapping.ImageSize.ToPoint()))
+
+    public GlitchBlock(Vector2 position) : this(position, 1F)
     {
     }
 
-    public GlitchBlock(Vector2 position, Rectangle framePosition) : this(position, 1F, framePosition)
+    public GlitchBlock(Vector2 position, float scale) : this(position, DefaultSize * scale)
     {
     }
 
-    public GlitchBlock(Vector2 position, float scale, Rectangle framePosition) : this(position, DefaultSize * scale,
-        framePosition)
-    {
-    }
-
-    public GlitchBlock(Vector2 position, Vector2 size, Rectangle framePosition) : base(position, size, DefaultTexture,
+    public GlitchBlock(Vector2 position, Vector2 size) : base(position, size, DefaultTexture,
         DefaultMapping)
     {
-        FramePosition = framePosition;
+        var scale = size / TextureHitboxMapping.ImageSize;
+        var max = Math.Max(scale.X, scale.Y);
+        FramePosition = new Rectangle(Vector2.Zero.ToPoint(), (size / max).ToPoint());
         _mouseActionsMat = new MouseActionsMat(this);
         _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
         _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
@@ -73,6 +72,9 @@ internal class GlitchBlock : GameObject, IColorable, IInteractable, IMouseAction
 
     public void ChangeColor(Color[] input)
         => DrawColor = input[0];
+
+    public void ChangeColor(Color input)
+        => DrawColor = input;
 
     public int ColorLength() => 1;
 }

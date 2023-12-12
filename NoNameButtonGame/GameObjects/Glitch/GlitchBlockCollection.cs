@@ -31,6 +31,11 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
     }
 
+    public GlitchBlockCollection(Vector2 size, float singleScale) : this(Vector2.Zero, size,
+        GlitchBlock.DefaultSize * singleScale)
+    {
+    }
+
     public GlitchBlockCollection(Vector2 position, Vector2 size, float singleScale) : this(position, size,
         GlitchBlock.DefaultSize * singleScale)
     {
@@ -58,8 +63,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
 
                 var block = new GlitchBlock(
                     new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y),
-                    newSize,
-                    new Rectangle(Vector2.Zero.ToPoint(), (newSize / 2).ToPoint()));
+                    newSize);
                 _glitchBlocksGrid.Add(block);
             }
         }
@@ -121,6 +125,14 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     }
 
     public void ChangeColor(Color[] input)
+    {
+        foreach (var glitchBlock in _glitchBlocksGrid)
+        {
+            glitchBlock.ChangeColor(input);
+        }
+    }
+
+    public void ChangeColor(Color input)
     {
         foreach (var glitchBlock in _glitchBlocksGrid)
         {
