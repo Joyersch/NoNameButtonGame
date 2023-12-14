@@ -132,7 +132,7 @@ public class Level : SampleLevel
         _viewState = ViewState.Overworld;
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
+    protected override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
 
@@ -145,7 +145,7 @@ public class Level : SampleLevel
         _cursor.Draw(spriteBatch);
     }
 
-    public override void DrawStatic(SpriteBatch spriteBatch)
+    protected override void DrawStatic(SpriteBatch spriteBatch)
     {
         base.DrawStatic(spriteBatch);
         if (!_overworld.HasFullyGenerated)

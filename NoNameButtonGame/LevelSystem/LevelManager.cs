@@ -71,43 +71,12 @@ internal class LevelManager
         _finishScreen.Update(gameTime);
     }
 
-    public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, Action<SpriteBatch> drawOnStatic)
+    public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
-        graphicsDevice.SetRenderTarget(_display.Target);
-        graphicsDevice.Clear(new Color(50, 50, 50));
-
         if (!_onFinishScreen)
-        {
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-                transformMatrix: _currentLevel.Camera.CameraMatrix);
-
-            _currentLevel.Draw(spriteBatch);
-
-            spriteBatch.End();
-        }
+            _currentLevel.Draw(graphicsDevice, spriteBatch);
         else
-        {
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-                transformMatrix: _finishScreen.Camera.CameraMatrix);
-
-            _finishScreen.Draw(spriteBatch);
-
-            spriteBatch.End();
-        }
-
-        graphicsDevice.SetRenderTarget(null);
-
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
-
-        graphicsDevice.Clear(Color.HotPink);
-
-        spriteBatch.Draw(_display.Target, _display.Window, null, Color.White);
-
-        _currentLevel.DrawStatic(spriteBatch);
-
-        drawOnStatic?.Invoke(spriteBatch);
-
-        spriteBatch.End();
+            _finishScreen.Draw(graphicsDevice, spriteBatch);
     }
 
     public void Exit()

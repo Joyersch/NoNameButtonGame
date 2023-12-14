@@ -220,7 +220,7 @@ public class Level : SampleLevel
         _counter.GetCalculator(_originScreen).OnCenter().Centered().OnY(3, 10).Move();
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
+    protected override void Draw(SpriteBatch spriteBatch)
     {
         if (_drawFinish)
             _finishButton.Draw(spriteBatch);

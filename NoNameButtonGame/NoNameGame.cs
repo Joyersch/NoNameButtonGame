@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -58,6 +59,7 @@ public class NoNameGame : SimpleGame
     protected override void LoadContent()
     {
         base.LoadContent();
+
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.
         // The Texture are being forwarded through the constructor unless otherwise specified.
@@ -110,15 +112,15 @@ public class NoNameGame : SimpleGame
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, SpriteBatch, spriteBatch =>
+        _levelManager.Draw(GraphicsDevice, SpriteBatch);
+        SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+        if (IsConsoleActive && IsConsoleEnabled)
+            Console.Draw(SpriteBatch);
+        if (_showElapsedTime)
         {
-            if (IsConsoleActive && IsConsoleEnabled)
-                Console.Draw(spriteBatch);
-            if (_showElapsedTime)
-            {
-                _elapsedTime.Draw(spriteBatch);
-            }
-        });
+            _elapsedTime.Draw(SpriteBatch);
+        }
+        SpriteBatch.End();
     }
 
     public void ApplySettings()

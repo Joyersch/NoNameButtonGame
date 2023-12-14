@@ -40,6 +40,8 @@ public class SampleLevel : ILevel
     protected readonly List<object> AutoManagedStatic;
     protected IHitbox Actuator;
 
+    public static Effect effect;
+
     protected SampleLevel(Display display, Vector2 window, Random random)
     {
         Display = display;
@@ -52,7 +54,7 @@ public class SampleLevel : ILevel
 
         AutoManaged = new List<object>();
         AutoManagedStatic = new List<object>();
-        
+
         Camera = new Camera(Vector2.Zero, Display.Size);
         Mouse = new MousePointer(window, Camera, true)
         {
@@ -61,9 +63,34 @@ public class SampleLevel : ILevel
         Mouse.SetMousePointerPositionToCenter();
         RelativePositionListener.Add(Camera, Mouse);
     }
-    
 
-    public virtual void Draw(SpriteBatch spriteBatch)
+
+    public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
+    {
+        graphicsDevice.SetRenderTarget(Display.Target);
+        graphicsDevice.Clear(new Color(50, 50, 50));
+
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+            transformMatrix: Camera.CameraMatrix);
+
+        Draw(spriteBatch);
+
+        spriteBatch.End();
+
+        graphicsDevice.SetRenderTarget(null);
+
+        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+
+        graphicsDevice.Clear(Color.HotPink);
+
+        spriteBatch.Draw(Display.Target, Display.Window, null, Color.White);
+
+        DrawStatic(spriteBatch);
+
+        spriteBatch.End();
+    }
+
+    protected virtual void Draw(SpriteBatch spriteBatch)
     {
         foreach (var obj in AutoManaged)
         {
@@ -71,16 +98,16 @@ public class SampleLevel : ILevel
                 manageable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 manageable.Draw(spriteBatch);
         }
-        //Mouse.Draw(spriteBatch);
     }
 
-    public virtual void DrawStatic(SpriteBatch spriteBatch)
+    protected virtual void DrawStatic(SpriteBatch spriteBatch)
     {
         foreach (var obj in AutoManagedStatic)
         {
             if (obj is IManageable manageable)
                 manageable.Draw(spriteBatch);
         }
+
         Mouse.Draw(spriteBatch);
     }
 
@@ -91,12 +118,12 @@ public class SampleLevel : ILevel
         PositionListener.Update(gameTime);
         RelativePositionListener.Update(gameTime);
         ColorListener.Update(gameTime);
-        
+
         Mouse.Update(gameTime);
 
         if (InputReaderKeyboard.CheckKey(Keys.F7, true))
             Mouse.UseRelative = !Mouse.UseRelative;
-        
+
         if (InputReaderKeyboard.CheckKey(Keys.F6, true))
             Mouse.SetMousePointerPositionToCenter();
 

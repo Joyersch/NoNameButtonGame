@@ -217,7 +217,6 @@ public class Level : SampleLevel
 
         _fixedStepLabel = new Text(string.Empty);
 
-
         _videoCollection.Add(_fixedStepLabel);
 
         _fullscreen = new Checkbox(_videoSettings.IsFullscreen);
@@ -499,7 +498,7 @@ public class Level : SampleLevel
         _discardButton.Update(gameTime);
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
+    protected override void Draw(SpriteBatch spriteBatch)
     {
         base.Draw(spriteBatch);
 
