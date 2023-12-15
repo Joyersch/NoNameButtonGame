@@ -28,9 +28,10 @@ public class Level : SampleLevel
         string pattern = @"\[(.*?)\]";
 
         var result = Regex.Replace(
-                credits,
-                pattern,
-                match => textComponent.GetValue(match.Groups[1].Value))
+            credits,
+            pattern,
+            match => textComponent.GetValue(match.Groups[1].Value))
+            .Replace("\r", "")
             .Split("\n");
 
         float pointer = Camera.Rectangle.Y;

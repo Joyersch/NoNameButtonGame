@@ -41,7 +41,7 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display display, Vector2 window, Random random, SettingsManager settings) : base(display,
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave) : base(display,
         window, random)
     {
         var textComponent = TextProvider.GetText("Levels.Level11");
@@ -56,7 +56,7 @@ public class Level : SampleLevel
             textComponent.GetValue("Objective3")
         };
 
-        _save = settings.GetSave<LevelSave>();
+        _save = settingsAndSave.GetSave<LevelSave>();
 
         var oneScreen = Display.Size / 2;
         var shopScreen = new Vector2(oneScreen.X, 0);

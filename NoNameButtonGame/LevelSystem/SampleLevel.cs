@@ -71,7 +71,7 @@ public class SampleLevel : ILevel
         graphicsDevice.Clear(new Color(50, 50, 50));
 
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-            transformMatrix: Camera.CameraMatrix);
+            transformMatrix: Camera.CameraMatrix, effect: effect);
 
         Draw(spriteBatch);
 

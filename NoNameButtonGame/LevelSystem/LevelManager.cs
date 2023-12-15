@@ -11,7 +11,7 @@ namespace NoNameButtonGame.LevelSystem;
 internal class LevelManager
 {
     private readonly Display _display;
-    private readonly SettingsManager _settingsManager;
+    private readonly SettingsAndSaveManager _settingsAndSaveManager;
     private readonly NoNameGame _game;
     private readonly VideoSettings _videoSettings;
     private readonly Progress _progress;
@@ -42,18 +42,18 @@ internal class LevelManager
         Level
     }
 
-    public LevelManager(Display display, GameWindow gameWindow, SettingsManager settingsManager, NoNameGame game,
+    public LevelManager(Display display, GameWindow gameWindow, SettingsAndSaveManager settingsAndSaveManager, NoNameGame game,
         int? seed = null)
     {
         _display = display;
-        _settingsManager = settingsManager;
+        _settingsAndSaveManager = settingsAndSaveManager;
         _game = game;
-        _videoSettings = _settingsManager.GetSetting<VideoSettings>();
-        _progress = _settingsManager.GetSave<Progress>();
+        _videoSettings = _settingsAndSaveManager.GetSetting<VideoSettings>();
+        _progress = _settingsAndSaveManager.GetSave<Progress>();
         _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display,
-            _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsManager, game);
+            _videoSettings.Resolution.ToVector2(), random, gameWindow, settingsAndSaveManager, game);
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
         _levelState = LevelState.Menu;
@@ -168,15 +168,16 @@ internal class LevelManager
         {
             settingsLevel.OnDiscard += delegate
             {
-                _settingsManager.LoadSettings();
+                _settingsAndSaveManager.LoadSettings();
                 _game.ApplySettings();
-                var videoSettings = _settingsManager.GetSetting<VideoSettings>();
+                var videoSettings = _settingsAndSaveManager.GetSetting<VideoSettings>();
                 _levelFactory.ChangeScreenSize(videoSettings.Resolution.ToVector2());
+                _finishScreen = _levelFactory.GetFinishScreen();
                 ExitLevel();
             };
             settingsLevel.OnSave += delegate
             {
-                _settingsManager.SaveSettings();
+                _settingsAndSaveManager.SaveSettings();
                 ExitLevel();
             };
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
@@ -206,7 +207,7 @@ internal class LevelManager
                 {
                     _progress.MaxLevel = _levelId;
                     Log.WriteInformation($"Updated max level value to {_levelId}");
-                    _settingsManager.SaveSave();
+                    _settingsAndSaveManager.SaveSave();
                     Log.WriteInformation("Saved progress!");
                 }
 

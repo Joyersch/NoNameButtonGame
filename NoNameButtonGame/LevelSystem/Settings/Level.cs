@@ -88,15 +88,15 @@ public class Level : SampleLevel
         Advanced
     }
 
-    public Level(Display display, Vector2 window, Random random, SettingsManager settings, NoNameGame game) : base(
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave, NoNameGame game) : base(
         display,
         window, random)
     {
         _game = game;
-        _advancedSettings = settings.GetSetting<AdvancedSettings>();
-        _videoSettings = settings.GetSetting<VideoSettings>();
-        _languageSettings = settings.GetSetting<LanguageSettings>();
-        _audioSettings = settings.GetSetting<AudioSettings>();
+        _advancedSettings = settingsAndSave.GetSetting<AdvancedSettings>();
+        _videoSettings = settingsAndSave.GetSetting<VideoSettings>();
+        _languageSettings = settingsAndSave.GetSetting<LanguageSettings>();
+        _audioSettings = settingsAndSave.GetSetting<AudioSettings>();
 
         OnExit += delegate
         {
@@ -369,7 +369,7 @@ public class Level : SampleLevel
             if (state != IButtonAddon.CallState.Click)
                 return;
 
-            settings.DeleteSave();
+            settingsAndSave.DeleteSave();
             _game.Exit();
         };
 

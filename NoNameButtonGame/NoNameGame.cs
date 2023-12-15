@@ -44,13 +44,13 @@ public class NoNameGame : SimpleGame
         _elapsedTime = new Text(string.Empty, 3F);
 
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(Display, Window, SettingsManager, this);
+        _levelManager = new LevelManager(Display, Window, SettingsAndSaveManager, this);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
 
         // register context for console commands
         Console.Context.RegisterContext(nameof(LevelManager), _levelManager);
-        Console.Context.RegisterContext(nameof(SettingsManager), SettingsManager);
+        Console.Context.RegisterContext(nameof(SettingsAndSaveManager), SettingsAndSaveManager);
     }
 
     private void ChangeTitle(string newName)
@@ -59,6 +59,8 @@ public class NoNameGame : SimpleGame
     protected override void LoadContent()
     {
         base.LoadContent();
+
+        SampleLevel.effect = Content.Load<Effect>("FX/Bloom");
 
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.
@@ -125,9 +127,9 @@ public class NoNameGame : SimpleGame
 
     public void ApplySettings()
     {
-        var settings = SettingsManager.GetSetting<VideoSettings>();
-        var languageSettings = SettingsManager.GetSetting<LanguageSettings>();
-        var advancedSettings = SettingsManager.GetSetting<AdvancedSettings>();
+        var settings = SettingsAndSaveManager.GetSetting<VideoSettings>();
+        var languageSettings = SettingsAndSaveManager.GetSetting<LanguageSettings>();
+        var advancedSettings = SettingsAndSaveManager.GetSetting<AdvancedSettings>();
 
         ApplySettings(settings);
 

@@ -13,17 +13,35 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Textures/Flags.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Flags.png
+#begin FX/Bloom.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:FX/Bloom.fx
+
+#begin FX/GrayScale.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:FX/GrayScale.fx
+
+#begin Music/NoNameTitleMusic.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/NoNameTitleMusic.wav
+
+#begin SFX/NoNameButtonSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/NoNameButtonSound.wav
+
+#begin SFX/NoNameTalkingSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/NoNameTalkingSound.wav
 
 #begin Textures/Dot.png
 /importer:TextureImporter
@@ -36,6 +54,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Dot.png
+
+#begin Textures/Flags.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Flags.png
 
 #begin Textures/Forest.png
 /importer:TextureImporter
@@ -61,6 +91,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/glitch.png
 
+#begin Textures/LocationInterface.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/LocationInterface.png
+
 #begin Textures/NBG.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,30 +114,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/NBG.png
-
-#begin Textures/OverworldTiles.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/OverworldTiles.png
-
-#begin Textures/OverworldTileHouse.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/OverworldTileHouse.png
 
 #begin Textures/OverworldTileBigTree.png
 /importer:TextureImporter
@@ -109,7 +127,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/OverworldTileBigTree.png
 
-#begin Textures/OverworldTileSmallTree.png
+#begin Textures/OverworldTileCastle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -119,7 +137,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/OverworldTileSmallTree.png
+/build:Textures/OverworldTileCastle.png
+
+#begin Textures/OverworldTileHouse.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/OverworldTileHouse.png
 
 #begin Textures/OverworldTileHuman.png
 /importer:TextureImporter
@@ -133,7 +163,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/OverworldTileHuman.png
 
-#begin Textures/OverworldTileCastle.png
+#begin Textures/OverworldTiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +173,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/OverworldTileCastle.png
+/build:Textures/OverworldTiles.png
 
-#begin Textures/LocationInterface.png
+#begin Textures/OverworldTileSmallTree.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,7 +185,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/LocationInterface.png
+/build:Textures/OverworldTileSmallTree.png
 
 #begin Textures/Resources.png
 /importer:TextureImporter
@@ -169,20 +199,3 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Resources.png
 
-#begin Music/NoNameTitleMusic.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Music/NoNameTitleMusic.wav
-
-#begin SFX/NoNameButtonSound.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SFX/NoNameButtonSound.wav
-
-#begin SFX/NoNameTalkingSound.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SFX/NoNameTalkingSound.wav

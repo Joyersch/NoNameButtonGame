@@ -159,4 +159,8 @@
       <LogicalName>Text.Levels.Credits.en_GB</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Content\FX\Bloom.fx" />
+    <ClCompile Include="Content\FX\GrayScale.fx" />
+  </ItemGroup>
 </Project>

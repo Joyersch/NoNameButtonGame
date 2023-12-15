@@ -13,16 +13,16 @@ public class LevelFactory
     private readonly GameWindow _gameWindow;
     private Vector2 _screen;
 
-    private readonly SettingsManager _settings;
+    private readonly SettingsAndSaveManager _settingsAndSave;
     private readonly NoNameGame _game;
 
-    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, SettingsManager settings, NoNameGame game)
+    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, SettingsAndSaveManager settingsAndSave, NoNameGame game)
     {
         _display = display;
         _screen = screen;
         _random = random;
         _gameWindow = gameWindow;
-        _settings = settings;
+        _settingsAndSave = settingsAndSave;
         _game = game;
     }
 
@@ -33,10 +33,10 @@ public class LevelFactory
         => new MainMenu.Level(_display, _screen, _random);
 
     public Settings.Level GetSettingsLevel()
-        => new Settings.Level(_display, _screen, _random, _settings, _game);
+        => new Settings.Level(_display, _screen, _random, _settingsAndSave, _game);
 
     public Selection.Level GetSelectLevel()
-        => new Selection.Level(_display, _screen, _random, _settings.GetSave<Progress>());
+        => new Selection.Level(_display, _screen, _random, _settingsAndSave.GetSave<Progress>());
 
     public SampleLevel GetLevel(int number)
         => number switch
@@ -46,7 +46,7 @@ public class LevelFactory
             3 => new Levels.Level3.Level(_display, _screen, _random),
             4 => new Levels.Level4.Level(_display, _screen, _random),
             5 => new Levels.Level5.Level(_display, _screen, _random),
-            11 => new Levels.Level11.Level(_display, _screen, _random, _settings),
+            11 => new Levels.Level11.Level(_display, _screen, _random, _settingsAndSave),
             12 => new Levels.Level12.Level(_display, _screen, _gameWindow, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random)
         };
