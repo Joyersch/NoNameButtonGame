@@ -89,7 +89,7 @@ public class SimonSays : IManageable, IInteractable
             button.Click += SimonButtonClick;
         }
 
-        _start = new TextButton(text["start"], 2F);
+        _start = new TextButton(text["start"], 2F, 4F);
         _start.GetCalculator(area).OnCenter().OnY(1, 3).Centered().Move();
         _start.Click += _ => StartClick();
     }

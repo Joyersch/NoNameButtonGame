@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -8,11 +10,16 @@ using MonoUtils.Ui.Color;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.Colors;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
 public class Level : SampleLevel
 {
+    private Text _timerLabel;
+    private OverTimeInvoker _timer;
+    private double _difficulty;
+
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         var textComponent = TextProvider.GetText("Levels.Level2");
@@ -30,6 +37,14 @@ public class Level : SampleLevel
         int usedText = shuffler.ResolveText(selectedColor);
         int usedColor = shuffler.ResolveColor(selectedColor);
 
+        _difficulty = shuffler.GetDifficulty(useText ? usedText : usedColor);
+
+        if (useText)
+            _difficulty /= 2;
+
+        if (useText && _difficulty > 5000)
+            _difficulty = 5000;
+
         string infoText = textComponent.GetValue("Info");
         string t = textComponent.GetValue("Text");
         string c = textComponent.GetValue("Color");
@@ -42,7 +57,7 @@ public class Level : SampleLevel
             .OnY(2, 20)
             .Centered()
             .Move();
-        ;
+
         AutoManaged.Add(info);
 
         for (int x = 0; x < 4; x++)
@@ -66,10 +81,39 @@ public class Level : SampleLevel
             }
         }
 
+        _timer = new OverTimeInvoker(_difficulty);
+        _timer.Trigger += Fail;
+
+        AutoManaged.Add(_timer);
+
+        _timerLabel = new Text($"{((_difficulty - _timer.ExecutedTime) / 1000F):n2}s");
+        _timerLabel.GetCalculator(Camera.Rectangle)
+            .OnX(0.1F)
+            .OnY(0.1F)
+            .Move();
+        AutoManaged.Add(_timerLabel);
+
+        PulsatingRed timerColor = new PulsatingRed()
+        {
+            GameTimeStepInterval = 32,
+            NoGradient = false
+        };
+        AutoManaged.Add(timerColor);
+        ColorListener.Add(timerColor, _timerLabel);
 
         var cursor = new Cursor();
         Actuator = cursor;
         PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        _timerLabel.ChangeText($"{((_difficulty - _timer.ExecutedTime) / 1000F):n2}s");
+        _timerLabel.GetCalculator(Camera.Rectangle)
+            .OnX(0.1F)
+            .OnY(0.1F)
+            .Move();
+        base.Update(gameTime);
     }
 }

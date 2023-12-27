@@ -59,6 +59,9 @@ public class ColorComponentShuffler
     public string GetText(int index)
         => _components[_mappingTableText[index]].Text;
 
+    public int GetDifficulty(int index)
+        => (int)_components[_mappingTableText[index]].Difficulty;
+
     public int ResolveColor(int index)
         => _mappingTableColor.First(k => k.Value == index).Key;
     public int ResolveText(int index)
