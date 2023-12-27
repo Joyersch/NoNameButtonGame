@@ -13,12 +13,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin FX/Bloom.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:FX/Bloom.fx
-
 #begin FX/GrayScale.fx
 /importer:EffectImporter
 /processor:EffectProcessor

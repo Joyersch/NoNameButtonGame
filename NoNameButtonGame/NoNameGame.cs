@@ -60,8 +60,6 @@ public class NoNameGame : SimpleGame
     {
         base.LoadContent();
 
-        SampleLevel.effect = Content.Load<Effect>("FX/Bloom");
-
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.
         // The Texture are being forwarded through the constructor unless otherwise specified.

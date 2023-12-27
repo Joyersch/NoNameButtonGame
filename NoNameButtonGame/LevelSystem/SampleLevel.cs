@@ -40,8 +40,6 @@ public class SampleLevel : ILevel
     protected readonly List<object> AutoManagedStatic;
     protected IHitbox Actuator;
 
-    public static Effect effect;
-
     protected SampleLevel(Display display, Vector2 window, Random random)
     {
         Display = display;
@@ -68,10 +66,11 @@ public class SampleLevel : ILevel
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
         graphicsDevice.SetRenderTarget(Display.Target);
+
         graphicsDevice.Clear(new Color(50, 50, 50));
 
         spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
-            transformMatrix: Camera.CameraMatrix, effect: effect);
+            transformMatrix: Camera.CameraMatrix);
 
         Draw(spriteBatch);
 
