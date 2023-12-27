@@ -57,18 +57,18 @@
   },
   {
     "key": "ShopOption1",
-    "value": "Auto \u22a0"
+    "value": "Auto [Bean]"
   },
   {
     "key": "ShopOption2",
-    "value": "Jelly \u22a0"
+    "value": "Jelly [Bean]"
   },
   {
     "key": "ShopOption3",
-    "value": "Magic \u22a0"
+    "value": "Magic [Bean]"
   },
   {
     "key": "ShopOption4",
-    "value": "Suspicious \u22a0"
+    "value": "Suspicious [Bean]"
   }
 ]

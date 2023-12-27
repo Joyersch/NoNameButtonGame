@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Microsoft.Xna.Framework;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
@@ -20,6 +21,8 @@ public class Level : SampleLevel
     public event Action<object> SettingsClicked;
 
     public event Action<object> CreditsClicked;
+
+    private Cursor mouseCursor;
 
     public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
@@ -49,7 +52,7 @@ public class Level : SampleLevel
         exitButton.Click += ExitButtonPressed;
         AutoManaged.Add(exitButton);
 
-        var header = new Text("NoNameButtonGame", Vector2.Zero, 2.5F, 1);
+        var header = new Text("NoNameButtonGame", Vector2.Zero, 5F, 1);
         header.GetCalculator(Camera.Rectangle)
             .OnX(0.605F)
             .OnY(0.25F)
@@ -66,7 +69,8 @@ public class Level : SampleLevel
             .Move();
         AutoManaged.Add(version);
 
-        var mouseCursor = new Cursor();
+
+        mouseCursor = new Cursor();
         Actuator = mouseCursor;
         PositionListener.Add(Mouse, mouseCursor);
         AutoManaged.Add(mouseCursor);
@@ -86,4 +90,5 @@ public class Level : SampleLevel
 
     private void ExitButtonPressed(object sender)
         => Exit(sender);
+
 }

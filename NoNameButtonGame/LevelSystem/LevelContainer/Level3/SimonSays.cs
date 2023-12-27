@@ -183,7 +183,7 @@ public class SimonSays : IManageable, IInteractable
                 foreach (var i in played)
                     color[j++] = _values[i + 1];
         
-                string value = played.Aggregate(string.Empty, (current, i) => current + Letter.Full);
+                string value = played.Aggregate(string.Empty, (current, i) => current + "[block]");
                 _enteredSequenceDisplay.ChangeText(value);
                 _enteredSequenceDisplay.ChangeColor(color);
                 break;

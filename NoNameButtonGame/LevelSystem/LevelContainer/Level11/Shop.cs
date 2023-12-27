@@ -218,10 +218,10 @@ public class Shop : GameObject, IInteractable
     }
 
     private void SetSuspiciousIcon()
-        => _icon = Letter.ReverseParse(Letter.Character.AmongUsBean).ToString();
+        => _icon = "[amongusbean]";
 
     private void SetIcon()
-        => _icon = Letter.ReverseParse(Letter.Character.Bean).ToString();
+        => _icon = "[bean]";
 
     private void UpdateIcon()
     {

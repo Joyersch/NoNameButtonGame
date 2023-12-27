@@ -18,13 +18,13 @@ public class SimonSaysButton : TextButton
     public event Action Finished;
 
     public SimonSaysButton(Color color, Color highlight, float time) : this(Vector2.Zero, DefaultSize * 2, string.Empty,
-        Letter.Full.ToString(), DefaultTextSize * 2, 1, DefaultTexture, DefaultMapping, color, highlight, time)
+        "[block]", DefaultTextScale * 2, 1, DefaultTexture, DefaultMapping, color, highlight, time)
     {
     }
 
-    public SimonSaysButton(Vector2 position, Vector2 size, string name, string text, Vector2 textSize, int spacing,
+    public SimonSaysButton(Vector2 position, Vector2 size, string name, string text, float textScale, int spacing,
         Texture2D texture, TextureHitboxMapping mapping, Color color, Color highlight, float time) : base(position, size, name,
-        text, textSize, spacing, texture, mapping)
+        text, textScale, spacing, texture, mapping)
     {
         _color = color;
         _hightlight = highlight;

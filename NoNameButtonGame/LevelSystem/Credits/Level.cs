@@ -46,7 +46,7 @@ public class Level : SampleLevel
                 .Move();
 
             AutoManaged.Add(newLine);
-            pointer += newLine.Rectangle.Height + Text.DefaultLetterSize.Y / 2;
+            pointer += newLine.Rectangle.Height + 8;
         }
 
         OverTimeMover mover = new OverTimeMover(Camera,

@@ -77,7 +77,7 @@ public class UserInterface : GameObject, IInteractable
             .OnX(0.04F)
             .OnY(0.1F)
             .Move();
-        _close = new SquareTextButton(Letter.ReverseParse(Letter.Character.Crossout).ToString(), scale * 0.5F);
+        _close = new SquareTextButton("[crossout]", scale * 0.5F);
         _close.GetCalculator(Rectangle)
             .OnX(0.9575F)
             .OnY(0.0325F)

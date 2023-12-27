@@ -44,7 +44,7 @@ public class TradeBar : IManageable, IInteractable, IMoveable
         foreach (var fromItem in fromItems)
         {
             var pair = new ResourcePair(fromItem.Item,
-                new Vector2(Text.DefaultLetterSize.X * 2 + 8, Text.DefaultLetterSize.Y), scale);
+                Vector2.Zero, scale);
             pair.SetNumber(fromItem.Amount);
             pair.GetCalculator(position, _size)
                 .OnCenter()
@@ -58,7 +58,7 @@ public class TradeBar : IManageable, IInteractable, IMoveable
         foreach (var toItem in toItems)
         {
             var pair = new ResourcePair(toItem.Item,
-                new Vector2(Text.DefaultLetterSize.X * 2 + 8, Text.DefaultLetterSize.Y), scale);
+                Vector2.Zero, scale);
             pair.SetNumber(toItem.Amount);
             pair.GetCalculator(position, _size)
                 .OnCenter()
@@ -74,7 +74,7 @@ public class TradeBar : IManageable, IInteractable, IMoveable
             .Centered()
             .Move();
 
-        _equals = new Text(Letter.ReverseParse(Letter.Character.Right).ToString());
+        _equals = new Text("{right}");
         _equals.GetCalculator(position, _size)
             .OnCenter()
             .OnX(0.5F)

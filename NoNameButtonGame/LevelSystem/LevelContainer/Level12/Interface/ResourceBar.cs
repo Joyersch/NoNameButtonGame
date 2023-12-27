@@ -27,7 +27,7 @@ public class ResourceBar : IManageable, IMoveable
     {
         _resourceManager = resourceManager;
         _position = position;
-        _singleSize = new Vector2((Resource.DefaultSize.X + Text.DefaultLetterSize.X * 3) * scale, Resource.DefaultSize.Y);
+        _singleSize = new Vector2((Resource.DefaultSize.X) * scale, Resource.DefaultSize.Y);
         _size = new Vector2(_singleSize.X * 8, _singleSize.Y);
         
         _rectangle = new Rectangle(position.ToPoint(), _size.ToPoint());
