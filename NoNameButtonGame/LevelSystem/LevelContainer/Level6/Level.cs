@@ -14,17 +14,18 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Glitch;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
 internal class Level : SampleLevel
 {
     private readonly Cursor _cursor;
     private readonly OverTimeMover _moveCamera;
     private readonly Invisible _invisible;
+    private CameraAnchorGrid _anchorGrid;
 
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
-        var textComponent = TextProvider.GetText("Levels.Level5");
+        var textComponent = TextProvider.GetText("Levels.Level6");
 
         Name = textComponent.GetValue("Name");
 
@@ -61,32 +62,20 @@ internal class Level : SampleLevel
         AutoManaged.Add(moverRight);
 
         Vector2 belowLocation = Camera.Position + new Vector2(0, Camera.Rectangle.Height);
-        _moveCamera = new OverTimeMover(Camera, belowLocation, 666F, OverTimeMover.MoveMode.Sin);
-        AutoManaged.Add(_moveCamera);
-
-        _invisible = new Invisible(Camera.RealPosition, Camera.RealSize);
-        _invisible.Leave += delegate
-        {
-            if (_cursor is null)
-                return;
-
-            if (_moveCamera.IsMoving)
-                return;
-
-            if (_cursor.Position.Y < 0)
-            {
-                Fail();
-                return;
-            }
-
-            _moveCamera.Start();
-        };
-
-        AutoManaged.Add(_invisible);
 
         _cursor = new Cursor();
         Actuator = _cursor;
         PositionListener.Add(Mouse, _cursor);
         AutoManaged.Add(_cursor);
+
+        _anchorGrid = new CameraAnchorGrid(Camera, _cursor, 666F, OverTimeMover.MoveMode.Sin);
+        AutoManaged.Add(_anchorGrid);
+
+        GameObject indicator = new GameObject(Vector2.Zero, new Vector2(16, 16));
+        indicator.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .ByGridY(1)
+            .Move();
+        AutoManaged.Add(indicator);
     }
 }
