@@ -30,33 +30,31 @@ internal class Level : SampleLevel
         Name = textComponent.GetValue("Name");
 
         var halfScreen = new Vector2(Camera.Rectangle.Width / 2F, Camera.Rectangle.Height);
-        var leftWall = new GlitchBlockCollection(halfScreen, 1F);
-        leftWall.GetCalculator(Camera.Rectangle)
+        GlitchBlockCollection wall = new GlitchBlockCollection(halfScreen, 1F);
+        wall.GetCalculator(Camera.Rectangle)
             .OnX(0)
             .BySizeX(-1F)
             .Move();
-        leftWall.ChangeColor(GlitchBlock.Color);
-        leftWall.Enter += Fail;
-        AutoManaged.Add(leftWall);
-
-        Log.WriteInformation(leftWall.Rectangle.TopRightCorner().ToString());
-
-        var rightWall = new GlitchBlockCollection(halfScreen, 1F);
-        rightWall.GetCalculator(Camera.Rectangle)
-            .OnX(1)
-            .Move();
-        rightWall.ChangeColor(GlitchBlock.Color);
-        rightWall.Enter += Fail;
-
-        AutoManaged.Add(rightWall);
+        wall.ChangeColor(GlitchBlock.Color);
+        wall.Enter += Fail;
+        AutoManaged.Add(wall);
 
         var wallLeftEnd = Camera.Rectangle.Location.ToVector2();
-        OverTimeMover moverLeft = new OverTimeMover(leftWall, wallLeftEnd, 10000F, OverTimeMover.MoveMode.Lin);
+        OverTimeMover moverLeft = new OverTimeMover(wall, wallLeftEnd, 10000F, OverTimeMover.MoveMode.Lin);
         moverLeft.Start();
         AutoManaged.Add(moverLeft);
 
-        var wallRightEnd = new Vector2(0, Camera.Rectangle.Top);
-        OverTimeMover moverRight = new OverTimeMover(rightWall, wallRightEnd, 10000F,
+        wall = new GlitchBlockCollection(halfScreen, 1F);
+        wall.GetCalculator(Camera.Rectangle)
+            .OnX(1)
+            .Move();
+        wall.ChangeColor(GlitchBlock.Color);
+        wall.Enter += Fail;
+
+        AutoManaged.Add(wall);
+
+        var wallRightEnd = new Vector2(Camera.Rectangle.Center.X, Camera.Rectangle.Top);
+        OverTimeMover moverRight = new OverTimeMover(wall, wallRightEnd, 10000F,
             OverTimeMover.MoveMode.Lin);
         moverRight.Start();
         AutoManaged.Add(moverRight);
@@ -70,6 +68,14 @@ internal class Level : SampleLevel
 
         _anchorGrid = new CameraAnchorGrid(Camera, _cursor, 666F, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_anchorGrid);
+
+        wall = new GlitchBlockCollection(Camera.RealSize, 1F);
+        wall.ChangeColor(GlitchBlock.Color);
+        wall.GetCalculator(Camera.Rectangle)
+            .ByGridY(-1)
+            .Move();
+        wall.Enter += Fail;
+        AutoManaged.Add(wall);
 
         GameObject indicator = new GameObject(Vector2.Zero, new Vector2(16, 16));
         indicator.GetCalculator(Camera.Rectangle)
