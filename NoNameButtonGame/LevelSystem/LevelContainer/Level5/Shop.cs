@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui;
-using MonoUtils;
 using MonoUtils.Ui.Objects.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 
 public class Shop : GameObject, IInteractable
 {
@@ -46,14 +46,14 @@ public class Shop : GameObject, IInteractable
 
     private readonly string[] _infoDisplayText;
     private readonly string[] _shopOptionNames;
+    private readonly string[] _shopOptionsNamesSus;
 
-    public Shop(Vector2 position, Vector2 size, LevelSave storage, Random random, string[] infos, string[] shopOptions)
-        : base(position, DefaultSize,
-            DefaultTexture,
-            DefaultMapping)
+    public Shop(Vector2 position, Vector2 size, LevelSave storage, Random random, string[] infos, string[] shopOptions,
+        string[] shopOptionsNamesSus) : base(position, DefaultSize, DefaultTexture, DefaultMapping)
     {
         _infoDisplayText = infos;
         _shopOptionNames = shopOptions;
+        _shopOptionsNamesSus = shopOptionsNamesSus;
         _storage = storage;
         _random = random;
         _rectangle = new Rectangle(position.ToPoint(), size.ToPoint());
@@ -229,5 +229,19 @@ public class Shop : GameObject, IInteractable
         _optionTwo.ChangeCurrencyIcon(_icon);
         _optionThree.ChangeCurrencyIcon(_icon);
         _optionFour.ChangeCurrencyIcon(_icon);
+
+        if (_storage.Upgrade4 > 0)
+        {
+            _optionOne.ChangeText(_shopOptionsNamesSus[0]);
+            _optionTwo.ChangeText(_shopOptionsNamesSus[1]);
+            _optionThree.ChangeText(_shopOptionsNamesSus[2]);
+            _optionFour.ChangeText(_shopOptionsNamesSus[3]);
+            return;
+        }
+
+        _optionOne.ChangeText(_shopOptionNames[0]);
+        _optionTwo.ChangeText(_shopOptionNames[1]);
+        _optionThree.ChangeText(_shopOptionNames[2]);
+        _optionFour.ChangeText(_shopOptionNames[3]);
     }
 }

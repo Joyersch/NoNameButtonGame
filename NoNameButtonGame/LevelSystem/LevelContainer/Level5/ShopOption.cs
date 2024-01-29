@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
@@ -9,12 +8,13 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 
 public class ShopOption : IInteractable, IMoveable
 {
     private Text _amountDisplay;
     private LockButtonAddon _button;
+    private TextButton _textButton;
     private MouseActionsMat _infoMat;
     private Text _priceDisplay;
 
@@ -36,7 +36,8 @@ public class ShopOption : IInteractable, IMoveable
     public event Action ButtonEnter;
     public event Action ButtonLeave;
 
-    public ShopOption(float sizeY, string text, int startAmount, int startPrice, double priceIncrease, int maxAmount) : this(
+    public ShopOption(float sizeY, string text, int startAmount, int startPrice, double priceIncrease,
+        int maxAmount) : this(
         Vector2.Zero, sizeY, text, startAmount, startPrice, priceIncrease, maxAmount)
     {
     }
@@ -48,22 +49,22 @@ public class ShopOption : IInteractable, IMoveable
         _amount = startAmount;
         _currentPrice = startPrice;
         _maxAmount = maxAmount;
-        
+
         for (int i = 0; i < startAmount; i++)
             _currentPrice = (int)(_currentPrice * priceIncrease);
         _priceIncrease = priceIncrease;
-        
+
         if (_amount == _maxAmount)
             _currentPrice = 0;
 
-        var button = new TextButton(text);
-        
-        _button = new LockButtonAddon(new ButtonAddonAdapter(button));       
+        _textButton = new TextButton(text);
+
+        _button = new LockButtonAddon(new ButtonAddonAdapter(_textButton));
         _size = new Vector2(_button.GetSize().X, sizeY);
         _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
         _button.Callback += ButtonClick;
 
-        _infoMat = new MouseActionsMat(button);
+        _infoMat = new MouseActionsMat(_textButton);
         _infoMat.Enter += _ => _isHover = true;
         _infoMat.Leave += _ => _isHover = false;
 
@@ -78,20 +79,20 @@ public class ShopOption : IInteractable, IMoveable
     {
         if (state == IButtonAddon.CallState.Enter)
             ButtonEnter?.Invoke();
-        
+
         if (state == IButtonAddon.CallState.Leave)
             ButtonLeave?.Invoke();
-        
+
         if (state != IButtonAddon.CallState.Click)
             return;
 
         if (_amount == _maxAmount)
             return;
-        
+
         _amount++;
         Purchased?.Invoke(_amount, _currentPrice);
-        _currentPrice =  (int)(_currentPrice * _priceIncrease);
-        
+        _currentPrice = (int)(_currentPrice * _priceIncrease);
+
         if (_amount == _maxAmount)
             _currentPrice = 0;
     }
@@ -108,14 +109,14 @@ public class ShopOption : IInteractable, IMoveable
             _button.Unlock();
         else
             _button.Lock();
-        
+
         _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
         _amountDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
         _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
-        
+
         _priceDisplay.ChangeText($"{_currentPrice:n0}{_icon}");
         _amountDisplay.ChangeText($"{_amount:n0}/{_maxAmount:n0}");
-        
+
         _button.Update(gameTime);
         _amountDisplay.Update(gameTime);
         _priceDisplay.Update(gameTime);
@@ -148,4 +149,7 @@ public class ShopOption : IInteractable, IMoveable
 
     public bool IsHoverOnButton()
         => _isHover;
+
+    public void ChangeText(string newText)
+        => _textButton.Text.ChangeText(newText);
 }

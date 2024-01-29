@@ -136,6 +136,9 @@ public class SampleLevel : ILevel
 
             if (obj is IManageable manageable)
                 manageable.Update(gameTime);
+
+            if (obj is Action action)
+                action.Invoke();
         }
     }
 

@@ -16,7 +16,8 @@ public class LevelFactory
     private readonly SettingsAndSaveManager _settingsAndSave;
     private readonly NoNameGame _game;
 
-    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow, SettingsAndSaveManager settingsAndSave, NoNameGame game)
+    public LevelFactory(Display display, Vector2 screen, Random random, GameWindow gameWindow,
+        SettingsAndSaveManager settingsAndSave, NoNameGame game)
     {
         _display = display;
         _screen = screen;
@@ -45,8 +46,8 @@ public class LevelFactory
             2 => new Levels.Level2.Level(_display, _screen, _random),
             3 => new Levels.Level3.Level(_display, _screen, _random),
             4 => new Levels.Level4.Level(_display, _screen, _random),
-            5 => new Levels.Level6.Level(_display, _screen, _random),
-            11 => new Levels.Level11.Level(_display, _screen, _random, _settingsAndSave),
+            5 => new Levels.Level5.Level(_display, _screen, _random, _settingsAndSave),
+            6 => new Levels.Level6.Level(_display, _screen, _random),
             12 => new Levels.Level12.Level(_display, _screen, _gameWindow, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random)
         };
@@ -60,7 +61,7 @@ public class LevelFactory
     }
 
     public FinishScreen.Level GetFinishScreen()
-    => new FinishScreen.Level(_display, _screen, _random);
+        => new FinishScreen.Level(_display, _screen, _random);
 
     public Credits.Level GetCredits()
         => new Credits.Level(_display, _screen, _random);

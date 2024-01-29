@@ -15,8 +15,8 @@ using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level12;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
+using NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 using NoNameButtonGame.LevelSystem.Settings;
-using Level11 = NoNameButtonGame.LevelSystem.LevelContainer.Level11;
 
 namespace NoNameButtonGame;
 
@@ -61,7 +61,7 @@ public class NoNameGame : SimpleGame
     {
         base.LoadContent();
 
-        Level11.Font.DefaultTexture = Content.GetTexture("Font/Level11");
+        Font.DefaultTexture = Content.GetTexture("Font/Level11");
 
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.

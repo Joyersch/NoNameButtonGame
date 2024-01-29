@@ -14,10 +14,11 @@ using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level11;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 
 public class Level : SampleLevel
 {
+    private readonly SettingsAndSaveManager _settingsAndSave;
     private LevelSave _save;
 
     private OverTimeMover _overTimeMoverShop;
@@ -44,7 +45,8 @@ public class Level : SampleLevel
     public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave) : base(display,
         window, random)
     {
-        var textComponent = TextProvider.GetText("Levels.Level11");
+        _settingsAndSave = settingsAndSave;
+        var textComponent = TextProvider.GetText("Levels.Level5");
         Name = textComponent.GetValue("Name");
 
         _objectiveInfoText = textComponent.GetValue("ObjectiveInfo");
@@ -109,7 +111,8 @@ public class Level : SampleLevel
         clickButton.Click += _ => _shop.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
 
-        // originally it was planned to have snake on the distraction screen but the idea was cut
+        // originally it was planned to have snake on the distraction screen but the idea was cut...
+        // no need to rename, right?
         var snakeButton = new TextButton(textComponent.GetValue("Distraction"));
         snakeButton.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySizeY(-1F).Move();
         snakeButton.Click += SnakeButtonClick;
@@ -117,7 +120,7 @@ public class Level : SampleLevel
         AutoManaged.Add(snakeLockButton);
 
         _finishButton = new TextButton(textComponent.GetValue("Finish"));
-        _finishButton.Click += FinishLevel;
+        _finishButton.Click += Finish;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
         var infos = new string[4]
@@ -135,7 +138,16 @@ public class Level : SampleLevel
             textComponent.GetValue("ShopOption3"),
             textComponent.GetValue("ShopOption4")
         };
-        _shop = new Shop(shopScreen, oneScreen, _save, random, infos, shopOptions);
+
+        var shopOptionsSus = new string[4]
+        {
+            textComponent.GetValue("ShopOption1Sus"),
+            textComponent.GetValue("ShopOption2Sus"),
+            textComponent.GetValue("ShopOption3Sus"),
+            textComponent.GetValue("ShopOption4Sus")
+        };
+
+        _shop = new Shop(shopScreen, oneScreen, _save, random, infos, shopOptions, shopOptionsSus);
         _shop.UnlockedShop += shopButton1.Unlock;
         _shop.UnlockedShop += toShopLockSnake.Unlock;
         _shop.UnlockedShop += UnlockedShop;
@@ -158,12 +170,6 @@ public class Level : SampleLevel
         Actuator = cursor;
         PositionListener.Add(Mouse, cursor);
         AutoManaged.Add(cursor);
-    }
-
-    private void FinishLevel(object obj)
-    {
-        _save.Reset();
-        Finish();
     }
 
     private void UnlockedShop()
@@ -229,4 +235,17 @@ public class Level : SampleLevel
 
     private bool IsAnyOverTimeMoverRunning()
         => _overTimeMoverMain.IsMoving || _overTimeMoverDistraction.IsMoving || _overTimeMoverShop.IsMoving;
+
+    public override void Exit()
+    {
+        _settingsAndSave.SaveSave();
+        base.Exit();
+    }
+
+    protected override void Finish()
+    {
+        _save.Reset();
+        _settingsAndSave.SaveSave();
+        base.Finish();
+    }
 }

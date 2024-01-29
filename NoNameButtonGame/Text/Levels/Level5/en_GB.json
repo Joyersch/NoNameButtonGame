@@ -1,6 +1,90 @@
 [
   {
     "key": "Name",
-    "value": "Level 5 - Whats this??"
+    "value": "Level 11 - THIS IS JUST LIKE COOKIE CLICKER!!!1"
+  },
+  {
+    "key": "Shop",
+    "value": "Shop"
+  },
+  {
+    "key": "Return",
+    "value": "Return"
+  },
+  {
+    "key": "Distraction",
+    "value": "Distraction"
+  },
+  {
+    "key": "BakeABean",
+    "value": "Bake a Bean!"
+  },
+  {
+    "key": "Finish",
+    "value": "Finish"
+  },
+  {
+    "key": "ObjectiveInfo",
+    "value": "Current objective:"
+  },
+  {
+    "key": "Objective1",
+    "value": "Unlock the shop"
+  },
+  {
+    "key": "Objective2",
+    "value": "Purchase all upgrades"
+  },
+  {
+    "key": "Objective3",
+    "value": "Find the \"Finish\" button"
+  },
+  {
+    "key": "ShopInfo1",
+    "value": "Bakes for you every second. Stacks"
+  },
+  {
+    "key": "ShopInfo2",
+    "value": "5% chance to crit (10x). Stacks"
+  },
+  {
+    "key": "ShopInfo3",
+    "value": "Each bean increases in value by 1. Stacks"
+  },
+  {
+    "key": "ShopInfo4",
+    "value": "Beans become suspicious. Does not Stack"
+  },
+  {
+    "key": "ShopOption1",
+    "value": "Auto [Bean]"
+  },
+  {
+    "key": "ShopOption2",
+    "value": "Jelly [Bean]"
+  },
+  {
+    "key": "ShopOption3",
+    "value": "Magic [Bean]"
+  },
+  {
+    "key": "ShopOption4",
+    "value": "Suspicious [Bean]"
+  },
+  {
+    "key": "ShopOption1Sus",
+    "value": "Auto [amongusbean]"
+  },
+  {
+    "key": "ShopOption2Sus",
+    "value": "Jelly [amongusbean]"
+  },
+  {
+    "key": "ShopOption3Sus",
+    "value": "Magic [amongusbean]"
+  },
+  {
+    "key": "ShopOption4Sus",
+    "value": "Suspicious [amongusbean]"
   }
 ]
