@@ -1,17 +1,25 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
+using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects.Glitch;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level6;
 
 internal class Level : SampleLevel
 {
+    private GlitchBlockCollection _block;
+    private DelayedText _text;
+    private int _interactions;
+    private bool _interactionsCutscenePlayed;
+
 
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
@@ -19,14 +27,78 @@ internal class Level : SampleLevel
 
         Name = textComponent.GetValue("Name");
 
-        Action update = delegate
+        _text = new DelayedText(textComponent.GetValue("FirstText"), false)
         {
-            if (InputReaderKeyboard.CheckKey(Keys.D))
-                Camera.Move(new Vector2(Camera.Position.X + 1, Camera.Position.Y));
-
-            Log.WriteLine(Camera.Position.ToString(), 2);
-
+            StartAfter = 3333F,
         };
-        AutoManaged.Add(update);
+        _text.Start();
+        _text.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
+
+        var delayedSpawn = new OverTimeInvoker(1000, false)
+        {
+            InvokeOnce = true
+        };
+        AutoManaged.Add(delayedSpawn);
+
+        var delayedFinish = new OverTimeInvoker(1000, false);
+        delayedFinish.Trigger += Finish;
+        AutoManaged.Add(delayedFinish);
+
+        _text.FinishedPlaying += delayedSpawn.Start;
+
+        delayedSpawn.Trigger += delegate
+        {
+            _text = null;
+            _block = new GlitchBlockCollection(GlitchBlock.DefaultSize * 2);
+            _block.ChangeColor(GlitchBlock.Color);
+            _block.Enter += delegate
+            {
+                Mouse.SetMousePointerPositionToCenter();
+                _interactions++;
+            };
+            _block.GetCalculator(Camera.Rectangle)
+                .OnX(0.333F)
+                .OnY(0.5F)
+                .Centered()
+                .Move();
+        };
+
+        void IncrementCheck()
+        {
+            if (_interactions != 5 || _interactionsCutscenePlayed)
+                return;
+            _interactionsCutscenePlayed = true;
+            _text = new DelayedText(textComponent.GetValue("SecondText"));
+            _text.GetCalculator(Camera.Rectangle)
+                .OnX(0.5F)
+                .OnY(0.333F)
+                .Centered()
+                .Move();
+            _text.FinishedPlaying += delegate
+            {
+                delayedFinish.Start();
+            };
+        }
+
+        AutoManaged.Add((Action)IncrementCheck);
+    }
+
+    public override void Update(GameTime gameTime)
+    {
+        base.Update(gameTime);
+        _text?.Update(gameTime);
+        _block?.Update(gameTime);
+        _block?.UpdateInteraction(gameTime, Cursor);
+        Log.WriteInformation(_interactions.ToString());
+    }
+
+    protected override void Draw(SpriteBatch spriteBatch)
+    {
+        _block?.Draw(spriteBatch);
+        _text?.Draw(spriteBatch);
+        base.Draw(spriteBatch);
     }
 }

@@ -2,5 +2,13 @@
   {
     "key": "Name",
     "value": "Level 6 - Whats this??"
+  },
+  {
+    "key": "FirstText",
+    "value": "There is nothing here... Wait let me try something..."
+  },
+  {
+    "key": "SecondText",
+    "value": "Hmm... well... i guess you should not touch that in the future"
   }
 ]
