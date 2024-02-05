@@ -56,5 +56,8 @@ public class Level : SampleLevel
         mover.ArrivedOnDestination += Exit;
         mover.Start();
         AutoManaged.Add(mover);
+
+        Cursor = new Cursor(2F);
+        PositionListener.Add(Mouse, Cursor);
     }
 }
