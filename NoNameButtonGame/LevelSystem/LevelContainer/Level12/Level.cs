@@ -19,7 +19,6 @@ public class Level : SampleLevel
 {
     private readonly GameWindow _gameWindow;
     private const string QuestsPath = "Levels.Level4.Quests";
-    private Cursor _cursor;
     private Vector2 _savedPosition;
     private bool _isLooking;
     private Text _objective;
@@ -88,10 +87,6 @@ public class Level : SampleLevel
 
         _resourceManager = new ResourceManager(random, _overworld.VillageCount);
 
-        _cursor = new Cursor();
-        Actuator = _cursor;
-        PositionListener.Add(Mouse, _cursor);
-
         string questions = Global.ReadFromResources(QuestsPath);
 
         _loadingScreen =
@@ -142,7 +137,6 @@ public class Level : SampleLevel
         _overworld.Draw(spriteBatch);
         _infoMoveText.Draw(spriteBatch);
         _userInterface?.Draw(spriteBatch);
-        _cursor.Draw(spriteBatch);
     }
 
     protected override void DrawStatic(SpriteBatch spriteBatch)
@@ -181,16 +175,14 @@ public class Level : SampleLevel
             return;
         }
 
-        _cursor.Update(gameTime);
-
         if (_viewState != ViewState.Ui)
-            _overworld.UpdateInteraction(gameTime, _cursor);
+            _overworld.UpdateInteraction(gameTime, Cursor);
 
         _overworld.Update(gameTime);
 
         if (_viewState == ViewState.Ui)
         {
-            _userInterface?.UpdateInteraction(gameTime, _cursor);
+            _userInterface?.UpdateInteraction(gameTime, Cursor);
             _userInterface?.Update(gameTime);
             return;
         }

@@ -166,10 +166,6 @@ public class Level : SampleLevel
 
         var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 2.5F);
         AutoManaged.Add(nbg);
-        var cursor = new Cursor();
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 
     private void UnlockedShop()
@@ -221,7 +217,7 @@ public class Level : SampleLevel
         _counter.ChangeText(_shop.BeanDisplay);
         _finishButton.Update(gameTime);
         if (_drawFinish)
-            _finishButton.UpdateInteraction(gameTime, Actuator);
+            _finishButton.UpdateInteraction(gameTime, Cursor);
         base.Update(gameTime);
         _counter.GetCalculator(_originScreen).OnCenter().Centered().OnY(3, 10).Move();
     }

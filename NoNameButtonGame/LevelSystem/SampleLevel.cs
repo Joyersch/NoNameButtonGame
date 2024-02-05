@@ -38,14 +38,14 @@ public class SampleLevel : ILevel
 
     protected readonly List<object> AutoManaged;
     protected readonly List<object> AutoManagedStatic;
-    protected IHitbox Actuator;
+    protected Cursor Cursor;
 
     protected SampleLevel(Display display, Vector2 window, Random random)
     {
         Display = display;
         Random = random;
         Window = window;
-
+        Cursor = new Cursor();
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();
@@ -54,14 +54,47 @@ public class SampleLevel : ILevel
         AutoManagedStatic = new List<object>();
 
         Camera = new Camera(Vector2.Zero, Display.Size);
-        Mouse = new MousePointer(window, Camera, true)
+        Mouse = new MousePointer(window, Camera)
         {
             UseRelative = true
         };
         Mouse.SetMousePointerPositionToCenter();
+        PositionListener.Add(Mouse, Cursor);
         RelativePositionListener.Add(Camera, Mouse);
     }
 
+    public virtual void Update(GameTime gameTime)
+    {
+        foreach (var obj in AutoManaged)
+        {
+            if (obj is IInteractable interactable)
+                interactable.UpdateInteraction(gameTime, Cursor);
+
+            if (obj is IManageable manageable)
+                manageable.Update(gameTime);
+
+            if (obj is Action action)
+                action.Invoke();
+        }
+
+        Camera.Update();
+        Mouse.Update(gameTime);
+
+        PositionListener.Update(gameTime);
+        RelativePositionListener.Update(gameTime);
+        ColorListener.Update(gameTime);
+
+        if (InputReaderKeyboard.CheckKey(Keys.F7, true))
+            Mouse.UseRelative = !Mouse.UseRelative;
+
+        if (InputReaderKeyboard.CheckKey(Keys.F6, true))
+            Mouse.SetMousePointerPositionToCenter();
+
+        if (InputReaderKeyboard.CheckKey(Keys.Escape, true))
+            Exit();
+
+        Cursor.Update(gameTime);
+    }
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
@@ -97,6 +130,8 @@ public class SampleLevel : ILevel
                 manageable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 manageable.Draw(spriteBatch);
         }
+        Cursor.Draw(spriteBatch);
+        Mouse.DrawIndicator(spriteBatch);
     }
 
     protected virtual void DrawStatic(SpriteBatch spriteBatch)
@@ -108,38 +143,6 @@ public class SampleLevel : ILevel
         }
 
         Mouse.Draw(spriteBatch);
-    }
-
-    public virtual void Update(GameTime gameTime)
-    {
-        Camera.Update();
-
-        PositionListener.Update(gameTime);
-        RelativePositionListener.Update(gameTime);
-        ColorListener.Update(gameTime);
-
-        Mouse.Update(gameTime);
-
-        if (InputReaderKeyboard.CheckKey(Keys.F7, true))
-            Mouse.UseRelative = !Mouse.UseRelative;
-
-        if (InputReaderKeyboard.CheckKey(Keys.F6, true))
-            Mouse.SetMousePointerPositionToCenter();
-
-        if (InputReaderKeyboard.CheckKey(Keys.Escape, true))
-            Exit();
-
-        foreach (var obj in AutoManaged)
-        {
-            if (obj is IInteractable interactable)
-                interactable.UpdateInteraction(gameTime, Actuator);
-
-            if (obj is IManageable manageable)
-                manageable.Update(gameTime);
-
-            if (obj is Action action)
-                action.Invoke();
-        }
     }
 
     public virtual void SetScreen(Vector2 screen)

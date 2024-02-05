@@ -31,10 +31,5 @@ public class Level : SampleLevel
         var simon = new SimonSays(Camera.Rectangle, random, 3, text);
         simon.Finished += Finish;
         AutoManaged.Add(simon);
-
-        var cursor = new Cursor(scale);
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 }

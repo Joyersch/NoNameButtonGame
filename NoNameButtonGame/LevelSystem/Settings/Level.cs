@@ -31,8 +31,6 @@ public class Level : SampleLevel
     private readonly GameObject _anchorMiddle;
     private readonly GameObject _anchorRight;
 
-    private Cursor _cursor;
-
     public event Action<Vector2> OnWindowResize;
 
     public event Action OnSave;
@@ -421,10 +419,6 @@ public class Level : SampleLevel
             if (f.Language == _languageSettings.Localization)
                 OnFlagClick(f); // Calls ApplyText
         }
-
-        _cursor = new Cursor();
-        Actuator = _cursor;
-        PositionListener.Add(Mouse, _cursor);
     }
 
     public override void Update(GameTime gameTime)
@@ -432,19 +426,17 @@ public class Level : SampleLevel
         base.Update(gameTime);
         if (!_saveDialog)
         {
-            _videoButton.UpdateInteraction(gameTime, _cursor);
+            _videoButton.UpdateInteraction(gameTime, Cursor);
             _videoButton.Update(gameTime);
 
-            _audioButton.UpdateInteraction(gameTime, _cursor);
+            _audioButton.UpdateInteraction(gameTime, Cursor);
             _audioButton.Update(gameTime);
 
-            _languageButton.UpdateInteraction(gameTime, _cursor);
+            _languageButton.UpdateInteraction(gameTime, Cursor);
             _languageButton.Update(gameTime);
 
-            _advancedButton.UpdateInteraction(gameTime, _cursor);
+            _advancedButton.UpdateInteraction(gameTime, Cursor);
             _advancedButton.Update(gameTime);
-
-            _cursor.Update(gameTime);
 
             if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseUp, true))
             {
@@ -469,19 +461,19 @@ public class Level : SampleLevel
             switch (_menuState)
             {
                 case MenuState.Video:
-                    _videoCollection.UpdateInteraction(gameTime, _cursor);
+                    _videoCollection.UpdateInteraction(gameTime, Cursor);
                     _videoCollection.Update(gameTime);
                     break;
                 case MenuState.Audio:
-                    _audioCollection.UpdateInteraction(gameTime, _cursor);
+                    _audioCollection.UpdateInteraction(gameTime, Cursor);
                     _audioCollection.Update(gameTime);
                     break;
                 case MenuState.Language:
-                    _languageCollection.UpdateInteraction(gameTime, _cursor);
+                    _languageCollection.UpdateInteraction(gameTime, Cursor);
                     _languageCollection.Update(gameTime);
                     break;
                 case MenuState.Advanced:
-                    _advancedCollection.UpdateInteraction(gameTime, _cursor);
+                    _advancedCollection.UpdateInteraction(gameTime, Cursor);
                     _advancedCollection.Update(gameTime);
                     break;
             }
@@ -489,19 +481,16 @@ public class Level : SampleLevel
             return;
         }
 
-        _cursor.Update(gameTime);
         _highlight.Update(gameTime);
         _saveChangesLabel.Update(gameTime);
-        _saveButton.UpdateInteraction(gameTime, _cursor);
+        _saveButton.UpdateInteraction(gameTime, Cursor);
         _saveButton.Update(gameTime);
-        _discardButton.UpdateInteraction(gameTime, _cursor);
+        _discardButton.UpdateInteraction(gameTime, Cursor);
         _discardButton.Update(gameTime);
     }
 
     protected override void Draw(SpriteBatch spriteBatch)
     {
-        base.Draw(spriteBatch);
-
         _videoButton.Draw(spriteBatch);
         _audioButton.Draw(spriteBatch);
         _languageButton.Draw(spriteBatch);
@@ -523,17 +512,15 @@ public class Level : SampleLevel
                 break;
         }
 
-        if (!_saveDialog)
+        if (_saveDialog)
         {
-            _cursor.Draw(spriteBatch);
-            return;
+            _highlight.Draw(spriteBatch);
+            _saveButton.Draw(spriteBatch);
+            _discardButton.Draw(spriteBatch);
+            _saveChangesLabel.Draw(spriteBatch);
         }
 
-        _highlight.Draw(spriteBatch);
-        _saveButton.Draw(spriteBatch);
-        _discardButton.Draw(spriteBatch);
-        _saveChangesLabel.Draw(spriteBatch);
-        _cursor.Draw(spriteBatch);
+        base.Draw(spriteBatch);
     }
 
     private void OnFlagClick(object sender)

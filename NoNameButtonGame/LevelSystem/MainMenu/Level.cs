@@ -24,6 +24,9 @@ public class Level : SampleLevel
 
     private Cursor mouseCursor;
 
+    private float _tilt = 0;
+    private bool _leftTilt;
+
     public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
@@ -68,12 +71,6 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         AutoManaged.Add(version);
-
-
-        mouseCursor = new Cursor();
-        Actuator = mouseCursor;
-        PositionListener.Add(Mouse, mouseCursor);
-        AutoManaged.Add(mouseCursor);
     }
 
     private void StartButtonPressed(object sender)

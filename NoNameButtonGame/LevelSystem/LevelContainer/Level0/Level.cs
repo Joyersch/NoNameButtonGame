@@ -33,10 +33,5 @@ internal class Level : SampleLevel
             .Centered()
             .Move();
         AutoManaged.Add(info);
-        
-        var cursor = new Cursor();
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 }

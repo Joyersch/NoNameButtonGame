@@ -42,7 +42,9 @@ public class Flag : GameObject, IInteractable
         DefaultMapping)
     {
         Language = language;
-        ImageLocation.X = (int)DefaultSize.X * (int)language;
+        var imageLocation = new Rectangle(Vector2.Zero.ToPoint(), DefaultMapping.ImageSize.ToPoint());
+        imageLocation.X = (int)DefaultSize.X * (int)language;
+        ImageLocation = imageLocation;
         _mouseActionsMat = new MouseActionsMat(this);
         _mouseActionsMat.Click += delegate
         {

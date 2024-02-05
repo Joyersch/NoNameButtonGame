@@ -72,12 +72,6 @@ public class Level : SampleLevel
             up.Click += MoveUp;
             AutoManaged.Add(up);
         }
-
-
-        var cursor = new Cursor();
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 
     private void SelectLevel(object sender)

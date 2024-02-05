@@ -44,11 +44,6 @@ public class Level : SampleLevel
         };
         ColorListener.Add(rainbowColor, levelFinishedLabel);
         AutoManaged.Add(rainbowColor);
-
-        var cursor = new Cursor();
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 
     public override void Update(GameTime gameTime)

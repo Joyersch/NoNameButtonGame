@@ -196,11 +196,6 @@ internal class Level : SampleLevel
         AutoManaged.Add(_invoker);
 
         #endregion
-
-        var mouseCursor = new Cursor();
-        Actuator = mouseCursor;
-        AutoManaged.Add(mouseCursor);
-        PositionListener.Add(Mouse, mouseCursor);
     }
 
     private void MoveToNextScreen(object sender)

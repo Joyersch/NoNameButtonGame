@@ -23,10 +23,5 @@ public class Level : SampleLevel
         quiz.Reset += Fail;
         quiz.Finish += Finish;
         AutoManaged.Add(quiz);
-
-        var cursor = new Cursor(scale);
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 }

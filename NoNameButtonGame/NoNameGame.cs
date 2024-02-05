@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
@@ -39,13 +40,19 @@ public class NoNameGame : SimpleGame
 
         ApplySettings();
 
+
+
         // register soundSettingsListener to change sound volume if
         //Global.SoundSettingsListener = new SoundSettingsListener(SettingsManager.Settings);
 
         _elapsedTime = new Text(string.Empty, 3F);
 
+        // get seed from arguments if it is given
+        var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
+        if (!int.TryParse(seedText, out int seed))
+            seed = Guid.NewGuid().GetHashCode();
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(Display, Window, SettingsAndSaveManager, this);
+        _levelManager = new LevelManager(Display, Window, SettingsAndSaveManager, this, seed);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
 
@@ -97,7 +104,6 @@ public class NoNameGame : SimpleGame
             _levelManager.Update(gameTime);
             if (_showElapsedTime)
             {
-
                 _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
                 _elapsedTime.GetCalculator(Display.Window)
                     .ByGridY(1)
@@ -123,6 +129,7 @@ public class NoNameGame : SimpleGame
         {
             _elapsedTime.Draw(SpriteBatch);
         }
+
         SpriteBatch.End();
     }
 

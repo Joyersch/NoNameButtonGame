@@ -100,11 +100,6 @@ public class Level : SampleLevel
         };
         AutoManaged.Add(timerColor);
         ColorListener.Add(timerColor, _timerLabel);
-
-        var cursor = new Cursor();
-        Actuator = cursor;
-        PositionListener.Add(Mouse, cursor);
-        AutoManaged.Add(cursor);
     }
 
     public override void Update(GameTime gameTime)
