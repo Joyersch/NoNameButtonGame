@@ -178,6 +178,8 @@ internal class LevelManager
             settingsLevel.OnSave += delegate
             {
                 _settingsAndSaveManager.SaveSettings();
+                _finishScreen = _levelFactory.GetFinishScreen();
+                _finishScreen.OnFinish += FinishScreenDisplayed;
                 ExitLevel();
             };
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
