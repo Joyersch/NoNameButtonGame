@@ -34,7 +34,7 @@ internal class GlitchBlock : GameObject, IColorable, IInteractable, IMouseAction
         {
             new Rectangle(0, 0, 8, 8)
         },
-        AnimationFrames = 16,
+        AnimationFrames = 32,
         AnimationFromTop = true,
         AnimationSpeed = 128
     };
