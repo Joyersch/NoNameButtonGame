@@ -14,8 +14,8 @@ using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
-using NoNameButtonGame.LevelSystem.LevelContainer.Level12;
-using NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
+using NoNameButtonGame.LevelSystem.LevelContainer.Bonus;
+using NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Overworld;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 using NoNameButtonGame.LevelSystem.Settings;
 

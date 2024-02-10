@@ -9,7 +9,7 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Interface;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Interface;
 
 public class TradeBar : IManageable, IInteractable, IMoveable
 {

@@ -11,9 +11,9 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Console;
 using MonoUtils.Ui.Objects.TextSystem;
-using NoNameButtonGame.LevelSystem.LevelContainer.Level12.Interface;
+using NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Interface;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus;
 
 public class UserInterface : GameObject, IInteractable
 {

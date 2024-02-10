@@ -45,7 +45,10 @@ public class SampleLevel : ILevel
         Display = display;
         Random = random;
         Window = window;
-        Cursor = new Cursor();
+        Cursor = new Cursor
+        {
+            Layer = 10
+        };
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();

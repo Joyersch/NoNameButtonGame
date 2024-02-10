@@ -22,5 +22,9 @@
   {
     "key": "ExitButton",
     "value": "Exit"
+  },
+  {
+    "key": "BonusButton",
+    "value": "Bonus"
   }
 ]

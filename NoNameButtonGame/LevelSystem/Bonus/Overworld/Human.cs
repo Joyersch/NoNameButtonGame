@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 using MonoUtils.Logic;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Overworld;
 
 public class Human : GameObject
 {

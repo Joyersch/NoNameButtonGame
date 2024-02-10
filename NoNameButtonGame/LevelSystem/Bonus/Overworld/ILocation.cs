@@ -1,6 +1,6 @@
 using System;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Overworld;
 
 public interface ILocation
 {

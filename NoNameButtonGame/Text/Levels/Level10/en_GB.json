@@ -1,2 +1,14 @@
-{
-}
+[
+  {
+    "key": "Text",
+    "value": "Unknown level requested [SBO]404[SBC]"
+  },
+  {
+    "key": "Button",
+    "value": "Finish"
+  },
+  {
+    "key": "Name",
+    "value": "Level 404"
+  }
+]

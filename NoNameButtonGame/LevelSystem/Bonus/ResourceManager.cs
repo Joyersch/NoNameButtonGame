@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using MonoUtils.Logging;
 using MonoUtils.Ui.Color;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus;
 
 public class ResourceManager
 {

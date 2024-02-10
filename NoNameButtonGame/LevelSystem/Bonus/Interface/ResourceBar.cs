@@ -6,7 +6,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12.Interface;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Interface;
 
 public class ResourceBar : IManageable, IMoveable
 {

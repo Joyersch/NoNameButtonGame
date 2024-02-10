@@ -9,10 +9,10 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
-using NoNameButtonGame.LevelSystem.LevelContainer.Level12.Overworld;
+using NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Overworld;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus;
 
 public class OverworldCollection : IManageable, IInteractable
 {

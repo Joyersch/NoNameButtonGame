@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.Level12;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.Bonus;
 
 public class Resource : GameObject
 {
