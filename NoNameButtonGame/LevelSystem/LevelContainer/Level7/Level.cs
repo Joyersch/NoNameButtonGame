@@ -8,6 +8,7 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.Colors;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 
@@ -18,10 +19,11 @@ internal class Level : SampleLevel
     private readonly TextButton _button;
     private bool _started;
     private readonly Timer _timer;
+    private readonly Timer _idleTimer;
 
     private readonly FollowerCollection _followeres;
-    private readonly OverTimeInvoker _idleInvoker;
     private readonly OverTimeInvoker _idleSpawnerInvoker;
+    private readonly PulsatingRed _color;
 
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
@@ -60,43 +62,58 @@ internal class Level : SampleLevel
 
         // Starts spam spawning blocks if the activated
         _idleSpawnerInvoker = new OverTimeInvoker(50F, false);
-        _idleSpawnerInvoker.Trigger += delegate
+        _idleSpawnerInvoker.Trigger += delegate { _followeres.Spawn(); };
+
+        _color = new PulsatingRed()
         {
-            _followeres.Spawn();
+            NoGradient = true,
         };
+        AutoManaged.Add(_color);
 
         // activates idle spawner if 5 seconds pass
-        _idleInvoker = new OverTimeInvoker(5000F);
-        _idleInvoker.Trigger += delegate
+        _idleTimer = new Timer(5000F);
+        _idleTimer.Start();
+        _idleTimer.GetAnchor(_timer)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .SetDistanceY(_idleTimer.GetSize().Y / 2)
+            .Move();
+
+        _idleTimer.Trigger += delegate
         {
             Log.WriteInformation("Idle check confirm");
             _idleSpawnerInvoker.Start();
+            _color.Increment = 10;
         };
+
+        ColorListener.Add(_color, _idleTimer);
 
         // resets the idle spawner check if the camera is moved
         _anchorGrid.StoppedMoving += delegate
         {
             Log.WriteInformation("Idle check reset");
-            _idleInvoker.Reset();
+            _idleTimer.Reset();
             _idleSpawnerInvoker.Stop();
+            _color.Increment = 1;
         };
     }
 
     public override void Update(GameTime gameTime)
     {
-        base.Update(gameTime);
         if (_started)
         {
             _anchorGrid.Update(gameTime);
             _timer.Update(gameTime);
             _idleSpawnerInvoker.Update(gameTime);
-            _idleInvoker.Update(gameTime);
+            _idleTimer.Update(gameTime);
         }
         else
         {
             _button.UpdateInteraction(gameTime, Cursor);
             _button.Update(gameTime);
         }
+
+        base.Update(gameTime);
     }
 
     protected override void Draw(SpriteBatch spriteBatch)
@@ -112,7 +129,10 @@ internal class Level : SampleLevel
     protected override void DrawStatic(SpriteBatch spriteBatch)
     {
         base.DrawStatic(spriteBatch);
-        if (_started)
-            _timer.Draw(spriteBatch);
+        if (!_started)
+            return;
+
+        _timer.Draw(spriteBatch);
+        _idleTimer.Draw(spriteBatch);
     }
 }
