@@ -16,8 +16,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
 public class Level : SampleLevel
 {
-    private Text _timerLabel;
-    private OverTimeInvoker _timer;
+    private Timer _timer;
     private double _difficulty;
 
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
@@ -81,17 +80,13 @@ public class Level : SampleLevel
             }
         }
 
-        _timer = new OverTimeInvoker(_difficulty);
+        _timer = new Timer(_difficulty, true);
         _timer.Trigger += Fail;
-
-        AutoManaged.Add(_timer);
-
-        _timerLabel = new Text($"{((_difficulty - _timer.ExecutedTime) / 1000F):n2}s");
-        _timerLabel.GetCalculator(Camera.Rectangle)
+        _timer.GetCalculator(Camera.Rectangle)
             .OnX(0.1F)
             .OnY(0.1F)
             .Move();
-        AutoManaged.Add(_timerLabel);
+        AutoManaged.Add(_timer);
 
         PulsatingRed timerColor = new PulsatingRed()
         {
@@ -99,13 +94,12 @@ public class Level : SampleLevel
             NoGradient = false
         };
         AutoManaged.Add(timerColor);
-        ColorListener.Add(timerColor, _timerLabel);
+        ColorListener.Add(timerColor, _timer);
     }
 
     public override void Update(GameTime gameTime)
     {
-        _timerLabel.ChangeText($"{((_difficulty - _timer.ExecutedTime) / 1000F):n2}s");
-        _timerLabel.GetCalculator(Camera.Rectangle)
+        _timer.GetCalculator(Camera.Rectangle)
             .OnX(0.1F)
             .OnY(0.1F)
             .Move();
