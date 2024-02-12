@@ -30,9 +30,8 @@ internal class Level : SampleLevel
         Name = textComponent.GetValue("Name");
 
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
-        AutoManaged.Add(_anchorGrid);
 
-        _timer = new Timer(120000D /*120 seconds*/);
+        _timer = new Timer(37500D /*60 seconds*/);
         _timer.GetCalculator(Display.Screen)
             .OnX(0.005F)
             .OnY(0.01F)
@@ -88,6 +87,7 @@ internal class Level : SampleLevel
         base.Update(gameTime);
         if (_started)
         {
+            _anchorGrid.Update(gameTime);
             _timer.Update(gameTime);
             _idleSpawnerInvoker.Update(gameTime);
             _idleInvoker.Update(gameTime);

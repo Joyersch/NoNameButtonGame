@@ -29,7 +29,9 @@ internal class Level : SampleLevel
 
         _text = new DelayedText(textComponent.GetValue("FirstText"), false)
         {
-            StartAfter = 3333F,
+            StartAfter = 1111F,
+            DisplayDelay = 32
+
         };
         _text.Start();
         _text.GetCalculator(Camera.Rectangle)
@@ -37,13 +39,13 @@ internal class Level : SampleLevel
             .Centered()
             .Move();
 
-        var delayedSpawn = new OverTimeInvoker(1000, false)
+        var delayedSpawn = new OverTimeInvoker(2000, false)
         {
             InvokeOnce = true
         };
         AutoManaged.Add(delayedSpawn);
 
-        var delayedFinish = new OverTimeInvoker(1000, false);
+        var delayedFinish = new OverTimeInvoker(2000, false);
         delayedFinish.Trigger += Finish;
         AutoManaged.Add(delayedFinish);
 
@@ -71,7 +73,10 @@ internal class Level : SampleLevel
             if (_interactions != 5 || _interactionsCutscenePlayed)
                 return;
             _interactionsCutscenePlayed = true;
-            _text = new DelayedText(textComponent.GetValue("SecondText"));
+            _text = new DelayedText(textComponent.GetValue("SecondText"))
+            {
+                DisplayDelay = 32
+            };
             _text.GetCalculator(Camera.Rectangle)
                 .OnX(0.5F)
                 .OnY(0.333F)

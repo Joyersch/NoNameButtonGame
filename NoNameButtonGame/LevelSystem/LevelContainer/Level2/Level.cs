@@ -80,7 +80,7 @@ public class Level : SampleLevel
             }
         }
 
-        _timer = new Timer(_difficulty, true);
+        _timer = new Timer(1F, _difficulty, true);
         _timer.Trigger += Fail;
         _timer.GetCalculator(Camera.Rectangle)
             .OnX(0.1F)

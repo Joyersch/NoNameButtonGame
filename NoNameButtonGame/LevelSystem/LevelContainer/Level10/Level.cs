@@ -15,5 +15,13 @@ internal class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.Level10");
 
         Name = textComponent.GetValue("Name");
+
+        var button = new TextButton("Finish");
+        button.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
+        button.Click += Finish;
+        AutoManaged.Add(button);
     }
 }
