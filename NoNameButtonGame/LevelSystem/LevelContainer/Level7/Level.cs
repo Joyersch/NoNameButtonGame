@@ -25,6 +25,8 @@ internal class Level : SampleLevel
     private readonly OverTimeInvoker _idleSpawnerInvoker;
     private readonly PulsatingRed _color;
 
+    private readonly DelayedText _info;
+
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
         var textComponent = TextProvider.GetText("Levels.Level7");
@@ -44,6 +46,11 @@ internal class Level : SampleLevel
         _followeres.Enter += Fail;
         AutoManaged.Add(_followeres);
 
+        _info = new DelayedText("Oh No... There coming!", false)
+        {
+            DisplayDelay = 50
+        };
+
         _button = new TextButton("Start");
         _button.GetCalculator(Camera.Rectangle)
             .OnCenter()
@@ -57,6 +64,7 @@ internal class Level : SampleLevel
             _started = true;
             _timer.Start();
             _followeres.Start();
+            _info.Start();
         };
 
 
@@ -106,6 +114,7 @@ internal class Level : SampleLevel
             _timer.Update(gameTime);
             _idleSpawnerInvoker.Update(gameTime);
             _idleTimer.Update(gameTime);
+            _info.Update(gameTime);
         }
         else
         {
@@ -121,6 +130,10 @@ internal class Level : SampleLevel
         if (!_started)
         {
             _button.Draw(spriteBatch);
+        }
+        else
+        {
+            _info.Draw(spriteBatch);
         }
 
         base.Draw(spriteBatch);
