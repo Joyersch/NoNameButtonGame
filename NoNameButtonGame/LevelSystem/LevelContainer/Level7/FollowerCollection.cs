@@ -33,6 +33,7 @@ public class FollowerCollection : IManageable, IInteractable
     public event Action Enter;
     private bool _started;
     private bool _blockToFar;
+    private bool _blockOnScreen;
     private float _distance;
 
     public FollowerCollection(Cursor cursor, Camera camera)
@@ -54,6 +55,8 @@ public class FollowerCollection : IManageable, IInteractable
     public void Update(GameTime gameTime)
     {
         _blockToFar = true;
+        _blockOnScreen = !_started;
+
         for (var i = 0; i < _blocks.Count; i++)
         {
             var block = _blocks[i];
@@ -85,8 +88,15 @@ public class FollowerCollection : IManageable, IInteractable
 
             // move block towards the player
             if (_started)
-                MoveHelper.MoveTowards(block, _cursor,
-                    (_speed + _blocks.Count * 3) * (gameTime.ElapsedGameTime.Milliseconds / 1000F));
+            {
+                var distance = (_speed + _blocks.Count * 3) * (gameTime.ElapsedGameTime.Milliseconds / 1000F);
+                if (!block.Rectangle.Intersects(_camera.Rectangle))
+                    distance *= length / 200;
+                else
+                    _blockOnScreen = true;
+                MoveHelper.MoveTowards(block, _cursor, distance);
+            }
+
             block.Update(gameTime);
         }
 
@@ -102,7 +112,7 @@ public class FollowerCollection : IManageable, IInteractable
 
     private void SpawnNewBlock()
     {
-        if (_blockToFar && _started)
+        if ((_blockToFar || !_blockOnScreen) && _started)
             Spawn();
     }
 
@@ -131,9 +141,13 @@ public class FollowerCollection : IManageable, IInteractable
     {
         var block = new GlitchBlockCollection(GlitchBlock.DefaultSize);
         block.ChangeColor(GlitchBlock.Color);
+        block.GetCalculator(_camera.Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
 
         // minus distance moves away from the player
-        MoveHelper.MoveTowards(block, _cursor, -(_distance * 1.5F));
+        MoveHelper.MoveTowards(block, _cursor, _distance * 1.5F);
         block.Enter += delegate { Enter?.Invoke(); };
         _blocks.Add(block);
 
