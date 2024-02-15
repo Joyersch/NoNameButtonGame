@@ -1,6 +1,22 @@
 [
   {
     "key": "Name",
-    "value": "[7]"
+    "value": "Level 7 - Evil be lurking!"
+  },
+  {
+    "key": "StartButton",
+    "value": "Start"
+  },
+  {
+    "key": "FinishPrefix",
+    "value": "Finished in "
+  },
+  {
+    "key": "IdlePrefix",
+    "value": "Idling penalty in "
+  },
+  {
+    "key": "StartMessage",
+    "value": "Oh No... There coming!"
   }
 ]

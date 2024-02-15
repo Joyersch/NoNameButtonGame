@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils.Helper;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
@@ -62,23 +63,20 @@ public class FollowerCollection : IManageable, IInteractable
             // determine vector towards the player
             var fromBlockDirection = _cursor.Position - blockCenter;
 
-            var fromBlockDirectionNormalized = Vector2.Normalize(fromBlockDirection);
-
             var length = fromBlockDirection.Length();
 
             if (length <= _distance * 2)
             {
                 _indicator[i].CanDraw = true;
-                var fromCursorDirection = blockCenter - _cursor.Position;
                 var text = _indicator[i].Text;
+
                 var letter = text.Letters[0];
-
+                MoveHelper.RotateTowards(letter, block);
                 // + 45 degrees as the texture is rotated -45 degrees
-                letter.Rotation = (float)(Math.Atan2(fromCursorDirection.Y, fromCursorDirection.X) + Math.PI / 4F);
+                letter.Rotation += (float)(Math.PI / 4F);
 
-                fromCursorDirection.Normalize();
-                fromCursorDirection *= 10;
-                text.Move(_cursor.Position + fromCursorDirection);
+                text.Move(_cursor.Position);
+                MoveHelper.MoveTowards(text, block, 16);
             }
 
             // compare distance to player to size of camera
@@ -87,8 +85,8 @@ public class FollowerCollection : IManageable, IInteractable
 
             // move block towards the player
             if (_started)
-                block.Move(block.Position + fromBlockDirectionNormalized * (_speed + _blocks.Count * 3) *
-                    (gameTime.ElapsedGameTime.Milliseconds / 1000F));
+                MoveHelper.MoveTowards(block, _cursor,
+                    (_speed + _blocks.Count * 3) * (gameTime.ElapsedGameTime.Milliseconds / 1000F));
             block.Update(gameTime);
         }
 
@@ -134,13 +132,8 @@ public class FollowerCollection : IManageable, IInteractable
         var block = new GlitchBlockCollection(GlitchBlock.DefaultSize);
         block.ChangeColor(GlitchBlock.Color);
 
-        var player = _cursor.Rectangle.Center.ToVector2();
-        var camera = _camera.RealPosition + _camera.RealSize / 2;
-
-        var difference = player - camera;
-        difference.Normalize();
-
-        block.Move(_cursor.Position + difference * _distance * 1.5F);
+        // minus distance moves away from the player
+        MoveHelper.MoveTowards(block, _cursor, -(_distance * 1.5F));
         block.Enter += delegate { Enter?.Invoke(); };
         _blocks.Add(block);
 

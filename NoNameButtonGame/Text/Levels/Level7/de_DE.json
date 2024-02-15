@@ -1,6 +1,22 @@
 [
   {
     "key": "Name",
-    "value": "[7]"
+    "value": "Level 7 - Da ist Böses im Busch!"
+  },
+  {
+    "key": "StartButton",
+    "value": "Start"
+  },
+  {
+    "key": "FinishPrefix",
+    "value": "Abgeschlossen in "
+  },
+  {
+    "key": "IdlePrefix",
+    "value": "Wartebestrafung in "
+  },
+  {
+    "key": "StartMessage",
+    "value": "Oh nein... Sie kommen!"
   }
 ]
