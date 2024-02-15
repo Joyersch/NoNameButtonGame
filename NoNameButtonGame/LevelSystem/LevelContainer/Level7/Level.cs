@@ -172,12 +172,6 @@ internal class Level : SampleLevel
             _initializerIndicator.Update(gameTime);
         }
 
-        if (InputReaderKeyboard.CheckKey(Keys.F4, true))
-            Camera.Move(Camera.Position - new Vector2(0, 16));
-
-        if (InputReaderKeyboard.CheckKey(Keys.F5, true))
-            Camera.Move(Camera.Position - new Vector2(0, -16));
-
         Log.WriteLine(Cursor.Position.ToString(), 3);
         if (_started)
         {
