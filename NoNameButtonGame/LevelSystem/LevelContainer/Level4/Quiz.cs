@@ -9,6 +9,8 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level4;
@@ -18,9 +20,9 @@ public class Quiz : IManageable, IInteractable
     private QuizQuestionsCollection _questions;
     public Rectangle Rectangle { get; private set; }
 
-    private TextButton _buttonOne;
-    private TextButton _buttonTwo;
-    private TextButton _buttonThree;
+    private Button _buttonOne;
+    private Button _buttonTwo;
+    private Button _buttonThree;
 
     private Text _question;
 
@@ -51,7 +53,7 @@ public class Quiz : IManageable, IInteractable
             .Centered()
             .Move();
 
-        _buttonOne = new TextButton(string.Empty, scale, 0.5F * scale);
+        _buttonOne = new Button(string.Empty);
         _buttonOne.Click += ButtonOneClick;
         _buttonOne.GetCalculator(Rectangle)
             .OnCenter()
@@ -59,14 +61,14 @@ public class Quiz : IManageable, IInteractable
             .Centered()
             .Move();
 
-        _buttonTwo = new TextButton(string.Empty, scale, 0.5F * scale);
+        _buttonTwo = new Button(string.Empty);
         _buttonTwo.Click += ButtonTwoClick;
         _buttonOne.GetCalculator(Rectangle)
             .OnCenter()
             .Centered()
             .Move();
 
-        _buttonThree = new TextButton(string.Empty, scale, 0.5F * scale);
+        _buttonThree = new Button(string.Empty);
         _buttonThree.Click += ButtonThreeClick;
         _buttonThree.GetCalculator(Rectangle)
             .OnCenter()

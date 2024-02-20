@@ -17,7 +17,6 @@ public class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.Level3");
         Name = textComponent.GetValue("Name");
 
-        Camera.Zoom = 1F;
         var scale = 2F;
         Camera.Move(Display.Size / 2);
 

@@ -8,6 +8,8 @@ using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level1;
 
@@ -30,7 +32,7 @@ internal class Level : SampleLevel
 
         #region StartScreen
 
-        var startButton = new TextButton(textComponent.GetValue("Button1"));
+        var startButton = new Button(textComponent.GetValue("Button1"));
         startButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
@@ -56,7 +58,7 @@ internal class Level : SampleLevel
 
         #region LockButtonScreen
 
-        var magicButton = new TextButton(textComponent.GetValue("Button2"));
+        var magicButton = new Button(textComponent.GetValue("Button2"));
         magicButton.GetCalculator(screen)
             .OnCenter()
             .OnY(13, 16)
@@ -65,21 +67,17 @@ internal class Level : SampleLevel
         magicButton.Click += MagicButtonOnClick;
         AutoManaged.Add(magicButton);
 
-        var lockButton = new TextButton(textComponent.GetValue("ButtonSkip"));
+        var lockButton = new Button(textComponent.GetValue("ButtonSkip"));
         lockButton.GetCalculator(screen)
             .OnCenter()
             .OnY(3, 16)
             .Centered()
             .Move();
 
-        _lockButtonAddon = new LockButtonAddon(new(lockButton));
-        _lockButtonAddon.Callback += (_, state) =>
-        {
-            if (state != IButtonAddon.CallState.Click)
-                return;
-            MoveToNextScreen(_lockButtonAddon);
-        };
+        _lockButtonAddon = new LockButtonAddon(lockButton);
+        _lockButtonAddon.Click += delegate { MoveToNextScreen(_lockButtonAddon); };
         AutoManaged.Add(_lockButtonAddon);
+
 
         var info1 = new Text(textComponent.GetValue("Info2"));
         info1.GetCalculator(screen)
@@ -104,7 +102,7 @@ internal class Level : SampleLevel
 
         #region CounterButtonScreen
 
-        var counterButton = new TextButton(textComponent.GetValue("ButtonSkip"));
+        var counterButton = new Button(textComponent.GetValue("ButtonSkip"));
         counterButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
@@ -126,13 +124,9 @@ internal class Level : SampleLevel
             .Move();
         AutoManaged.Add(infoAboutCounterButton2);
 
-        var counterButtonAddon = new CounterButtonAddon(new(counterButton), 5);
-        counterButtonAddon.Callback += (_, state) =>
-        {
-            if (state != IButtonAddon.CallState.Click)
-                return;
-            MoveToNextScreen(counterButtonAddon);
-        };
+
+        var counterButtonAddon = new CounterButtonAddon(counterButton, 5);
+        counterButtonAddon.Click += delegate { MoveToNextScreen(counterButtonAddon); };
         AutoManaged.Add(counterButtonAddon);
 
         #endregion // CounterButtonScreen
@@ -142,20 +136,17 @@ internal class Level : SampleLevel
 
         #region HoldButtonScreen
 
-        var stateButton = new TextButton(textComponent.GetValue("ButtonSkip"));
+        var stateButton = new Button(textComponent.GetValue("ButtonSkip"));
         stateButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
             .Move();
 
-        var holdButtonAddon = new HoldButtonAddon(new(stateButton), 3000F);
-        holdButtonAddon.Callback += (_, state) =>
-        {
-            if (state != IButtonAddon.CallState.Click)
-                return;
-            MoveToNextScreen(holdButtonAddon);
-        };
+
+        var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F);
+        holdButtonAddon.Click += delegate { MoveToNextScreen(holdButtonAddon); };
         AutoManaged.Add(holdButtonAddon);
+
 
         var infoAboutButton = new Text(textComponent.GetValue("Info6"));
         infoAboutButton.GetCalculator(screen)

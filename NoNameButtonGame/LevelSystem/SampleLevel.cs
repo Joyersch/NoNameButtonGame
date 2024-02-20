@@ -12,6 +12,8 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Logic.Listener;
 using MonoUtils.Ui.Objects;
+using IDrawable = Microsoft.Xna.Framework.IDrawable;
+using IUpdateable = MonoUtils.Logic.IUpdateable;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -47,7 +49,7 @@ public class SampleLevel : ILevel
         Window = window;
         Cursor = new Cursor
         {
-            Layer = 10
+            Layer = 0,
         };
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
@@ -73,7 +75,7 @@ public class SampleLevel : ILevel
             if (obj is IInteractable interactable)
                 interactable.UpdateInteraction(gameTime, Cursor);
 
-            if (obj is IManageable manageable)
+            if (obj is IUpdateable manageable)
                 manageable.Update(gameTime);
 
             if (obj is Action action)
@@ -105,7 +107,7 @@ public class SampleLevel : ILevel
 
         graphicsDevice.Clear(new Color(50, 50, 50));
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+        spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp,
             transformMatrix: Camera.CameraMatrix);
 
         Draw(spriteBatch);
@@ -129,9 +131,9 @@ public class SampleLevel : ILevel
     {
         foreach (var obj in AutoManaged)
         {
-            if (obj is IManageable manageable &&
-                manageable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
-                manageable.Draw(spriteBatch);
+            if (obj is MonoUtils.Logic.IDrawable drawable &&
+                drawable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
+                drawable.Draw(spriteBatch);
         }
         Cursor.Draw(spriteBatch);
         Mouse.DrawIndicator(spriteBatch);

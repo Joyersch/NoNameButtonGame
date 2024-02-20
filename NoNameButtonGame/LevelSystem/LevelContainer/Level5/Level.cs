@@ -12,6 +12,7 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
@@ -30,7 +31,7 @@ public class Level : SampleLevel
 
     private readonly Rectangle _originScreen;
 
-    private readonly TextButton _finishButton;
+    private readonly TextButton<SampleButton> _finishButton;
     private bool _drawFinish;
     private bool _shopUnlocked;
 
@@ -75,51 +76,50 @@ public class Level : SampleLevel
         AutoManaged.Add(_overTimeMoverMain);
         AutoManaged.Add(_overTimeMoverDistraction);
 
-        var shopButton = new TextButton(textComponent.GetValue("Shop"));
+        var shopButton = new Button(textComponent.GetValue("Shop"));
         shopButton.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySize(-1F).Move();
         shopButton.Click += ShopButtonClick;
-        var shopButton1 = new LockButtonAddon(new(shopButton));
-
+        var shopButton1 = new LockButtonAddon(shopButton);
         AutoManaged.Add(shopButton1);
 
-        var toMainButtonShop = new TextButton(textComponent.GetValue("Return"));
+        var toMainButtonShop = new Button(textComponent.GetValue("Return"));
         toMainButtonShop.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).BySizeY(-1F).Move();
         toMainButtonShop.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonShop);
 
-        var toMainButtonSnake = new TextButton(textComponent.GetValue("Return"));
+        var toMainButtonSnake = new Button(textComponent.GetValue("Return"));
         toMainButtonSnake.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySize(-1F).Move();
         toMainButtonSnake.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonSnake);
 
-        var toSnakeButtonShop = new TextButton(textComponent.GetValue("Distraction"));
+        var toSnakeButtonShop = new Button(textComponent.GetValue("Distraction"));
         toSnakeButtonShop.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).ByGridX(1F).BySize(-1F).Move();
         toSnakeButtonShop.Click += SnakeButtonClick;
 
-        var toSnakeLockShop = new LockButtonAddon(new(toSnakeButtonShop));
+        var toSnakeLockShop = new LockButtonAddon(toSnakeButtonShop);
         AutoManaged.Add(toSnakeLockShop);
 
-        var toShopButtonSnake = new TextButton(textComponent.GetValue("Shop"));
+        var toShopButtonSnake = new Button(textComponent.GetValue("Shop"));
         toShopButtonSnake.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).ByGridX(-1F).BySizeY(-1F).Move();
         toShopButtonSnake.Click += ShopButtonClick;
 
-        var toShopLockSnake = new LockButtonAddon(new(toShopButtonSnake));
+        var toShopLockSnake = new LockButtonAddon(toShopButtonSnake);
         AutoManaged.Add(toShopLockSnake);
 
-        var clickButton = new TextButton(textComponent.GetValue("BakeABean"));
-        clickButton.Move(oneScreen / 2 - clickButton.Size / 2);
+        var clickButton = new Button(textComponent.GetValue("BakeABean"));
+        clickButton.Move(oneScreen / 2 - clickButton.GetSize() / 2);
         clickButton.Click += _ => _shop.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
 
         // originally it was planned to have snake on the distraction screen but the idea was cut...
         // no need to rename, right?
-        var snakeButton = new TextButton(textComponent.GetValue("Distraction"));
+        var snakeButton = new Button(textComponent.GetValue("Distraction"));
         snakeButton.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySizeY(-1F).Move();
         snakeButton.Click += SnakeButtonClick;
-        var snakeLockButton = new LockButtonAddon(new(snakeButton));
+        var snakeLockButton = new LockButtonAddon(snakeButton);
         AutoManaged.Add(snakeLockButton);
 
-        _finishButton = new TextButton(textComponent.GetValue("Finish"));
+        _finishButton = new Button(textComponent.GetValue("Finish"));
         _finishButton.Click += Finish;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
@@ -148,12 +148,14 @@ public class Level : SampleLevel
         };
 
         _shop = new Shop(shopScreen, oneScreen, _save, random, infos, shopOptions, shopOptionsSus);
+
         _shop.UnlockedShop += shopButton1.Unlock;
         _shop.UnlockedShop += toShopLockSnake.Unlock;
         _shop.UnlockedShop += UnlockedShop;
         _shop.UnlockedDistraction += snakeLockButton.Unlock;
         _shop.UnlockedDistraction += toSnakeLockShop.Unlock;
         _shop.PurchasedAllOptions += EnableFinishButton;
+
         AutoManaged.Add(_shop);
 
         _counter = new Text(string.Empty);

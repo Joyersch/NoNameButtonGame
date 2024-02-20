@@ -7,6 +7,8 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 
@@ -14,7 +16,7 @@ public class ShopOption : IInteractable, IMoveable
 {
     private Text _amountDisplay;
     private LockButtonAddon _button;
-    private TextButton _textButton;
+    private TextButton<SampleButton> _textButton;
     private MouseActionsMat _infoMat;
     private Text _priceDisplay;
 
@@ -57,12 +59,14 @@ public class ShopOption : IInteractable, IMoveable
         if (_amount == _maxAmount)
             _currentPrice = 0;
 
-        _textButton = new TextButton(text);
+        _textButton = new Button(text);
 
-        _button = new LockButtonAddon(new ButtonAddonAdapter(_textButton));
+        _button = new LockButtonAddon(_textButton);
         _size = new Vector2(_button.GetSize().X, sizeY);
         _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
-        _button.Callback += ButtonClick;
+        _button.Click += ButtonClick;
+        _button.Enter += o => ButtonEnter?.Invoke();
+        _button.Leave += o => ButtonLeave?.Invoke();
 
         _infoMat = new MouseActionsMat(_textButton);
         _infoMat.Enter += _ => _isHover = true;
@@ -75,17 +79,8 @@ public class ShopOption : IInteractable, IMoveable
         _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
     }
 
-    private void ButtonClick(object obj, IButtonAddon.CallState state)
+    private void ButtonClick(object obj)
     {
-        if (state == IButtonAddon.CallState.Enter)
-            ButtonEnter?.Invoke();
-
-        if (state == IButtonAddon.CallState.Leave)
-            ButtonLeave?.Invoke();
-
-        if (state != IButtonAddon.CallState.Click)
-            return;
-
         if (_amount == _maxAmount)
             return;
 
@@ -139,7 +134,7 @@ public class ShopOption : IInteractable, IMoveable
     {
         var offset = newPosition - _position;
         _amountDisplay.Move(_amountDisplay.Position + offset);
-        _button.Move(_button.Position + offset);
+        _button.Move(_button.GetPosition() + offset);
         _priceDisplay.Move(_priceDisplay.Position + offset);
         _position = newPosition;
     }

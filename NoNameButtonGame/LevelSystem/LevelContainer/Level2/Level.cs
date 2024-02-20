@@ -11,6 +11,8 @@ using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level2;
 
@@ -65,7 +67,7 @@ public class Level : SampleLevel
             {
                 int index = x + y * 4;
                 string text = shuffler.GetText(index);
-                var button = new TextButton(text);
+                var button = new Button(text);
                 button.Text.ChangeColor(shuffler.GetColor(index));
                 button.GetCalculator(Camera.Rectangle)
                     .OnX(x * 4 + 4, 20)

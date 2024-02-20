@@ -5,10 +5,12 @@ using MonoUtils.Logic;
 using MonoUtils;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
 
-public class SimonSaysButton : TextButton
+public class SimonSaysButton : TextButton<SampleButton>
 {
     private readonly OverTimeInvoker _invoker;
     private readonly Color _color;
@@ -17,14 +19,13 @@ public class SimonSaysButton : TextButton
 
     public event Action Finished;
 
-    public SimonSaysButton(Color color, Color highlight, float time) : this(Vector2.Zero, DefaultSize * 2, string.Empty,
-        "[block]", DefaultTextScale * 2, 1, DefaultTexture, DefaultMapping, color, highlight, time)
+    public SimonSaysButton(Color color, Color highlight, float time) : this(Vector2.Zero, "[block]", 1F, color,
+        highlight, time)
     {
     }
 
-    public SimonSaysButton(Vector2 position, Vector2 size, string name, string text, float textScale, int spacing,
-        Texture2D texture, TextureHitboxMapping mapping, Color color, Color highlight, float time) : base(position, size, name,
-        text, textScale, spacing, texture, mapping)
+    public SimonSaysButton(Vector2 position, string text, float scale, Color color, Color highlight, float time) : base(
+        text, scale, new SampleButton(position))
     {
         _color = color;
         _hightlight = highlight;
@@ -53,7 +54,7 @@ public class SimonSaysButton : TextButton
         Text.ChangeColor(_color);
     }
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         _invoker.Update(gameTime);
         base.Update(gameTime);

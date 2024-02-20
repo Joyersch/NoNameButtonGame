@@ -44,6 +44,11 @@ public class Level : SampleLevel
         };
         ColorListener.Add(rainbowColor, levelFinishedLabel);
         AutoManaged.Add(rainbowColor);
+
+        // if nothing is pressed, after 5 seconds, level finishes
+        // this is here as currently, something input does not work for some reason.
+        var failsave = new Timer(5000, true);
+        failsave.Trigger += Finish;
     }
 
     public override void Update(GameTime gameTime)

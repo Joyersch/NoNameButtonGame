@@ -13,7 +13,7 @@ using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, IColorable, IInteractable
+internal class GlitchBlockCollection : SampleObject, IMouseActions, IMoveable, IColorable, IInteractable
 {
     private readonly List<GlitchBlock> _glitchBlocksGrid;
 
@@ -41,8 +41,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size,
-        DefaultTexture, DefaultMapping)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size)
     {
         var grid = size / singleSize;
         var gridEdge = new Vector2(size.X % singleSize.X, size.Y % singleSize.Y);
@@ -68,21 +67,20 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
             }
         }
 
-        _mouseActionsMat = new MouseActionsMat(this);
+        //_mouseActionsMat = new MouseActionsMat(this);
         _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
         _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
         _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
     }
 
-
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         for (int i = 0; i < _glitchBlocksGrid.Count; i++)
         {
             _glitchBlocksGrid[i].Update(gameTime);
         }
 
-        base.Update(gameTime);
+        //base.Update(gameTime);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -90,7 +88,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
        _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch)
     {
         for (int i = 0; i < _glitchBlocksGrid.Count; i++)
         {
@@ -98,28 +96,23 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
         }
     }
 
-    protected override void CalculateHitboxes()
+    protected void CalculateHitboxes()
     {
         if (_glitchBlocksGrid is null)
             return;
-        Hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
+        //Hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
-    public Vector2 GetPosition()
-        => Position;
-
-    public Vector2 GetSize()
-        => Size;
 
     public void Move(Vector2 newPosition)
     {
-        var offset = newPosition - Position;
-        Position += offset;
+        //var offset = newPosition - GetPosi;
+        //Position += offset;
         foreach (var block in _glitchBlocksGrid)
         {
-            block.Move(block.Position + offset);
+            //block.Move(block.Position + offset);
         }
-        UpdateRectangle();
+        //UpdateRectangle();
     }
 
     public void ChangeColor(Color[] input)
@@ -134,7 +127,7 @@ internal class GlitchBlockCollection : GameObject, IMouseActions, IMoveable, ICo
     {
         foreach (var glitchBlock in _glitchBlocksGrid)
         {
-            glitchBlock.ChangeColor(input);
+            //glitchBlock.ChangeColor(input);
         }
     }
 

@@ -10,6 +10,8 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;
@@ -32,31 +34,45 @@ public class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");
 
-        const int startPositionY = -(64 * 2 + 32);
-        int x = -304;
-
-        var startButton = new TextButton(new Vector2(x, startPositionY),
-            textComponent.GetValue(finished ? "BonusButton" : "StartButton"));
+        var startButton = new Button(textComponent.GetValue(finished ? "BonusButton" : "StartButton"));
+        startButton.GetCalculator(Camera.Rectangle)
+            .OnX(0.125F)
+            .OnY(0.15F)
+            .Centered()
+            .Move();
         startButton.Click += finished ? BonusButtonPressed : StartButtonPressed;
         AutoManaged.Add(startButton);
 
-        var selectLevelButton =
-            new TextButton(new Vector2(x, startPositionY + 64), textComponent.GetValue("SelectButton"));
+        var selectLevelButton = new Button(textComponent.GetValue("SelectButton"));
+        selectLevelButton.GetAnchor(startButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .Move();
         selectLevelButton.Click += SelectButtonPressed;
         AutoManaged.Add(selectLevelButton);
 
-        var settingsButton = new TextButton(new Vector2(x, startPositionY + 64 * 2),
-            textComponent.GetValue("SettingsButton"));
+        var settingsButton = new Button(textComponent.GetValue("SettingsButton"));
         settingsButton.Click += SettingsButtonPressed;
+        settingsButton.GetAnchor(selectLevelButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .Move();
         AutoManaged.Add(settingsButton);
 
-        var creditButton =
-            new TextButton(new Vector2(x, startPositionY + 64 * 3), textComponent.GetValue("CreditsButton"));
+        var creditButton = new Button(textComponent.GetValue("CreditsButton"));
         creditButton.Click += CreditButtonPressed;
+        creditButton.GetAnchor(settingsButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .Move();
         AutoManaged.Add(creditButton);
 
-        var exitButton = new TextButton(new Vector2(x, startPositionY + 64 * 4), textComponent.GetValue("ExitButton"));
+        var exitButton = new Button(textComponent.GetValue("ExitButton"));
         exitButton.Click += ExitButtonPressed;
+        exitButton.GetAnchor(creditButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .Move();
         AutoManaged.Add(exitButton);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 5F, 1);

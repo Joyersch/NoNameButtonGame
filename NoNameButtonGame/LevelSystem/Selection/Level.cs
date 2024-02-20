@@ -6,6 +6,7 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -36,7 +37,7 @@ public class Level : SampleLevel
                 for (int x = 0; x < 5 && placed < maxLevel; x++)
                 {
                     var levelButton =
-                        new MiniTextButton(Vector2.Zero, (placed + 1).ToString(), (placed + 1).ToString());
+                        new MiniButton((placed + 1).ToString(), (placed + 1).ToString());
                     levelButton.GetCalculator(Camera.Rectangle)
                         .OnX(0.20F + 0.15F * x)
                         .OnY(0.4F + 0.2F * y)
@@ -52,7 +53,7 @@ public class Level : SampleLevel
             if (maxLevel <= placed)
                 break;
 
-            var down = new MiniTextButton(Vector2.Zero, "⬇");
+            var down = new MiniButton("[down]");
             down.GetCalculator(Camera.Rectangle)
                 .OnX(0.1F)
                 .OnY(0.9F)
@@ -62,7 +63,7 @@ public class Level : SampleLevel
             down.Click += MoveDown;
             AutoManaged.Add(down);
 
-            var up = new MiniTextButton(Vector2.Zero, "⬆");
+            var up = new MiniButton("[up]");
             up.GetCalculator(Camera.Rectangle)
                 .OnX(0.1F)
                 .OnY(1.1F)
@@ -75,7 +76,7 @@ public class Level : SampleLevel
     }
 
     private void SelectLevel(object sender)
-        => OnLevelSelect?.Invoke(int.Parse(((MiniTextButton)sender).Name));
+        => OnLevelSelect?.Invoke(int.Parse(((MiniButton)sender).Name));
 
     private void MoveDown(object sender)
     {

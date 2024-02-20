@@ -5,18 +5,22 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 
-public class Shop : GameObject, IInteractable
+public class Shop : IManageable, IInteractable
 {
     public new static Vector2 DefaultSize => Display.Size / 2;
 
     private LevelSave _storage;
     private readonly Random _random;
+
+    public Rectangle Rectangle => _rectangle;
     private Rectangle _rectangle;
 
     private readonly ShopOption _optionOne;
@@ -49,7 +53,7 @@ public class Shop : GameObject, IInteractable
     private readonly string[] _shopOptionsNamesSus;
 
     public Shop(Vector2 position, Vector2 size, LevelSave storage, Random random, string[] infos, string[] shopOptions,
-        string[] shopOptionsNamesSus) : base(position, DefaultSize, DefaultTexture, DefaultMapping)
+        string[] shopOptionsNamesSus)
     {
         _infoDisplayText = infos;
         _shopOptionNames = shopOptions;
@@ -118,7 +122,7 @@ public class Shop : GameObject, IInteractable
         _storage.Beans = BeanCount;
     }
 
-    public override void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         _optionOne.GetCalculator(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
         _optionTwo.GetCalculator(_rectangle).OnX(0.38F).BySizeX(-0.5F).Move();
@@ -181,7 +185,7 @@ public class Shop : GameObject, IInteractable
             _infoDiplay.ChangeText(string.Empty);
     }
 
-    public override void Draw(SpriteBatch spriteBatch)
+    public void Draw(SpriteBatch spriteBatch)
     {
         _optionOne.Draw(spriteBatch);
         _optionTwo.Draw(spriteBatch);

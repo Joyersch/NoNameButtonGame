@@ -12,6 +12,8 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level7;
@@ -20,7 +22,7 @@ internal class Level : SampleLevel
 {
     private readonly CameraAnchorGrid _anchorGrid;
 
-    private readonly TextButton _button;
+    private readonly TextButton<SampleButton> _button;
     private bool _started;
     private readonly Timer _timer;
     private readonly Timer _idleTimer;
@@ -63,7 +65,7 @@ internal class Level : SampleLevel
             DisplayDelay = 50
         };
 
-        var size = new Vector2(GlitchBlock.DefaultSize.X * 2, Camera.RealSize.Y * 1.2F);
+        var size = new Vector2(GlitchBlock.ImageSize.X * 2, Camera.RealSize.Y * 1.2F);
         _initializer = new GlitchBlockCollection(size);
         _initializer.ChangeColor(GlitchBlock.Color);
         _initializer.GetCalculator(Camera.Rectangle)
@@ -73,11 +75,11 @@ internal class Level : SampleLevel
             .Move();
         _initializer.Enter += Fail;
 
-        var position = _initializer.Position + new Vector2(Camera.RealSize.X * 2, 0);
+        var position = _initializer.GetPosition() + new Vector2(Camera.RealSize.X * 2, 0);
         _initializerMover = new OverTimeMover(_initializer, position, 10000, OverTimeMover.MoveMode.Lin);
         AutoManaged.Add(_initializerMover);
 
-        _button = new TextButton(textComponent.GetValue("StartButton"));
+        _button = new Button(textComponent.GetValue("StartButton"));
         _button.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .Centered()
@@ -165,14 +167,14 @@ internal class Level : SampleLevel
 
         if (_initializerMover.IsMoving)
         {
-            _initializerIndicator.Move(Cursor.Position);
+            _initializerIndicator.Move(Cursor.GetPosition());
             MoveHelper.MoveTowards(_initializerIndicator, _initializer, 16);
             MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);
             _initializerIndicator.Letters[0].Rotation += (float)(Math.PI / 4F); // 45°
             _initializerIndicator.Update(gameTime);
         }
 
-        Log.WriteLine(Cursor.Position.ToString(), 3);
+        Log.WriteLine(Cursor.GetPosition().ToString(), 3);
         if (_started)
         {
             _timer.Update(gameTime);

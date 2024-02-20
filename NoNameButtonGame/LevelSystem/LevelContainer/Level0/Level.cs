@@ -6,6 +6,8 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level0;
 
@@ -17,7 +19,7 @@ internal class Level : SampleLevel
 
         Name = textComponent.GetValue("Name");
 
-        var failButton = new TextButton(textComponent.GetValue("Button"));
+        var failButton = new Button(textComponent.GetValue("Button"));
         failButton.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .Centered()

@@ -12,10 +12,9 @@ using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Console;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
-using NoNameButtonGame.LevelSystem.LevelContainer.Bonus;
-using NoNameButtonGame.LevelSystem.LevelContainer.Bonus.Overworld;
 using Level5 = NoNameButtonGame.LevelSystem.LevelContainer.Level5;
 using Level7 = NoNameButtonGame.LevelSystem.LevelContainer.Level7;
 using NoNameButtonGame.LevelSystem.Settings;
@@ -40,8 +39,6 @@ public class NoNameGame : SimpleGame
         base.Initialize();
 
         ApplySettings();
-
-
 
         // register soundSettingsListener to change sound volume if
         //Global.SoundSettingsListener = new SoundSettingsListener(SettingsManager.Settings);
@@ -69,29 +66,22 @@ public class NoNameGame : SimpleGame
     {
         base.LoadContent();
 
-        Level5.Font.DefaultTexture = Content.GetTexture("Font/Level5");
-        Level7.Font.DefaultTexture = Content.GetTexture("Font/Level7");
+        Level5.Font.Texture = Content.GetTexture("Font/Level5");
+        Level7.Font.Texture = Content.GetTexture("Font/Level7");
 
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.
         // The Texture are being forwarded through the constructor unless otherwise specified.
-        MousePointer.DefaultTexture = Content.GetTexture("mousepoint");
-        GlitchBlock.DefaultTexture = Content.GetTexture("glitch");
-        Nbg.DefaultTexture = Content.GetTexture("NBG");
+        MousePointer.Texture = Content.GetTexture("mousepoint");
+        GlitchBlock.Texture = Content.GetTexture("glitch");
+        Nbg.Texture = Content.GetTexture("NBG");
 
         // Settings
-        Flag.DefaultTexture = Content.GetTexture("Flags");
-        Dot.DefaultTexture = Content.GetTexture("Dot");
+        Flag.Texture = Content.GetTexture("Flags");
+        Dot.Texture = Content.GetTexture("Dot");
 
-        // Level 12
-        SmallTree.DefaultTexture = Content.GetTexture("OverworldTileSmallTree");
-        BigTree.DefaultTexture = Content.GetTexture("OverworldTileBigTree");
-        House.DefaultTexture = Content.GetTexture("OverworldTileHouse");
-        Human.DefaultTexture = Content.GetTexture("OverworldTileHuman");
-        Castle.DefaultTexture = Content.GetTexture("OverworldTileCastle");
-        UserInterface.DefaultTexture = Content.GetTexture("LocationInterface");
-        Resource.DefaultTexture = Content.GetTexture("Resources");
-        Forest.DefaultTexture = Content.GetTexture("Forest");
+        // Select
+        SelectButton.Texture = Content.GetTexture("minibutton");
 
         // Cache for sound effects as only one SoundEffect object is required.
         // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
@@ -163,7 +153,7 @@ public class NoNameGame : SimpleGame
 
         Display.Update();
 
-        Console = new DevConsole(Global.CommandProcessor, Console.Position, Display.SimpleScale,
+        Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Display.SimpleScale,
             Console);
         Log.Out.UpdateReference(Console);
     }

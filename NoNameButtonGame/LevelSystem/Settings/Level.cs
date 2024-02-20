@@ -10,12 +10,12 @@ using MonoUtils.Logic.Management;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
@@ -27,9 +27,9 @@ public class Level : SampleLevel
     private readonly LanguageSettings _languageSettings;
     private readonly AdvancedSettings _advancedSettings;
 
-    private readonly GameObject _anchorLeft;
-    private readonly GameObject _anchorMiddle;
-    private readonly GameObject _anchorRight;
+    private readonly SampleObject _anchorLeft;
+    private readonly SampleObject _anchorMiddle;
+    private readonly SampleObject _anchorRight;
 
     public event Action<Vector2> OnWindowResize;
 
@@ -38,15 +38,15 @@ public class Level : SampleLevel
 
     public event Action OnNameChange;
 
-    private ManagmentCollection _advancedCollection;
-    private ManagmentCollection _videoCollection;
-    private ManagmentCollection _audioCollection;
-    private ManagmentCollection _languageCollection;
+    private ManagementCollection _advancedCollection;
+    private ManagementCollection _videoCollection;
+    private ManagementCollection _audioCollection;
+    private ManagementCollection _languageCollection;
 
-    private TextButton _advancedButton;
-    private TextButton _videoButton;
-    private TextButton _audioButton;
-    private TextButton _languageButton;
+    private Button _advancedButton;
+    private Button _videoButton;
+    private Button _audioButton;
+    private Button _languageButton;
 
     private Text _consoleEnabledLabel;
     private Text _resolutionInfo;
@@ -61,21 +61,21 @@ public class Level : SampleLevel
     private Checkbox _showElapsedTime;
     private Checkbox _fixedStep;
     private Checkbox _fullscreen;
-    private ValueSelection _resolution;
+    private ValueSelection<Resolution> _resolution;
     private Text _fullscreenLabel;
 
-    private ValueSelection _musicVolume;
-    private ValueSelection _soundEffectVolume;
+    private ValueSelection<Volume> _musicVolume;
+    private ValueSelection<Volume> _soundEffectVolume;
 
     private MenuState _menuState;
     private bool _saveDialog;
 
-    private TextButton _saveButton;
-    private TextButton _discardButton;
+    private Button _saveButton;
+    private Button _discardButton;
     private Dot _highlight;
 
     private int _deleteButtonClicked = 0;
-    private TextButton _deleteSave;
+    private Button _deleteSave;
     private PulsatingRed _deleteColor;
 
     private enum MenuState
@@ -86,7 +86,8 @@ public class Level : SampleLevel
         Advanced
     }
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave, NoNameGame game) : base(
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
+        NoNameGame game) : base(
         display,
         window, random)
     {
@@ -106,30 +107,30 @@ public class Level : SampleLevel
                 _saveDialog = true;
         };
 
-        _anchorLeft = new GameObject(Vector2.Zero, Vector2.One);
+        _anchorLeft = new SampleObject(Vector2.Zero, Vector2.One);
         _anchorLeft.GetCalculator(Camera.Rectangle)
             .OnX(1, 4)
             .OnY(0.3F)
             .Move();
 
-        _anchorMiddle = new GameObject(Vector2.Zero, Vector2.One);
+        _anchorMiddle = new SampleObject(Vector2.Zero, Vector2.One);
         _anchorMiddle.GetCalculator(Camera.Rectangle)
             .OnX(2, 4)
             .OnY(0.3F)
             .Move();
 
-        _anchorRight = new GameObject(Vector2.Zero, Vector2.One);
+        _anchorRight = new SampleObject(Vector2.Zero, Vector2.One);
         _anchorRight.GetCalculator(Camera.Rectangle)
             .OnX(3, 4)
             .OnY(0.3F)
             .Move();
 
-        _videoCollection = new ManagmentCollection();
-        _audioCollection = new ManagmentCollection();
-        _languageCollection = new ManagmentCollection();
-        _advancedCollection = new ManagmentCollection();
+        _videoCollection = new ManagementCollection();
+        _audioCollection = new ManagementCollection();
+        _languageCollection = new ManagementCollection();
+        _advancedCollection = new ManagementCollection();
 
-        _videoButton = new TextButton(string.Empty);
+        _videoButton = new Button(string.Empty);
         _videoButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.2F)
@@ -137,7 +138,7 @@ public class Level : SampleLevel
             .Move();
         _videoButton.Click += _ => _menuState = MenuState.Video;
 
-        _audioButton = new TextButton(string.Empty);
+        _audioButton = new Button(string.Empty);
         _audioButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.4F)
@@ -145,7 +146,7 @@ public class Level : SampleLevel
             .Move();
         _audioButton.Click += _ => _menuState = MenuState.Audio;
 
-        _languageButton = new TextButton(string.Empty);
+        _languageButton = new Button(string.Empty);
         _languageButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.6F)
@@ -153,7 +154,7 @@ public class Level : SampleLevel
             .Move();
         _languageButton.Click += _ => _menuState = MenuState.Language;
 
-        _advancedButton = new TextButton(string.Empty);
+        _advancedButton = new Button(string.Empty);
         _advancedButton.GetCalculator(Camera.Rectangle)
             .OnY(0.1F)
             .OnX(0.8F)
@@ -167,7 +168,7 @@ public class Level : SampleLevel
 
         _videoCollection.Add(_resolutionInfo);
 
-        List<object> resolutions = new List<object>()
+        List<Resolution> resolutions = new List<Resolution>()
         {
             new Resolution(1280, 720),
             new Resolution(1920, 1080),
@@ -178,7 +179,7 @@ public class Level : SampleLevel
         var index = resolutions.IndexOf(resolutions.First(r =>
             ((Resolution)r).Width == _videoSettings.Resolution.Width));
 
-        _resolution = new ValueSelection(Vector2.Zero, 1, resolutions, index);
+        _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1, resolutions, index);
 
         _resolution.GetCalculator(Camera.Rectangle)
             .OnCenter()
@@ -202,7 +203,7 @@ public class Level : SampleLevel
         _fixedStep.GetAnchor(_resolution)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .SetDistanceY(Checkbox.DefaultSize.Y / 4)
+            .SetDistanceY(8)
             .Move();
 
         _fixedStep.ValueChanged += delegate(bool value)
@@ -221,7 +222,7 @@ public class Level : SampleLevel
         _fullscreen.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .SetDistanceY(Checkbox.DefaultSize.Y / 4)
+            .SetDistanceY(8F)
             .Move();
 
         _fullscreen.ValueChanged += delegate(bool value)
@@ -240,7 +241,7 @@ public class Level : SampleLevel
 
         #region Audio
 
-        List<object> volumeValues = new List<object>()
+        List<Volume> volumeValues = new List<Volume>()
         {
             new Volume(0),
             new Volume(0.1F),
@@ -255,7 +256,8 @@ public class Level : SampleLevel
             new Volume(1F),
         };
 
-        _musicVolume = new ValueSelection(Vector2.Zero, 1F, volumeValues, (int)(_audioSettings.MusicVolume * 10F));
+        _musicVolume =
+            new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, (int)(_audioSettings.MusicVolume * 10F));
         _musicVolume.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .OnY(0.4F)
@@ -271,7 +273,8 @@ public class Level : SampleLevel
         _musicVolumeLabel = new Text(string.Empty);
         _audioCollection.Add(_musicVolumeLabel);
 
-        _soundEffectVolume = new ValueSelection(Vector2.Zero, 1F, volumeValues, (int)(_audioSettings.SoundEffectVolume * 10F));
+        _soundEffectVolume = new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues,
+            (int)(_audioSettings.SoundEffectVolume * 10F));
         _soundEffectVolume.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .OnY(0.6F)
@@ -345,7 +348,7 @@ public class Level : SampleLevel
         _showElapsedTime.GetAnchor(_consoleEnabled)
             .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
             .SetSubAnchor(AnchorCalculator.Anchor.Top)
-            .SetDistanceY(8F)
+            .SetDistanceY(8)
             .Move();
 
         _advancedCollection.Add(_showElapsedTime);
@@ -354,24 +357,23 @@ public class Level : SampleLevel
 
         _advancedCollection.Add(_elapsedTimeLabel);
 
-        _deleteSave = new TextButton(string.Empty);
+        _deleteSave = new Button(string.Empty);
         _deleteSave.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .OnY(0.7F)
             .Centered()
             .Move();
 
-        var deleteSaveHold = new HoldButtonAddon(new ButtonAddonAdapter(_deleteSave), 5000F);
-        deleteSaveHold.Callback += (o, state) =>
-        {
-            if (state != IButtonAddon.CallState.Click)
-                return;
 
+        var deleteSaveHold = new HoldButtonAddon(_deleteSave, 5000F);
+        deleteSaveHold.Click += delegate
+        {
             settingsAndSave.DeleteSave();
             _game.Exit();
         };
 
         _advancedCollection.Add(deleteSaveHold);
+
 
         _deleteColor = new PulsatingRed
         {
@@ -389,7 +391,7 @@ public class Level : SampleLevel
 
         _saveChangesLabel = new Text(string.Empty);
 
-        _saveButton = new TextButton(string.Empty);
+        _saveButton = new Button(string.Empty);
         _saveButton.GetCalculator(Camera.Rectangle)
             .OnY(0.55F)
             .OnX(0.36F)
@@ -398,7 +400,7 @@ public class Level : SampleLevel
 
         _saveButton.Click += delegate { OnSave?.Invoke(); };
 
-        _discardButton = new TextButton(string.Empty);
+        _discardButton = new Button(string.Empty);
         _discardButton.GetCalculator(Camera.Rectangle)
             .OnY(0.55F)
             .OnX(0.64F)
@@ -409,7 +411,7 @@ public class Level : SampleLevel
 
         _highlight = new Dot(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
         {
-            DrawColor = new Color(32, 32, 32, 240)
+            //DrawColor = new Color(32, 32, 32, 240)
         };
 
         #endregion
@@ -527,11 +529,11 @@ public class Level : SampleLevel
     {
         float multiplier = 0.5F;
         foreach (Flag f in _languageCollection.OfType<Flag>())
-            f.DrawColor = new Color(multiplier, multiplier, multiplier);
+            f.ChangeColor(new[] { new Color(multiplier, multiplier, multiplier) });
 
         Flag flag = (Flag)sender;
 
-        flag.DrawColor = Color.White;
+        flag.ChangeColor(new []{Color.White});
         _languageSettings.Localization = flag.Language;
         TextProvider.Localization = flag.Language;
         ApplyText();
@@ -592,18 +594,19 @@ public class Level : SampleLevel
         _fixedStepLabel.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(Checkbox.DefaultSize.Y / 2)
+            .SetDistanceX(4F)
             .Move();
 
         _fullscreenLabel.ChangeText(_textComponent.GetValue("Fullscreen"));
         _fullscreenLabel.GetAnchor(_fullscreen)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .SetDistanceX(Checkbox.DefaultSize.Y / 2)
+            .SetDistanceX(4F)
             .Move();
 
         _saveButton.Text.ChangeText(_textComponent.GetValue("Save"));
         _saveButton.Text.ChangeColor(Color.Green);
+
         _discardButton.Text.ChangeText(_textComponent.GetValue("Discard"));
         _discardButton.Text.ChangeColor(Color.Red);
 

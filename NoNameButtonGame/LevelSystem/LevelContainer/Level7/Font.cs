@@ -8,7 +8,7 @@ public class Font : ILetter
 {
     public static Vector2 ImageSize => new Vector2(8, 8);
 
-    public new static Texture2D DefaultTexture;
+    public static Texture2D Texture;
 
     // How many letter till line wrap on texture
     public static int TextureWidth => 8;
@@ -22,7 +22,7 @@ public class Font : ILetter
     }
 
     public Texture2D GetTexture()
-        => DefaultTexture;
+        => Texture;
 
     public Vector2 GetFullSize()
         => ImageSize;

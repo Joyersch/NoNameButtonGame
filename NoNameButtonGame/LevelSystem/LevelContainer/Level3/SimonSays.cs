@@ -8,6 +8,8 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects;
+using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.Level3;
@@ -21,7 +23,7 @@ public class SimonSays : IManageable, IInteractable
 
 
     private readonly SimonSaysButton[] _buttons = new SimonSaysButton[5];
-    private readonly TextButton _start;
+    private readonly TextButton<SampleButton> _start;
     private readonly Text _enteredSequenceDisplay;
     private readonly OverTimeInvoker _waitBetweenColorHighlightInvoker;
     private SimonSequence _sequence;
@@ -68,7 +70,7 @@ public class SimonSays : IManageable, IInteractable
         _buttons[2] = new SimonSaysButton(_values[3], Color.Black, Speed);
         _buttons[3] = new SimonSaysButton(_values[4], Color.Black, Speed);
         _buttons[4] = new SimonSaysButton(_values[5], Color.Black, Speed);
-        _enteredSequenceDisplay = new Text(string.Empty, 2F);
+        _enteredSequenceDisplay = new Text(string.Empty, 1F);
         _enteredSequenceDisplay.GetCalculator(area)
             .OnCenter()
             .OnY(4, 5)
@@ -89,7 +91,7 @@ public class SimonSays : IManageable, IInteractable
             button.Click += SimonButtonClick;
         }
 
-        _start = new TextButton(text["start"], 2F, 4F);
+        _start = new Button(text["start"]);
         _start.GetCalculator(area).OnCenter().OnY(1, 3).Centered().Move();
         _start.Click += _ => StartClick();
     }

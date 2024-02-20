@@ -62,9 +62,9 @@ public class FollowerCollection : IManageable, IInteractable
             var block = _blocks[i];
             _indicator[i].CanDraw = false;
 
-            var blockCenter = block.Position + block.Size / 2;
+            var blockCenter = block.GetPosition() + block.GetSize() / 2;
             // determine vector towards the player
-            var fromBlockDirection = _cursor.Position - blockCenter;
+            var fromBlockDirection = _cursor.GetPosition() - blockCenter;
 
             var length = fromBlockDirection.Length();
 
@@ -78,7 +78,7 @@ public class FollowerCollection : IManageable, IInteractable
                 // + 45 degrees as the texture is rotated -45 degrees
                 letter.Rotation += (float)(Math.PI / 4F);
 
-                text.Move(_cursor.Position);
+                text.Move(_cursor.GetPosition());
                 MoveHelper.MoveTowards(text, block, 16);
             }
 
@@ -139,7 +139,7 @@ public class FollowerCollection : IManageable, IInteractable
 
     public void Spawn()
     {
-        var block = new GlitchBlockCollection(GlitchBlock.DefaultSize);
+        var block = new GlitchBlockCollection(GlitchBlock.ImageSize);
         block.ChangeColor(GlitchBlock.Color);
         block.GetCalculator(_camera.Rectangle)
             .OnCenter()
