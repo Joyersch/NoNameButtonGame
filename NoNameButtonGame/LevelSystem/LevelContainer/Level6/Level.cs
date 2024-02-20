@@ -54,7 +54,7 @@ internal class Level : SampleLevel
         delayedSpawn.Trigger += delegate
         {
             _text = null;
-            _block = new GlitchBlockCollection(GlitchBlock.DefaultSize * 2);
+            _block = new GlitchBlockCollection(GlitchBlock.ImageSize * 8, 4);
             _block.ChangeColor(GlitchBlock.Color);
             _block.Enter += delegate
             {

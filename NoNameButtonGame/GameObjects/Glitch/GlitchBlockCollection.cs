@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
 using MonoUtils;
+using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
@@ -13,36 +14,51 @@ using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlockCollection : SampleObject, IMouseActions, IMoveable, IColorable, IInteractable
+internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseActions, IMoveable, IColorable,
+    IInteractable
 {
+    private Vector2 _position;
+    private Vector2 _size;
+    private Vector2 _scale;
+    private Color _color;
+
+    private readonly MouseActionsMat _mouseActionsMat;
+
     private readonly List<GlitchBlock> _glitchBlocksGrid;
 
     public event Action<object> Leave;
     public event Action<object> Enter;
     public event Action<object> Click;
 
-    private MouseActionsMat _mouseActionsMat;
+    private Rectangle[] _hitboxes;
+    public Rectangle[] Hitbox => _hitboxes;
 
-    public GlitchBlockCollection(Vector2 size) : this(Vector2.Zero, size, GlitchBlock.DefaultSize)
+    public Rectangle Rectangle { get; private set; }
+
+    public float Layer { get; set; }
+
+    public GlitchBlockCollection(Vector2 size) : this(Vector2.Zero, size, GlitchBlock.ImageSize * 4)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.DefaultSize)
+    public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.ImageSize * 4)
     {
     }
 
     public GlitchBlockCollection(Vector2 size, float singleScale) : this(Vector2.Zero, size,
-        GlitchBlock.DefaultSize * singleScale)
+        GlitchBlock.ImageSize * singleScale)
     {
     }
 
     public GlitchBlockCollection(Vector2 position, Vector2 size, float singleScale) : this(position, size,
-        GlitchBlock.DefaultSize * singleScale)
+        GlitchBlock.ImageSize * singleScale)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize) : base(position, size)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize)
     {
+        _position = position;
+        _size = size;
         var grid = size / singleSize;
         var gridEdge = new Vector2(size.X % singleSize.X, size.Y % singleSize.Y);
 
@@ -63,14 +79,12 @@ internal class GlitchBlockCollection : SampleObject, IMouseActions, IMoveable, I
                 var block = new GlitchBlock(
                     new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y),
                     newSize);
+                block.Leave += delegate { Leave?.Invoke(this); };
+                block.Enter += delegate { Enter?.Invoke(this); };
+                block.Click += delegate { Click?.Invoke(this); };
                 _glitchBlocksGrid.Add(block);
             }
         }
-
-        //_mouseActionsMat = new MouseActionsMat(this);
-        _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
-        _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
-        _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
     }
 
     public void Update(GameTime gameTime)
@@ -79,13 +93,14 @@ internal class GlitchBlockCollection : SampleObject, IMouseActions, IMoveable, I
         {
             _glitchBlocksGrid[i].Update(gameTime);
         }
-
-        //base.Update(gameTime);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-       _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
+        for (int i = 0; i < _glitchBlocksGrid.Count; i++)
+        {
+            _glitchBlocksGrid[i].UpdateInteraction(gameTime, toCheck);
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -96,23 +111,17 @@ internal class GlitchBlockCollection : SampleObject, IMouseActions, IMoveable, I
         }
     }
 
-    protected void CalculateHitboxes()
-    {
-        if (_glitchBlocksGrid is null)
-            return;
-        //Hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
-    }
-
-
     public void Move(Vector2 newPosition)
     {
-        //var offset = newPosition - GetPosi;
-        //Position += offset;
+        var offset = newPosition - _position;
+        _position += offset;
         foreach (var block in _glitchBlocksGrid)
         {
-            //block.Move(block.Position + offset);
+            block.Move(block.GetPosition() + offset);
         }
-        //UpdateRectangle();
+
+        Rectangle = this.GetRectangle();
+        _hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
     public void ChangeColor(Color[] input)
@@ -127,10 +136,20 @@ internal class GlitchBlockCollection : SampleObject, IMouseActions, IMoveable, I
     {
         foreach (var glitchBlock in _glitchBlocksGrid)
         {
-            //glitchBlock.ChangeColor(input);
+            glitchBlock.ChangeColor(new []{input});
         }
     }
 
     public int ColorLength()
         => 1;
+
+    public Color[] GetColor()
+        => (Color[])_glitchBlocksGrid.Select(g => g.GetColor()[0]);
+
+
+    public Vector2 GetPosition()
+        => _position;
+
+    public Vector2 GetSize()
+        => _size;
 }

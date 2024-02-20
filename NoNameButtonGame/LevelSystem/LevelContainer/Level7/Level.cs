@@ -65,7 +65,7 @@ internal class Level : SampleLevel
             DisplayDelay = 50
         };
 
-        var size = new Vector2(GlitchBlock.ImageSize.X * 2, Camera.RealSize.Y * 1.2F);
+        var size = new Vector2(GlitchBlock.ImageSize.X * 8, Camera.RealSize.Y * 1.2F);
         _initializer = new GlitchBlockCollection(size);
         _initializer.ChangeColor(GlitchBlock.Color);
         _initializer.GetCalculator(Camera.Rectangle)

@@ -139,7 +139,7 @@ public class FollowerCollection : IManageable, IInteractable
 
     public void Spawn()
     {
-        var block = new GlitchBlockCollection(GlitchBlock.ImageSize);
+        var block = new GlitchBlockCollection(GlitchBlock.ImageSize * 4);
         block.ChangeColor(GlitchBlock.Color);
         block.GetCalculator(_camera.Rectangle)
             .OnCenter()
