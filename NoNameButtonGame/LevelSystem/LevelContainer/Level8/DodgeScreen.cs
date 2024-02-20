@@ -33,7 +33,7 @@ public class DodgeScreen : IManageable, IInteractable, IMoveable
         _walls = new List<GlitchBlockCollection>();
 
 
-        var wallSize = new Vector2(GlitchBlock.ImageSize.X * 1.5F, _camera.RealSize.Y);
+        var wallSize = new Vector2(GlitchBlock.ImageSize.X * 6F, _camera.RealSize.Y);
         Log.WriteInformation($"wall_Y={wallSize.Y}");
         var left = new GlitchBlockCollection(wallSize);
 

@@ -73,12 +73,13 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
                 var newSize = singleSize;
                 if (gridEdge.X > 0 && x + 1 == (int)grid.X)
                     newSize.X = gridEdge.X;
+
                 if (gridEdge.Y > 0 && y + 1 == (int)grid.Y)
                     newSize.Y = gridEdge.Y;
 
                 var block = new GlitchBlock(
                     new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y),
-                    newSize);
+                    newSize, singleSize);
                 block.Leave += delegate { Leave?.Invoke(this); };
                 block.Enter += delegate { Enter?.Invoke(this); };
                 block.Click += delegate { Click?.Invoke(this); };

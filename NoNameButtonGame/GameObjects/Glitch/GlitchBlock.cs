@@ -13,7 +13,8 @@ using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlock :  IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IColorable, IInteractable, IMouseActions
+internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IColorable, IInteractable,
+    IMouseActions
 {
     private Vector2 _position;
     private Vector2 _size;
@@ -42,27 +43,32 @@ internal class GlitchBlock :  IHitbox, IManageable, IMoveable, IRotateable, ILay
     public static Color Color = new Color(181, 54, 54);
     public static Vector2 ImageSize = new Vector2(8, 8);
 
-    public GlitchBlock(Vector2 position) : this(position,Vector2.One)
+    public GlitchBlock(Vector2 position) : this(position, Vector2.One)
     {
     }
 
-    public GlitchBlock(Vector2 position, float scale) : this(position,ImageSize * scale)
+    public GlitchBlock(Vector2 position, float scale) : this(position, ImageSize * scale)
     {
     }
 
-    public GlitchBlock(Vector2 position, Vector2 size)
+    public GlitchBlock(Vector2 position, Vector2 size) : this(position, size, ImageSize)
+    {
+    }
+
+    public GlitchBlock(Vector2 position, Vector2 size, Vector2 fullSize)
     {
         _position = position;
         _size = size;
-        var scale = size / ImageSize;
-        var max = Math.Max(scale.X, scale.Y);
-        _scale = new Vector2(max);
+        var scaleToImage = size / ImageSize;
+        var max = Math.Max(scaleToImage.X, scaleToImage.Y);
+        _scale = fullSize / ImageSize;
         var framePosition = new Rectangle(Vector2.Zero.ToPoint(), (size / max).ToPoint());
         _mouseActionsMat = new MouseActionsMat(this);
         _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
         _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
         _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
 
+        _color = Color;
 
         _animation = new AnimationProvider(ImageSize, 128, 32, framePosition);
         var hitbox = new[] { new Rectangle(Vector2.Zero.ToPoint(), ImageSize.ToPoint()) };
