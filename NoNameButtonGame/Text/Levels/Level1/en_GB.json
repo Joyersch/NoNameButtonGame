@@ -46,5 +46,9 @@
   {
     "key": "Info8",
     "value": "Now that you know the basics. Lets start!"
+  },
+  {
+    "key": "KeyInfo",
+    "value": "ESC - Mainmenu"
   }
 ]

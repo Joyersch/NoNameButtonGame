@@ -56,7 +56,9 @@ internal class LevelManager
         _levelState = LevelState.Menu;
         if (_progress.MaxLevel == 0)
         {
-            ChangeLevel(1);
+            _levelState = LevelState.Level;
+            _levelId = _progress.MaxLevel + 1;
+            ChangeLevel(_levelId);
         }
         else
             ChangeLevel();

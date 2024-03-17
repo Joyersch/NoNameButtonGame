@@ -32,6 +32,12 @@ internal class Level : SampleLevel
 
         #region StartScreen
 
+        var keyInfo = new Text(textComponent.GetValue("KeyInfo"), 0.5F);
+        keyInfo.GetCalculator(screen)
+            .With(5, 5)
+            .Move();
+        AutoManaged.Add(keyInfo);
+
         var startButton = new Button(textComponent.GetValue("Button1"));
         startButton.GetCalculator(screen)
             .OnCenter()
