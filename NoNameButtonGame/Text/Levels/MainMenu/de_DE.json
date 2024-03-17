@@ -22,9 +22,5 @@
   {
     "key": "ExitButton",
     "value": "Verlassen"
-  },
-  {
-    "key": "BonusButton",
-    "value": "Bonus"
   }
 ]

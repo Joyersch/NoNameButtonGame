@@ -26,9 +26,7 @@ internal class Level : SampleLevel
 
         Name = textComponent.GetValue("Name");
 
-
         _screenOne = new DodgeScreen(Camera);
-
 
         _positionListener = new RelativePositionListener();
         //_positionListener.Add(Cursor, _screenOne);

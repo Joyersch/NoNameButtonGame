@@ -54,7 +54,13 @@ internal class LevelManager
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
         _levelState = LevelState.Menu;
-        ChangeLevel();
+        if (_progress.FirstStart)
+        {
+            ChangeLevel(1);
+            _progress.FirstStart = false;
+        }
+        else
+            ChangeLevel();
     }
 
     public void Update(GameTime gameTime)
@@ -130,14 +136,6 @@ internal class LevelManager
                 _levelState = LevelState.Level;
                 _levelId = _progress.MaxLevel + 1;
                 ChangeLevel(_levelId);
-            };
-
-            mainMenu.BonusClicked += delegate
-            {
-                Log.WriteInformation(@"Starting level ""Bonus""");
-                _levelState = LevelState.Level;
-                _levelId = 11;
-                _currentLevel = _levelFactory.GetBonus();
             };
 
             mainMenu.SelectClicked += delegate
@@ -220,6 +218,7 @@ internal class LevelManager
                         _levelState = LevelState.Credits;
                         _currentLevel = _levelFactory.GetCredits();
                     }
+
                     _settingsAndSaveManager.SaveSave();
                     Log.WriteInformation("Saved progress!");
                 }

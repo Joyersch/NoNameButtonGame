@@ -18,11 +18,10 @@ public class DodgeScreen : IManageable, IInteractable, IMoveable
 {
     private readonly Camera _camera;
     private Vector2 _position;
-    public Rectangle Rectangle { get; }
+    public Rectangle Rectangle { get; private set; }
 
     private readonly List<GlitchBlockCollection> _blocks;
     private readonly List<GlitchBlockCollection> _walls;
-    private readonly SampleObject _debug;
 
     public DodgeScreen(Camera camera)
     {
@@ -49,10 +48,10 @@ public class DodgeScreen : IManageable, IInteractable, IMoveable
             .Move();
         _walls.Add(right);
 
-        _debug = new SampleObject(Vector2.Zero, wallSize);
-        _debug.GetCalculator(camera.Rectangle)
-            .BySizeX(1F)
-            .Move();
+        var size = Rectangle.Size;
+        size.X -= (int)wallSize.X;
+        var area = new Rectangle(left.Rectangle.TopLeftCorner().ToPoint(), size);
+
     }
 
     public void ChangePattern(int[] pattern)
@@ -66,7 +65,6 @@ public class DodgeScreen : IManageable, IInteractable, IMoveable
         {
            wall.Update(gameTime);
         }
-        _debug.Update(gameTime);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -83,7 +81,6 @@ public class DodgeScreen : IManageable, IInteractable, IMoveable
         {
             wall.Draw(spriteBatch);
         }
-        _debug.Draw(spriteBatch);
     }
 
     public Vector2 GetPosition()
@@ -101,5 +98,6 @@ public class DodgeScreen : IManageable, IInteractable, IMoveable
         }
 
         _position = newPosition;
+        Rectangle = this.GetRectangle();
     }
 }

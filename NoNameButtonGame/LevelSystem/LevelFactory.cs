@@ -70,7 +70,4 @@ public class LevelFactory
 
     public Credits.Level GetCredits()
         => new Credits.Level(_display, _screen, _random);
-
-    public Bonus.Level GetBonus()
-        => new Bonus.Level(_display, _screen, _gameWindow, _random);
 }

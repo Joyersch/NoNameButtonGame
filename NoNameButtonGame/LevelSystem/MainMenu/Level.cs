@@ -34,13 +34,13 @@ public class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");
 
-        var startButton = new Button(textComponent.GetValue(finished ? "BonusButton" : "StartButton"));
+        var startButton = new Button(textComponent.GetValue("StartButton"));
         startButton.GetCalculator(Camera.Rectangle)
             .OnX(0.125F)
             .OnY(0.15F)
             .Centered()
             .Move();
-        startButton.Click += finished ? BonusButtonPressed : StartButtonPressed;
+        startButton.Click += StartButtonPressed;
         AutoManaged.Add(startButton);
 
         var selectLevelButton = new Button(textComponent.GetValue("SelectButton"));
@@ -108,7 +108,4 @@ public class Level : SampleLevel
 
     private void ExitButtonPressed(object sender)
         => Exit(sender);
-
-    private void BonusButtonPressed(object sender)
-        => BonusClicked?.Invoke(sender);
 }
