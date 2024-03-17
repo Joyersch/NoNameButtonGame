@@ -33,7 +33,7 @@ public class LevelFactory
         => _screen = screen;
 
     public MainMenu.Level GetStartLevel()
-        => new MainMenu.Level(_display, _screen, _random, _progress.FinishedGame);
+        => new MainMenu.Level(_display, _screen, _random);
 
     public Settings.Level GetSettingsLevel()
         => new Settings.Level(_display, _screen, _random, _settingsAndSave, _game);
@@ -56,6 +56,8 @@ public class LevelFactory
             10 => new Levels.Level10.Level(_display, _screen, _random),
             _ => new Levels.Level0.Level(_display, _screen, _random)
         };
+
+    public int MaxLevel() => 10;
 
     public bool IsValidLevel(int number)
     {

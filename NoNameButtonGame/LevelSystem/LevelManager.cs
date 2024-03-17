@@ -54,10 +54,9 @@ internal class LevelManager
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
         _levelState = LevelState.Menu;
-        if (_progress.FirstStart)
+        if (_progress.MaxLevel == 0)
         {
             ChangeLevel(1);
-            _progress.FirstStart = false;
         }
         else
             ChangeLevel();
@@ -212,9 +211,8 @@ internal class LevelManager
                 {
                     _progress.MaxLevel = _levelId;
                     Log.WriteInformation($"Updated max level value to {_levelId}");
-                    if (_levelId == 10)
+                    if (_levelId == _levelFactory.MaxLevel())
                     {
-                        _progress.FinishedGame = true;
                         _levelState = LevelState.Credits;
                         _currentLevel = _levelFactory.GetCredits();
                     }
