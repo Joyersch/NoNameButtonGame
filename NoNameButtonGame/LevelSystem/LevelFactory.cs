@@ -31,7 +31,7 @@ public class LevelFactory
         => _screen = screen;
 
     public MainMenu.Level GetStartLevel()
-        => new (_display, _screen, _random);
+        => new (_display, _screen, _random, _progress);
 
     public Settings.Level GetSettingsLevel()
         => new (_display, _screen, _random, _settingsAndSave, _game);

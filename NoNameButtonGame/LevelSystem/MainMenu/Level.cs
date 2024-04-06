@@ -9,6 +9,7 @@ using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -22,14 +23,13 @@ public class Level : SampleLevel
     public event Action<object> SelectClicked;
     public event Action<object> SettingsClicked;
     public event Action<object> CreditsClicked;
-    public event Action<object> BonusClicked;
 
     private Cursor mouseCursor;
 
     private float _tilt = 0;
     private bool _leftTilt;
 
-    public Level(Display display, Vector2 window, Random rand) : base(display, window, rand)
+    public Level(Display display, Vector2 window, Random rand, Progress progress) : base(display, window, rand)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");
@@ -49,27 +49,34 @@ public class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .Move();
         selectLevelButton.Click += SelectButtonPressed;
-        AutoManaged.Add(selectLevelButton);
+        var selectLevelButtonLock = new LockButtonAddon(selectLevelButton);
+
+        if (progress.MaxLevel > 0)
+            selectLevelButtonLock.Unlock();
+
+        AutoManaged.Add(selectLevelButtonLock);
+
+        var unusedButton = new Button(string.Empty);
+        unusedButton.Click += CreditsLinkPressed;
+        unusedButton.GetAnchor(selectLevelButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .Move();
+        var unusedLockButton = new LockButtonAddon(unusedButton);
+        AutoManaged.Add(unusedLockButton);
 
         var settingsButton = new Button(textComponent.GetValue("SettingsButton"));
         settingsButton.Click += SettingsButtonPressed;
-        settingsButton.GetAnchor(selectLevelButton)
+        settingsButton.GetAnchor(unusedButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .Move();
         AutoManaged.Add(settingsButton);
 
-        var creditButton = new Button(textComponent.GetValue("CreditsButton"));
-        creditButton.Click += CreditButtonPressed;
-        creditButton.GetAnchor(settingsButton)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Move();
-        AutoManaged.Add(creditButton);
 
         var exitButton = new Button(textComponent.GetValue("ExitButton"));
         exitButton.Click += ExitButtonPressed;
-        exitButton.GetAnchor(creditButton)
+        exitButton.GetAnchor(settingsButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .Move();
@@ -95,7 +102,7 @@ public class Level : SampleLevel
 
         var credits = new ClickableText("made by Joyersch");
         credits.ChangeColor(ClickableText.LinkColor);
-        credits.Click += CreditButtonPressed;
+        credits.Click += CreditsLinkPressed;
         credits.GetAnchor(header)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -114,7 +121,7 @@ public class Level : SampleLevel
     private void SettingsButtonPressed(object sender)
         => SettingsClicked?.Invoke(sender);
 
-    private void CreditButtonPressed(object sender)
+    private void CreditsLinkPressed(object sender)
         => CreditsClicked?.Invoke(sender);
 
     private void ExitButtonPressed(object sender)
