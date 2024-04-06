@@ -213,11 +213,6 @@ internal class LevelManager
                 {
                     _progress.MaxLevel = _levelId;
                     Log.WriteInformation($"Updated max level value to {_levelId}");
-                    if (_levelId == _levelFactory.MaxLevel())
-                    {
-                        _levelState = LevelState.Credits;
-                        _currentLevel = _levelFactory.GetCredits();
-                    }
 
                     _settingsAndSaveManager.SaveSave();
                     Log.WriteInformation("Saved progress!");

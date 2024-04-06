@@ -55,9 +55,6 @@ public class LevelFactory
             _ => new Levels.FallbackLevel.Level(_display, _screen, _random)
         };
 
-    public int MaxLevel() => 10;
-
-
     public FinishScreen.Level GetFinishScreen()
         => new (_display, _screen, _random);
 
