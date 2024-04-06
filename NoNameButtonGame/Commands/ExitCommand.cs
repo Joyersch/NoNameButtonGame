@@ -11,6 +11,6 @@ public class ExitCommand : ICommand
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));
         levelManager.Exit();
-        return new[] {"Exiting!"};
+        return new[] { "Exiting!" };
     }
 }

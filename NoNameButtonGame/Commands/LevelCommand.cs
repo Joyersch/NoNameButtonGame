@@ -11,16 +11,16 @@ public class LevelCommand : ICommand
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));
         if (options.Length < 1)
-            return new[] {"Usage:", "level [level]"};
+            return new[] { "Usage:", "level [level]" };
 
         var value = options[0].ToString();
 
         if (!int.TryParse(value, out int ival))
-            return new[] {"Usage:", "level [level]"};
+            return new[] { "Usage:", "level [level]" };
 
         levelManager.SetAsLevelSelect();
         return !levelManager.ChangeLevel(ival)
-            ? new[] {"parameter is not a valid level or is the current level!"}
-            : new[] {$"changed level to {ival}!"};
+            ? new[] { "parameter is not a valid level or is the current level!" }
+            : new[] { $"changed level to {ival}!" };
     }
 }

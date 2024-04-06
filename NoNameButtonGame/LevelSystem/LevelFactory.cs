@@ -44,24 +44,24 @@ public class LevelFactory
     public SampleLevel GetLevel(int number)
         => number switch
         {
-            1 => new Levels.Level1.Level(_display, _screen, _random),
-            2 => new Levels.Level2.Level(_display, _screen, _random),
-            3 => new Levels.Level3.Level(_display, _screen, _random),
-            4 => new Levels.Level4.Level(_display, _screen, _random),
-            5 => new Levels.Level5.Level(_display, _screen, _random, _settingsAndSave),
-            6 => new Levels.Level6.Level(_display, _screen, _random),
-            7 => new Levels.Level7.Level(_display, _screen, _random),
-            8 => new Levels.Level8.Level(_display, _screen, _random),
-            9 => new Levels.Level9.Level(_display, _screen, _random),
-            10 => new Levels.Level10.Level(_display, _screen, _random),
-            _ => new Levels.Level0.Level(_display, _screen, _random)
+            1 => new Levels.TutorialLevel.Level(_display, _screen, _random),
+            6 => new Levels.GlitchBlockTutorial.Level(_display, _screen, _random),
+            2 => new Levels.ButtonGridLevel.Level(_display, _screen, _random),
+            3 => new Levels.SimonSaysLevel.Level(_display, _screen, _random),
+            4 => new Levels.QuizLevel.Level(_display, _screen, _random),
+            5 => new Levels.CookieClickerLevel.Level(_display, _screen, _random, _settingsAndSave),
+
+            7 => new Levels.RunningLevel.Level(_display, _screen, _random),
+            8 => new Levels.FallingLevel.Level(_display, _screen, _random),
+            9 => new Levels.SuperGunLevel.Level(_display, _screen, _random),
+            _ => new Levels.FallbackLevel.Level(_display, _screen, _random)
         };
 
     public int MaxLevel() => 10;
 
     public bool IsValidLevel(int number)
     {
-        var level0 = new Levels.Level0.Level(_display, _screen, _random);
+        var level0 = new LevelContainer.FallbackLevel.Level(_display, _screen, _random);
         var levelRequest = GetLevel(number);
         var isValid = levelRequest != level0;
         return isValid;

@@ -38,7 +38,7 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
 
     private MouseActionsMat _mouseActionsMat;
 
-    public new static Texture2D Texture;
+    public static Texture2D Texture;
 
     public static Color Color = new Color(181, 54, 54);
     public static Vector2 ImageSize = new Vector2(8, 8);

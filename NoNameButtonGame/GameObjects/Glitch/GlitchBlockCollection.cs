@@ -137,7 +137,7 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
     {
         foreach (var glitchBlock in _glitchBlocksGrid)
         {
-            glitchBlock.ChangeColor(new []{input});
+            glitchBlock.ChangeColor(new[] { input });
         }
     }
 

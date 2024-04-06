@@ -7,7 +7,7 @@ public class MiniButton : TextButton<SelectButton>
 {
     public string Name { get; }
 
-    public MiniButton(string text) : this (text, string.Empty)
+    public MiniButton(string text) : this(text, string.Empty)
     {
     }
 
@@ -15,5 +15,4 @@ public class MiniButton : TextButton<SelectButton>
     {
         Name = name;
     }
-
 }

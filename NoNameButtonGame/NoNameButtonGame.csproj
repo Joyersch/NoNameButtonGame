@@ -53,71 +53,71 @@
     <EmbeddedResource Include="Text\Credits.md">
       <LogicalName>Text.Credits</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level0\de_DE.json">
-      <LogicalName>Text.Levels.Level0.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\FallbackLevel\de_DE.json">
+      <LogicalName>Text.Levels.FallbackLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level0\en_GB.json">
-      <LogicalName>Text.Levels.Level0.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\FallbackLevel\en_GB.json">
+      <LogicalName>Text.Levels.FallbackLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level1\de_DE.json">
-      <LogicalName>Text.Levels.Level1.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\GlitchBlockHoldButtonChallenge\de_DE.json">
+      <LogicalName>Text.Levels.GlitchBlockHoldButtonChallenge.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level1\en_GB.json">
-      <LogicalName>Text.Levels.Level1.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\GlitchBlockHoldButtonChallenge\en_GB.json">
+      <LogicalName>Text.Levels.GlitchBlockHoldButtonChallenge.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level2\de_DE.json">
-      <LogicalName>Text.Levels.Level2.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\TutorialLevel\de_DE.json">
+      <LogicalName>Text.Levels.TutorialLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level2\en_GB.json">
-      <LogicalName>Text.Levels.Level2.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\TutorialLevel\en_GB.json">
+      <LogicalName>Text.Levels.TutorialLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level3\de_DE.json">
-      <LogicalName>Text.Levels.Level3.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\ButtonGridLevel\de_DE.json">
+      <LogicalName>Text.Levels.ButtonGridLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level3\en_GB.json">
-      <LogicalName>Text.Levels.Level3.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\ButtonGridLevel\en_GB.json">
+      <LogicalName>Text.Levels.ButtonGridLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level4\de_DE.json">
-      <LogicalName>Text.Levels.Level4.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\SimonSaysLevel\de_DE.json">
+      <LogicalName>Text.Levels.SimonSaysLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level4\en_GB.json">
-      <LogicalName>Text.Levels.Level4.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\SimonSaysLevel\en_GB.json">
+      <LogicalName>Text.Levels.SimonSaysLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level5\de_DE.json">
-      <LogicalName>Text.Levels.Level5.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\QuizLevel\de_DE.json">
+      <LogicalName>Text.Levels.QuizLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level5\en_GB.json">
-      <LogicalName>Text.Levels.Level5.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\QuizLevel\en_GB.json">
+      <LogicalName>Text.Levels.QuizLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level6\de_DE.json">
-      <LogicalName>Text.Levels.Level6.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\CookieClickerLevel\de_DE.json">
+      <LogicalName>Text.Levels.CookieClickerLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level6\en_GB.json">
-      <LogicalName>Text.Levels.Level6.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\CookieClickerLevel\en_GB.json">
+      <LogicalName>Text.Levels.CookieClickerLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level7\de_DE.json">
-      <LogicalName>Text.Levels.Level7.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\GlitchBlockTutorial\de_DE.json">
+      <LogicalName>Text.Levels.GlitchBlockTutorial.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level7\en_GB.json">
-      <LogicalName>Text.Levels.Level7.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\GlitchBlockTutorial\en_GB.json">
+      <LogicalName>Text.Levels.GlitchBlockTutorial.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level8\de_DE.json">
-      <LogicalName>Text.Levels.Level8.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\RunningLevel\de_DE.json">
+      <LogicalName>Text.Levels.RunningLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level8\en_GB.json">
-      <LogicalName>Text.Levels.Level8.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\RunningLevel\en_GB.json">
+      <LogicalName>Text.Levels.RunningLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level9\de_DE.json">
-      <LogicalName>Text.Levels.Level9.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\FallingLevel\de_DE.json">
+      <LogicalName>Text.Levels.FallingLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level9\en_GB.json">
-      <LogicalName>Text.Levels.Level9.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\FallingLevel\en_GB.json">
+      <LogicalName>Text.Levels.FallingLevel.en_GB</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level10\de_DE.json">
-      <LogicalName>Text.Levels.Level10.de_DE</LogicalName>
+    <EmbeddedResource Include="Text\Levels\SuperGunLevel\de_DE.json">
+      <LogicalName>Text.Levels.SuperGunLevel.de_DE</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Text\Levels\Level10\en_GB.json">
-      <LogicalName>Text.Levels.Level10.en_GB</LogicalName>
+    <EmbeddedResource Include="Text\Levels\SuperGunLevel\en_GB.json">
+      <LogicalName>Text.Levels.SuperGunLevel.en_GB</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\MainMenu\de_DE.json">
       <LogicalName>Text.Levels.MainMenu.de_DE</LogicalName>

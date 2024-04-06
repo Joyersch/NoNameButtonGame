@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,8 +14,7 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
-using Level5 = NoNameButtonGame.LevelSystem.LevelContainer.Level5;
-using Level7 = NoNameButtonGame.LevelSystem.LevelContainer.Level7;
+using NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 using NoNameButtonGame.LevelSystem.Settings;
 
 namespace NoNameButtonGame;
@@ -66,8 +64,8 @@ public class NoNameGame : SimpleGame
     {
         base.LoadContent();
 
-        Level5.Font.Texture = Content.GetTexture("Font/Level5");
-        Level7.Font.Texture = Content.GetTexture("Font/Level7");
+        Font.Texture = Content.GetTexture("Font/Level5");
+        LevelSystem.LevelContainer.RunningLevel.Font.Texture = Content.GetTexture("Font/Level7");
 
         // Set all Textures for object.
         // As all kind of objects have the same texture it is saved static in the object.

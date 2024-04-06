@@ -533,7 +533,7 @@ public class Level : SampleLevel
 
         Flag flag = (Flag)sender;
 
-        flag.ChangeColor(new []{Color.White});
+        flag.ChangeColor(new[] { Color.White });
         _languageSettings.Localization = flag.Language;
         TextProvider.Localization = flag.Language;
         ApplyText();

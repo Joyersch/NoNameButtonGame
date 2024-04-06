@@ -23,7 +23,7 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable
 
     private Vector2 ImageSize = new Vector2(1, 1);
 
-    public new static Texture2D Texture;
+    public static Texture2D Texture;
 
     public Dot(Vector2 position, Vector2 size)
     {

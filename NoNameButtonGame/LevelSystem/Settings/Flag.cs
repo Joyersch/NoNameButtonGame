@@ -36,12 +36,10 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
 
     public Flag(TextProvider.Language language) : this(language, Vector2.Zero, 1F)
     {
-
     }
 
     public Flag(TextProvider.Language language, float scale) : this(language, Vector2.Zero, scale)
     {
-
     }
 
     public Flag(TextProvider.Language language, Vector2 position, float scale)
@@ -59,10 +57,7 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
         imageLocation.X = (int)ImageSize.X * (int)language;
         _imageLocation = imageLocation;
         _mouseActionsMat = new MouseActionsMat(this);
-        _mouseActionsMat.Click += delegate
-        {
-            Click?.Invoke(this);
-        };
+        _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
@@ -82,7 +77,7 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
         spriteBatch.Draw(
             Texture,
             _position,
-           _imageLocation,
+            _imageLocation,
             _color,
             Rotation,
             Vector2.Zero,

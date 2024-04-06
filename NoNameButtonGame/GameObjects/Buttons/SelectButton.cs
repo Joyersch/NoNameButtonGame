@@ -59,7 +59,7 @@ public class SelectButton : IButton
         _mouseMat = new MouseActionsMat(this);
         _mouseMat.Leave += _ => Leave?.Invoke(this);
         _mouseMat.Enter += _ => Enter?.Invoke(this);
-        _mouseMat.Click +=_ => Click?.Invoke(this);
+        _mouseMat.Click += _ => Click?.Invoke(this);
     }
 
     public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
