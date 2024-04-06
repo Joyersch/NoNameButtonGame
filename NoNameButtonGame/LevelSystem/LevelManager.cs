@@ -49,7 +49,7 @@ internal class LevelManager
         _progress = _settingsAndSaveManager.GetSave<Progress>();
         _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
-        _levelFactory = new LevelFactory(display, _videoSettings.Resolution.ToVector2(), random, gameWindow,
+        _levelFactory = new LevelFactory(display, _videoSettings.Resolution.ToVector2(), random,
             settingsAndSaveManager, game, _progress);
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
