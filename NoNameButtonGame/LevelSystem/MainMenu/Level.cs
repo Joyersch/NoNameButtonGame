@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
-using System.Threading;
-using Microsoft.Xna.Framework;
-using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
-using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
