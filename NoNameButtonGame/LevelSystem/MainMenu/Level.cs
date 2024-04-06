@@ -92,6 +92,17 @@ public class Level : SampleLevel
             .Centered()
             .Move();
         AutoManaged.Add(version);
+
+        var credits = new ClickableText("made by Joyersch");
+        credits.ChangeColor(ClickableText.LinkColor);
+        credits.Click += CreditButtonPressed;
+        credits.GetAnchor(header)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
+            .SetDistanceX(-8F)
+            .SetDistanceY(-2F)
+            .Move();
+        AutoManaged.Add(credits);
     }
 
     private void StartButtonPressed(object sender)
