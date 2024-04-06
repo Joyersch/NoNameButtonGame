@@ -12,32 +12,28 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.ButtonGridLevel;
 public class Level : SampleLevel
 {
     private Timer _timer;
-    private double _difficulty;
+    private float _difficulty;
 
-    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, int difficulty = 1) : base(display, window, random)
     {
         var textComponent = TextProvider.GetText("Levels.ButtonGridLevel");
 
         Name = textComponent.GetValue("Name");
 
-        ColorComponent[] colors =
-            Newtonsoft.Json.JsonConvert.DeserializeObject<ColorComponent[]>(textComponent.GetValue("Colors"));
+        ColorComponentRepository repository = new ColorComponentRepository(random, textComponent);
+        ColorComponent[] colors = repository.GetByColorDistance(difficulty).ToArray();
         ColorComponentShuffler shuffler = new(colors, random);
 
         shuffler.Shuffle();
 
         int selectedColor = random.Next(0, 16);
         bool useText = random.Next() % 2 == 0;
+
+        if (difficulty > 75)
+            useText = false;
+
         int usedText = shuffler.ResolveText(selectedColor);
         int usedColor = shuffler.ResolveColor(selectedColor);
-
-        _difficulty = shuffler.GetDifficulty(useText ? usedText : usedColor);
-
-        if (useText)
-            _difficulty /= 2;
-
-        if (useText && _difficulty > 5000)
-            _difficulty = 5000;
 
         string infoText = textComponent.GetValue("Info");
         string t = textComponent.GetValue("Text");
@@ -62,6 +58,17 @@ public class Level : SampleLevel
                 string text = shuffler.GetText(index);
                 var button = new Button(text);
                 button.Text.ChangeColor(shuffler.GetColor(index));
+                if (button.Text.Rectangle.Width > button.Rectangle.Width)
+                {
+                    button = new Button(text, textScale: 0.75F);
+                    button.Text.ChangeColor(shuffler.GetColor(index));
+
+                    if (button.Text.Rectangle.Width > button.Rectangle.Width)
+                    {
+                        button = new Button(text, textScale: 0.5F);
+                        button.Text.ChangeColor(shuffler.GetColor(index));
+                    }
+                }
                 button.GetCalculator(Camera.Rectangle)
                     .OnX(x * 4 + 4, 20)
                     .OnY(y * 4 + 5, 20)
@@ -75,7 +82,7 @@ public class Level : SampleLevel
             }
         }
 
-        _timer = new Timer(1F, _difficulty, true);
+        _timer = new Timer(1F, 15000D, true);
         _timer.Trigger += Fail;
         _timer.GetCalculator(Camera.Rectangle)
             .OnX(0.1F)
@@ -99,5 +106,10 @@ public class Level : SampleLevel
             .OnY(0.1F)
             .Move();
         base.Update(gameTime);
+    }
+
+    public void SetDifficulty(float difficulty)
+    {
+        _difficulty = difficulty;
     }
 }
