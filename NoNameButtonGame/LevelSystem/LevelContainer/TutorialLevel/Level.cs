@@ -145,11 +145,9 @@ internal class Level : SampleLevel
             .Centered()
             .Move();
 
-
         var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F);
         holdButtonAddon.Click += Finish;
         AutoManaged.Add(holdButtonAddon);
-
 
         var infoAboutButton = new Text(textComponent.GetValue("Info6"));
         infoAboutButton.GetCalculator(screen)
@@ -171,11 +169,6 @@ internal class Level : SampleLevel
 
         screen.Y += Camera.Rectangle.Height;
         _maxScreen++;
-
-        #region FinishingText
-
-
-        #endregion
     }
 
     private void MoveToNextScreen(object sender)
