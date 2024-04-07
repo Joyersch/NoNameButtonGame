@@ -44,11 +44,11 @@
     "value": "Drücke den Knopf um den Zeitgeber zu senken!"
   },
   {
-    "key": "Info8",
-    "value": "Da du nun die Grundlagen kennst, können wir anfangen!"
-  },
-  {
     "key": "KeyInfo",
     "value": "ESC - Hauptmenü"
+  },
+  {
+    "key": "ButtonFinish",
+    "value": "Fertig"
   }
 ]

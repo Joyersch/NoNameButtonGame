@@ -44,11 +44,11 @@
     "value": "Press the button to lower the timer."
   },
   {
-    "key": "Info8",
-    "value": "Now that you know the basics. Lets start!"
-  },
-  {
     "key": "KeyInfo",
     "value": "ESC - Mainmenu"
+  },
+  {
+    "key": "ButtonFinish",
+    "value": "Finish"
   }
 ]

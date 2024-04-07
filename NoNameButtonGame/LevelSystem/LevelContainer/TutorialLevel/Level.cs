@@ -139,7 +139,7 @@ internal class Level : SampleLevel
 
         #region HoldButtonScreen
 
-        var stateButton = new Button(textComponent.GetValue("ButtonSkip"));
+        var stateButton = new Button(textComponent.GetValue("ButtonFinish"));
         stateButton.GetCalculator(screen)
             .OnCenter()
             .Centered()
@@ -147,7 +147,7 @@ internal class Level : SampleLevel
 
 
         var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F);
-        holdButtonAddon.Click += delegate { MoveToNextScreen(holdButtonAddon); };
+        holdButtonAddon.Click += Finish;
         AutoManaged.Add(holdButtonAddon);
 
 
@@ -174,20 +174,6 @@ internal class Level : SampleLevel
 
         #region FinishingText
 
-        _endText = new DelayedText(textComponent.GetValue("Info8"), false)
-        {
-            DisplayDelay = 56,
-            StartAfter = 100
-        };
-        _endText.GetCalculator(screen)
-            .OnCenter()
-            .Centered()
-            .Move();
-        AutoManaged.Add(_endText);
-
-        _invoker = new OverTimeInvoker(1000D, false);
-        _invoker.Trigger += Finish;
-        AutoManaged.Add(_invoker);
 
         #endregion
     }
@@ -208,24 +194,5 @@ internal class Level : SampleLevel
             _lockButtonAddon.Unlock();
         else
             _lockButtonAddon.Lock();
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-
-        if (_screen != _maxScreen)
-            return;
-
-        if (_mover.IsMoving)
-            return;
-
-        if (!_endText.IsPlaying && !_endText.HasPlayed)
-            _endText.Start();
-
-        if (!_endText.HasPlayed)
-            return;
-
-        _invoker.Start();
     }
 }

@@ -95,8 +95,7 @@ public class SampleLevel : ILevel
         _cursorIndicator[0].Rotation += (float)(Math.PI / 4F);
 
         var position = Cursor.GetPosition() + Cursor.GetSize() * 0.5F;
-        ;
-        var sizeOffset = _cursorIndicator.GetSize() * 0.5F;
+
         var rectangleWidth = Camera.Rectangle.Width * 0.04F;
         var rectangleHeight = Camera.Rectangle.Height * 0.075F;
 
