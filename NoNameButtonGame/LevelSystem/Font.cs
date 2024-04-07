@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Ui.Objects.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
+namespace NoNameButtonGame.LevelSystem;
 
 public class Font : ILetter
 {

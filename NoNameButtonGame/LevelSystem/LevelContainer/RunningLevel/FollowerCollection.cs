@@ -73,6 +73,7 @@ public class FollowerCollection : IManageable, IInteractable
                 var text = _indicator[i].Text;
 
                 var letter = text.Letters[0];
+                letter.Origin = new Vector2(2.5F, 2.5F);
                 MoveHelper.RotateTowards(letter, block);
                 // + 45 degrees as the texture is rotated -45 degrees
                 letter.Rotation += (float)(Math.PI / 4F);

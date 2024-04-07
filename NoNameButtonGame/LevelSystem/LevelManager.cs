@@ -57,8 +57,7 @@ internal class LevelManager
         if (_progress.MaxLevel == 0)
         {
             _levelState = LevelState.Level;
-            _levelId = _progress.MaxLevel + 1;
-            ChangeLevel(_levelId);
+            ChangeLevel(_progress.MaxLevel + 1);
         }
         else
             ChangeLevel();
@@ -92,6 +91,7 @@ internal class LevelManager
     public bool ChangeLevel(int level)
     {
         _currentLevel = _levelFactory.GetLevel(level);
+        _levelId = level;
         ChangeTitle?.Invoke(_currentLevel.Name);
         RegisterEvents();
         return true;
@@ -135,8 +135,7 @@ internal class LevelManager
             {
                 Log.WriteInformation($"Starting level {_levelId}");
                 _levelState = LevelState.Level;
-                _levelId = _progress.MaxLevel + 1;
-                ChangeLevel(_levelId);
+                ChangeLevel(_progress.MaxLevel + 1);
             };
 
             mainMenu.SelectClicked += delegate
@@ -162,7 +161,6 @@ internal class LevelManager
             selectLevel.OnExit += ExitLevel;
             selectLevel.OnLevelSelect += delegate(int level)
             {
-                _levelId = level;
                 Log.WriteInformation($"Selecting level {level}");
                 _levelState = LevelState.SelectLevel;
                 ChangeLevel(level);
@@ -247,4 +245,7 @@ internal class LevelManager
         Log.WriteInformation($"Level failed. Current level: {_levelId}");
         ChangeLevel();
     }
+
+    public int GetCurrentLevel()
+        => _levelId;
 }

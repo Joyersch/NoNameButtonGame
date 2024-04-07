@@ -10,8 +10,10 @@ public class LevelCommand : ICommand
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));
+
+
         if (options.Length < 1)
-            return new[] { "Usage:", "level [level]" };
+            return new[] { levelManager.GetCurrentLevel().ToString() };
 
         var value = options[0].ToString();
 

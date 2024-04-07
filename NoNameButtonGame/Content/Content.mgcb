@@ -61,7 +61,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Flags.png
 
-#begin Textures/Font/Level5.png
+#begin Textures/Font/CookieClicker.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Font/Level5.png
+/build:Textures/Font/CookieClicker.png
 
-#begin Textures/Font/Level7.png
+#begin Textures/Font/General.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,7 +83,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Font/Level7.png
+/build:Textures/Font/General.png
 
 #begin Textures/Forest.png
 /importer:TextureImporter

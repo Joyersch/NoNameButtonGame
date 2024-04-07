@@ -4,15 +4,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils;
+using MonoUtils.Helper;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Logic.Listener;
 using MonoUtils.Ui.Objects;
-using IDrawable = Microsoft.Xna.Framework.IDrawable;
+using MonoUtils.Ui.Objects.TextSystem;
 using IUpdateable = MonoUtils.Logic.IUpdateable;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -42,6 +43,8 @@ public class SampleLevel : ILevel
     protected readonly List<object> AutoManagedStatic;
     protected Cursor Cursor;
 
+    private Text _cursorIndicator;
+
     protected SampleLevel(Display display, Vector2 window, Random random)
     {
         Display = display;
@@ -57,6 +60,9 @@ public class SampleLevel : ILevel
 
         AutoManaged = new List<object>();
         AutoManagedStatic = new List<object>();
+        _cursorIndicator = new Text("[arrow]");
+        _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
+        _cursorIndicator[0].Origin = new Vector2(2.5F, 2.5F);
 
         Camera = new Camera(Vector2.Zero, Display.Size);
         Mouse = new MousePointer(window, Camera)
@@ -85,6 +91,31 @@ public class SampleLevel : ILevel
         Camera.Update();
         Mouse.Update(gameTime);
 
+        MoveHelper.RotateTowards(_cursorIndicator[0], Cursor);
+        _cursorIndicator[0].Rotation += (float)(Math.PI / 4F);
+
+        var position = Cursor.GetPosition() + Cursor.GetSize() * 0.5F;
+        ;
+        var sizeOffset = _cursorIndicator.GetSize() * 0.5F;
+        var rectangleWidth = Camera.Rectangle.Width * 0.04F;
+        var rectangleHeight = Camera.Rectangle.Height * 0.075F;
+
+        var newPosition = position;
+        if (position.X <= Camera.Rectangle.Left + rectangleWidth)
+            newPosition.X = Camera.Rectangle.Left + rectangleWidth;
+
+        if (position.X >= Camera.Rectangle.Right - rectangleWidth)
+            newPosition.X = Camera.Rectangle.Right - rectangleWidth;
+
+        if (position.Y <= Camera.Rectangle.Top + rectangleHeight)
+            newPosition.Y = Camera.Rectangle.Top + rectangleHeight;
+
+        if (position.Y >= Camera.Rectangle.Bottom - rectangleHeight)
+            newPosition.Y = Camera.Rectangle.Bottom - rectangleHeight;
+
+        _cursorIndicator.Move(newPosition);
+
+        _cursorIndicator.Update(gameTime);
         PositionListener.Update(gameTime);
         RelativePositionListener.Update(gameTime);
         ColorListener.Update(gameTime);
@@ -112,6 +143,11 @@ public class SampleLevel : ILevel
 
         Draw(spriteBatch);
 
+        if (!Camera.Rectangle.Intersects(Cursor.Rectangle))
+        {
+            _cursorIndicator.Draw(spriteBatch);
+        }
+
         spriteBatch.End();
 
         graphicsDevice.SetRenderTarget(null);
@@ -135,6 +171,7 @@ public class SampleLevel : ILevel
                 drawable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 drawable.Draw(spriteBatch);
         }
+
         Cursor.Draw(spriteBatch);
         Mouse.DrawIndicator(spriteBatch);
     }

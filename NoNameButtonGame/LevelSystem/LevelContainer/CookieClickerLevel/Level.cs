@@ -46,7 +46,7 @@ public class Level : SampleLevel
         window, random)
     {
         _settingsAndSave = settingsAndSave;
-        var textComponent = TextProvider.GetText("Levels.CookieClicker");
+        var textComponent = TextProvider.GetText("Levels.CookieClickerLevel");
         Name = textComponent.GetValue("Name");
 
         _objectiveInfoText = textComponent.GetValue("ObjectiveInfo");
