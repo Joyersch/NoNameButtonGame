@@ -86,6 +86,7 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
                 _glitchBlocksGrid.Add(block);
             }
         }
+        _hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
     public void Update(GameTime gameTime)

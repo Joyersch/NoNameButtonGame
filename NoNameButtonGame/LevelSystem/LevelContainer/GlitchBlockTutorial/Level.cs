@@ -1,53 +1,147 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using MonoUtils;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockTutorial;
 
 internal class Level : SampleLevel
 {
-    private GlitchBlockCollection _block;
-    private int _interactions;
-
     public Level(Display display, Vector2 window, Random random) : base(display, window, random)
     {
-
         var textComponent = TextProvider.GetText("Levels.GlitchBlockTutorial");
         Name = textComponent.GetValue("Name");
 
-        _block = new GlitchBlockCollection(GlitchBlock.ImageSize * 8, 4);
-        _block.ChangeColor(GlitchBlock.Color);
-        _block.Enter += delegate
-        {
-            Mouse.SetMousePointerPositionToCenter();
-            _interactions++;
-        };
-        _block.GetCalculator(Camera.Rectangle)
-            .OnX(0.333F)
-            .OnY(0.5F)
-            .Centered()
-            .Move();
+        var blockSize = new Vector2(Camera.Rectangle.Width * 0.25F, Camera.Rectangle.Height);
 
-        AutoManaged.Add(_block);
+        var block = new GlitchBlockCollection(blockSize, 4);
+        block.ChangeColor(GlitchBlock.Color);
+        block.Enter += Fail;
+        block.GetCalculator(Camera.Rectangle)
+            .Move();
+        AutoManaged.Add(block);
+
+
+        OverTimeMover mover = new OverTimeMover(Camera, RightOfCamera(), 666F, OverTimeMover.MoveMode.Sin);
+        AutoManaged.Add(mover);
 
         var text = new Text(textComponent.GetValue("Info1"));
-        text.GetCalculator(Camera.Rectangle).OnX(0.666F)
+        text.GetCalculator(Camera.Rectangle)
+            .OnX(0.625F)
+            .OnY(0.25F)
+            .Centered()
+            .Move();
+        AutoManaged.Add(text);
+
+        var button = new Button(textComponent.GetValue("Understood"));
+        button.GetCalculator(Camera.Rectangle)
+            .OnX(0.625F)
             .OnY(0.5F)
             .Centered()
             .Move();
+        button.Click += delegate { mover.Start(); };
+        AutoManaged.Add(button);
 
-        AutoManaged.Add((Action)IncrementCheck);
+        blockSize.X = GlitchBlock.ImageSize.X;
+        block = new GlitchBlockCollection(blockSize, 4);
+        block.ChangeColor(GlitchBlock.Color);
+        block.Enter += Fail;
+        block.GetCalculator(Camera.Rectangle)
+            .OnX(0.7F)
+            .BySizeX(-0.5F)
+            .ByGridX(1)
+            .Move();
+        AutoManaged.Add(block);
+
+        button = new Button(textComponent.GetValue("Neat"));
+        button.GetCalculator(Camera.Rectangle)
+            .OnX(0.85F)
+            .OnY(0.5F)
+            .ByGridX(1)
+            .Centered()
+            .Move();
+        button.Click += delegate
+        {
+            if (mover.IsMoving)
+                return;
+
+            mover.ChangeDestination(RightOfCamera());
+            mover.Start();
+        };
+        AutoManaged.Add(button);
+
+        text = new Text(textComponent.GetValue("Info2"));
+        text.GetCalculator(Camera.Rectangle)
+            .OnX(0.35F)
+            .OnY(0.5F)
+            .Centered()
+            .ByGridX(1)
+            .Move();
+        AutoManaged.Add(text);
+
+        button = new Button(textComponent.GetValue("Finish"));
+        button.GetCalculator(Camera.Rectangle)
+            .OnX(0.875F)
+            .OnY(0.125F)
+            .ByGridX(2)
+            .Centered()
+            .Move();
+        button.Click += Finish;
+        AutoManaged.Add(button);
+
+        text = new Text(textComponent.GetValue("Info3"));
+        text.GetCalculator(Camera.Rectangle)
+            .OnX(0.33F)
+            .OnY(0.2F)
+            .Centered()
+            .ByGridX(2)
+            .Move();
+        AutoManaged.Add(text);
+
+        text = new Text(textComponent.GetValue("Info4"));
+        text.GetCalculator(Camera.Rectangle)
+            .OnX(0.5F)
+            .OnY(0.65F)
+            .Centered()
+            .ByGridX(2)
+            .Move();
+        AutoManaged.Add(text);
+
+        blockSize = new Vector2(GlitchBlock.ImageSize.X * 4, GlitchBlock.ImageSize.Y * 16);
+        block = new GlitchBlockCollection(blockSize, 4);
+        block.ChangeColor(GlitchBlock.Color);
+        block.Enter += Fail;
+        block.GetCalculator(Camera.Rectangle)
+            .OnX(0.725F)
+            .BySizeX(-0.5F)
+            .ByGridX(2)
+            .Move();
+        AutoManaged.Add(block);
+
+        blockSize = new Vector2(GlitchBlock.ImageSize.X * 20, GlitchBlock.ImageSize.Y * 4);
+       var block2 = new GlitchBlockCollection(blockSize, 4);
+       block2.ChangeColor(GlitchBlock.Color);
+       block2.Enter += Fail;
+       block2.GetAnchor(block)
+           .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
+           .SetSubAnchor(AnchorCalculator.Anchor.BottomLeft)
+           .Move();
+        AutoManaged.Add(block2);
     }
 
-    private void IncrementCheck()
+    private Vector2 RightOfCamera()
+        => Camera.Position + new Vector2(Camera.Size.X / 2, 0);
+
+    public override void Update(GameTime gameTime)
     {
-        if (_interactions == 3)
-        {
-            Finish();
-        }
+        base.Update(gameTime);
     }
 }

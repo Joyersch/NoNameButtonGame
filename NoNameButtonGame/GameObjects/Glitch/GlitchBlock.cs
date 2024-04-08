@@ -60,9 +60,11 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
         _position = position;
         _size = size;
         var scaleToImage = size / ImageSize;
-        var max = Math.Max(scaleToImage.X, scaleToImage.Y);
+        var scaleToFull = size / fullSize;
+
         _scale = fullSize / ImageSize;
-        var framePosition = new Rectangle(Vector2.Zero.ToPoint(), (size / max).ToPoint());
+        var framePosition = new Rectangle(Vector2.Zero.ToPoint(), (ImageSize * scaleToFull).ToPoint());
+
         _mouseActionsMat = new MouseActionsMat(this);
         _mouseActionsMat.Leave += delegate { Leave?.Invoke(this); };
         _mouseActionsMat.Enter += delegate { Enter?.Invoke(this); };
@@ -72,7 +74,7 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
 
         _animation = new AnimationProvider(ImageSize, 128, 32, framePosition);
         var hitbox = new[] { new Rectangle(Vector2.Zero.ToPoint(), ImageSize.ToPoint()) };
-        _hitbox = new HitboxProvider(this, hitbox, _scale);
+        _hitbox = new HitboxProvider(this, hitbox, scaleToImage);
 
         Rectangle = new Rectangle(_position.ToPoint(), _size.ToPoint());
     }
@@ -112,6 +114,7 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
     {
         _position = newPosition;
         Rectangle = new Rectangle(_position.ToPoint(), _size.ToPoint());
+        _hitbox.Calcutate();
     }
 
     public void ChangeColor(Color[] input)
