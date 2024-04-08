@@ -1,16 +1,20 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Objects.Buttons.AddOn;
+using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockHoldButtonChallenge;
 
 internal class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, float difficulty = 1) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, float difficulty = 950) : base(display, window, random)
     {
         var textComponent = TextProvider.GetText("Levels.GlitchBlockHoldButtonChallenge");
 
@@ -58,7 +62,9 @@ internal class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.TopRight)
             .Move();
         AutoManaged.Add(wallSide);
+        var oldWallSide = wallSide;
 
+        var wallY = wallSize.Y;
         // Increasing the block size so, animations align
         var alignment = (Camera.Rectangle.Size.Y - wallSize.Y * 2) % (GlitchBlock.ImageSize.Y * singleScale);
         wallSize.Y += alignment;
@@ -68,8 +74,31 @@ internal class Level : SampleLevel
         wallSide.GetAnchor(wall)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.BottomRight)
-            //.SetDistanceY(-alignment)
             .Move();
+
         AutoManaged.Add(wallSide);
+
+        Vector2 availableSize = new Vector2(Camera.Rectangle.Size.X - wall.GetSize().X * 2,
+            Camera.Rectangle.Size.Y - wallY - wallSize.Y);
+        // space available for the mouse
+        var available = new Rectangle(oldWallSide.Rectangle.BottomLeftCorner().ToPoint(), availableSize.ToPoint());
+
+        var button = new Button("Finish");
+        var holdButton = new HoldButtonAddon(button, 20000F);
+        holdButton.Click += Finish;
+        SetButton(available, holdButton, random);
+        AutoManaged.Add(holdButton);
+
+    }
+
+    private void SetButton(Rectangle rectangle, IButton button, Random random)
+    {
+        // move
+        float x = random.Next(rectangle.Width - button.Rectangle.Width / 2);
+        float y = random.Next(rectangle.Height - button.Rectangle.Height / 2);
+        var calculator = button.GetCalculator(rectangle)
+            .OnX(x / rectangle.Width)
+            .OnY(y / rectangle.Height);
+        calculator.Move();
     }
 }
