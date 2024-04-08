@@ -9,15 +9,15 @@
   },
   {
     "key": "Info2",
-    "value": "Wenn man schnell genug ist, kann man durch dieses durchgehen!"
+    "value": "Mit Geschwindigkeit, kannst man es durchqueren!"
   },
   {
     "key": "Info3",
-    "value": "Dazu kann man außen herum gehen!"
+    "value": "Dazu kann man aussen herum gehen!"
   },
   {
     "key": "Info4",
-    "value": "Wenn der Zeiger außerhalb des Bildschirm ist, zeigt ein Pfeil auf diesen."
+    "value": "Wenn der Zeiger ausserhalb des Bildschirm ist, zeigt ein Pfeil auf diesen."
   },
   {
     "key": "Understood",
@@ -29,6 +29,6 @@
   },
   {
     "key": "Finish",
-    "value": "Finish"
+    "value": "Fertig"
   }
 ]
