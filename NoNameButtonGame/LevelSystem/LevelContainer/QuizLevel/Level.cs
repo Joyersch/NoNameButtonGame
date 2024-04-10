@@ -1,13 +1,14 @@
 using System;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.QuizLevel;
 
 public class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.QuizLevel");
         Name = textComponent.GetValue("Name");

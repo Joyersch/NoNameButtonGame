@@ -5,6 +5,7 @@ using MonoUtils.Helper;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons;
@@ -38,7 +39,7 @@ internal class Level : SampleLevel
     private bool _initializerIsOffscreen;
     private bool _initializerWasOnScreen;
 
-    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.RunningLevel");
 

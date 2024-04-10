@@ -5,6 +5,7 @@ using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using NoNameButtonGame.LevelSystem.LevelContainer.Level8;
 
@@ -17,7 +18,7 @@ internal class Level : SampleLevel
 
     private bool focusOnOne = true;
 
-    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.FallingLevel");
 

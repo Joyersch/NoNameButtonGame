@@ -9,6 +9,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
@@ -87,9 +88,9 @@ public class Level : SampleLevel
     }
 
     public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
-        NoNameGame game) : base(
+        NoNameGame game, EffectsRegistry effectsRegistry) : base(
         display,
-        window, random)
+        window, random, effectsRegistry)
     {
         _game = game;
         _advancedSettings = settingsAndSave.GetSetting<AdvancedSettings>();

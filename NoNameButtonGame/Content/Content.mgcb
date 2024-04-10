@@ -19,23 +19,29 @@
 /processorParam:DebugMode=Auto
 /build:FX/GrayScale.fx
 
+#begin Music/loop1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/loop1.wav
+
+#begin Music/loop2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/loop2.wav
+
 #begin Music/NoNameTitleMusic.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Music/NoNameTitleMusic.wav
 
-#begin SFX/NoNameButtonSound.wav
+#begin SFX/wall.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:SFX/NoNameButtonSound.wav
-
-#begin SFX/NoNameTalkingSound.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SFX/NoNameTalkingSound.wav
+/build:SFX/wall.wav
 
 #begin Textures/Dot.png
 /importer:TextureImporter

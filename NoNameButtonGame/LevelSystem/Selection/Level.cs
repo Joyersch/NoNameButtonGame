@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
@@ -17,8 +18,8 @@ public class Level : SampleLevel
 
     private int _cameraLevel;
 
-    public Level(Display display, Vector2 window, Random rand, Progress progress) : base(display,
-        window, rand)
+    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry) : base(display,
+        window, rand, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.Select");
         Name = textComponent.GetValue("Name");

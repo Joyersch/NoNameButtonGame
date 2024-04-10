@@ -2,6 +2,7 @@
 using System.Reflection;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
@@ -23,7 +24,7 @@ public class Level : SampleLevel
     private float _tilt = 0;
     private bool _leftTilt;
 
-    public Level(Display display, Vector2 window, Random rand, Progress progress) : base(display, window, rand)
+    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry) : base(display, window, rand, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");

@@ -5,6 +5,7 @@ using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.TextSystem;
@@ -15,7 +16,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockTutorial;
 
 internal class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.GlitchBlockTutorial");
         Name = textComponent.GetValue("Name");
@@ -127,13 +128,13 @@ internal class Level : SampleLevel
         AutoManaged.Add(block);
 
         blockSize = new Vector2(GlitchBlock.ImageSize.X * 20, GlitchBlock.ImageSize.Y * 4);
-       var block2 = new GlitchBlockCollection(blockSize, 4);
-       block2.ChangeColor(GlitchBlock.Color);
-       block2.Enter += Fail;
-       block2.GetAnchor(block)
-           .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
-           .SetSubAnchor(AnchorCalculator.Anchor.BottomLeft)
-           .Move();
+        var block2 = new GlitchBlockCollection(blockSize, 4);
+        block2.ChangeColor(GlitchBlock.Color);
+        block2.Enter += Fail;
+        block2.GetAnchor(block)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
+            .SetSubAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .Move();
         AutoManaged.Add(block2);
     }
 

@@ -4,6 +4,7 @@ using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
@@ -14,7 +15,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockHoldButtonChall
 
 internal class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, float difficulty = 950) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
+        float difficulty = 950) : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.GlitchBlockHoldButtonChallenge");
 
@@ -23,7 +25,6 @@ internal class Level : SampleLevel
         var cleanDifficulty = (difficulty + 100F) / 1050F;
         if (cleanDifficulty > 1F)
             cleanDifficulty = 1F;
-
 
         float singleScale = 4F;
         // in order to allign the blocks correctly the size is increased by the single scale;
@@ -89,11 +90,13 @@ internal class Level : SampleLevel
         SetButton(available, holdButton, random);
         AutoManaged.Add(holdButton);
 
+        var availableSpots = availableSize.X * availableSize.Y;
+        availableSpots *= 0.8F;
+        float used = 0F;
     }
 
     private void SetButton(Rectangle rectangle, IButton button, Random random)
     {
-        // move
         float x = random.Next(rectangle.Width - button.Rectangle.Width / 2);
         float y = random.Next(rectangle.Height - button.Rectangle.Height / 2);
         var calculator = button.GetCalculator(rectangle)

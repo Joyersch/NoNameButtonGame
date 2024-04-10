@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
@@ -14,7 +15,7 @@ public class Level : SampleLevel
     private Timer _timer;
     private float _difficulty;
 
-    public Level(Display display, Vector2 window, Random random, int difficulty = 1) : base(display, window, random)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, int difficulty = 1) : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.ButtonGridLevel");
 

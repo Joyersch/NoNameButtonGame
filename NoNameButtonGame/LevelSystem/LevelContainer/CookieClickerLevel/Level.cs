@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons;
@@ -42,8 +43,8 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave) : base(display,
-        window, random)
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave, EffectsRegistry effectsRegistry) : base(display,
+        window, random, effectsRegistry)
     {
         _settingsAndSave = settingsAndSave;
         var textComponent = TextProvider.GetText("Levels.CookieClickerLevel");

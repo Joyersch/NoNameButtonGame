@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logging;
 using MonoUtils.Settings;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using NoNameButtonGame.LevelSystem.Settings;
 
@@ -40,7 +41,7 @@ internal class LevelManager
     }
 
     public LevelManager(Display display, GameWindow gameWindow, SettingsAndSaveManager settingsAndSaveManager,
-        NoNameGame game,
+        NoNameGame game, EffectsRegistry effectsRegistry,
         int? seed = null)
     {
         _settingsAndSaveManager = settingsAndSaveManager;
@@ -50,7 +51,7 @@ internal class LevelManager
         _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
         _levelFactory = new LevelFactory(display, _videoSettings.Resolution.ToVector2(), random,
-            settingsAndSaveManager, game, _progress);
+            settingsAndSaveManager, game, _progress, effectsRegistry);
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
         _levelState = LevelState.Menu;

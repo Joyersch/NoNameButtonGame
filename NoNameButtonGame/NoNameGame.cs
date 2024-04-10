@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
+using MonoUtils.Sound;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Console;
 using MonoUtils.Ui.Objects.TextSystem;
@@ -26,11 +29,16 @@ public class NoNameGame : SimpleGame
     private bool _showElapsedTime;
     private Text _elapsedTime;
 
+    private LoopStation _loopStation;
+    private EffectsRegistry _effectsRegistry;
+
     public NoNameGame()
     {
         IsMouseVisible = false;
         SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/NoNameButtonGame/";
         SaveFile = 0;
+        _loopStation = new LoopStation();
+        _effectsRegistry = new EffectsRegistry();
     }
 
     protected override void Initialize()
@@ -49,7 +57,7 @@ public class NoNameGame : SimpleGame
         if (!int.TryParse(seedText, out int seed))
             seed = Guid.NewGuid().GetHashCode();
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(Display, Window, SettingsAndSaveManager, this, seed);
+        _levelManager = new LevelManager(Display, Window, SettingsAndSaveManager, this, _effectsRegistry, seed);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
 
@@ -82,14 +90,22 @@ public class NoNameGame : SimpleGame
         // Select
         SelectButton.Texture = Content.GetTexture("minibutton");
 
-        // Cache for sound effects as only one SoundEffect object is required.
-        // Sound is played over SoundEffectInstance's which are created from the SoundEffect object.
-        Global.SoundEffects.AddMusicToCache("TitleMusic", Content.GetMusic("NoNameTitleMusic"));
-        Global.SoundEffects.AddSfxToCache("ButtonSound", Content.GetSfx("NoNameButtonSound"));
+        // Sound effects
+        _effectsRegistry.Register(Content.GetSfx("wall"), "wall");
+
+        // Music
+        // _loopStation.Register(Content.GetMusic("name"), "name");
+        _loopStation.Initialize();
     }
 
     protected override void Update(GameTime gameTime)
     {
+        var audio = SettingsAndSaveManager.GetSetting<AudioSettings>();
+        _loopStation.SetMasterVolume(audio.MusicVolume);
+        _effectsRegistry.SetMasterVolume(audio.SoundEffectVolume);
+        _effectsRegistry.Update(gameTime);
+        _loopStation.Update(gameTime);
+
         if (IsActive)
         {
             _levelManager.Update(gameTime);

@@ -10,6 +10,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Management;
+using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic.Listener;
 using MonoUtils.Ui.Objects;
@@ -28,6 +29,7 @@ public class SampleLevel : ILevel
 
     public readonly Camera Camera;
     public Vector2 Window { get; protected set; }
+    protected EffectsRegistry EffectsRegistry { get; }
     protected readonly MousePointer Mouse;
     protected Vector2 CameraPosition => Camera.Position;
 
@@ -45,11 +47,12 @@ public class SampleLevel : ILevel
 
     private Text _cursorIndicator;
 
-    protected SampleLevel(Display display, Vector2 window, Random random)
+    protected SampleLevel(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry)
     {
         Display = display;
         Random = random;
         Window = window;
+        EffectsRegistry = effectsRegistry;
         Cursor = new Cursor
         {
             Layer = 0,
@@ -196,7 +199,11 @@ public class SampleLevel : ILevel
         => Fail();
 
     protected virtual void Fail()
-        => OnFail?.Invoke();
+    {
+        var effect = EffectsRegistry.GetInstance("wall");
+        effect?.Play();
+        OnFail?.Invoke();
+    }
 
     protected virtual void Finish(object sender)
         => Finish();
