@@ -245,6 +245,11 @@ public class Level : SampleLevel
         List<Volume> volumeValues = new List<Volume>()
         {
             new Volume(0),
+            new Volume(0.01F),
+            new Volume(0.02F),
+            new Volume(0.03F),
+            new Volume(0.04F),
+            new Volume(0.05F),
             new Volume(0.1F),
             new Volume(0.2F),
             new Volume(0.3F),
@@ -257,8 +262,9 @@ public class Level : SampleLevel
             new Volume(1F),
         };
 
+        Volume currentVolume = volumeValues.First(i => i.Value == _audioSettings.MusicVolume);
         _musicVolume =
-            new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, (int)(_audioSettings.MusicVolume * 10F));
+            new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
         _musicVolume.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .OnY(0.4F)
@@ -274,8 +280,9 @@ public class Level : SampleLevel
         _musicVolumeLabel = new Text(string.Empty);
         _audioCollection.Add(_musicVolumeLabel);
 
-        _soundEffectVolume = new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues,
-            (int)(_audioSettings.SoundEffectVolume * 10F));
+        currentVolume = volumeValues.First(i => i.Value == _audioSettings.SoundEffectVolume);
+        _soundEffectVolume =
+            new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
         _soundEffectVolume.GetCalculator(Camera.Rectangle)
             .OnCenter()
             .OnY(0.6F)
