@@ -26,73 +26,8 @@ internal class Level : SampleLevel
         if (cleanDifficulty > 1F)
             cleanDifficulty = 1F;
 
-        float singleScale = 4F;
-        // in order to allign the blocks correctly the size is increased by the single scale;
-        float projectedWidth = 15 * cleanDifficulty;
-        float overhead = projectedWidth % singleScale;
-        float count = projectedWidth - overhead + singleScale;
-        if (overhead > singleScale * 0.5F)
-            count += singleScale;
-
-        Log.WriteInformation($"Current width:{count}");
-
-        var width = GlitchBlock.ImageSize.X * count;
-        var wallSize = new Vector2(width, Camera.Rectangle.Height);
-        var wall = new GlitchBlockCollection(wallSize, singleScale);
-        wall.Enter += Fail;
-        wall.ChangeColor(GlitchBlock.Color);
-        wall.GetCalculator(Camera.Rectangle)
-            .Move();
-        AutoManaged.Add(wall);
-
-        wall = new GlitchBlockCollection(wallSize, singleScale);
-        wall.Enter += Fail;
-        wall.ChangeColor(GlitchBlock.Color);
-        wall.GetCalculator(Camera.Rectangle)
-            .OnX(1F)
-            .BySizeX(-1F)
-            .Move();
-        AutoManaged.Add(wall);
-
-        wallSize = new Vector2(Camera.Rectangle.Width - width * 2, GlitchBlock.ImageSize.Y * count);
-        var wallSide = new GlitchBlockCollection(wallSize, singleScale);
-        wallSide.Enter += Fail;
-        wall.ChangeColor(GlitchBlock.Color);
-        wallSide.GetAnchor(wall)
-            .SetMainAnchor(AnchorCalculator.Anchor.TopLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopRight)
-            .Move();
-        AutoManaged.Add(wallSide);
-        var oldWallSide = wallSide;
-
-        var wallY = wallSize.Y;
-        // Increasing the block size so, animations align
-        var alignment = (Camera.Rectangle.Size.Y - wallSize.Y * 2) % (GlitchBlock.ImageSize.Y * singleScale);
-        wallSize.Y += alignment;
-        wallSide = new GlitchBlockCollection(wallSize, singleScale);
-        wallSide.Enter += Fail;
-        wall.ChangeColor(GlitchBlock.Color);
-        wallSide.GetAnchor(wall)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.BottomRight)
-            .Move();
-
-        AutoManaged.Add(wallSide);
-
-        Vector2 availableSize = new Vector2(Camera.Rectangle.Size.X - wall.GetSize().X * 2,
-            Camera.Rectangle.Size.Y - wallY - wallSize.Y);
-        // space available for the mouse
-        var available = new Rectangle(oldWallSide.Rectangle.BottomLeftCorner().ToPoint(), availableSize.ToPoint());
-
-        var button = new Button("Finish");
-        var holdButton = new HoldButtonAddon(button, 20000F);
-        holdButton.Click += Finish;
-        SetButton(available, holdButton, random);
-        AutoManaged.Add(holdButton);
-
-        var availableSpots = availableSize.X * availableSize.Y;
-        availableSpots *= 0.8F;
-        float used = 0F;
+        Log.WriteInformation(Camera.Rectangle.ToString());
+        //var wall = new GlitchBlockCollection()
     }
 
     private void SetButton(Rectangle rectangle, IButton button, Random random)

@@ -804,13 +804,6 @@ public class ColorComponentRepository : List<ColorComponent>
                 results.Add(entry);
         }
 
-        foreach (var color in results)
-        {
-            string msg = $"{ColorDistance(startColor.Color, color.Color)}";
-
-            Log.WriteColor(msg, Enumerable.Repeat(color.Color, msg.Length).ToArray());
-        }
-
         return results;
     }
 

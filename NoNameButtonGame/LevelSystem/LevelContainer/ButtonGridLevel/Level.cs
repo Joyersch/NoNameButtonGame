@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
@@ -15,7 +17,8 @@ public class Level : SampleLevel
     private Timer _timer;
     private float _difficulty;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, int difficulty = 1) : base(display, window, random, effectsRegistry)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, int difficulty = 1) :
+        base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.ButtonGridLevel");
 
@@ -41,6 +44,11 @@ public class Level : SampleLevel
         string c = textComponent.GetValue("Color");
 
         string infoMessage = string.Format(infoText, useText ? t : c, shuffler.GetText(usedText));
+        var used = useText ? usedText : usedColor;
+        var color = shuffler.GetColor(used);
+        var message = $"X:{used % 4 + 1} Y: {(used - used % 4) / 4 + 1} ";
+
+        Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
 
         var info = new Text(infoMessage);
         info.GetCalculator(Camera.Rectangle)
@@ -70,6 +78,7 @@ public class Level : SampleLevel
                         button.Text.ChangeColor(shuffler.GetColor(index));
                     }
                 }
+
                 button.GetCalculator(Camera.Rectangle)
                     .OnX(x * 4 + 4, 20)
                     .OnY(y * 4 + 5, 20)
@@ -107,10 +116,5 @@ public class Level : SampleLevel
             .OnY(0.1F)
             .Move();
         base.Update(gameTime);
-    }
-
-    public void SetDifficulty(float difficulty)
-    {
-        _difficulty = difficulty;
     }
 }
