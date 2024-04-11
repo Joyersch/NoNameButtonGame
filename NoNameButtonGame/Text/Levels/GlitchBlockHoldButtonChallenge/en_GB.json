@@ -2,5 +2,9 @@
   {
     "key": "Name",
     "value": "Level finished"
+  },
+  {
+    "key": "Finish",
+    "value": "Finish"
   }
 ]
