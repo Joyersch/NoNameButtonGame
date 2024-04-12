@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
-using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
@@ -17,14 +17,18 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockHoldButtonChall
 
 internal class Level : SampleLevel
 {
+    private readonly Random _random;
     private List<Row> _rows;
     private List<Column> _columns;
+    private Button _button;
 
     private bool _isInitiated;
+    private bool _firstPlay = true;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        float difficulty = 950) : base(display, window, random, effectsRegistry)
+        float difficulty = 1) : base(display, window, random, effectsRegistry)
     {
+        _random = random;
         var textComponent = TextProvider.GetText("Levels.GlitchBlockHoldButtonChallenge");
 
         Name = textComponent.GetValue("Name");
@@ -35,6 +39,12 @@ internal class Level : SampleLevel
 
         _rows = new List<Row>();
         _columns = new List<Column>();
+
+        var flippedDifficulty = 6F - 5F * cleanDifficulty;
+
+        var overTimeInvokeMovement = new OverTimeInvoker( 250F * flippedDifficulty, false);
+        overTimeInvokeMovement.Trigger += TriggerMovement;
+        AutoManaged.Add(overTimeInvokeMovement);
 
         var baseSize = GlitchBlock.ImageSize * 5;
         var x = Camera.Rectangle.Size.X - baseSize.X;
@@ -53,7 +63,6 @@ internal class Level : SampleLevel
             .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
             .SetSubAnchor(AnchorCalculator.Anchor.BottomRight)
             .Move();
-
 
         var bottomLeftCorner = new GlitchBlockCollection(baseSize, 5F);
         bottomLeftCorner.GetCalculator(Camera.Rectangle)
@@ -89,7 +98,7 @@ internal class Level : SampleLevel
         IMoveable lastWall = corner;
         for (int i = 0; i < 7; i++)
         {
-            var wall = new Row(available.Width, new Vector2(x, baseSize.Y), 5F);
+            var wall = new Row(available.Width, new Vector2(x, baseSize.Y), 5F, _random);
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -104,7 +113,7 @@ internal class Level : SampleLevel
         lastWall = corner;
         for (int i = 0; i < 14; i++)
         {
-            var wall = new Column(available.Height, new Vector2(baseSize.X, y), 5F);
+            var wall = new Column(available.Height, new Vector2(baseSize.X, y), 5F, _random);
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.TopRight)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -116,17 +125,19 @@ internal class Level : SampleLevel
             lastWall = wall;
         }
 
-        var button = new Button(textComponent.GetValue("Finish"));
-        SetButton(available.ExtendFromCenter(0.75F), button, random);
-        button.Enter += delegate
+        _button = new Button(textComponent.GetValue("Finish"));
+        SetButton(available.ExtendFromCenter(0.75F), _button, random);
+        _button.Enter += delegate
         {
             if (_isInitiated)
                 return;
 
             _isInitiated = true;
+            Log.WriteInformation("Starting movement of blocks!");
+            overTimeInvokeMovement.Start();
         };
 
-        var holdButton = new HoldButtonAddon(button, 60000);
+        var holdButton = new HoldButtonAddon(_button, 15000 + 5000 * cleanDifficulty);
         holdButton.Click += Finish;
         AutoManaged.Add(holdButton);
     }
@@ -139,5 +150,24 @@ internal class Level : SampleLevel
             .OnX(x / rectangle.Width)
             .OnY(y / rectangle.Height);
         calculator.Move();
+    }
+
+    private void TriggerMovement()
+    {
+        bool useRow = _random.Next(2) == 0;
+
+        if (_firstPlay)
+        {
+            _firstPlay = false;
+            var list = (useRow ? _rows.Select(r => r as ISpatial) : _columns.Select(r => r as ISpatial)).ToList();
+
+            var onButton = list.First(i => i.GetRectangle().Intersects(_button.Rectangle)) as IPlayable;
+            onButton?.Play();
+            return;
+        }
+        int index = _random.Next(useRow ? _rows.Count : _columns.Count);
+
+        IPlayable playable = useRow ? _rows[index] : _columns[index];
+        playable.Play();
     }
 }
