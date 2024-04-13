@@ -45,17 +45,17 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
     {
     }
 
-    public GlitchBlockCollection(Vector2 size, float singleScale) : this(Vector2.Zero, size,
-        GlitchBlock.ImageSize * singleScale)
+    public GlitchBlockCollection(Vector2 size, float singleScale, int startingFrame = 0) : this(Vector2.Zero, size,
+        GlitchBlock.ImageSize * singleScale, startingFrame)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size, float singleScale) : this(position, size,
-        GlitchBlock.ImageSize * singleScale)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, float singleScale, int startingFrame = 0) : this(position, size,
+        GlitchBlock.ImageSize * singleScale, startingFrame)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize)
+    public GlitchBlockCollection(Vector2 position, Vector2 size, Vector2 singleSize, int startingFrame = 0)
     {
         _position = position;
         _size = size;
@@ -79,13 +79,16 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
 
                 var block = new GlitchBlock(
                     new Vector2(position.X + x * singleSize.X, position.Y + y * singleSize.Y),
-                    newSize, singleSize);
+                    newSize,
+                    singleSize,
+                    startingFrame);
                 block.Leave += delegate { Leave?.Invoke(this); };
                 block.Enter += delegate { Enter?.Invoke(this); };
                 block.Click += delegate { Click?.Invoke(this); };
                 _glitchBlocksGrid.Add(block);
             }
         }
+
         _hitboxes = _glitchBlocksGrid.SelectMany(block => block.Hitbox).ToArray();
     }
 
@@ -154,4 +157,7 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
 
     public Vector2 GetSize()
         => _size;
+
+    public int GetCurrentFrame()
+        => _glitchBlocksGrid[0].GetCurrentFrame();
 }

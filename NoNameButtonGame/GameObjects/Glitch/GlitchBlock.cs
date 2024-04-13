@@ -55,7 +55,7 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
     {
     }
 
-    public GlitchBlock(Vector2 position, Vector2 size, Vector2 fullSize)
+    public GlitchBlock(Vector2 position, Vector2 size, Vector2 fullSize, int startingFrame = 0)
     {
         _position = position;
         _size = size;
@@ -72,7 +72,7 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
 
         _color = Color;
 
-        _animation = new AnimationProvider(ImageSize, 128, 32, framePosition);
+        _animation = new AnimationProvider(ImageSize, 128, 32, framePosition, startingFrame: startingFrame);
         var hitbox = new[] { new Rectangle(Vector2.Zero.ToPoint(), ImageSize.ToPoint()) };
         _hitbox = new HitboxProvider(this, hitbox, scaleToImage);
 
@@ -129,4 +129,7 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
 
     public Color[] GetColor()
         => new[] { _color };
+
+    public int GetCurrentFrame()
+        => _animation.GetCurrentFrame();
 }
