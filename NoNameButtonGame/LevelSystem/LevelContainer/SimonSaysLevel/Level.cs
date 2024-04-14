@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using MonoUtils.Logging;
+using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
@@ -17,6 +18,10 @@ public class Level : SampleLevel
         Name = textComponent.GetValue("Name");
 
         Camera.Move(Display.Size / 2);
+        Cursor.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
 
         var cleanDifficulty = (difficulty + 100F) / 1050F;
         if (cleanDifficulty > 1F)
@@ -36,7 +41,7 @@ public class Level : SampleLevel
         float buttonDisplaySpeed = 150 + 150 * flippedDifficulty;
         Log.WriteInformation(playLength.ToString());
 
-        var simon = new SimonSays(Camera.Rectangle, random,text, playLength, waitBetweenColors, buttonDisplaySpeed);
+        var simon = new SimonSays(Camera.Rectangle, random, text, playLength, waitBetweenColors, buttonDisplaySpeed);
         simon.Finished += Finish;
         AutoManaged.Add(simon);
     }

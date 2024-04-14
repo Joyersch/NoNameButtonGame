@@ -20,15 +20,14 @@ public class LevelCommand : ICommand
         if (options[0].ToString() == "complete")
         {
             levelManager.GetCurrentLevel().Finish();
-            return new[] { "Completed the current level!"};
+            return new[] { "Completed the current level!" };
         }
 
         if (!int.TryParse(value, out int ival))
             return new[] { "Usage:", "level [level]" };
 
         levelManager.SetAsLevelSelect();
-        return !levelManager.ChangeLevel(ival)
-            ? new[] { "parameter is not a valid level or is the current level!" }
-            : new[] { $"changed level to {ival}!" };
+        levelManager.ChangeLevel(ival);
+        return new[] { $"changed level to {ival}!" };
     }
 }

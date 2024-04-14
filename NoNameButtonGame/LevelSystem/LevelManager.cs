@@ -5,7 +5,7 @@ using MonoUtils.Logging;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
-using NoNameButtonGame.LevelSystem.Settings;
+using NoNameButtonGame.LevelSystem.Endless;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -13,7 +13,7 @@ internal class LevelManager
 {
     private readonly SettingsAndSaveManager _settingsAndSaveManager;
     private readonly NoNameGame _game;
-    private readonly VideoSettings _videoSettings;
+    private readonly Settings.VideoSettings _videoSettings;
     private readonly Progress _progress;
 
     private LevelFactory _levelFactory;
@@ -30,6 +30,10 @@ internal class LevelManager
 
     public event Action<string> ChangeTitle;
 
+    private int _currentDifficulty = 1;
+    private int _currentEndlessLevelId = -1;
+    private bool _starting = true;
+
     private enum LevelState
     {
         Menu,
@@ -37,7 +41,9 @@ internal class LevelManager
         Credits,
         Select,
         SelectLevel,
-        Level
+        Level,
+        Endless,
+        EndlessLevel
     }
 
     public LevelManager(Display display, GameWindow gameWindow, SettingsAndSaveManager settingsAndSaveManager,
@@ -46,7 +52,7 @@ internal class LevelManager
     {
         _settingsAndSaveManager = settingsAndSaveManager;
         _game = game;
-        _videoSettings = _settingsAndSaveManager.GetSetting<VideoSettings>();
+        _videoSettings = _settingsAndSaveManager.GetSetting<Settings.VideoSettings>();
         _progress = _settingsAndSaveManager.GetSave<Progress>();
         _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
@@ -59,6 +65,7 @@ internal class LevelManager
         {
             _levelState = LevelState.Level;
             ChangeLevel(_progress.MaxLevel + 1);
+            _starting = false;
         }
         else
             ChangeLevel();
@@ -89,21 +96,21 @@ internal class LevelManager
     public void SetAsLevelSelect()
         => _levelState = LevelState.SelectLevel;
 
-    public bool ChangeLevel(int level)
+    public void ChangeLevel(int level)
     {
         _currentLevel = _levelFactory.GetLevel(level);
         _levelId = level;
         ChangeTitle?.Invoke(_currentLevel.Name);
         RegisterEvents();
-        return true;
     }
 
-    private bool ChangeLevel()
+    private void ChangeLevel()
     {
         switch (_levelState)
         {
             case LevelState.Menu:
-                _currentLevel = _levelFactory.GetStartLevel();
+                _currentLevel = _levelFactory.GetStartLevel(_starting);
+                _starting = false;
                 break;
             case LevelState.Settings:
                 _currentLevel = _levelFactory.GetSettingsLevel();
@@ -113,7 +120,18 @@ internal class LevelManager
                 break;
             case LevelState.SelectLevel:
             case LevelState.Level:
-                return ChangeLevel(_levelId);
+                ChangeLevel(_levelId);
+                return;
+            case LevelState.Endless:
+                _currentLevel = _levelFactory.GetEndless();
+                _currentEndlessLevelId = -1;
+                _currentDifficulty = 1;
+                break;
+            case LevelState.EndlessLevel:
+                if (_currentEndlessLevelId == -1)
+                    _currentEndlessLevelId = _levelFactory.GetRandomDifficultyLevelId();
+                _currentLevel = _levelFactory.GetLevel(_currentEndlessLevelId, _currentDifficulty);
+                break;
             case LevelState.Credits:
                 _currentLevel = _levelFactory.GetCredits();
                 break;
@@ -121,7 +139,6 @@ internal class LevelManager
 
         ChangeTitle?.Invoke(_currentLevel.Name);
         RegisterEvents();
-        return true;
     }
 
     private void RegisterEvents()
@@ -156,6 +173,12 @@ internal class LevelManager
                 _levelState = LevelState.Credits;
                 ChangeLevel();
             };
+
+            mainMenu.EndlessClicked += delegate
+            {
+                _levelState = LevelState.Endless;
+                ChangeLevel();
+            };
         }
         else if (_currentLevel is Selection.Level selectLevel)
         {
@@ -173,7 +196,7 @@ internal class LevelManager
             {
                 _settingsAndSaveManager.LoadSettings();
                 _game.ApplySettings();
-                var videoSettings = _settingsAndSaveManager.GetSetting<VideoSettings>();
+                var videoSettings = _settingsAndSaveManager.GetSetting<Settings.VideoSettings>();
                 _levelFactory.ChangeScreenSize(videoSettings.Resolution.ToVector2());
                 _finishScreen = _levelFactory.GetFinishScreen();
                 ExitLevel();
@@ -188,6 +211,15 @@ internal class LevelManager
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
             settingsLevel.OnNameChange += delegate { ChangeTitle?.Invoke(settingsLevel.Name); };
         }
+        else if (_currentLevel is Endless.Level endlessLevel)
+        {
+            endlessLevel.OnExit += ExitLevel;
+            endlessLevel.Selected += delegate
+            {
+                _levelState = LevelState.EndlessLevel;
+                ChangeLevel();
+            };
+        }
         else
         {
             _currentLevel.OnExit += ExitLevel;
@@ -197,7 +229,13 @@ internal class LevelManager
     private void LevelFinishes()
     {
         Log.WriteInformation("On finish screen");
-        _onFinishScreen = true;
+        if (_levelState != LevelState.EndlessLevel)
+        {
+            _onFinishScreen = true;
+            return;
+        }
+
+        FinishScreenDisplayed();
     }
 
     private void FinishScreenDisplayed()
@@ -217,6 +255,11 @@ internal class LevelManager
                     Log.WriteInformation("Saved progress!");
                 }
 
+                if (_levelId == _levelFactory.MaxLevel())
+                {
+                    _levelState = LevelState.Menu;
+                }
+
                 _levelId++;
                 Log.WriteInformation($"Increased level id to {_levelId}");
                 break;
@@ -224,6 +267,15 @@ internal class LevelManager
             case LevelState.SelectLevel:
                 Log.WriteInformation($"Changing level to select screen.");
                 _levelState = LevelState.Select;
+                break;
+            case LevelState.EndlessLevel:
+                _currentEndlessLevelId = -1;
+                if (_currentDifficulty == 1)
+                    _currentDifficulty = 0;
+                _currentDifficulty += 5;
+                var endlessProgress = _settingsAndSaveManager.GetSave<EndlessProgress>();
+                endlessProgress.HighestLevel = _currentDifficulty / 5;
+                _settingsAndSaveManager.SaveSave();
                 break;
         }
 
@@ -235,6 +287,7 @@ internal class LevelManager
         _levelState = _levelState switch
         {
             LevelState.SelectLevel => LevelState.Select,
+            LevelState.EndlessLevel => LevelState.Endless,
             _ => LevelState.Menu
         };
 

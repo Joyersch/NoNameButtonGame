@@ -392,6 +392,7 @@ public class Level : SampleLevel
 
         AutoManaged.Add(_deleteColor);
         ColorListener.Add(_deleteColor, _deleteSave);
+        ColorListener.Add(_deleteColor, _deleteSave.Text);
 
         #endregion // Advanced
 

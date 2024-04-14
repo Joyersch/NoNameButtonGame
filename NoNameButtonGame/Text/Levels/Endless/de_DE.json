@@ -1,0 +1,22 @@
+[
+  {
+    "key": "Name",
+    "value": "Endlos"
+  },
+  {
+    "key": "Start",
+    "value": "Start"
+  },
+  {
+    "key": "Info1",
+    "value": "Im Endlos-Modus spielst du Level 3-9."
+  },
+  {
+    "key": "Info2",
+    "value": "Diese werden mit der Zeit immer schwieriger."
+  },
+  {
+    "key": "Best",
+    "value": "Derzeit hast du {0} level in einer Sitzung geschafft!"
+  }
+]

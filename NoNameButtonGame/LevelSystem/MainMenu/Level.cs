@@ -4,6 +4,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
+using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
@@ -17,6 +18,7 @@ public class Level : SampleLevel
     public event Action<object> StartClicked;
     public event Action<object> SelectClicked;
     public event Action<object> SettingsClicked;
+    public event Action<object> EndlessClicked;
     public event Action<object> CreditsClicked;
 
     private Cursor mouseCursor;
@@ -24,7 +26,8 @@ public class Level : SampleLevel
     private float _tilt = 0;
     private bool _leftTilt;
 
-    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry) : base(display, window, rand, effectsRegistry)
+    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry,
+        int maxLevel, bool panIn) : base(display, window, rand, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");
@@ -35,8 +38,13 @@ public class Level : SampleLevel
             .OnY(0.15F)
             .Centered()
             .Move();
-        startButton.Click += StartButtonPressed;
-        AutoManaged.Add(startButton);
+
+        var lockedStartButton = new LockButtonAddon(startButton);
+        if (progress.MaxLevel < maxLevel)
+            lockedStartButton.Unlock();
+        lockedStartButton.Click += StartButtonPressed;
+
+        AutoManaged.Add(lockedStartButton);
 
         var selectLevelButton = new Button(textComponent.GetValue("SelectButton"));
         selectLevelButton.GetAnchor(startButton)
@@ -51,18 +59,20 @@ public class Level : SampleLevel
 
         AutoManaged.Add(selectLevelButtonLock);
 
-        var unusedButton = new Button(string.Empty);
-        unusedButton.Click += CreditsLinkPressed;
-        unusedButton.GetAnchor(selectLevelButton)
+        var endlessButton = new Button(textComponent.GetValue("EndlessButton"));
+        endlessButton.Click += EndlessButtonPressed;
+        endlessButton.GetAnchor(selectLevelButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .Move();
-        var unusedLockButton = new LockButtonAddon(unusedButton);
-        AutoManaged.Add(unusedLockButton);
+        var endlessLockButton = new LockButtonAddon(endlessButton);
+        if (progress.MaxLevel >= maxLevel)
+            endlessLockButton.Unlock();
+        AutoManaged.Add(endlessLockButton);
 
         var settingsButton = new Button(textComponent.GetValue("SettingsButton"));
         settingsButton.Click += SettingsButtonPressed;
-        settingsButton.GetAnchor(unusedButton)
+        settingsButton.GetAnchor(endlessButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .Move();
@@ -105,6 +115,23 @@ public class Level : SampleLevel
             .SetDistanceY(-2F)
             .Move();
         AutoManaged.Add(credits);
+
+        if (panIn)
+        {
+            Camera.GetCalculator(Camera.Rectangle)
+                .OnCenter()
+                .ByGridY(1)
+                .Move();
+
+            Cursor.GetCalculator(Camera.Rectangle)
+                .OnCenter()
+                .ByGridY(1)
+                .Move();
+
+            var mover = new OverTimeMover(Camera, Vector2.Zero, 666F, OverTimeMover.MoveMode.Sin);
+            mover.Start();
+            AutoManaged.Add(mover);
+        }
     }
 
     private void StartButtonPressed(object sender)
@@ -118,6 +145,9 @@ public class Level : SampleLevel
 
     private void CreditsLinkPressed(object sender)
         => CreditsClicked?.Invoke(sender);
+
+    private void EndlessButtonPressed(object sender)
+        => EndlessClicked?.Invoke(sender);
 
     private void ExitButtonPressed(object sender)
         => Exit(sender);

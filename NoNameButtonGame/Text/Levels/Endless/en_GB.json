@@ -1,0 +1,22 @@
+[
+  {
+    "key": "Name",
+    "value": "Endless"
+  },
+  {
+    "key": "Start",
+    "value": "Start"
+  },
+  {
+    "key": "Info1",
+    "value": "In the endless mode you will be playing levels 3-9."
+  },
+  {
+    "key": "Info2",
+    "value": "These will increase in difficulty over time."
+  },
+  {
+    "key": "Best",
+    "value": "As of now, your highscore is {0} level(s) on one session!"
+  }
+]

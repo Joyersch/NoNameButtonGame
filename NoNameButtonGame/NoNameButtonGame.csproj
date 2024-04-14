@@ -53,6 +53,12 @@
     <EmbeddedResource Include="Text\Credits.md">
       <LogicalName>Text.Credits</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Endless\de_DE.json">
+      <LogicalName>Text.Levels.Endless.de_DE</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Text\Levels\Endless\en_GB.json">
+      <LogicalName>Text.Levels.Endless.en_GB</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="Text\Levels\FallbackLevel\de_DE.json">
       <LogicalName>Text.Levels.FallbackLevel.de_DE</LogicalName>
     </EmbeddedResource>
