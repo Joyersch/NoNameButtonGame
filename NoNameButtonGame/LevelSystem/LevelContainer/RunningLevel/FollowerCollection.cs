@@ -35,14 +35,14 @@ public class FollowerCollection : IManageable, IInteractable
     private bool _blockOnScreen;
     private float _distance;
 
-    public FollowerCollection(Cursor cursor, Camera camera)
+    public FollowerCollection(Cursor cursor, Camera camera, float spawnTime, float speed)
     {
         _cursor = cursor;
         _camera = camera;
-        _speed = 250F;
+        _speed = speed;
         _blocks = new List<GlitchBlockCollection>();
         _indicator = new List<Indicator>();
-        _invoker = new OverTimeInvoker(1000F, false);
+        _invoker = new OverTimeInvoker(spawnTime, false);
         _invoker.Trigger += SpawnNewBlock;
         _distance = _camera.RealSize.Length() / 2;
         _indicatorColor = new PulsatingRed();

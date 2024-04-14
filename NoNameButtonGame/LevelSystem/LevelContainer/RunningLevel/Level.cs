@@ -39,22 +39,29 @@ internal class Level : SampleLevel
     private bool _initializerIsOffscreen;
     private bool _initializerWasOnScreen;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, float difficulty = 1F)
+        : base(display, window, random, effectsRegistry)
     {
         var textComponent = TextProvider.GetText("Levels.RunningLevel");
 
         Name = textComponent.GetValue("Name");
 
+        var cleanDifficulty = (difficulty + 100F) / 1050F;
+        if (cleanDifficulty > 1F)
+            cleanDifficulty = 1F;
+
+        var flippedDifficulty = 1.5F - cleanDifficulty;
+
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
 
-        _timer = new Timer(37500D /*35,5 seconds*/, textComponent.GetValue("FinishPrefix"));
+        _timer = new Timer(35000D + cleanDifficulty * 30000F, textComponent.GetValue("FinishPrefix"));
         _timer.GetCalculator(Display.Screen)
             .OnX(0.005F)
             .OnY(0.01F)
             .Move();
         _timer.Trigger += Finish;
 
-        _followeres = new FollowerCollection(Cursor, Camera);
+        _followeres = new FollowerCollection(Cursor, Camera, 1000 * flippedDifficulty, 250F + 300F * cleanDifficulty);
         _followeres.Enter += Fail;
         AutoManaged.Add(_followeres);
 
@@ -63,7 +70,9 @@ internal class Level : SampleLevel
             DisplayDelay = 50
         };
 
+
         var size = new Vector2(GlitchBlock.ImageSize.X * 8, Camera.RealSize.Y);
+
         _initializer = new GlitchBlockCollection(size);
         _initializer.ChangeColor(GlitchBlock.Color);
         _initializer.GetCalculator(Camera.Rectangle)
@@ -76,6 +85,12 @@ internal class Level : SampleLevel
         var position = _initializer.GetPosition() + new Vector2(Camera.RealSize.X * 2, 0);
         _initializerMover = new OverTimeMover(_initializer, position, 10000, OverTimeMover.MoveMode.Lin);
         AutoManaged.Add(_initializerMover);
+
+        if (difficulty != 1F)
+        {
+            _initializerMover.ChangeTime(1F);
+            StartInfo();
+        }
 
         _button = new Button(textComponent.GetValue("StartButton"));
         _button.GetCalculator(Camera.Rectangle)
@@ -109,7 +124,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(_color);
 
         // activates idle spawner if 5 seconds pass
-        _idleTimer = new Timer(5000F, textComponent.GetValue("IdlePrefix"));
+        _idleTimer = new Timer(5000F * flippedDifficulty, textComponent.GetValue("IdlePrefix"));
         _idleTimer.Start();
         _idleTimer.GetAnchor(_timer)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -138,11 +153,7 @@ internal class Level : SampleLevel
 
             if (!_hasDisplayedInfo)
             {
-                _info.GetCalculator(Camera.Rectangle)
-                    .OnCenter()
-                    .Centered()
-                    .Move();
-                _info.Start();
+                StartInfo();
                 _hasDisplayedInfo = true;
             }
 
@@ -233,5 +244,14 @@ internal class Level : SampleLevel
 
         _timer.Draw(spriteBatch);
         _idleTimer.Draw(spriteBatch);
+    }
+
+    private void StartInfo()
+    {
+        _info.GetCalculator(Camera.Rectangle)
+            .OnCenter()
+            .Centered()
+            .Move();
+        _info.Start();
     }
 }
