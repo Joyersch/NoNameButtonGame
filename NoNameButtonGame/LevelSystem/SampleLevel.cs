@@ -208,7 +208,7 @@ public class SampleLevel : ILevel
     protected virtual void Finish(object sender)
         => Finish();
 
-    protected virtual void Finish()
+    public virtual void Finish()
         => OnFinish?.Invoke();
 
     public virtual void Exit(object sender)

@@ -247,6 +247,9 @@ internal class LevelManager
         ChangeLevel();
     }
 
-    public int GetCurrentLevel()
+    public int GetCurrentLevelId()
         => _levelId;
+
+    public SampleLevel GetCurrentLevel()
+        => _currentLevel;
 }

@@ -240,7 +240,7 @@ public class Level : SampleLevel
         base.Exit();
     }
 
-    protected override void Finish()
+    public override void Finish()
     {
         _save.Reset();
         _settingsAndSave.SaveSave();

@@ -13,9 +13,15 @@ public class LevelCommand : ICommand
 
 
         if (options.Length < 1)
-            return new[] { levelManager.GetCurrentLevel().ToString() };
+            return new[] { levelManager.GetCurrentLevelId().ToString() };
 
         var value = options[0].ToString();
+
+        if (options[0].ToString() == "complete")
+        {
+            levelManager.GetCurrentLevel().Finish();
+            return new[] { "Completed the current level!"};
+        }
 
         if (!int.TryParse(value, out int ival))
             return new[] { "Usage:", "level [level]" };
