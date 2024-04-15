@@ -24,7 +24,7 @@ public class LevelCommand : ICommand
         }
 
         if (!int.TryParse(value, out int ival))
-            return new[] { "Usage:", "level [level]" };
+            return new[] { "Usage:", "level (level)"};
 
         levelManager.SetAsLevelSelect();
         levelManager.ChangeLevel(ival);
