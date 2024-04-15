@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using MonoUtils.Settings;
 
 namespace NoNameButtonGame.LevelSystem.Settings;

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Helper;
-using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
@@ -24,8 +23,6 @@ public class SampleLevel : ILevel
     public event Action OnFail;
     public event Action OnExit;
     public event Action OnFinish;
-
-    public event Action<string> CurrentMusicEventHandler;
 
     public readonly Camera Camera;
     public Vector2 Window { get; protected set; }

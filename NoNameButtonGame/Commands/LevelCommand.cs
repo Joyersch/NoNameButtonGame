@@ -6,7 +6,7 @@ namespace NoNameButtonGame.Commands;
 
 public class LevelCommand : ICommand
 {
-    [CommandAttribute(Description = "Select a level", Name = "level")]
+    [Command(Description = "Select a level", Name = "level")]
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));

@@ -5,8 +5,6 @@ using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Objects;
-using MonoUtils.Ui.Objects.Buttons;
 using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
@@ -101,9 +99,4 @@ public class Level : SampleLevel
 
     private void SetNewMoveToLocationForCamera()
         => _mover.ChangeDestination(new Vector2(0, 360 * _cameraLevel));
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-    }
 }

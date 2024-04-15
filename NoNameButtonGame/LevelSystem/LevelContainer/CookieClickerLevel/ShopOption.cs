@@ -64,8 +64,8 @@ public class ShopOption : IInteractable, IMoveable
         _size = new Vector2(_button.GetSize().X, sizeY);
         _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
         _button.Click += ButtonClick;
-        _button.Enter += o => ButtonEnter?.Invoke();
-        _button.Leave += o => ButtonLeave?.Invoke();
+        _button.Enter += _ => ButtonEnter?.Invoke();
+        _button.Leave += _ => ButtonLeave?.Invoke();
 
         _infoMat = new MouseActionsMat(_textButton);
         _infoMat.Enter += _ => _isHover = true;

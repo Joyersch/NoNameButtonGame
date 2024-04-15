@@ -15,7 +15,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.ButtonGridLevel;
 public class Level : SampleLevel
 {
     private Timer _timer;
-    private float _difficulty;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, int difficulty = 1) :
         base(display, window, random, effectsRegistry)
@@ -24,7 +23,7 @@ public class Level : SampleLevel
 
         Name = textComponent.GetValue("Name");
 
-        ColorComponentRepository repository = new ColorComponentRepository(random, textComponent);
+        ColorComponentRepository repository = new ColorComponentRepository(random);
         ColorComponent[] colors = repository.GetByColorDistance(difficulty).ToArray();
         ColorComponentShuffler shuffler = new(colors, random);
 

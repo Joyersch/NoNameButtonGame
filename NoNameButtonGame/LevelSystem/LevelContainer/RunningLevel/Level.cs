@@ -27,7 +27,6 @@ internal class Level : SampleLevel
 
     private readonly FollowerCollection _followeres;
     private readonly OverTimeInvoker _idleSpawnerInvoker;
-    private readonly PulsatingRed _color;
 
     private readonly DelayedText _info;
     private bool _hasDisplayedInfo;
@@ -121,11 +120,11 @@ internal class Level : SampleLevel
         _idleSpawnerInvoker = new OverTimeInvoker(100F, false);
         _idleSpawnerInvoker.Trigger += delegate { _followeres.Spawn(); };
 
-        _color = new PulsatingRed()
+        var color = new PulsatingRed()
         {
             NoGradient = true,
         };
-        AutoManaged.Add(_color);
+        AutoManaged.Add(color);
 
         // activates idle spawner if 5 seconds pass
         _idleTimer = new Timer(5000F * flippedDifficulty, textComponent.GetValue("IdlePrefix"));
@@ -140,10 +139,10 @@ internal class Level : SampleLevel
         {
             Log.WriteInformation("Idle check confirm");
             _idleSpawnerInvoker.Start();
-            _color.Increment = 10;
+            color.Increment = 10;
         };
 
-        ColorListener.Add(_color, _idleTimer);
+        ColorListener.Add(color, _idleTimer);
 
         _gridCooldown = new OverTimeInvoker(500F, false)
         {
@@ -171,7 +170,7 @@ internal class Level : SampleLevel
             Log.WriteInformation("Idle check reset");
             _idleTimer.Reset();
             _idleSpawnerInvoker.Stop();
-            _color.Increment = 1;
+            color.Increment = 1;
             _canGridMove = false;
             _gridCooldown.Start();
         };

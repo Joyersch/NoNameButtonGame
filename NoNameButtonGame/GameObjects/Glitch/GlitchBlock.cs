@@ -1,11 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoUtils.Logic;
 using MonoUtils.Ui.Objects;
-using MonoUtils;
-using MonoUtils.Logging;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Color;

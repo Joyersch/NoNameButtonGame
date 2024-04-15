@@ -46,7 +46,7 @@ public class SelectButton : IButton
         _position = position;
         _size = ImageSize * scale;
         _scale = Vector2.One * scale;
-        _color = Microsoft.Xna.Framework.Color.White;
+        _color = Color.White;
 
         var hitbox = new[]
         {
@@ -102,7 +102,7 @@ public class SelectButton : IButton
         _rectangle = this.GetRectangle();
     }
 
-    public void ChangeColor(Microsoft.Xna.Framework.Color[] input)
+    public void ChangeColor(Color[] input)
     {
         _color = input[0];
     }
@@ -110,6 +110,6 @@ public class SelectButton : IButton
     public int ColorLength()
         => 1;
 
-    public Microsoft.Xna.Framework.Color[] GetColor()
+    public Color[] GetColor()
         => new[] { _color };
 }

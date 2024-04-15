@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Helper;
-using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;

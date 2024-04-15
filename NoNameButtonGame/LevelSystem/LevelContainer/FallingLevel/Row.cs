@@ -14,7 +14,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
     private Vector2 _position;
     private Vector2 _size;
 
-    private GlitchBlockCollection[] blocks;
+    private GlitchBlockCollection[] _blocks;
 
     public Rectangle Rectangle => new Rectangle(_position.ToPoint(), _size.ToPoint());
 
@@ -26,13 +26,11 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
 
     public Row(Vector2 position, Vector2 singleSize, float singleScale, int frame)
     {
-        blocks = new GlitchBlockCollection[10];
-        blocks[0] = new GlitchBlockCollection(position, singleSize, singleScale, frame);
+        _blocks = new GlitchBlockCollection[10];
+        _blocks[0] = new GlitchBlockCollection(position, singleSize, singleScale, frame);
 
-        blocks[0].Enter += o => Enter?.Invoke(o);
-        blocks[0].Click += o => Click?.Invoke(o);
-        blocks[0].Leave += o => Leave?.Invoke(o);
-        var lastblock = blocks[0];
+        _blocks[0].Click += o => Click?.Invoke(o);
+        var lastblock = _blocks[0];
         for (int i = 1; i < 10; i++)
         {
             var block = new GlitchBlockCollection(singleSize, singleScale, frame);
@@ -45,7 +43,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
             block.Click += o => Click?.Invoke(o);
             block.Leave += o => Leave?.Invoke(o);
             lastblock = block;
-            blocks[i] = block;
+            _blocks[i] = block;
         }
 
         _size = new Vector2(singleSize.X * 10, singleSize.Y);
@@ -56,7 +54,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
         for (int i = 0; i < 10; i++)
         {
             if (i != _disabled)
-                blocks[i].Update(gameTime);
+                _blocks[i].Update(gameTime);
         }
     }
 
@@ -65,7 +63,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
         for (int i = 0; i < 10; i++)
         {
             if (i != _disabled)
-                blocks[i].UpdateInteraction(gameTime, toCheck);
+                _blocks[i].UpdateInteraction(gameTime, toCheck);
         }
     }
 
@@ -74,7 +72,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
         for (int i = 0; i < 10; i++)
         {
             if (i != _disabled)
-                blocks[i].Draw(spriteBatch);
+                _blocks[i].Draw(spriteBatch);
         }
 
     }
@@ -89,7 +87,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
     {
         var offset = newPosition - _position;
         for (int i = 0; i < 10; i++)
-            blocks[i].Move(blocks[i].GetPosition() + offset);
+            _blocks[i].Move(_blocks[i].GetPosition() + offset);
         _position = newPosition;
     }
 

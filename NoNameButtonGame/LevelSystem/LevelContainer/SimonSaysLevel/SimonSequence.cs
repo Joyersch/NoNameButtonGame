@@ -4,34 +4,29 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 
 public class SimonSequence
 {
-    private readonly int _minimum;
-    private readonly int _maximum;
+
     private readonly int _length;
-    private readonly Random _random;
 
-    private readonly int[] data;
-    private int pointer;
+    private readonly int[] _data;
+    private int _pointer;
 
-    public int Pointer => pointer;
+    public int Pointer => _pointer;
 
     public SimonSequence(int minimum, int maximum, int length, Random random)
     {
-        _minimum = minimum;
-        _maximum = maximum;
         _length = length;
-        _random = random;
 
-        data = new int[length];
+        _data = new int[length];
         for (int i = 0; i < length; i++)
-            data[i] = random.Next(minimum, maximum);
+            _data[i] = random.Next(minimum, maximum);
     }
 
     public bool Next(int limit, out int value)
     {
-        value = data[pointer++];
-        if (pointer < _length && pointer < limit)
+        value = _data[_pointer++];
+        if (_pointer < _length && _pointer < limit)
             return true;
-        pointer = 0;
+        _pointer = 0;
         return false;
     }
 
@@ -39,12 +34,12 @@ public class SimonSequence
     {
         if (index > _length || index < 0)
             return false;
-        return data[index] == value;
+        return _data[index] == value;
     }
 
     public int[] GetRange(int start, int length)
-        => data[new Range(start, length)];
+        => _data[new Range(start, length)];
 
     public int[] GetAll()
-        => data;
+        => _data;
 }

@@ -1,13 +1,11 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
-using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.FinishScreen;
@@ -56,7 +54,7 @@ public class Level : SampleLevel
     {
         base.Update(gameTime);
 
-        if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left, true))
+        if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left))
             Finish();
     }
 }

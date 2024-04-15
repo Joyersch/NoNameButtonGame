@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using MonoUtils.Logging;
-using MonoUtils.Logic.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.ButtonGridLevel;
 
@@ -11,7 +8,7 @@ public class ColorComponentRepository : List<ColorComponent>
 {
     private readonly Random _random;
 
-    public ColorComponentRepository(Random random, TextComponent text)
+    public ColorComponentRepository(Random random)
     {
         _random = random;
         AddRange(new[]

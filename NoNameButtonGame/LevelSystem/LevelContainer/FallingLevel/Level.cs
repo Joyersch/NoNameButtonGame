@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
@@ -17,10 +16,10 @@ internal class Level : SampleLevel
     private readonly Random _random;
     private Queue<(Row row, OverTimeMover mover)> _rows;
 
-    private bool _skipCreation = false;
-    private int _totalRowsCount = 0;
+    private bool _skipCreation;
+    private int _totalRowsCount;
 
-    private bool _hasWon = false;
+    private bool _hasWon;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
         float difficulty = 1F) : base(display,
@@ -47,7 +46,6 @@ internal class Level : SampleLevel
 
         int oneGridLength = Camera.Rectangle.Size.Y;
         var size = new Vector2(GlitchBlock.ImageSize.X * (singleScale * wallWidth), oneGridLength + singleHeight);
-        float height = size.Y / singleHeight;
         var left = new GlitchBlockCollection(size, singleScale);
         left.GetCalculator(Camera.Rectangle)
             .Move();

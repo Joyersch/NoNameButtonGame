@@ -43,7 +43,8 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave, EffectsRegistry effectsRegistry) : base(display,
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
+        EffectsRegistry effectsRegistry) : base(display,
         window, random, effectsRegistry)
     {
         _settingsAndSave = settingsAndSave;
@@ -108,7 +109,7 @@ public class Level : SampleLevel
 
         var clickButton = new Button(textComponent.GetValue("BakeABean"));
         clickButton.Move(oneScreen / 2 - clickButton.GetSize() / 2);
-        clickButton.Click += _ => _shop.IncreaseBeanCount();
+        clickButton.Click += _ => _shop!.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
 
         // originally it was planned to have snake on the distraction screen but the idea was cut...
@@ -123,7 +124,7 @@ public class Level : SampleLevel
         _finishButton.Click += Finish;
         _finishButton.GetCalculator(Camera.Rectangle).OnCenter().Centered().ByGridX(-1F).Move();
 
-        var infos = new string[4]
+        var infos = new[]
         {
             textComponent.GetValue("ShopInfo1"),
             textComponent.GetValue("ShopInfo2"),
@@ -131,7 +132,7 @@ public class Level : SampleLevel
             textComponent.GetValue("ShopInfo4")
         };
 
-        var shopOptions = new string[4]
+        var shopOptions = new[]
         {
             textComponent.GetValue("ShopOption1"),
             textComponent.GetValue("ShopOption2"),
@@ -139,7 +140,7 @@ public class Level : SampleLevel
             textComponent.GetValue("ShopOption4")
         };
 
-        var shopOptionsSus = new string[4]
+        var shopOptionsSus = new[]
         {
             textComponent.GetValue("ShopOption1Sus"),
             textComponent.GetValue("ShopOption2Sus"),

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -57,7 +55,7 @@ public class NoNameGame : SimpleGame
         if (!int.TryParse(seedText, out int seed))
             seed = Guid.NewGuid().GetHashCode();
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(Display, Window, SettingsAndSaveManager, this, _effectsRegistry, seed);
+        _levelManager = new LevelManager(Display, SettingsAndSaveManager, this, _effectsRegistry, seed);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
 

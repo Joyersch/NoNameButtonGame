@@ -122,8 +122,6 @@ public class SimonSays : IManageable, IInteractable
     {
         if (_state != SimonAction.UserCanInput)
             return;
-        var button = (SimonSaysButton)obj;
-
 
         // first should always find something in the range of the values dict since the button color is assigned using said dict
         int input = _buttons.ToList().IndexOf((SimonSaysButton)obj);
@@ -183,7 +181,7 @@ public class SimonSays : IManageable, IInteractable
                 foreach (var i in played)
                     color[j++] = _infoDisplayColors[i];
 
-                string value = played.Aggregate(string.Empty, (current, i) => current + "[block]");
+                string value = played.Aggregate(string.Empty, (current, _) => current + "[block]");
                 _enteredSequenceDisplay.ChangeText(value);
                 _enteredSequenceDisplay.ChangeColor(color);
                 break;

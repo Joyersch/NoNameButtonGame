@@ -5,7 +5,6 @@ using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -20,11 +19,6 @@ public class Level : SampleLevel
     public event Action<object> SettingsClicked;
     public event Action<object> EndlessClicked;
     public event Action<object> CreditsClicked;
-
-    private Cursor mouseCursor;
-
-    private float _tilt = 0;
-    private bool _leftTilt;
 
     public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry,
         int maxLevel, bool panIn) : base(display, window, rand, effectsRegistry)
@@ -96,7 +90,7 @@ public class Level : SampleLevel
         AutoManaged.Add(header);
 
         var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        var version = new Text($"v{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}",
+        var version = new Text($"v{assemblyVersion!.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}",
             Vector2.Zero, 0.5F);
         version.GetCalculator(Camera.Rectangle)
             .OnX(0.905F)

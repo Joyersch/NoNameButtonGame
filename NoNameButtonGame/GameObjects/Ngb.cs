@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
@@ -28,8 +27,8 @@ public class Nbg : IManageable, IMoveable, ILayerable
 
     public float Speed = 60;
 
-    private bool MoveUp;
-    private bool MoveLeft;
+    private bool _moveUp;
+    private bool _moveLeft;
 
     public static Texture2D Texture;
 
@@ -53,10 +52,10 @@ public class Nbg : IManageable, IMoveable, ILayerable
         float by = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000 * Speed;
 
         var position = _position;
-        position.Y += MoveUp ? -by : by;
-        position.X += MoveLeft ? -by : by;
+        position.Y += _moveUp ? -by : by;
+        position.X += _moveLeft ? -by : by;
         bool newColor = false;
-        bool hasChanged = false;
+        bool hasChanged;
         do
         {
             hasChanged = false;
@@ -64,24 +63,24 @@ public class Nbg : IManageable, IMoveable, ILayerable
             {
                 var difference = _area.Top - position.Y;
 
-                MoveUp = !MoveUp;
+                _moveUp = !_moveUp;
                 newColor = true;
                 hasChanged = true;
 
 
                 by -= difference;
-                position.Y += by * (MoveUp ? -1 : 1);
+                position.Y += by * (_moveUp ? -1 : 1);
             }
 
             if (position.Y + _size.Y >= _area.Bottom)
             {
                 var difference = _area.Bottom - (position.Y + _size.Y);
 
-                MoveUp = !MoveUp;
+                _moveUp = !_moveUp;
                 newColor = true;
                 hasChanged = true;
                 by -= difference;
-                position.Y += by * (MoveUp ? -1 : 1);
+                position.Y += by * (_moveUp ? -1 : 1);
             }
 
             if (position.X <= _area.Left)
@@ -89,12 +88,12 @@ public class Nbg : IManageable, IMoveable, ILayerable
                 var difference = _area.Left - position.X;
 
 
-                MoveLeft = !MoveLeft;
+                _moveLeft = !_moveLeft;
                 newColor = true;
                 hasChanged = true;
 
                 by -= difference;
-                position.X += by * (MoveLeft ? -1 : 1);
+                position.X += by * (_moveLeft ? -1 : 1);
             }
 
             if (position.X + _size.X >= _area.Right)
@@ -104,11 +103,11 @@ public class Nbg : IManageable, IMoveable, ILayerable
                 if (Math.Abs(difference - by) < float.Epsilon)
                     difference *= 0;
 
-                MoveLeft = !MoveLeft;
+                _moveLeft = !_moveLeft;
                 newColor = true;
                 hasChanged = true;
                 by -= difference;
-                position.X += by * (MoveLeft ? -1 : 1);
+                position.X += by * (_moveLeft ? -1 : 1);
             }
         } while (hasChanged);
 

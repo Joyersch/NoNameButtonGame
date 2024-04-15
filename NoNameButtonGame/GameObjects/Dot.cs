@@ -1,7 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
@@ -20,8 +18,6 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable
     public float Rotation { get; set; }
 
     public Rectangle Rectangle { get; private set; }
-
-    private Vector2 ImageSize = new Vector2(1, 1);
 
     public static Texture2D Texture;
 

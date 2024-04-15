@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Color;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
@@ -51,7 +48,7 @@ public class Level : SampleLevel
         }
 
         OverTimeMover mover = new OverTimeMover(Camera,
-            new Vector2(Camera.Rectangle.Center.X, newLine.Position.Y + Camera.Rectangle.Height / 2),
+            new Vector2(Camera.Rectangle.Center.X, newLine!.Position.Y + Camera.Rectangle.Height / 2F),
             (pointer + -Camera.Rectangle.Y) * 50, OverTimeMover.MoveMode.Lin);
 
         mover.ArrivedOnDestination += Exit;

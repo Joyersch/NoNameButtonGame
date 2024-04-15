@@ -1,8 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using MonoUtils;
-using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
@@ -140,9 +137,4 @@ internal class Level : SampleLevel
 
     private Vector2 RightOfCamera()
         => Camera.Position + new Vector2(Camera.Size.X / 2, 0);
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-    }
 }

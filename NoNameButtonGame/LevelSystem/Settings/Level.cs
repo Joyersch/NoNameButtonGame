@@ -22,15 +22,7 @@ namespace NoNameButtonGame.LevelSystem.Settings;
 
 public class Level : SampleLevel
 {
-    private readonly NoNameGame _game;
-    private readonly VideoSettings _videoSettings;
-    private readonly AudioSettings _audioSettings;
     private readonly LanguageSettings _languageSettings;
-    private readonly AdvancedSettings _advancedSettings;
-
-    private readonly SampleObject _anchorLeft;
-    private readonly SampleObject _anchorMiddle;
-    private readonly SampleObject _anchorRight;
 
     public event Action<Vector2> OnWindowResize;
 
@@ -75,9 +67,7 @@ public class Level : SampleLevel
     private Button _discardButton;
     private Dot _highlight;
 
-    private int _deleteButtonClicked = 0;
     private Button _deleteSave;
-    private PulsatingRed _deleteColor;
 
     private enum MenuState
     {
@@ -92,11 +82,11 @@ public class Level : SampleLevel
         display,
         window, random, effectsRegistry)
     {
-        _game = game;
-        _advancedSettings = settingsAndSave.GetSetting<AdvancedSettings>();
-        _videoSettings = settingsAndSave.GetSetting<VideoSettings>();
+        var game1 = game;
+        var advancedSettings = settingsAndSave.GetSetting<AdvancedSettings>();
+        var videoSettings = settingsAndSave.GetSetting<VideoSettings>();
         _languageSettings = settingsAndSave.GetSetting<LanguageSettings>();
-        _audioSettings = settingsAndSave.GetSetting<AudioSettings>();
+        var audioSettings = settingsAndSave.GetSetting<AudioSettings>();
 
         OnExit += delegate
         {
@@ -108,20 +98,20 @@ public class Level : SampleLevel
                 _saveDialog = true;
         };
 
-        _anchorLeft = new SampleObject(Vector2.Zero, Vector2.One);
-        _anchorLeft.GetCalculator(Camera.Rectangle)
+        var anchorLeft = new SampleObject(Vector2.Zero, Vector2.One);
+        anchorLeft.GetCalculator(Camera.Rectangle)
             .OnX(1, 4)
             .OnY(0.3F)
             .Move();
 
-        _anchorMiddle = new SampleObject(Vector2.Zero, Vector2.One);
-        _anchorMiddle.GetCalculator(Camera.Rectangle)
+        var anchorMiddle = new SampleObject(Vector2.Zero, Vector2.One);
+        anchorMiddle.GetCalculator(Camera.Rectangle)
             .OnX(2, 4)
             .OnY(0.3F)
             .Move();
 
-        _anchorRight = new SampleObject(Vector2.Zero, Vector2.One);
-        _anchorRight.GetCalculator(Camera.Rectangle)
+        var anchorRight = new SampleObject(Vector2.Zero, Vector2.One);
+        anchorRight.GetCalculator(Camera.Rectangle)
             .OnX(3, 4)
             .OnY(0.3F)
             .Move();
@@ -178,7 +168,7 @@ public class Level : SampleLevel
         };
 
         var index = resolutions.IndexOf(resolutions.First(r =>
-            ((Resolution)r).Width == _videoSettings.Resolution.Width));
+            r.Width == videoSettings.Resolution.Width));
 
         _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1, resolutions, index);
 
@@ -191,16 +181,16 @@ public class Level : SampleLevel
         _resolution.ValueChanged += delegate(object o)
         {
             var resolution = (Resolution)o;
-            _videoSettings.Resolution = resolution;
+            videoSettings.Resolution = resolution;
             SetScreen(resolution.ToVector2());
             Log.WriteInformation($"Changed resolution to: {resolution}");
             OnWindowResize?.Invoke(Window);
-            _game.ApplyResolution(resolution);
+            game1.ApplyResolution(resolution);
         };
 
         _videoCollection.Add(_resolution);
 
-        _fixedStep = new Checkbox(_videoSettings.IsFixedStep);
+        _fixedStep = new Checkbox(videoSettings.IsFixedStep);
         _fixedStep.GetAnchor(_resolution)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -209,8 +199,8 @@ public class Level : SampleLevel
 
         _fixedStep.ValueChanged += delegate(bool value)
         {
-            _videoSettings.IsFixedStep = value;
-            _game.ApplyFixedStep(value);
+            videoSettings.IsFixedStep = value;
+            game1.ApplyFixedStep(value);
         };
 
         _videoCollection.Add(_fixedStep);
@@ -219,7 +209,7 @@ public class Level : SampleLevel
 
         _videoCollection.Add(_fixedStepLabel);
 
-        _fullscreen = new Checkbox(_videoSettings.IsFullscreen);
+        _fullscreen = new Checkbox(videoSettings.IsFullscreen);
         _fullscreen.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -228,8 +218,8 @@ public class Level : SampleLevel
 
         _fullscreen.ValueChanged += delegate(bool value)
         {
-            _videoSettings.IsFullscreen = value;
-            _game.ApplyFullscreen(value);
+            videoSettings.IsFullscreen = value;
+            game1.ApplyFullscreen(value);
         };
 
         _videoCollection.Add(_fullscreen);
@@ -262,7 +252,7 @@ public class Level : SampleLevel
             new Volume(1F),
         };
 
-        Volume currentVolume = volumeValues.First(i => i.Value == _audioSettings.MusicVolume);
+        Volume currentVolume = volumeValues.First(i => i.Value == audioSettings.MusicVolume);
         _musicVolume =
             new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
         _musicVolume.GetCalculator(Camera.Rectangle)
@@ -273,14 +263,14 @@ public class Level : SampleLevel
         _musicVolume.ValueChanged += delegate(object o)
         {
             Volume v = (Volume)o;
-            _audioSettings.MusicVolume = v.Value;
+            audioSettings.MusicVolume = v.Value;
         };
         _audioCollection.Add(_musicVolume);
 
         _musicVolumeLabel = new Text(string.Empty);
         _audioCollection.Add(_musicVolumeLabel);
 
-        currentVolume = volumeValues.First(i => i.Value == _audioSettings.SoundEffectVolume);
+        currentVolume = volumeValues.First(i => i.Value == audioSettings.SoundEffectVolume);
         _soundEffectVolume =
             new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
         _soundEffectVolume.GetCalculator(Camera.Rectangle)
@@ -291,7 +281,7 @@ public class Level : SampleLevel
         _soundEffectVolume.ValueChanged += delegate(object o)
         {
             Volume v = (Volume)o;
-            _audioSettings.SoundEffectVolume = v.Value;
+            audioSettings.SoundEffectVolume = v.Value;
         };
         _audioCollection.Add(_soundEffectVolume);
 
@@ -328,13 +318,13 @@ public class Level : SampleLevel
 
         #region Advanced
 
-        _consoleEnabled = new Checkbox(_advancedSettings.ConsoleEnabled);
+        _consoleEnabled = new Checkbox(advancedSettings.ConsoleEnabled);
         _consoleEnabled.ValueChanged += delegate(bool value)
         {
-            _advancedSettings.ConsoleEnabled = value;
-            _game.ApplyConsole(value);
+            advancedSettings.ConsoleEnabled = value;
+            game1.ApplyConsole(value);
         };
-        _consoleEnabled.GetAnchor(_anchorLeft)
+        _consoleEnabled.GetAnchor(anchorLeft)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             //.SetDistanceY(4F)
@@ -347,11 +337,11 @@ public class Level : SampleLevel
         _advancedCollection.Add(_consoleEnabledLabel);
 
 
-        _showElapsedTime = new Checkbox(_advancedSettings.ShowElapsedTime);
+        _showElapsedTime = new Checkbox(advancedSettings.ShowElapsedTime);
         _showElapsedTime.ValueChanged += (c) =>
         {
-            _advancedSettings.ShowElapsedTime = c;
-            _game.ShowElapsedTime(c);
+            advancedSettings.ShowElapsedTime = c;
+            game1.ShowElapsedTime(c);
         };
         _showElapsedTime.GetAnchor(_consoleEnabled)
             .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
@@ -377,22 +367,22 @@ public class Level : SampleLevel
         deleteSaveHold.Click += delegate
         {
             settingsAndSave.DeleteSave();
-            _game.Exit();
+            game1.Exit();
         };
 
         _advancedCollection.Add(deleteSaveHold);
 
 
-        _deleteColor = new PulsatingRed
+        var deleteColor = new PulsatingRed
         {
             GameTimeStepInterval = 14F,
             Increment = 1,
             NoGradient = true
         };
 
-        AutoManaged.Add(_deleteColor);
-        ColorListener.Add(_deleteColor, _deleteSave);
-        ColorListener.Add(_deleteColor, _deleteSave.Text);
+        AutoManaged.Add(deleteColor);
+        ColorListener.Add(deleteColor, _deleteSave);
+        ColorListener.Add(deleteColor, _deleteSave.Text);
 
         #endregion // Advanced
 
@@ -449,7 +439,7 @@ public class Level : SampleLevel
             _advancedButton.UpdateInteraction(gameTime, Cursor);
             _advancedButton.Update(gameTime);
 
-            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseUp, true))
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseUp))
             {
                 if (_menuState == MenuState.Advanced)
                     _menuState = MenuState.Video;
@@ -458,7 +448,7 @@ public class Level : SampleLevel
             }
 
 
-            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseDown, true))
+            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseDown))
             {
                 if (_menuState == MenuState.Video)
                     _menuState = MenuState.Advanced;

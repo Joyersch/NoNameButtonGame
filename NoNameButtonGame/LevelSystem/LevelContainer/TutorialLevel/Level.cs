@@ -15,11 +15,7 @@ internal class Level : SampleLevel
 {
     private readonly LockButtonAddon _lockButtonAddon;
     private readonly OverTimeMover _mover;
-    private readonly OverTimeInvoker _invoker;
-    private readonly DelayedText _endText;
 
-    private int _screen;
-    private int _maxScreen;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
     {
@@ -55,7 +51,6 @@ internal class Level : SampleLevel
         #endregion // StartScreen
 
         screen.Y += Camera.Rectangle.Height;
-        _maxScreen++;
 
         _mover = new OverTimeMover(Camera, screen.Location.ToVector2(), 600F, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);
@@ -102,7 +97,6 @@ internal class Level : SampleLevel
         #endregion // LockButtonScreen
 
         screen.Y += Camera.Rectangle.Height;
-        _maxScreen++;
 
         #region CounterButtonScreen
 
@@ -136,7 +130,6 @@ internal class Level : SampleLevel
         #endregion // CounterButtonScreen
 
         screen.Y += Camera.Rectangle.Height;
-        _maxScreen++;
 
         #region HoldButtonScreen
 
@@ -169,7 +162,6 @@ internal class Level : SampleLevel
         #endregion // HoldButtonScreen
 
         screen.Y += Camera.Rectangle.Height;
-        _maxScreen++;
     }
 
     private void MoveToNextScreen(object sender)
@@ -179,7 +171,6 @@ internal class Level : SampleLevel
 
         _mover.ChangeDestination(new Vector2(Camera.Position.X, Camera.Position.Y + Camera.Rectangle.Height));
         _mover.Start();
-        _screen++;
     }
 
     private void MagicButtonOnClick(object obj)

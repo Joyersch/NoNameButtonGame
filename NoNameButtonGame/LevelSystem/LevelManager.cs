@@ -13,7 +13,6 @@ internal class LevelManager
 {
     private readonly SettingsAndSaveManager _settingsAndSaveManager;
     private readonly NoNameGame _game;
-    private readonly Settings.VideoSettings _videoSettings;
     private readonly Progress _progress;
 
     private LevelFactory _levelFactory;
@@ -46,17 +45,17 @@ internal class LevelManager
         EndlessLevel
     }
 
-    public LevelManager(Display display, GameWindow gameWindow, SettingsAndSaveManager settingsAndSaveManager,
+    public LevelManager(Display display, SettingsAndSaveManager settingsAndSaveManager,
         NoNameGame game, EffectsRegistry effectsRegistry,
         int? seed = null)
     {
         _settingsAndSaveManager = settingsAndSaveManager;
         _game = game;
-        _videoSettings = _settingsAndSaveManager.GetSetting<Settings.VideoSettings>();
+        var videoSettings = _settingsAndSaveManager.GetSetting<Settings.VideoSettings>();
         _progress = _settingsAndSaveManager.GetSave<Progress>();
         _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
-        _levelFactory = new LevelFactory(display, _videoSettings.Resolution.ToVector2(), random,
+        _levelFactory = new LevelFactory(display, videoSettings.Resolution.ToVector2(), random,
             settingsAndSaveManager, game, _progress, effectsRegistry);
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
@@ -211,7 +210,7 @@ internal class LevelManager
             settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
             settingsLevel.OnNameChange += delegate { ChangeTitle?.Invoke(settingsLevel.Name); };
         }
-        else if (_currentLevel is Endless.Level endlessLevel)
+        else if (_currentLevel is Level endlessLevel)
         {
             endlessLevel.OnExit += ExitLevel;
             endlessLevel.Selected += delegate
