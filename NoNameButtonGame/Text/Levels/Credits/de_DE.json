@@ -4,27 +4,79 @@
     "value": "Abspann"
   },
   {
-    "key": "AGame",
-    "value": "Ein spiel von:"
+    "key": "PreambleText1",
+    "value": "Hallo,"
   },
   {
-    "key": "Music",
-    "value": "Musik von:"
+    "key": "PreambleText2",
+    "value": "danke das du dir die Credits anschaust!"
   },
   {
-    "key": "Art",
-    "value": "Grafiken von:"
+    "key": "PreambleText3",
+    "value": "Das machen nicht viele, kannst dir auf die Schulter klopfen."
   },
   {
-    "key": "Source",
-    "value": "Den Quellcode des Spiels findet man unter:"
+    "key": "FirstBlock1",
+    "value": "Dieses Spiel habe ich Richtung 2019 angefangen und gegen 2021 die 1.0 fertig gestellt."
   },
   {
-    "key": "SpecialThanks",
-    "value": "Besonderer Dank an:"
+    "key": "FirstBlock2",
+    "value": "Danach, in 2023 wollte ich den Quellcode etwas aufräumen."
   },
   {
-    "key": "Testing",
-    "value": "Das Spiel wurde getestet durch:"
+    "key": "FirstBlock3",
+    "value": "Dies zog sich dann bis 2024."
+  },
+  {
+    "key": "FirstBlock4",
+    "value": "Der Grund dafür? Relativ einfach...."
+  },
+  {
+    "key": "FirstBlock5",
+    "value": "Das Spiel ist so gut wie neu geschrieben."
+  },
+  {
+    "key": "SecondBlock1",
+    "value": "Zuerst war es nur hier und da etwas komisches verhalten beheben."
+  },
+  {
+    "key": "SecondBlock2",
+    "value": "Danach wollte ich das ich stellen wieder verwenden kann."
+  },
+  {
+    "key": "SecondBlock3",
+    "value": "Und jetzt über ein Jahr später muss ich sagen... ich hab sehr viel zum Wiederverwenden"
+  },
+  {
+    "key": "ThirdBlock1",
+    "value": "Den Quellcode für dieses Spiel kann hier gefunden werden:"
+  },
+  {
+    "key": "ThanksBlock1",
+    "value": "Ich möchte mich einmal bei ein paar Personen bedanken:"
+  },
+  {
+    "key": "ThanksRob",
+    "value": "Für die nette Musik in diesem Spiel!"
+  },
+  {
+    "key": "ThanksOLC",
+    "value": "Für sehr verständliche und angenehme Erklärungsvideos für komplexe Spielentwicklungsthemen."
+  },
+  {
+    "key": "ThanksSimple",
+    "value": "Weil das eben dazu gehört!"
+  },
+  {
+    "key": "ThanksPirate",
+    "value": "Für die motivierenen Worte weiter an diesen Projekt zu arbeiten"
+  },
+  {
+    "key": "LastBlock1",
+    "value": "Damit wäre alles gesagt."
+  },
+  {
+    "key": "LastBlock2",
+    "value": "Man riecht sich,"
   }
 ]
