@@ -124,7 +124,7 @@ internal class LevelManager
             case LevelState.Endless:
                 _currentLevel = _levelFactory.GetEndless();
                 _currentEndlessLevelId = -1;
-                _currentDifficulty = 1;
+                _currentDifficulty = 2;
                 break;
             case LevelState.EndlessLevel:
                 if (_currentEndlessLevelId == -1)
@@ -269,7 +269,7 @@ internal class LevelManager
                 break;
             case LevelState.EndlessLevel:
                 _currentEndlessLevelId = -1;
-                if (_currentDifficulty == 1)
+                if (_currentDifficulty < 10)
                     _currentDifficulty = 0;
                 _currentDifficulty += 10;
                 var endlessProgress = _settingsAndSaveManager.GetSave<EndlessProgress>();
