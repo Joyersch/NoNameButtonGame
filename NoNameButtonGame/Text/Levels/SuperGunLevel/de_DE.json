@@ -1,6 +1,14 @@
 [
   {
     "key": "Name",
-    "value": "[SBO]9[SBC]"
+    "value": "Ist das ein Gewehr??!"
+  },
+  {
+    "key": "Gun",
+    "value": "Gewehr"
+  },
+  {
+    "key": "Finish",
+    "value": "Fertig"
   }
 ]
