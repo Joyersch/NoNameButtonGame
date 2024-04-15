@@ -6,7 +6,7 @@ public class VideoSettings : ISettings
 {
     public Resolution Resolution { get; set; } = new Resolution(1280, 720);
 
-    public bool IsFixedStep { get; set; } = false;
+    public bool IsFixedStep { get; set; } = true;
 
     public bool IsFullscreen { get; set; } = false;
 }
