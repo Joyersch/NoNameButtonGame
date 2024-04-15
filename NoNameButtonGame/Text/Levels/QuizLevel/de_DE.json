@@ -7,7 +7,7 @@
     "key": "Questions",
     "value": [
       {
-        "Question": "Fangen wir einfach an. Was ist 2+2",
+        "Question": "Fangen wir einfach an. Was ist 2 + 2",
         "Answers": [
           {
             "Answer": "6",
@@ -24,18 +24,69 @@
         ]
       },
       {
-        "Question": "Gute Arbeit. Was für ein Level ist dieses Level?",
+        "Question": "Weiter so! Wenn 3 + 4 = 5. Was ist 5 + 5?",
         "Answers": [
           {
-            "Answer": "4",
+            "Answer": "7",
             "IsCorrect": true
+          },
+          {
+            "Answer": "6",
+            "IsCorrect": false
           },
           {
             "Answer": "5",
             "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Question": "Welcher Stoff ist rechts von Zinn?",
+        "Answers": [
+          {
+            "Answer": "Iridium",
+            "IsCorrect": false
           },
           {
-            "Answer": "6",
+            "Answer": "Indium",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "Antimon",
+            "IsCorrect": true
+          }
+        ]
+      },
+      {
+        "Question": "Ab vie wiel Grad Kelvin gefriert Wasser?",
+        "Answers": [
+          {
+            "Answer": "273.15",
+            "IsCorrect": true
+          },
+          {
+            "Answer": "32",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "491.67",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Question": "Was ist die nächste Primzahl nach 87679",
+        "Answers": [
+          {
+            "Answer": "87681",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "87683",
+            "IsCorrect": true
+          },
+          {
+            "Answer": "87685",
             "IsCorrect": false
           }
         ]

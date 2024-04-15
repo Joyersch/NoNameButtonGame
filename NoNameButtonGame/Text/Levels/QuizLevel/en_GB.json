@@ -7,7 +7,7 @@
     "key": "Questions",
     "value": [
       {
-        "Question": "Lets start easy. What is 2+2",
+        "Question": "To start, what is 2 + 2?",
         "Answers": [
           {
             "Answer": "6",
@@ -18,24 +18,75 @@
             "IsCorrect": true
           },
           {
-            "Answer": "Fish",
+            "Answer": "Fisch",
             "IsCorrect": false
           }
         ]
       },
       {
-        "Question": "Good job! On what level are we?",
+        "Question": "Keep going! If 3 + 4 = 5, than what is 5 + 5?",
         "Answers": [
           {
-            "Answer": "4",
+            "Answer": "7",
             "IsCorrect": true
+          },
+          {
+            "Answer": "6",
+            "IsCorrect": false
           },
           {
             "Answer": "5",
             "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Question": "What element is to the right of tin?",
+        "Answers": [
+          {
+            "Answer": "Iridium",
+            "IsCorrect": false
           },
           {
-            "Answer": "6",
+            "Answer": "Indium",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "Antimony",
+            "IsCorrect": true
+          }
+        ]
+      },
+      {
+        "Question": "At what degree in kelvin does water freeze?",
+        "Answers": [
+          {
+            "Answer": "273.15",
+            "IsCorrect": true
+          },
+          {
+            "Answer": "32",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "491.67",
+            "IsCorrect": false
+          }
+        ]
+      },
+      {
+        "Question": "What is the next prime number after 87679",
+        "Answers": [
+          {
+            "Answer": "87681",
+            "IsCorrect": false
+          },
+          {
+            "Answer": "87683",
+            "IsCorrect": true
+          },
+          {
+            "Answer": "87685",
             "IsCorrect": false
           }
         ]
