@@ -8,6 +8,8 @@
     <Title>NoNameButtonGame</Title>
     <Authors>Erik Schnittker</Authors>
     <PackageProjectUrl>https://github.com/Joyersch/NoNameButtonGame</PackageProjectUrl>
+    <Company>Joy Schnittker</Company>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
