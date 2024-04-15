@@ -105,7 +105,7 @@ public class Level : SampleLevel
             .Move();
         AutoManaged.Add(version);
 
-        var credits = new ClickableText("made by Joyersch");
+        var credits = new ClickableText(textComponent.GetValue("CreditsText"));
         credits.ChangeColor(ClickableText.LinkColor);
         credits.Click += CreditsLinkPressed;
         credits.GetAnchor(header)

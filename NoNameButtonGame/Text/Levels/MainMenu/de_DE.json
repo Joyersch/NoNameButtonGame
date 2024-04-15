@@ -22,5 +22,9 @@
   {
     "key": "ExitButton",
     "value": "Verlassen"
+  },
+  {
+    "key": "CreditsText",
+    "value": "gemacht durch Joyersch"
   }
 ]
