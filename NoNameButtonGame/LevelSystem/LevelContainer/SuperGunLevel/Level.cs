@@ -25,7 +25,7 @@ internal class Level : SampleLevel
     private float _boostVelocity;
     private OverTimeInvoker _createShot;
 
-    private Queue<(Vector2 direction, GlitchBlockCollection shot)> _shots;
+    private List<(Vector2 direction, GlitchBlockCollection shot)> _shots;
 
     private Text _gun;
 
@@ -47,7 +47,7 @@ internal class Level : SampleLevel
         _boostCallTime = _baseCallTime / 3;
         _boostVelocity = _baseVelocity * 3;
 
-        _shots = new Queue<(Vector2 direction, GlitchBlockCollection shot)>();
+        _shots = new List<(Vector2 direction, GlitchBlockCollection shot)>();
 
         _gun = new Text(textComponent.GetValue("Gun"));
         _gun.GetCalculator(Camera.Rectangle)
@@ -103,6 +103,8 @@ internal class Level : SampleLevel
             shot.shot.Move(shot.shot.GetPosition() + shot.direction * velocity);
             shot.shot.Update(gameTime);
             shot.shot.UpdateInteraction(gameTime, Cursor);
+            if (!shot.shot.Rectangle.Intersects(Camera.Rectangle))
+                _shots.Remove(shot);
         }
 
         _lastCursorPosision = cursorPosition;
@@ -122,7 +124,6 @@ internal class Level : SampleLevel
 
     private void CreateShot()
     {
-        Log.WriteInformation("Shot enqueued!");
         var shot = new GlitchBlockCollection(new Vector2(20, 8), 4);
         shot.GetAnchor(_gun)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
@@ -130,6 +131,6 @@ internal class Level : SampleLevel
             .Move();
         shot.Enter += Fail;
         var direction = MoveHelper.GetDirection(shot, Cursor);
-        _shots.Enqueue((direction, shot));
+        _shots.Add((direction, shot));
     }
 }
