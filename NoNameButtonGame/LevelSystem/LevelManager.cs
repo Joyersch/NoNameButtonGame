@@ -272,7 +272,7 @@ internal class LevelManager
                 _currentEndlessLevelId = -1;
                 if (_currentDifficulty == 1)
                     _currentDifficulty = 0;
-                _currentDifficulty += 5;
+                _currentDifficulty += 10;
                 var endlessProgress = _settingsAndSaveManager.GetSave<EndlessProgress>();
                 var progress = _currentDifficulty / 5;
                 if (endlessProgress.HighestLevel < progress)

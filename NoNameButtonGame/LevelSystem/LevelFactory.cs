@@ -63,7 +63,7 @@ public class LevelFactory
             7 => new Levels.HoldButtonChallenge.Level(_display, _screen, _random, _effectsRegistry, difficulty),
             8 => new Levels.FallingLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
             9 => new Levels.RunningLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
-            10 => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry), // ToDo: Difficulty
+            10 => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
             _ => new Levels.FallbackLevel.Level(_display, _screen, _random, _effectsRegistry)
         };
 

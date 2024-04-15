@@ -39,6 +39,10 @@ internal class Level : SampleLevel
     private bool _initializerIsOffscreen;
     private bool _initializerWasOnScreen;
 
+
+    private bool _canGridMove = true;
+    private OverTimeInvoker _gridCooldown;
+
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, float difficulty = 1F)
         : base(display, window, random, effectsRegistry)
     {
@@ -141,6 +145,13 @@ internal class Level : SampleLevel
 
         ColorListener.Add(_color, _idleTimer);
 
+        _gridCooldown = new OverTimeInvoker(500F, false)
+        {
+            InvokeOnce = true
+        };
+        _gridCooldown.Trigger += delegate { _canGridMove = true; };
+        AutoManaged.Add(_gridCooldown);
+
         // resets the idle spawner check if the camera is moved
         _anchorGrid.StoppedMoving += delegate
         {
@@ -161,13 +172,18 @@ internal class Level : SampleLevel
             _idleTimer.Reset();
             _idleSpawnerInvoker.Stop();
             _color.Increment = 1;
+            _canGridMove = false;
+            _gridCooldown.Start();
         };
     }
 
     public override void Update(GameTime gameTime)
     {
         if (_startedInitialize)
-            _anchorGrid.Update(gameTime);
+        {
+            if (_canGridMove)
+                _anchorGrid.Update(gameTime);
+        }
         else
         {
             _button.UpdateInteraction(gameTime, Cursor);

@@ -64,7 +64,7 @@ internal class Level : SampleLevel
             .Centered()
             .Move();
 
-        var addon = new CounterButtonAddon(button, 6 + (int)Math.Floor(10 * cleanDifficulty));
+        var addon = new CounterButtonAddon(button, 6 + (int)Math.Floor(15 * cleanDifficulty));
         addon.Click += Finish;
         AutoManaged.Add(addon);
 
