@@ -13,7 +13,7 @@ using MonoUtils.Ui.Objects.Buttons.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockHoldButtonChallenge;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.HoldButtonChallenge;
 
 internal class Level : SampleLevel
 {

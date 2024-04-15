@@ -55,15 +55,15 @@ public class LevelFactory
         => number switch
         {
             1 => new Levels.TutorialLevel.Level(_display, _screen, _random, _effectsRegistry),
-            2 => new Levels.GlitchBlockTutorial.Level(_display, _screen, _random, _effectsRegistry),
-            3 => new Levels.ButtonGridLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
-            4 => new Levels.GlitchBlockHoldButtonChallenge.Level(_display, _screen, _random, _effectsRegistry, difficulty),
-            5 => new Levels.FallingLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
-            6 => new Levels.RunningLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
-            7 => new Levels.SimonSaysLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
-            8 => new Levels.QuizLevel.Level(_display, _screen, _random, _effectsRegistry), // ToDo: Difficulty
-            9 => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry), // ToDo: Difficulty
-            10 => new Levels.CookieClickerLevel.Level(_display, _screen, _random, _settingsAndSave, _effectsRegistry),
+            2 => new Levels.ButtonGridLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
+            3 => new Levels.SimonSaysLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
+            4 => new Levels.QuizLevel.Level(_display, _screen, _random, _effectsRegistry),
+            5 => new Levels.CookieClickerLevel.Level(_display, _screen, _random, _settingsAndSave, _effectsRegistry),
+            6 => new Levels.GlitchBlockTutorial.Level(_display, _screen, _random, _effectsRegistry),
+            7 => new Levels.HoldButtonChallenge.Level(_display, _screen, _random, _effectsRegistry, difficulty),
+            8 => new Levels.FallingLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
+            9 => new Levels.RunningLevel.Level(_display, _screen, _random, _effectsRegistry, difficulty),
+            10 => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry), // ToDo: Difficulty
             _ => new Levels.FallbackLevel.Level(_display, _screen, _random, _effectsRegistry)
         };
 
@@ -71,5 +71,9 @@ public class LevelFactory
         => 10;
 
     public int GetRandomDifficultyLevelId()
-        => _random.Next(3, 9);
+        => _random.Next(2) switch
+        {
+            0 => _random.Next(2, 4), /*ButtonGridLevel & SimonSaysLevel*/
+            _ /*1*/ => _random.Next(7, 11), /*GlitchBlockHoldButtonChallenge & FallingLevel & RunningLevel & SuperGunLevel*/
+        };
 }

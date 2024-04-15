@@ -9,7 +9,7 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using NoNameButtonGame.GameObjects.Glitch;
 
-namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockHoldButtonChallenge;
+namespace NoNameButtonGame.LevelSystem.LevelContainer.HoldButtonChallenge;
 
 public class Row : IManageable, IInteractable, IMoveable, IMouseActions, IPlayable
 {
