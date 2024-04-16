@@ -198,7 +198,7 @@ internal class Level : SampleLevel
             _initializerIndicator.Update(gameTime);
         }
 
-        Log.WriteLine(Cursor.GetPosition().ToString(), 3);
+        // Log.WriteLine(Cursor.GetPosition().ToString(), 3);
         if (_started)
         {
             _timer.Update(gameTime);

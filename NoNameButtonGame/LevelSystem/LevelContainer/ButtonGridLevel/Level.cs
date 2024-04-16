@@ -47,7 +47,7 @@ public class Level : SampleLevel
         var color = shuffler.GetColor(used);
         var message = $"X:{used % 4 + 1} Y: {(used - used % 4) / 4 + 1} ";
 
-        Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
+        // Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
 
         var info = new Text(infoMessage);
         info.GetCalculator(Camera.Rectangle)
