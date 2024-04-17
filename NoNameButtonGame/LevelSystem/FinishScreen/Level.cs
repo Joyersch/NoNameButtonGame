@@ -7,6 +7,7 @@ using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.FinishScreen;
 
@@ -53,6 +54,7 @@ public class Level : SampleLevel
     public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
+        Default2.Play();
 
         if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.Left))
             Finish();

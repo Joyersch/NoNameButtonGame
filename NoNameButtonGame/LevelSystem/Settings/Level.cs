@@ -17,6 +17,7 @@ using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
@@ -87,6 +88,8 @@ public class Level : SampleLevel
         var videoSettings = settingsAndSave.GetSetting<VideoSettings>();
         _languageSettings = settingsAndSave.GetSetting<LanguageSettings>();
         var audioSettings = settingsAndSave.GetSetting<AudioSettings>();
+
+        Default.Play();
 
         OnExit += delegate
         {

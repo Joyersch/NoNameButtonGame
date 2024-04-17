@@ -11,6 +11,7 @@ using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SuperGunLevel;
 
@@ -33,6 +34,8 @@ internal class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.SuperGunLevel");
         Name = textComponent.GetValue("Name");
+
+        Trance.Play();
 
         var cleanDifficulty = (difficulty + 100F) / 1050F;
         if (cleanDifficulty > 1F)

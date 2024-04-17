@@ -13,6 +13,7 @@ using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
 
@@ -40,6 +41,7 @@ internal class Level : SampleLevel
 
 
     private bool _canGridMove = true;
+    private bool _waitForInfo;
     private OverTimeInvoker _gridCooldown;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, float difficulty = 1F)
@@ -48,6 +50,8 @@ internal class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.RunningLevel");
 
         Name = textComponent.GetValue("Name");
+
+        Default.Play();
 
         var cleanDifficulty = (difficulty + 100F) / 1050F;
         if (cleanDifficulty > 1F)
@@ -72,7 +76,6 @@ internal class Level : SampleLevel
         {
             DisplayDelay = 50
         };
-
 
         var size = new Vector2(GlitchBlock.ImageSize.X * 8, Camera.RealSize.Y);
 
@@ -159,6 +162,7 @@ internal class Level : SampleLevel
                 _started = true;
                 _timer.Start();
                 _followeres.Start();
+                Memphis.Play();
             }
 
             if (!_hasDisplayedInfo)
@@ -172,7 +176,10 @@ internal class Level : SampleLevel
             _idleSpawnerInvoker.Stop();
             color.Increment = 1;
             _canGridMove = false;
-            _gridCooldown.Start();
+            if (_info.HasPlayed)
+                _gridCooldown.Start();
+            else
+                _waitForInfo = true;
         };
     }
 
@@ -182,6 +189,11 @@ internal class Level : SampleLevel
         {
             if (_canGridMove)
                 _anchorGrid.Update(gameTime);
+            if (_waitForInfo && _info.HasPlayed)
+            {
+                _waitForInfo = false;
+                _gridCooldown.Start();
+            }
         }
         else
         {
@@ -225,6 +237,7 @@ internal class Level : SampleLevel
             _started = true;
             _timer.Start();
             _followeres.Start();
+            Memphis.Play();
         }
     }
 

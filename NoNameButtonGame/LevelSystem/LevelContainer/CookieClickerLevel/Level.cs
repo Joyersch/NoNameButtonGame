@@ -13,6 +13,7 @@ using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
@@ -50,6 +51,7 @@ public class Level : SampleLevel
         _settingsAndSave = settingsAndSave;
         var textComponent = TextProvider.GetText("Levels.CookieClickerLevel");
         Name = textComponent.GetValue("Name");
+        Lofi.Play();
 
         _objectiveInfoText = textComponent.GetValue("ObjectiveInfo");
 
@@ -73,6 +75,7 @@ public class Level : SampleLevel
         _overTimeMoverMain = new OverTimeMover(Camera, Camera.Position, 666F, OverTimeMover.MoveMode.Sin);
         _overTimeMoverDistraction = new OverTimeMover(Camera, Camera.Position + new Vector2(-oneScreen.X, 0), 666F,
             OverTimeMover.MoveMode.Sin);
+
         AutoManaged.Add(_overTimeMoverShop);
         AutoManaged.Add(_overTimeMoverMain);
         AutoManaged.Add(_overTimeMoverDistraction);
@@ -88,37 +91,35 @@ public class Level : SampleLevel
         toMainButtonShop.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonShop);
 
-        var toMainButtonSnake = new Button(textComponent.GetValue("Return"));
-        toMainButtonSnake.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySize(-1F).Move();
-        toMainButtonSnake.Click += ReturnButtonClick;
-        AutoManaged.Add(toMainButtonSnake);
+        var toMainButtonDistraction = new Button(textComponent.GetValue("Return"));
+        toMainButtonDistraction.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySize(-1F).Move();
+        toMainButtonDistraction.Click += ReturnButtonClick;
+        AutoManaged.Add(toMainButtonDistraction);
 
-        var toSnakeButtonShop = new Button(textComponent.GetValue("Distraction"));
-        toSnakeButtonShop.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).ByGridX(1F).BySize(-1F).Move();
-        toSnakeButtonShop.Click += SnakeButtonClick;
+        var toDistractionButtonShop = new Button(textComponent.GetValue("Distraction"));
+        toDistractionButtonShop.GetCalculator(Camera.Rectangle).OnX(1F).OnY(1F).ByGridX(1F).BySize(-1F).Move();
+        toDistractionButtonShop.Click += DistractionButtonClick;
 
-        var toSnakeLockShop = new LockButtonAddon(toSnakeButtonShop);
-        AutoManaged.Add(toSnakeLockShop);
+        var toDistractionLockShop = new LockButtonAddon(toDistractionButtonShop);
+        AutoManaged.Add(toDistractionLockShop);
 
-        var toShopButtonSnake = new Button(textComponent.GetValue("Shop"));
-        toShopButtonSnake.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).ByGridX(-1F).BySizeY(-1F).Move();
-        toShopButtonSnake.Click += ShopButtonClick;
+        var toShopButtonDistraction = new Button(textComponent.GetValue("Shop"));
+        toShopButtonDistraction.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).ByGridX(-1F).BySizeY(-1F).Move();
+        toShopButtonDistraction.Click += ShopButtonClick;
 
-        var toShopLockSnake = new LockButtonAddon(toShopButtonSnake);
-        AutoManaged.Add(toShopLockSnake);
+        var toShopLockDistraction = new LockButtonAddon(toShopButtonDistraction);
+        AutoManaged.Add(toShopLockDistraction);
 
         var clickButton = new Button(textComponent.GetValue("BakeABean"));
         clickButton.Move(oneScreen / 2 - clickButton.GetSize() / 2);
         clickButton.Click += _ => _shop!.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
 
-        // originally it was planned to have snake on the distraction screen but the idea was cut...
-        // no need to rename, right?
-        var snakeButton = new Button(textComponent.GetValue("Distraction"));
-        snakeButton.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySizeY(-1F).Move();
-        snakeButton.Click += SnakeButtonClick;
-        var snakeLockButton = new LockButtonAddon(snakeButton);
-        AutoManaged.Add(snakeLockButton);
+        var distractionButton = new Button(textComponent.GetValue("Distraction"));
+        distractionButton.GetCalculator(Camera.Rectangle).OnX(0F).OnY(1F).BySizeY(-1F).Move();
+        distractionButton.Click += DistractionButtonClick;
+        var distractionLockButton = new LockButtonAddon(distractionButton);
+        AutoManaged.Add(distractionLockButton);
 
         _finishButton = new Button(textComponent.GetValue("Finish"));
         _finishButton.Click += Finish;
@@ -151,10 +152,10 @@ public class Level : SampleLevel
         _shop = new Shop(shopScreen, oneScreen, _save, random, infos, shopOptions, shopOptionsSus);
 
         _shop.UnlockedShop += shopButton1.Unlock;
-        _shop.UnlockedShop += toShopLockSnake.Unlock;
+        _shop.UnlockedShop += toShopLockDistraction.Unlock;
         _shop.UnlockedShop += UnlockedShop;
-        _shop.UnlockedDistraction += snakeLockButton.Unlock;
-        _shop.UnlockedDistraction += toSnakeLockShop.Unlock;
+        _shop.UnlockedDistraction += distractionLockButton.Unlock;
+        _shop.UnlockedDistraction += toDistractionLockShop.Unlock;
         _shop.PurchasedAllOptions += EnableFinishButton;
 
         AutoManaged.Add(_shop);
@@ -190,11 +191,12 @@ public class Level : SampleLevel
         AdvanceObjective();
     }
 
-    private void SnakeButtonClick(object obj)
+    private void DistractionButtonClick(object obj)
     {
         if (IsAnyOverTimeMoverRunning())
             return;
 
+        LofiMuffled.Play();
         _overTimeMoverDistraction.Start();
     }
 
@@ -203,6 +205,7 @@ public class Level : SampleLevel
         if (IsAnyOverTimeMoverRunning())
             return;
 
+        Lofi.Play();
         _overTimeMoverMain.Start();
     }
 
@@ -211,6 +214,7 @@ public class Level : SampleLevel
         if (IsAnyOverTimeMoverRunning())
             return;
 
+        Lofi.Play();
         _overTimeMoverShop.Start();
     }
 

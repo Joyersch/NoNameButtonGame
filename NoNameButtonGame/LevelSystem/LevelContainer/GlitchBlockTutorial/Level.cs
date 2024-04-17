@@ -8,6 +8,7 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockTutorial;
 
@@ -27,6 +28,7 @@ internal class Level : SampleLevel
             .Move();
         AutoManaged.Add(block);
 
+        Trap2.Play();
 
         OverTimeMover mover = new OverTimeMover(Camera, RightOfCamera(), 666F, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(mover);

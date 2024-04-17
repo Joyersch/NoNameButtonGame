@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.QuizLevel;
 
@@ -12,6 +13,8 @@ public class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.QuizLevel");
         Name = textComponent.GetValue("Name");
+
+        Default.Play();
 
         Camera.Move(Display.Size / 2);
 

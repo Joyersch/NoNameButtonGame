@@ -13,29 +13,149 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin FX/GrayScale.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:FX/GrayScale.fx
-
-#begin Music/loop1.wav
+#begin Music/Bass Memphis.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Music/loop1.wav
+/build:Music/Bass Memphis.wav
 
-#begin Music/loop2.wav
+#begin Music/Bass Synthwave und DnB.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Music/loop2.wav
+/build:Music/Bass Synthwave und DnB.wav
 
-#begin Music/NoNameTitleMusic.wav
+#begin Music/Bass Trance.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Music/NoNameTitleMusic.wav
+/build:Music/Bass Trance.wav
+
+#begin Music/Bass Trap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Bass Trap.wav
+
+#begin Music/Drums DnB.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Drums DnB.wav
+
+#begin Music/Drums Memphis.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Drums Memphis.wav
+
+#begin Music/Drums Synthwave.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Drums Synthwave.wav
+
+#begin Music/Drums Trance.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Drums Trance.wav
+
+#begin Music/Drums Trap.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Drums Trap.wav
+
+#begin Music/Kickdrum Trance.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Kickdrum Trance.wav
+
+#begin Music/Lead DnB.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Lead DnB.wav
+
+#begin Music/Lead Trance.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Lead Trance.wav
+
+#begin Music/LoFi/LoFi Bass.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/LoFi Bass.wav
+
+#begin Music/LoFi/Lofi Drums.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/Lofi Drums.wav
+
+#begin Music/LoFi/LoFi Main 2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/LoFi Main 2.wav
+
+#begin Music/LoFi/LoFi Main.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/LoFi Main.wav
+
+#begin Music/LoFi/MUFFLED/LoFi Bass MUFFLED.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/MUFFLED/LoFi Bass MUFFLED.wav
+
+#begin Music/LoFi/MUFFLED/Lofi Drums MUFFLED.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/MUFFLED/Lofi Drums MUFFLED.wav
+
+#begin Music/LoFi/MUFFLED/LoFi Main 2 MUFFLED.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/MUFFLED/LoFi Main 2 MUFFLED.wav
+
+#begin Music/LoFi/MUFFLED/LoFi Main MUFFLED.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/LoFi/MUFFLED/LoFi Main MUFFLED.wav
+
+#begin Music/Main 2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Main 2.wav
+
+#begin Music/Main.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Main.wav
+
+#begin Music/Percussion Memphis.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Percussion Memphis.wav
+
+#begin Music/Ride Memphis.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Ride Memphis.wav
 
 #begin SFX/wall.wav
 /importer:WavImporter

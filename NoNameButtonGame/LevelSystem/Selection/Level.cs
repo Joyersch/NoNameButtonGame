@@ -6,6 +6,7 @@ using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -21,6 +22,8 @@ public class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.Select");
         Name = textComponent.GetValue("Name");
+
+        Default.Play();
 
         _mover = new OverTimeMover(Camera, Vector2.Zero, 500, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);

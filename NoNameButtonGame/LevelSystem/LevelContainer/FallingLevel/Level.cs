@@ -8,6 +8,7 @@ using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.FallingLevel;
 
@@ -27,8 +28,10 @@ internal class Level : SampleLevel
     {
         _random = random;
         var textComponent = TextProvider.GetText("Levels.FallingLevel");
-
         Name = textComponent.GetValue("Name");
+
+        DnB2.Play();
+
         _rows = new Queue<(Row row, OverTimeMover mover)>();
 
         var cleanDifficulty = (difficulty + 100F) / 1050F;

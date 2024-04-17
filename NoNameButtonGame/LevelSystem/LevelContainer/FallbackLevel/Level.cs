@@ -6,6 +6,7 @@ using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.FallbackLevel;
 
@@ -16,6 +17,8 @@ internal class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.FallbackLevel");
 
         Name = textComponent.GetValue("Name");
+
+        None.Play();
 
         var failButton = new Button(textComponent.GetValue("Button"));
         failButton.GetCalculator(Camera.Rectangle)

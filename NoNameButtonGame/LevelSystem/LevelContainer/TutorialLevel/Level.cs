@@ -8,6 +8,7 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.TutorialLevel;
 
@@ -21,6 +22,8 @@ internal class Level : SampleLevel
     {
         TextComponent textComponent = TextProvider.GetText("Levels.TutorialLevel");
         Name = textComponent.GetValue("Name");
+
+        Default.Play();
 
         var screen = Camera.Rectangle;
 

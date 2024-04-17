@@ -256,7 +256,7 @@ internal class LevelManager
 
                 if (_levelId == _levelFactory.MaxLevel())
                 {
-                    _levelState = LevelState.Menu;
+                    _levelState = LevelState.Endless;
                 }
 
                 _levelId++;

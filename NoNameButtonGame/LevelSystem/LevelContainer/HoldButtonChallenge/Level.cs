@@ -12,6 +12,7 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.HoldButtonChallenge;
 
@@ -32,6 +33,8 @@ internal class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.GlitchBlockHoldButtonChallenge");
 
         Name = textComponent.GetValue("Name");
+
+        DnB3.Play();
 
         var cleanDifficulty = (difficulty + 100F) / 1050F;
         if (cleanDifficulty > 1F)
@@ -135,6 +138,7 @@ internal class Level : SampleLevel
             _isInitiated = true;
             Log.WriteInformation("Starting movement of blocks!");
             overTimeInvokeMovement.Start();
+            DnB4.Play();
         };
 
         var holdButton = new HoldButtonAddon(_button, 15000 + 5000 * cleanDifficulty);

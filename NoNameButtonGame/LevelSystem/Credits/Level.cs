@@ -9,6 +9,7 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Credits;
 
@@ -18,6 +19,8 @@ public class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.Credits");
         Name = textComponent.GetValue("Name");
+
+        Default2.Play();
 
         Camera.Zoom = 1F;
         Camera.Update();
@@ -49,7 +52,7 @@ public class Level : SampleLevel
 
         OverTimeMover mover = new OverTimeMover(Camera,
             new Vector2(Camera.Rectangle.Center.X, newLine!.Position.Y + Camera.Rectangle.Height / 2F),
-            (pointer + -Camera.Rectangle.Y) * 50, OverTimeMover.MoveMode.Lin);
+            (pointer + -Camera.Rectangle.Y) * 60, OverTimeMover.MoveMode.Lin);
 
         mover.ArrivedOnDestination += Exit;
         mover.Start();

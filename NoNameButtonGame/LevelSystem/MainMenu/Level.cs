@@ -8,6 +8,7 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;
@@ -25,6 +26,8 @@ public class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");
+
+        Default.Play();
 
         var startButton = new Button(textComponent.GetValue("StartButton"));
         startButton.GetCalculator(Camera.Rectangle)

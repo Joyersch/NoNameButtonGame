@@ -15,8 +15,10 @@ using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
+using NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 using CookieClickerFont = NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel.Font;
 using NoNameButtonGame.LevelSystem.Settings;
+using NoNameButtonGame.Music;
 using GeneralFont = NoNameButtonGame.LevelSystem.Font;
 
 namespace NoNameButtonGame;
@@ -71,12 +73,11 @@ public class NoNameGame : SimpleGame
     {
         base.LoadContent();
 
+        // Fonts
         CookieClickerFont.Texture = Content.GetTexture("Font/CookieClicker");
         GeneralFont.Texture = Content.GetTexture("Font/General");
 
-        // Set all Textures for object.
-        // As all kind of objects have the same texture it is saved static in the object.
-        // The Texture are being forwarded through the constructor unless otherwise specified.
+        // Objects
         MousePointer.Texture = Content.GetTexture("mousepoint");
         GlitchBlock.Texture = Content.GetTexture("glitch");
         Nbg.Texture = Content.GetTexture("NBG");
@@ -92,18 +93,54 @@ public class NoNameGame : SimpleGame
         _effectsRegistry.Register(Content.GetSfx("wall"), "wall");
 
         // Music
-        // _loopStation.Register(Content.GetMusic("name"), "name");
-        _loopStation.Initialize();
+        _loopStation.Register(Content.GetMusic("Main"), "main");
+        _loopStation.Register(Content.GetMusic("Main 2"), "main2");
+        _loopStation.Register(Content.GetMusic("Ride Memphis"), "ride_memphis");
+        _loopStation.Register(Content.GetMusic("Percussion Memphis"), "percussion_memphis");
+        _loopStation.Register(Content.GetMusic("Lead Trance"), "lead_trance");
+        _loopStation.Register(Content.GetMusic("Lead DnB"), "lead_dnb");
+        _loopStation.Register(Content.GetMusic("Kickdrum Trance"), "kickdrum_trance");
+        _loopStation.Register(Content.GetMusic("Drums Trap"), "drums_trap");
+        _loopStation.Register(Content.GetMusic("Drums Trance"), "drums_trance");
+        _loopStation.Register(Content.GetMusic("Drums Synthwave"), "drums_synthwave");
+        _loopStation.Register(Content.GetMusic("Drums Memphis"), "drums_memphis");
+        _loopStation.Register(Content.GetMusic("Drums DnB"), "drums_dnb");
+        _loopStation.Register(Content.GetMusic("Bass Trap"), "bass_trap");
+        _loopStation.Register(Content.GetMusic("Bass Trance"), "bass_trance");
+        _loopStation.Register(Content.GetMusic("Bass Synthwave und DnB"), "bass_synthwave_DnB");
+        _loopStation.Register(Content.GetMusic("Bass Memphis"), "bass_memphis");
+
+        _loopStation.Register(Content.GetMusic("LoFi/Lofi Main"), "lofi_main");
+        _loopStation.Register(Content.GetMusic("LoFi/Lofi Main 2"), "lofi_main2");
+        _loopStation.Register(Content.GetMusic("LoFi/Lofi Drums"), "lofi_drums");
+        _loopStation.Register(Content.GetMusic("LoFi/Lofi Bass"), "lofi_bass");
+
+        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Main MUFFLED"), "lofi_main_muffled");
+        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Main 2 MUFFLED"), "lofi_main2_muffled");
+        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Drums MUFFLED"), "lofi_drums_muffled");
+        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Bass MUFFLED"), "lofi_bass_muffled");
+
+        Lofi.Initialize(_loopStation);
+        LofiMuffled.Initialize(_loopStation);
+        Memphis.Initialize(_loopStation);
+        Default.Initialize(_loopStation);
+        Default2.Initialize(_loopStation);
+        Default3.Initialize(_loopStation);
+        DnB.Initialize(_loopStation);
+        DnB2.Initialize(_loopStation);
+        DnB3.Initialize(_loopStation);
+        DnB4.Initialize(_loopStation);
+        Synthwave.Initialize(_loopStation);
+        Trap.Initialize(_loopStation);
+        Trap2.Initialize(_loopStation);
+        Trance.Initialize(_loopStation);
+        None.Initialize(_loopStation);
+
+        _loopStation.Initialize(250F);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        var audio = SettingsAndSaveManager.GetSetting<AudioSettings>();
-        _loopStation.SetMasterVolume(audio.MusicVolume);
-        _effectsRegistry.SetMasterVolume(audio.SoundEffectVolume);
-        _effectsRegistry.Update(gameTime);
-        _loopStation.Update(gameTime);
-
         if (IsActive)
         {
             _levelManager.Update(gameTime);
@@ -118,6 +155,12 @@ public class NoNameGame : SimpleGame
 
             _elapsedTime.Update(gameTime);
         }
+
+        var audio = SettingsAndSaveManager.GetSetting<AudioSettings>();
+        _loopStation.SetMasterVolume(audio.MusicVolume);
+        _effectsRegistry.SetMasterVolume(audio.SoundEffectVolume);
+        _effectsRegistry.Update(gameTime);
+        _loopStation.Update(gameTime);
 
         base.Update(gameTime);
     }

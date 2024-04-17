@@ -9,6 +9,7 @@ using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.ButtonGridLevel;
 
@@ -22,6 +23,8 @@ public class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.ButtonGridLevel");
 
         Name = textComponent.GetValue("Name");
+
+        Trap.Play();
 
         ColorComponentRepository repository = new ColorComponentRepository(random);
         ColorComponent[] colors = repository.GetByColorDistance(difficulty).ToArray();

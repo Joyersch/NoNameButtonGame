@@ -6,6 +6,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 
@@ -16,6 +17,8 @@ public class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.SimonSaysLevel");
         Name = textComponent.GetValue("Name");
+
+        Synthwave.Play();
 
         Camera.Move(Display.Size / 2);
         Cursor.GetCalculator(Camera.Rectangle)
