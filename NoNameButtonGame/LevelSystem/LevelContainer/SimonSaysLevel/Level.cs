@@ -44,7 +44,7 @@ public class Level : SampleLevel
         float buttonDisplaySpeed = 150 + 150 * flippedDifficulty;
         // Log.WriteInformation(playLength.ToString());
 
-        var simon = new SimonSays(Camera.Rectangle, random, text, playLength, waitBetweenColors, buttonDisplaySpeed);
+        var simon = new SimonSays(Camera.Rectangle, random, text, playLength, waitBetweenColors, buttonDisplaySpeed, effectsRegistry);
         simon.Finished += Finish;
         AutoManaged.Add(simon);
     }

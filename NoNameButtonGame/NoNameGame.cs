@@ -90,6 +90,11 @@ public class NoNameGame : SimpleGame
         SelectButton.Texture = Content.GetTexture("minibutton");
 
         // Sound effects
+        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/C"), "note_c");
+        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/D"), "note_d");
+        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/E"), "note_e");
+        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/F"), "note_f");
+        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/G"), "note_g");
         _effectsRegistry.Register(Content.GetSfx("wall"), "wall");
 
         // Music

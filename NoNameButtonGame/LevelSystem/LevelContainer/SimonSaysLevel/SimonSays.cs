@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
+using MonoUtils.Sound;
 using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -54,7 +55,7 @@ public class SimonSays : IManageable, IInteractable
     };
 
     public SimonSays(Rectangle area, Random random, Dictionary<string, string> text, int length,
-        float waitBetweenColors, float buttonDisplaySpeed)
+        float waitBetweenColors, float buttonDisplaySpeed, EffectsRegistry effects)
     {
         _random = random;
         Rectangle = area;
@@ -63,11 +64,16 @@ public class SimonSays : IManageable, IInteractable
         _text = text;
         _sequence = new SimonSequence(1, 5, length, random);
 
-        _buttons[0] = new SimonSaysButton(SimonColors.DarkYellow, SimonColors.LightYellow, buttonDisplaySpeed);
-        _buttons[1] = new SimonSaysButton(SimonColors.DarkRed, SimonColors.LightRed, buttonDisplaySpeed);
-        _buttons[2] = new SimonSaysButton(SimonColors.DarkGreen, SimonColors.LightGreen, buttonDisplaySpeed);
-        _buttons[3] = new SimonSaysButton(SimonColors.DarkBlue, SimonColors.LightBlue, buttonDisplaySpeed);
-        _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed);
+        _buttons[0] = new SimonSaysButton(SimonColors.DarkYellow, SimonColors.LightYellow, buttonDisplaySpeed, effects,
+            SimonSaysButton.Keys.note_c);
+        _buttons[1] = new SimonSaysButton(SimonColors.DarkRed, SimonColors.LightRed, buttonDisplaySpeed, effects,
+            SimonSaysButton.Keys.note_d);
+        _buttons[2] = new SimonSaysButton(SimonColors.DarkGreen, SimonColors.LightGreen, buttonDisplaySpeed, effects,
+            SimonSaysButton.Keys.note_e);
+        _buttons[3] = new SimonSaysButton(SimonColors.DarkBlue, SimonColors.LightBlue, buttonDisplaySpeed, effects,
+            SimonSaysButton.Keys.note_f);
+        _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed, effects,
+            SimonSaysButton.Keys.note_g);
         _enteredSequenceDisplay = new Text(string.Empty, 1F);
         _enteredSequenceDisplay.GetCalculator(area)
             .OnCenter()

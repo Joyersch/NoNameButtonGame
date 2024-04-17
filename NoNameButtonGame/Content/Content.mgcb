@@ -157,6 +157,36 @@
 /processorParam:Quality=Best
 /build:Music/Ride Memphis.wav
 
+#begin SFX/8_bit_notes/C.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/8_bit_notes/C.wav
+
+#begin SFX/8_bit_notes/D.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/8_bit_notes/D.wav
+
+#begin SFX/8_bit_notes/E.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/8_bit_notes/E.wav
+
+#begin SFX/8_bit_notes/F.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/8_bit_notes/F.wav
+
+#begin SFX/8_bit_notes/G.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SFX/8_bit_notes/G.wav
+
 #begin SFX/wall.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
