@@ -93,7 +93,7 @@ public class Level : SampleLevel
         AutoManaged.Add(header);
 
         var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        var version = new Text($"v{assemblyVersion!.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}",
+        var version = new Text($"v{assemblyVersion!.Major}.{assemblyVersion!.Minor}.{assemblyVersion!.Build}",
             Vector2.Zero, 0.5F);
         version.GetCalculator(Camera.Rectangle)
             .OnX(0.905F)
