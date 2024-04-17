@@ -21,6 +21,7 @@ internal class Level : SampleLevel
     private int _totalRowsCount;
 
     private bool _hasWon;
+    private bool _checkOffscreen;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
         float difficulty = 1F) : base(display,
@@ -92,6 +93,8 @@ internal class Level : SampleLevel
             rightMover.Start();
         };
         AutoManaged.Add(rightMover);
+        if (difficulty > 1F)
+            _checkOffscreen = true;
     }
 
     private void CreateRow(IMoveable anchor, Vector2 singleSize, float singleScale, Vector2 destination, float time, int frame)
@@ -120,6 +123,9 @@ internal class Level : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
+        if (_checkOffscreen && !Cursor.Rectangle.Intersects(Camera.Rectangle))
+            Fail();
+
         var rows = _rows.ToArray();
         foreach (var row in rows)
         {

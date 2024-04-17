@@ -77,22 +77,22 @@ public class Shop : IManageable, IInteractable
             _autoClicker.Add(GetNewInvoker(false));
         _notStarted = storage.Upgrade1;
 
-        _optionOne = new ShopOption(size.Y, _shopOptionNames[0], storage.Upgrade1, 50, 1.07D, 100);
+        _optionOne = new ShopOption(size.Y, _shopOptionNames[0], storage.Upgrade1, 10, 1.1D, 50);
         _optionOne.GetCalculator(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
         _optionOne.Purchased += DecreaseBeanCount;
         _optionOne.Purchased += OptionOnePurchased;
 
-        _optionTwo = new ShopOption(size.Y, _shopOptionNames[1], storage.Upgrade2, 150, 1.32D, 20);
+        _optionTwo = new ShopOption(size.Y, _shopOptionNames[1], storage.Upgrade2, 50, 1.15D, 20);
         _optionTwo.GetCalculator(_rectangle).OnX(0.35F).BySizeX(-0.5F).Move();
         _optionTwo.Purchased += DecreaseBeanCount;
         _optionTwo.Purchased += OptionTwoPurchased;
 
-        _optionThree = new ShopOption(size.Y, _shopOptionNames[2], storage.Upgrade3, 3000, 1.46D, 10);
+        _optionThree = new ShopOption(size.Y, _shopOptionNames[2], storage.Upgrade3, 250, 1.33D, 10);
         _optionThree.GetCalculator(_rectangle).OnX(0.55F).BySizeX(-0.5F).Move();
         _optionThree.Purchased += DecreaseBeanCount;
         _optionThree.Purchased += OptionThreePurchased;
 
-        _optionFour = new ShopOption(size.Y, _shopOptionNames[3], storage.Upgrade4, 250000, 99D, 1);
+        _optionFour = new ShopOption(size.Y, _shopOptionNames[3], storage.Upgrade4, 3000, 99D, 1);
         _optionFour.GetCalculator(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
@@ -150,13 +150,13 @@ public class Shop : IManageable, IInteractable
             _notStarted--;
         }
 
-        if (BeanCount >= 50 || _unlockedShop)
+        if (BeanCount >= 10 || _unlockedShop)
         {
             _unlockedShop = true;
             UnlockedShop?.Invoke();
         }
 
-        if (BeanCount >= 10000 || _unlockedDistraction)
+        if (BeanCount >= 1000 || _unlockedDistraction || _optionThree.Value == 1 || _optionTwo.Value == 5)
         {
             _unlockedDistraction = true;
             _storage.CanSeeDistraction = true;

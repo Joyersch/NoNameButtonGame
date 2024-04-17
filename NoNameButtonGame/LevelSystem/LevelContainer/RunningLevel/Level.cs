@@ -61,7 +61,7 @@ internal class Level : SampleLevel
 
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
 
-        _timer = new Timer(35000D + cleanDifficulty * 30000F, textComponent.GetValue("FinishPrefix"));
+        _timer = new Timer(Vector2.Zero, Display.SimpleScale * 2,20000D + cleanDifficulty * 20000F, textComponent.GetValue("FinishPrefix"));
         _timer.GetCalculator(Display.Screen)
             .OnX(0.005F)
             .OnY(0.01F)
@@ -130,7 +130,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(color);
 
         // activates idle spawner if 5 seconds pass
-        _idleTimer = new Timer(5000F * flippedDifficulty, textComponent.GetValue("IdlePrefix"));
+        _idleTimer = new Timer(Vector2.Zero, Display.SimpleScale * 2, 5000F * flippedDifficulty, textComponent.GetValue("IdlePrefix"));
         _idleTimer.Start();
         _idleTimer.GetAnchor(_timer)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
