@@ -175,9 +175,8 @@ public class NoNameGame : SimpleGame
         base.Draw(gameTime);
 
         _levelManager.Draw(GraphicsDevice, SpriteBatch);
+        DrawConsole();
         SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
-        if (IsConsoleActive && IsConsoleEnabled)
-            Console.Draw(SpriteBatch);
         if (_showElapsedTime)
         {
             _elapsedTime.Draw(SpriteBatch);
