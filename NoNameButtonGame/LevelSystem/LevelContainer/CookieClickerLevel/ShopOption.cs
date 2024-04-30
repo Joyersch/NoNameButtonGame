@@ -62,7 +62,7 @@ public class ShopOption : IInteractable, IMoveable
 
         _button = new LockButtonAddon(_textButton);
         _size = new Vector2(_button.GetSize().X, sizeY);
-        _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
+        _button.InRectangle(_position, _size).OnCenter().BySize(-0.5F).Move();
         _button.Click += ButtonClick;
         _button.Enter += _ => ButtonEnter?.Invoke();
         _button.Leave += _ => ButtonLeave?.Invoke();
@@ -72,10 +72,10 @@ public class ShopOption : IInteractable, IMoveable
         _infoMat.Leave += _ => _isHover = false;
 
         _amountDisplay = new Text($"{_amount:n0}/{_maxAmount:n0}");
-        _amountDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
+        _amountDisplay.InRectangle(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
 
         _priceDisplay = new Text($"{_currentPrice:n0}{_icon}");
-        _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
+        _priceDisplay.InRectangle(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
     }
 
     private void ButtonClick(object obj)
@@ -104,9 +104,9 @@ public class ShopOption : IInteractable, IMoveable
         else
             _button.Lock();
 
-        _button.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).Move();
-        _amountDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
-        _priceDisplay.GetCalculator(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
+        _button.InRectangle(_position, _size).OnCenter().BySize(-0.5F).Move();
+        _amountDisplay.InRectangle(_position, _size).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
+        _priceDisplay.InRectangle(_position, _size).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
 
         _priceDisplay.ChangeText($"{_currentPrice:n0}{_icon}");
         _amountDisplay.ChangeText($"{_amount:n0}/{_maxAmount:n0}");

@@ -152,7 +152,7 @@ public class NoNameGame : SimpleGame
             if (_showElapsedTime)
             {
                 _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
-                _elapsedTime.GetCalculator(Display.Window)
+                _elapsedTime.InRectangle(Display.Window)
                     .ByGridY(1)
                     .BySizeY(-1F)
                     .Move();

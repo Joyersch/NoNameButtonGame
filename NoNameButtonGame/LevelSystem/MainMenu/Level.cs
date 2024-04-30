@@ -30,7 +30,7 @@ public class Level : SampleLevel
         Default.Play();
 
         var startButton = new Button(textComponent.GetValue("StartButton"));
-        startButton.GetCalculator(Camera.Rectangle)
+        startButton.InRectangle(Camera.Rectangle)
             .OnX(0.125F)
             .OnY(0.15F)
             .Centered()
@@ -85,7 +85,7 @@ public class Level : SampleLevel
         AutoManaged.Add(exitButton);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 5F, 1);
-        header.GetCalculator(Camera.Rectangle)
+        header.InRectangle(Camera.Rectangle)
             .OnX(0.605F)
             .OnY(0.25F)
             .Centered()
@@ -95,7 +95,7 @@ public class Level : SampleLevel
         var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
         var version = new Text($"v{assemblyVersion!.Major}.{assemblyVersion!.Minor}.{assemblyVersion!.Build}",
             Vector2.Zero, 0.5F);
-        version.GetCalculator(Camera.Rectangle)
+        version.InRectangle(Camera.Rectangle)
             .OnX(0.905F)
             .OnY(0.315F)
             .Centered()
@@ -115,12 +115,12 @@ public class Level : SampleLevel
 
         if (panIn)
         {
-            Camera.GetCalculator(Camera.Rectangle)
+            Camera.InRectangle(Camera.Rectangle)
                 .OnCenter()
                 .ByGridY(1)
                 .Move();
 
-            Cursor.GetCalculator(Camera.Rectangle)
+            Cursor.InRectangle(Camera.Rectangle)
                 .OnCenter()
                 .ByGridY(1)
                 .Move();

@@ -51,7 +51,7 @@ internal class Level : SampleLevel
         int oneGridLength = Camera.Rectangle.Size.Y;
         var size = new Vector2(GlitchBlock.ImageSize.X * (singleScale * wallWidth), oneGridLength + singleHeight);
         var left = new GlitchBlockCollection(size, singleScale);
-        left.GetCalculator(Camera.Rectangle)
+        left.InRectangle(Camera.Rectangle)
             .Move();
         left.Enter += Fail;
         AutoManaged.Add(left);
@@ -76,7 +76,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(leftMover);
 
         var right = new GlitchBlockCollection(size, singleScale);
-        right.GetCalculator(Camera.Rectangle)
+        right.InRectangle(Camera.Rectangle)
             .OnX(1F)
             .BySizeX(-1F)
             .Move();

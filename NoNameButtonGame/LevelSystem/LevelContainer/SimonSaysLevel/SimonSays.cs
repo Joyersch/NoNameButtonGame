@@ -75,7 +75,7 @@ public class SimonSays : IManageable, IInteractable
         _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed, effects,
             SimonSaysButton.Keys.note_g);
         _enteredSequenceDisplay = new Text(string.Empty, 1F);
-        _enteredSequenceDisplay.GetCalculator(area)
+        _enteredSequenceDisplay.InRectangle(area)
             .OnCenter()
             .OnY(4, 5)
             .Centered()
@@ -90,7 +90,7 @@ public class SimonSays : IManageable, IInteractable
         int i = 0;
         foreach (var button in _buttons)
         {
-            button.GetCalculator(area).OnCenter().OnX(i++ * 0.2F + 0.1F).Centered().Move();
+            button.InRectangle(area).OnCenter().OnX(i++ * 0.2F + 0.1F).Centered().Move();
             button.Finished += delegate
             {
                 if (_state == SimonAction.Played)
@@ -102,7 +102,7 @@ public class SimonSays : IManageable, IInteractable
         }
 
         _start = new Button(text["start"]);
-        _start.GetCalculator(area).OnCenter().OnY(1, 3).Centered().Move();
+        _start.InRectangle(area).OnCenter().OnY(1, 3).Centered().Move();
         _start.Click += _ => StartClick();
     }
 
@@ -211,7 +211,7 @@ public class SimonSays : IManageable, IInteractable
 
         SetEnteredText();
 
-        _enteredSequenceDisplay.GetCalculator(Rectangle)
+        _enteredSequenceDisplay.InRectangle(Rectangle)
             .OnCenter()
             .OnY(4, 5)
             .Centered()

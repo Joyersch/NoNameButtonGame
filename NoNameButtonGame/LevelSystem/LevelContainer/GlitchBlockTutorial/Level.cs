@@ -24,7 +24,7 @@ internal class Level : SampleLevel
         var block = new GlitchBlockCollection(blockSize, 4);
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
-        block.GetCalculator(Camera.Rectangle)
+        block.InRectangle(Camera.Rectangle)
             .Move();
         AutoManaged.Add(block);
 
@@ -34,7 +34,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(mover);
 
         var text = new Text(textComponent.GetValue("Info1"));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.625F)
             .OnY(0.25F)
             .Centered()
@@ -42,7 +42,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(text);
 
         var button = new Button(textComponent.GetValue("Understood"));
-        button.GetCalculator(Camera.Rectangle)
+        button.InRectangle(Camera.Rectangle)
             .OnX(0.625F)
             .OnY(0.5F)
             .Centered()
@@ -54,7 +54,7 @@ internal class Level : SampleLevel
         block = new GlitchBlockCollection(blockSize, 4);
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
-        block.GetCalculator(Camera.Rectangle)
+        block.InRectangle(Camera.Rectangle)
             .OnX(0.7F)
             .BySizeX(-0.5F)
             .ByGridX(1)
@@ -62,7 +62,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(block);
 
         button = new Button(textComponent.GetValue("Neat"));
-        button.GetCalculator(Camera.Rectangle)
+        button.InRectangle(Camera.Rectangle)
             .OnX(0.85F)
             .OnY(0.5F)
             .ByGridX(1)
@@ -79,7 +79,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(button);
 
         text = new Text(textComponent.GetValue("Info2"));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.35F)
             .OnY(0.5F)
             .Centered()
@@ -88,7 +88,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(text);
 
         button = new Button(textComponent.GetValue("Finish"));
-        button.GetCalculator(Camera.Rectangle)
+        button.InRectangle(Camera.Rectangle)
             .OnX(0.875F)
             .OnY(0.125F)
             .ByGridX(2)
@@ -98,7 +98,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(button);
 
         text = new Text(textComponent.GetValue("Info3"));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.33F)
             .OnY(0.2F)
             .Centered()
@@ -107,7 +107,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Info4"));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.65F)
             .Centered()
@@ -119,7 +119,7 @@ internal class Level : SampleLevel
         block = new GlitchBlockCollection(blockSize, 4);
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
-        block.GetCalculator(Camera.Rectangle)
+        block.InRectangle(Camera.Rectangle)
             .OnX(0.725F)
             .BySizeX(-0.5F)
             .ByGridX(2)

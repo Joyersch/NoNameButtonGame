@@ -53,7 +53,7 @@ public class Level : SampleLevel
         // Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
 
         var info = new Text(infoMessage);
-        info.GetCalculator(Camera.Rectangle)
+        info.InRectangle(Camera.Rectangle)
             .OnCenter()
             .OnY(2, 20)
             .Centered()
@@ -81,7 +81,7 @@ public class Level : SampleLevel
                     }
                 }
 
-                button.GetCalculator(Camera.Rectangle)
+                button.InRectangle(Camera.Rectangle)
                     .OnX(x * 4 + 4, 20)
                     .OnY(y * 4 + 5, 20)
                     .Centered()
@@ -96,7 +96,7 @@ public class Level : SampleLevel
 
         _timer = new Timer(1F, 15000D, true);
         _timer.Trigger += Fail;
-        _timer.GetCalculator(Camera.Rectangle)
+        _timer.InRectangle(Camera.Rectangle)
             .OnX(0.1F)
             .OnY(0.1F)
             .Move();
@@ -113,7 +113,7 @@ public class Level : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
-        _timer.GetCalculator(Camera.Rectangle)
+        _timer.InRectangle(Camera.Rectangle)
             .OnX(0.1F)
             .OnY(0.1F)
             .Move();

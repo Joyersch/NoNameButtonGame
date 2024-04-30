@@ -52,7 +52,7 @@ internal class Level : SampleLevel
         _shots = new List<(Vector2 direction, GlitchBlockCollection shot)>();
 
         _gun = new Text(textComponent.GetValue("Gun"));
-        _gun.GetCalculator(Camera.Rectangle)
+        _gun.InRectangle(Camera.Rectangle)
             .OnX(0.1F)
             .OnY(0.5F)
             .Centered()
@@ -60,7 +60,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(_gun);
 
         var button = new Button(textComponent.GetValue("Finish"));
-        button.GetCalculator(Camera.Rectangle)
+        button.InRectangle(Camera.Rectangle)
             .OnX(0.75F)
             .OnY(0.5F)
             .Centered()
@@ -72,7 +72,7 @@ internal class Level : SampleLevel
 
         button.Click += delegate
         {
-            addon.GetCalculator(Camera.Rectangle)
+            addon.InRectangle(Camera.Rectangle)
                 .OnX(random.Next(1, 9) / 10F)
                 .OnY(random.Next(1, 9) / 10F)
                 .Centered()

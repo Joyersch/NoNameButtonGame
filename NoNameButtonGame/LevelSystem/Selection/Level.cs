@@ -40,7 +40,7 @@ public class Level : SampleLevel
                 {
                     var levelButton =
                         new MiniButton((placed + 1).ToString(), (placed + 1).ToString());
-                    levelButton.GetCalculator(Camera.Rectangle)
+                    levelButton.InRectangle(Camera.Rectangle)
                         .OnX(0.20F + 0.15F * x)
                         .OnY(0.4F + 0.2F * y)
                         .ByGridY(i)
@@ -56,7 +56,7 @@ public class Level : SampleLevel
                 break;
 
             var down = new MiniButton("[down]");
-            down.GetCalculator(Camera.Rectangle)
+            down.InRectangle(Camera.Rectangle)
                 .OnX(0.1F)
                 .OnY(0.9F)
                 .ByGridY(i)
@@ -66,7 +66,7 @@ public class Level : SampleLevel
             AutoManaged.Add(down);
 
             var up = new MiniButton("[up]");
-            up.GetCalculator(Camera.Rectangle)
+            up.InRectangle(Camera.Rectangle)
                 .OnX(0.1F)
                 .OnY(1.1F)
                 .ByGridY(i)

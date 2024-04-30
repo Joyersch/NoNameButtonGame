@@ -40,7 +40,7 @@ public class Level : SampleLevel
         foreach (string s in result)
         {
             newLine = TextNotationProcessor.Parse(s);
-            newLine.GetCalculator(Camera.Rectangle)
+            newLine.InRectangle(Camera.Rectangle)
                 .OnPositionX(-(Camera.Rectangle.Width / 2) + 16)
                 .OnPositionY(pointer)
                 .ByGridY(1)

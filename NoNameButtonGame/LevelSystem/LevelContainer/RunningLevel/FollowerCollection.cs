@@ -141,7 +141,7 @@ public class FollowerCollection : IManageable, IInteractable
     {
         var block = new GlitchBlockCollection(GlitchBlock.ImageSize * 4);
         block.ChangeColor(GlitchBlock.Color);
-        block.GetCalculator(_camera.Rectangle)
+        block.InRectangle(_camera.Rectangle)
             .OnCenter()
             .Centered()
             .Move();

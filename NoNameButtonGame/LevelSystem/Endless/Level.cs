@@ -27,35 +27,35 @@ public class Level : SampleLevel
         Default3.Play();
 
         var text = new Text(textComponent.GetValue("Header"), 3);
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.15F)
             .Centered()
             .Move();
         AutoManaged.Add(text);
         text = new Text(textComponent.GetValue("Info1"));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.35F)
             .Centered()
             .Move();
         AutoManaged.Add(text);
         text = new Text(textComponent.GetValue("Info2"));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.45F)
             .Centered()
             .Move();
         AutoManaged.Add(text);
         text = new Text(string.Format(textComponent.GetValue("Best"), progress.HighestLevel));
-        text.GetCalculator(Camera.Rectangle)
+        text.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.55F)
             .Centered()
             .Move();
         AutoManaged.Add(text);
         var button = new Button(textComponent.GetValue("Start"));
-        button.GetCalculator(Camera.Rectangle)
+        button.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.8F)
             .Centered()

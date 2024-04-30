@@ -62,7 +62,7 @@ internal class Level : SampleLevel
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
 
         _timer = new Timer(Vector2.Zero, Display.SimpleScale * 2,20000D + cleanDifficulty * 20000F, textComponent.GetValue("FinishPrefix"));
-        _timer.GetCalculator(Display.Screen)
+        _timer.InRectangle(Display.Screen)
             .OnX(0.005F)
             .OnY(0.01F)
             .Move();
@@ -81,7 +81,7 @@ internal class Level : SampleLevel
 
         _initializer = new GlitchBlockCollection(size);
         _initializer.ChangeColor(GlitchBlock.Color);
-        _initializer.GetCalculator(Camera.Rectangle)
+        _initializer.InRectangle(Camera.Rectangle)
             .OnCenter()
             .Centered()
             .ByGridX(-1F)
@@ -99,7 +99,7 @@ internal class Level : SampleLevel
         }
 
         _button = new Button(textComponent.GetValue("StartButton"));
-        _button.GetCalculator(Camera.Rectangle)
+        _button.InRectangle(Camera.Rectangle)
             .OnCenter()
             .Centered()
             .Move();
@@ -113,7 +113,7 @@ internal class Level : SampleLevel
         _initializerIndicator.ChangeColor(GlitchBlock.Color);
         MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);
         _initializerIndicator.Letters[0].Rotation += (float)(Math.PI / 4F); // 45°
-        _initializerIndicator.GetCalculator(Camera.Rectangle)
+        _initializerIndicator.InRectangle(Camera.Rectangle)
             .OnCenter()
             .OnX(0.33F)
             .Centered()
@@ -276,7 +276,7 @@ internal class Level : SampleLevel
 
     private void StartInfo()
     {
-        _info.GetCalculator(Camera.Rectangle)
+        _info.InRectangle(Camera.Rectangle)
             .OnCenter()
             .Centered()
             .Move();

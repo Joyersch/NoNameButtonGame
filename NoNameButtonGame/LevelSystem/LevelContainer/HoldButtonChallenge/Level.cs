@@ -56,7 +56,7 @@ internal class Level : SampleLevel
         #region Corners
 
         var leftUpperCorner = new GlitchBlockCollection(baseSize, 5F);
-        leftUpperCorner.GetCalculator(Camera.Rectangle)
+        leftUpperCorner.InRectangle(Camera.Rectangle)
             .Move();
         leftUpperCorner.Enter += Fail;
         AutoManaged.Add(leftUpperCorner);
@@ -68,7 +68,7 @@ internal class Level : SampleLevel
             .Move();
 
         var bottomLeftCorner = new GlitchBlockCollection(baseSize, 5F);
-        bottomLeftCorner.GetCalculator(Camera.Rectangle)
+        bottomLeftCorner.InRectangle(Camera.Rectangle)
             .OnY(1F)
             .BySizeY(-1F)
             .Move();
@@ -76,7 +76,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(bottomLeftCorner);
 
         var topRightCorner = new GlitchBlockCollection(baseSize, 5F);
-        topRightCorner.GetCalculator(Camera.Rectangle)
+        topRightCorner.InRectangle(Camera.Rectangle)
             .OnX(1F)
             .BySizeX(-1F)
             .Move();
@@ -84,7 +84,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(topRightCorner);
 
         var bottomRightCorner = new GlitchBlockCollection(baseSize, 5F);
-        bottomRightCorner.GetCalculator(Camera.Rectangle)
+        bottomRightCorner.InRectangle(Camera.Rectangle)
             .OnX(1F)
             .OnY(1F)
             .BySize(-1F)
@@ -150,7 +150,7 @@ internal class Level : SampleLevel
     {
         float x = random.Next(rectangle.Width - button.Rectangle.Width / 2);
         float y = random.Next(rectangle.Height - button.Rectangle.Height / 2);
-        var calculator = button.GetCalculator(rectangle)
+        var calculator = button.InRectangle(rectangle)
             .OnX(x / rectangle.Width)
             .OnY(y / rectangle.Height);
         calculator.Move();
