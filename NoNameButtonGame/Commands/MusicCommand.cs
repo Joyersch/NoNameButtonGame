@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using MonoUtils.Ui.Objects.Console;
-using NoNameButtonGame.LevelSystem;
+using MonoUtils.Console;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.Commands;

@@ -9,7 +9,7 @@ using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui.Objects;
-using MonoUtils.Ui.Objects.Console;
+using MonoUtils.Console;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
