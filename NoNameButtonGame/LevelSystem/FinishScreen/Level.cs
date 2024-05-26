@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
@@ -47,14 +48,6 @@ public class Level : SampleLevel
         };
         ColorListener.Add(rainbowColor, levelFinishedLabel);
         AutoManaged.Add(rainbowColor);
-
-        // if nothing is pressed, after 5 seconds, level finishes
-        // this is here as currently, something input does not work for some reason.
-        // This might have been do to the "InputReaderMouse".
-        // If this does not happen anymore this can be removed.
-        var failsave = new Timer(5000, true);
-        failsave.Trigger += Finish;
-        AutoManaged.Add(failsave);
     }
 
     public override void Update(GameTime gameTime)
@@ -65,6 +58,9 @@ public class Level : SampleLevel
         if (!_canExit)
             _canExit = Microsoft.Xna.Framework.Input.Mouse.GetState().LeftButton == ButtonState.Released;
         else if (Microsoft.Xna.Framework.Input.Mouse.GetState().LeftButton == ButtonState.Pressed)
+        {
+            _canExit = false;
             Finish();
+        }
     }
 }
