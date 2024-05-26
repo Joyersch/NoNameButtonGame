@@ -18,7 +18,7 @@ public class Column : IManageable, IInteractable, IMoveable, IMouseActions, IPla
     private OverTimeMover _upMover;
     private OverTimeMover _downMover;
 
-    private static float _time = 2000F;
+    private static float _time = 3750F;
 
     public event Action<object> Leave;
     public event Action<object> Enter;

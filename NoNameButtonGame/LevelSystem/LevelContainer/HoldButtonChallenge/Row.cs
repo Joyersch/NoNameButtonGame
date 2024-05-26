@@ -18,7 +18,7 @@ public class Row : IManageable, IInteractable, IMoveable, IMouseActions, IPlayab
     private GlitchBlockCollection _right;
     private OverTimeMover _rightMover;
 
-    private static float _time = 2000F;
+    private static float _time = 4250F;
 
     public event Action<object> Leave;
     public event Action<object> Enter;
