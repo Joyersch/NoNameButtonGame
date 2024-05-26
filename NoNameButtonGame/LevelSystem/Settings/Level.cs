@@ -327,6 +327,7 @@ public class Level : SampleLevel
         _sensLabel.GetAnchor(_sens)
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
             .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetDistanceY(4F)
             .Move();
         _mouseCollection.Add(_sensLabel);
 
@@ -685,6 +686,7 @@ public class Level : SampleLevel
         _sensLabel.GetAnchor(_sens)
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
             .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
+            .SetDistanceY(4F)
             .Move();
     }
 }
