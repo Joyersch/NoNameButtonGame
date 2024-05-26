@@ -16,7 +16,7 @@ public class Synthwave
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Synthwave\" not initialized!");
+            Log.Warning("Music \"Synthwave\" not initialized!");
             return;
         }
         _station.ResetVolume();

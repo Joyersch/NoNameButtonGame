@@ -150,7 +150,7 @@ internal class LevelManager
             mainMenu.OnExit += Exit;
             mainMenu.StartClicked += delegate
             {
-                Log.WriteInformation($"Starting level {_levelId}");
+                Log.Information($"Starting level {_levelId}");
                 _levelState = LevelState.Level;
                 ChangeLevel(_progress.MaxLevel + 1);
             };
@@ -184,7 +184,7 @@ internal class LevelManager
             selectLevel.OnExit += ExitLevel;
             selectLevel.OnLevelSelect += delegate(int level)
             {
-                Log.WriteInformation($"Selecting level {level}");
+                Log.Information($"Selecting level {level}");
                 _levelState = LevelState.SelectLevel;
                 ChangeLevel(level);
             };
@@ -227,7 +227,7 @@ internal class LevelManager
 
     private void LevelFinishes()
     {
-        Log.WriteInformation("On finish screen");
+        Log.Information("On finish screen");
         if (_levelState != LevelState.EndlessLevel)
         {
             _onFinishScreen = true;
@@ -240,7 +240,7 @@ internal class LevelManager
     private void FinishScreenDisplayed()
     {
         _onFinishScreen = false;
-        Log.WriteInformation("Finished level");
+        Log.Information("Finished level");
         switch (_levelState)
         {
             case LevelState.Level:
@@ -248,10 +248,10 @@ internal class LevelManager
                 if (_levelId > max)
                 {
                     _progress.MaxLevel = _levelId;
-                    Log.WriteInformation($"Updated max level value to {_levelId}");
+                    Log.Information($"Updated max level value to {_levelId}");
 
                     _settingsAndSaveManager.SaveSave();
-                    Log.WriteInformation("Saved progress!");
+                    Log.Information("Saved progress!");
                 }
 
                 if (_levelId == _levelFactory.MaxLevel())
@@ -260,11 +260,11 @@ internal class LevelManager
                 }
 
                 _levelId++;
-                Log.WriteInformation($"Increased level id to {_levelId}");
+                Log.Information($"Increased level id to {_levelId}");
                 break;
 
             case LevelState.SelectLevel:
-                Log.WriteInformation($"Changing level to select screen.");
+                Log.Information($"Changing level to select screen.");
                 _levelState = LevelState.Select;
                 break;
             case LevelState.EndlessLevel:
@@ -299,7 +299,7 @@ internal class LevelManager
 
     private void FailLevel()
     {
-        Log.WriteInformation($"Level failed. Current level: {_levelId}");
+        Log.Information($"Level failed. Current level: {_levelId}");
         ChangeLevel();
     }
 

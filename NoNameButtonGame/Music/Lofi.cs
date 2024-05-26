@@ -16,7 +16,7 @@ public static class Lofi
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Lofi\" not initialized!");
+            Log.Warning("Music \"Lofi\" not initialized!");
             return;
         }
         _station.ResetVolume();

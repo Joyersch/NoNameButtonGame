@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
@@ -41,6 +40,8 @@ public class SampleLevel : ILevel
     protected readonly List<object> AutoManaged;
     protected readonly List<object> AutoManagedStatic;
     protected Cursor Cursor;
+
+    private bool _canExit;
 
     private Text _cursorIndicator;
 
@@ -119,13 +120,9 @@ public class SampleLevel : ILevel
         RelativePositionListener.Update(gameTime);
         ColorListener.Update(gameTime);
 
-        if (InputReaderKeyboard.CheckKey(Keys.F7, true))
-            Mouse.UseRelative = !Mouse.UseRelative;
-
-        if (InputReaderKeyboard.CheckKey(Keys.F6, true))
-            Mouse.SetMousePointerPositionToCenter();
-
-        if (InputReaderKeyboard.CheckKey(Keys.Escape, true))
+        if (!_canExit)
+            _canExit = Keyboard.GetState()[Keys.Escape] == KeyState.Up;
+        else if (Keyboard.GetState()[Keys.Escape] == KeyState.Down)
             Exit();
 
         Cursor.Update(gameTime);

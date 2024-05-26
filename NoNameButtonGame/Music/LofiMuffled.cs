@@ -16,7 +16,7 @@ public class LofiMuffled
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Lofi Muffled\" not initialized!");
+            Log.Warning("Music \"Lofi Muffled\" not initialized!");
             return;
         }
         _station.ResetVolume();

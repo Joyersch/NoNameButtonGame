@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Sound;
@@ -74,7 +75,6 @@ public class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .Move();
         AutoManaged.Add(settingsButton);
-
 
         var exitButton = new Button(textComponent.GetValue("ExitButton"));
         exitButton.Click += ExitButtonPressed;

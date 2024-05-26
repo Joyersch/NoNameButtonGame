@@ -16,7 +16,7 @@ public class Memphis
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Memphis\" not initialized!");
+            Log.Warning("Music \"Memphis\" not initialized!");
             return;
         }
         _station.ResetVolume();

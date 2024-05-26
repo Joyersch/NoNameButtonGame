@@ -16,7 +16,7 @@ public class Trance
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Trance\" not initialized!");
+            Log.Warning("Music \"Trance\" not initialized!");
             return;
         }
         _station.ResetVolume();

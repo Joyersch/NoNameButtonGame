@@ -16,7 +16,7 @@ public class DnB4
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"DnB4\" not initialized!");
+            Log.Warning("Music \"DnB4\" not initialized!");
             return;
         }
         _station.ResetVolume();

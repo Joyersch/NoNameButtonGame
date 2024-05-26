@@ -16,7 +16,7 @@ public class Trap2
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Trap2\" not initialized!");
+            Log.Warning("Music \"Trap2\" not initialized!");
             return;
         }
         _station.ResetVolume();

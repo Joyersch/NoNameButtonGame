@@ -140,7 +140,7 @@ internal class Level : SampleLevel
 
         _idleTimer.Trigger += delegate
         {
-            Log.WriteInformation("Idle check confirm");
+            Log.Information("Idle check confirm");
             _idleSpawnerInvoker.Start();
             color.Increment = 10;
         };
@@ -171,7 +171,7 @@ internal class Level : SampleLevel
                 _hasDisplayedInfo = true;
             }
 
-            Log.WriteInformation("Idle check reset");
+            Log.Information("Idle check reset");
             _idleTimer.Reset();
             _idleSpawnerInvoker.Stop();
             color.Increment = 1;

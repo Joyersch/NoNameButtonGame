@@ -32,6 +32,7 @@ public class NoNameGame : SimpleGame
 
     private LoopStation _loopStation;
     private EffectsRegistry _effectsRegistry;
+    private bool _keyWasPressed;
 
     public NoNameGame()
     {
@@ -159,6 +160,13 @@ public class NoNameGame : SimpleGame
                     .Move();
             }
 
+            var keyboardState = Keyboard.GetState();
+            var keyIsPressed = keyboardState[Keys.F10] == KeyState.Down;
+            if (!_keyWasPressed && keyIsPressed)
+                ToggleConsole();
+
+            _keyWasPressed = keyIsPressed;
+
             _elapsedTime.Update(gameTime);
         }
 
@@ -209,8 +217,6 @@ public class NoNameGame : SimpleGame
 
     public void ApplySettings(VideoSettings settings)
     {
-
-
         ApplyResolution(settings.Resolution);
         ApplyFullscreen(settings.IsFullscreen);
         ApplyFixedStep(settings.IsFixedStep);

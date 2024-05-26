@@ -41,7 +41,7 @@ public class Quiz : IManageable, IInteractable
         _questions = questions;
         Rectangle = rectangle;
         if (questions.Any(q => q.Answers.Length > 3))
-            Log.WriteWarning("A question has more answers that supported!");
+            Log.Warning("A question has more answers that supported!");
 
         _question = new Text(string.Empty, scale);
         _question.InRectangle(Rectangle)

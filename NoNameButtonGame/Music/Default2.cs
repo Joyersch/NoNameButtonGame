@@ -16,7 +16,7 @@ public class Default2
     {
         if (_station is null)
         {
-            Log.WriteWarning("Music \"Default2\" not initialized!");
+            Log.Warning("Music \"Default2\" not initialized!");
             return;
         }
         _station.ResetVolume();

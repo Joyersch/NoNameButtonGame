@@ -178,7 +178,7 @@ public class Level : SampleLevel
             var resolution = (Resolution)o;
             videoSettings.Resolution = resolution;
             SetScreen(resolution.ToVector2());
-            Log.WriteInformation($"Changed resolution to: {resolution}");
+            Log.Information($"Changed resolution to: {resolution}");
             OnWindowResize?.Invoke(Window);
             game1.ApplyResolution(resolution);
         };
@@ -433,23 +433,6 @@ public class Level : SampleLevel
 
             _advancedButton.UpdateInteraction(gameTime, Cursor);
             _advancedButton.Update(gameTime);
-
-            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseUp))
-            {
-                if (_menuState == MenuState.Advanced)
-                    _menuState = MenuState.Video;
-                else
-                    _menuState++;
-            }
-
-
-            if (InputReaderMouse.CheckKey(InputReaderMouse.MouseKeys.MouseDown))
-            {
-                if (_menuState == MenuState.Video)
-                    _menuState = MenuState.Advanced;
-                else
-                    _menuState--;
-            }
 
             // Does not need to be run every frame, only when a menu button is clicked
             UpdateButtonSelection();

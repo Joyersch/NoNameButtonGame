@@ -136,7 +136,7 @@ internal class Level : SampleLevel
                 return;
 
             _isInitiated = true;
-            Log.WriteInformation("Starting movement of blocks!");
+            Log.Information("Starting movement of blocks!");
             overTimeInvokeMovement.Start();
             DnB4.Play();
         };
