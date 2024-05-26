@@ -3,12 +3,14 @@ using System.Reflection;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -23,7 +25,7 @@ public class Level : SampleLevel
     public event Action<object> CreditsClicked;
 
     public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry,
-        int maxLevel, bool panIn) : base(display, window, rand, effectsRegistry)
+        int maxLevel, bool panIn, SettingsAndSaveManager settingsAndSaveManager) : base(display, window, rand, effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");

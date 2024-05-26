@@ -35,11 +35,13 @@ public class Level : SampleLevel
     private ManagementCollection _advancedCollection;
     private ManagementCollection _videoCollection;
     private ManagementCollection _audioCollection;
+    private ManagementCollection _mouseCollection;
     private ManagementCollection _languageCollection;
 
     private Button _advancedButton;
     private Button _videoButton;
     private Button _audioButton;
+    private Button _mouseButton;
     private Button _languageButton;
 
     private Text _consoleEnabledLabel;
@@ -49,6 +51,8 @@ public class Level : SampleLevel
     private Text _musicVolumeLabel;
     private Text _soundEffectVolumeLabel;
     private Text _saveChangesLabel;
+    private Text _sensLabel;
+    private Text _fullscreenLabel;
 
     private TextComponent _textComponent;
     private Checkbox _consoleEnabled;
@@ -56,10 +60,10 @@ public class Level : SampleLevel
     private Checkbox _fixedStep;
     private Checkbox _fullscreen;
     private ValueSelection<Resolution> _resolution;
-    private Text _fullscreenLabel;
 
     private ValueSelection<Volume> _musicVolume;
     private ValueSelection<Volume> _soundEffectVolume;
+    private ValueSelection<float> _sens;
 
     private MenuState _menuState;
     private bool _saveDialog;
@@ -74,20 +78,21 @@ public class Level : SampleLevel
     {
         Video,
         Audio,
+        Mouse,
         Language,
         Advanced
     }
 
     public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
-        NoNameGame game, EffectsRegistry effectsRegistry) : base(
-        display,
-        window, random, effectsRegistry)
+        NoNameGame game, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry,
+        settingsAndSave)
     {
         var game1 = game;
         var advancedSettings = settingsAndSave.GetSetting<AdvancedSettings>();
         var videoSettings = settingsAndSave.GetSetting<VideoSettings>();
         _languageSettings = settingsAndSave.GetSetting<LanguageSettings>();
         var audioSettings = settingsAndSave.GetSetting<AudioSettings>();
+        var mouseSettings = settingsAndSave.GetSetting<MouseSettings>();
 
         Default.Play();
 
@@ -121,13 +126,14 @@ public class Level : SampleLevel
 
         _videoCollection = new ManagementCollection();
         _audioCollection = new ManagementCollection();
+        _mouseCollection = new ManagementCollection();
         _languageCollection = new ManagementCollection();
         _advancedCollection = new ManagementCollection();
 
         _videoButton = new Button(string.Empty);
         _videoButton.InRectangle(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.2F)
+            .OnX(0.1F)
             .Centered()
             .Move();
         _videoButton.Click += _ => _menuState = MenuState.Video;
@@ -135,15 +141,23 @@ public class Level : SampleLevel
         _audioButton = new Button(string.Empty);
         _audioButton.InRectangle(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.4F)
+            .OnX(0.3F)
             .Centered()
             .Move();
         _audioButton.Click += _ => _menuState = MenuState.Audio;
 
+        _mouseButton = new Button(string.Empty);
+        _mouseButton.InRectangle(Camera.Rectangle)
+            .OnY(0.1F)
+            .OnX(0.5F)
+            .Centered()
+            .Move();
+        _mouseButton.Click += _ => _menuState = MenuState.Mouse;
+
         _languageButton = new Button(string.Empty);
         _languageButton.InRectangle(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.6F)
+            .OnX(0.7F)
             .Centered()
             .Move();
         _languageButton.Click += _ => _menuState = MenuState.Language;
@@ -151,7 +165,7 @@ public class Level : SampleLevel
         _advancedButton = new Button(string.Empty);
         _advancedButton.InRectangle(Camera.Rectangle)
             .OnY(0.1F)
-            .OnX(0.8F)
+            .OnX(0.9F)
             .Centered()
             .Move();
         _advancedButton.Click += _ => _menuState = MenuState.Advanced;
@@ -284,6 +298,39 @@ public class Level : SampleLevel
         _audioCollection.Add(_soundEffectVolumeLabel);
 
         #endregion // Audio
+
+        #region Mouse
+
+        List<float> values = new List<float>()
+        {
+            0.1F,
+            0.2F,
+            0.3F,
+            0.4F,
+            0.5F,
+            0.6F,
+            0.7F,
+            0.8F,
+            0.9F,
+            1F,
+        };
+        _sens = new ValueSelection<float>(Vector2.Zero, 1F, values, values.IndexOf(mouseSettings.Sensitivity));
+        _sens.InRectangle(Camera.Rectangle)
+            .OnCenter()
+            .OnY(0.4F)
+            .Centered()
+            .Move();
+        _sens.ValueChanged += delegate(object o) { mouseSettings.Sensitivity = (float)o; };
+        _mouseCollection.Add(_sens);
+
+        _sensLabel = new Text(string.Empty);
+        _sensLabel.GetAnchor(_sens)
+            .SetMainAnchor(AnchorCalculator.Anchor.Top)
+            .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
+            .Move();
+        _mouseCollection.Add(_sensLabel);
+
+        #endregion // Mouse
 
         #region Language
 
@@ -428,6 +475,9 @@ public class Level : SampleLevel
             _audioButton.UpdateInteraction(gameTime, Cursor);
             _audioButton.Update(gameTime);
 
+            _mouseButton.UpdateInteraction(gameTime, Cursor);
+            _mouseButton.Update(gameTime);
+
             _languageButton.UpdateInteraction(gameTime, Cursor);
             _languageButton.Update(gameTime);
 
@@ -446,6 +496,10 @@ public class Level : SampleLevel
                 case MenuState.Audio:
                     _audioCollection.UpdateInteraction(gameTime, Cursor);
                     _audioCollection.Update(gameTime);
+                    break;
+                case MenuState.Mouse:
+                    _mouseCollection.UpdateInteraction(gameTime, Cursor);
+                    _mouseCollection.Update(gameTime);
                     break;
                 case MenuState.Language:
                     _languageCollection.UpdateInteraction(gameTime, Cursor);
@@ -472,6 +526,7 @@ public class Level : SampleLevel
     {
         _videoButton.Draw(spriteBatch);
         _audioButton.Draw(spriteBatch);
+        _mouseButton.Draw(spriteBatch);
         _languageButton.Draw(spriteBatch);
         _advancedButton.Draw(spriteBatch);
 
@@ -482,6 +537,9 @@ public class Level : SampleLevel
                 break;
             case MenuState.Audio:
                 _audioCollection.Draw(spriteBatch);
+                break;
+            case MenuState.Mouse:
+                _mouseCollection.Draw(spriteBatch);
                 break;
             case MenuState.Language:
                 _languageCollection.Draw(spriteBatch);
@@ -521,6 +579,7 @@ public class Level : SampleLevel
         _advancedButton.Text.ChangeColor(Color.Gray);
         _videoButton.Text.ChangeColor(Color.Gray);
         _audioButton.Text.ChangeColor(Color.Gray);
+        _mouseButton.Text.ChangeColor(Color.Gray);
         _languageButton.Text.ChangeColor(Color.Gray);
 
         switch (_menuState)
@@ -530,6 +589,9 @@ public class Level : SampleLevel
                 break;
             case MenuState.Audio:
                 _audioButton.Text.ChangeColor(Color.White);
+                break;
+            case MenuState.Mouse:
+                _mouseButton.Text.ChangeColor(Color.White);
                 break;
             case MenuState.Language:
                 _languageButton.Text.ChangeColor(Color.White);
@@ -548,6 +610,7 @@ public class Level : SampleLevel
 
         _videoButton.Text.ChangeText(_textComponent.GetValue("Video"));
         _audioButton.Text.ChangeText(_textComponent.GetValue("Audio"));
+        _mouseButton.Text.ChangeText(_textComponent.GetValue("Mouse"));
         _languageButton.Text.ChangeText(_textComponent.GetValue("Language"));
         _advancedButton.Text.ChangeText(_textComponent.GetValue("Advanced"));
 
@@ -616,6 +679,12 @@ public class Level : SampleLevel
             .OnCenter()
             .OnY(0.33F)
             .Centered()
+            .Move();
+
+        _sensLabel.ChangeText(_textComponent.GetValue("Sens"));
+        _sensLabel.GetAnchor(_sens)
+            .SetMainAnchor(AnchorCalculator.Anchor.Top)
+            .SetSubAnchor(AnchorCalculator.Anchor.Bottom)
             .Move();
     }
 }

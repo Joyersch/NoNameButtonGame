@@ -2,10 +2,12 @@
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
@@ -17,8 +19,8 @@ public class Level : SampleLevel
 
     private int _cameraLevel;
 
-    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry) : base(display,
-        window, rand, effectsRegistry)
+    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry, SettingsAndSaveManager settingsAndSaveManager) : base(display,
+        window, rand, effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Select");
         Name = textComponent.GetValue("Name");

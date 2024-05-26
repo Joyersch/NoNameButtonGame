@@ -2,12 +2,14 @@
 using Microsoft.Xna.Framework;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.TutorialLevel;
@@ -18,7 +20,8 @@ internal class Level : SampleLevel
     private readonly OverTimeMover _mover;
 
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager settingsAndSaveManager) : base(display, window, random, effectsRegistry, settingsAndSaveManager)
     {
         TextComponent textComponent = TextProvider.GetText("Levels.TutorialLevel");
         Name = textComponent.GetValue("Name");

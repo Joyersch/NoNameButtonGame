@@ -4,10 +4,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.FallingLevel;
@@ -24,8 +26,8 @@ internal class Level : SampleLevel
     private bool _checkOffscreen;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        float difficulty = 1F) : base(display,
-        window, random, effectsRegistry)
+        SettingsAndSaveManager settingsAndSaveManager, float difficulty = 1F) : base(display, window, random,
+        effectsRegistry, settingsAndSaveManager)
     {
         _random = random;
         var textComponent = TextProvider.GetText("Levels.FallingLevel");
@@ -97,7 +99,8 @@ internal class Level : SampleLevel
             _checkOffscreen = true;
     }
 
-    private void CreateRow(IMoveable anchor, Vector2 singleSize, float singleScale, Vector2 destination, float time, int frame)
+    private void CreateRow(IMoveable anchor, Vector2 singleSize, float singleScale, Vector2 destination, float time,
+        int frame)
     {
         var row = new Row(Vector2.Zero, singleSize, singleScale, frame);
         row.GetAnchor(anchor)
@@ -149,6 +152,7 @@ internal class Level : SampleLevel
         {
             row.row.Draw(spriteBatch);
         }
+
         base.Draw(spriteBatch);
     }
 }

@@ -7,6 +7,7 @@ using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Endless;
@@ -17,8 +18,8 @@ public class Level : SampleLevel
 
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager saveManager) : base(display,
-        window, random, effectsRegistry)
+        SettingsAndSaveManager saveManager) : base(display, window, random,
+        effectsRegistry, saveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Endless");
         Name = textComponent.GetValue("Name");

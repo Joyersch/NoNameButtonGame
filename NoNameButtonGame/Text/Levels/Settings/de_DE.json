@@ -66,5 +66,13 @@
   {
     "key": "SaveChanges",
     "value": "Änderungen speichern?"
+  },
+  {
+    "key": "Mouse",
+    "value": "Maus"
+  },
+  {
+    "key": "Sens",
+    "value": "Sensibilität"
   }
 ]

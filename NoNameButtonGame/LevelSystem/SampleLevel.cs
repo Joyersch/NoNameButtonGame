@@ -8,11 +8,13 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
 using MonoUtils.Logic.Management;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic.Listener;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.LevelSystem.Settings;
 using IUpdateable = MonoUtils.Logic.IUpdateable;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -28,6 +30,8 @@ public class SampleLevel : ILevel
     protected EffectsRegistry EffectsRegistry { get; }
     protected readonly MousePointer Mouse;
     protected Vector2 CameraPosition => Camera.Position;
+
+    private MouseSettings _mouseSettings;
 
     protected readonly Display Display;
     public string Name;
@@ -45,7 +49,7 @@ public class SampleLevel : ILevel
 
     private Text _cursorIndicator;
 
-    protected SampleLevel(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry)
+    protected SampleLevel(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, SettingsAndSaveManager settingsAndSaveManager)
     {
         Display = display;
         Random = random;
@@ -58,6 +62,8 @@ public class SampleLevel : ILevel
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();
+
+        _mouseSettings = settingsAndSaveManager.GetSetting<MouseSettings>();
 
         AutoManaged = new List<object>();
         AutoManagedStatic = new List<object>();
@@ -90,6 +96,7 @@ public class SampleLevel : ILevel
         }
 
         Camera.Update();
+        Mouse.Speed = _mouseSettings.Sensitivity;
         Mouse.Update(gameTime);
 
         MoveHelper.RotateTowards(_cursorIndicator[0], Cursor);
@@ -123,7 +130,10 @@ public class SampleLevel : ILevel
         if (!_canExit)
             _canExit = Keyboard.GetState()[Keys.Escape] == KeyState.Up;
         else if (Keyboard.GetState()[Keys.Escape] == KeyState.Down)
+        {
+            _canExit = false;
             Exit();
+        }
 
         Cursor.Update(gameTime);
     }

@@ -4,10 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.FinishScreen;
@@ -16,8 +18,9 @@ public class Level : SampleLevel
 {
     private bool _canExit;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display,
-        window, random, effectsRegistry)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+        settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.FinishScreen");
         Name = textComponent.GetValue("Name");

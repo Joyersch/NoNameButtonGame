@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SuperGunLevel;
@@ -29,8 +31,9 @@ internal class Level : SampleLevel
 
     private Text _gun;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, int difficulty = 1) :
-        base(display, window, random, effectsRegistry)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager settingsAndSaveManager, int difficulty = 1) : base(display, window, random,
+        effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.SuperGunLevel");
         Name = textComponent.GetValue("Name");

@@ -13,6 +13,7 @@ using MonoUtils.Ui.Objects.Buttons.AddOn;
 using MonoUtils.Ui.Objects.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -45,8 +46,8 @@ public class Level : SampleLevel
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
     public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
-        EffectsRegistry effectsRegistry) : base(display,
-        window, random, effectsRegistry)
+        EffectsRegistry effectsRegistry) : base(display, window, random,
+        effectsRegistry, settingsAndSave)
     {
         _settingsAndSave = settingsAndSave;
         var textComponent = TextProvider.GetText("Levels.CookieClickerLevel");

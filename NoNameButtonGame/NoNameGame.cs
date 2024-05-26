@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -48,6 +49,16 @@ public class NoNameGame : SimpleGame
         base.Initialize();
 
         ApplySettings();
+
+        // This is to apply new settings to fix some bugs while upgrading to a newer version of the game
+        var savedVersion = SettingsAndSaveManager.GetSetting<VersionSettings>();
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        if (savedVersion.Version < version)
+        {
+            savedVersion.Version = version;
+            SettingsAndSaveManager.SaveSettings();
+        }
+
 
         // register soundSettingsListener to change sound volume if
         //Global.SoundSettingsListener = new SoundSettingsListener(SettingsManager.Settings);

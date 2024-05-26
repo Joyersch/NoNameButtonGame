@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
@@ -13,7 +15,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 public class Level : SampleLevel
 {
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        float difficulty = 1F) : base(display, window, random, effectsRegistry)
+        SettingsAndSaveManager settingsAndSaveManager, float difficulty = 1F) : base(display, window, random,
+        effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.SimonSaysLevel");
         Name = textComponent.GetValue("Name");
@@ -44,7 +47,8 @@ public class Level : SampleLevel
         float buttonDisplaySpeed = 150 + 150 * flippedDifficulty;
         // Log.WriteInformation(playLength.ToString());
 
-        var simon = new SimonSays(Camera.Rectangle, random, text, playLength, waitBetweenColors, buttonDisplaySpeed, effectsRegistry);
+        var simon = new SimonSays(Camera.Rectangle, random, text, playLength, waitBetweenColors, buttonDisplaySpeed,
+            effectsRegistry);
         simon.Finished += Finish;
         AutoManaged.Add(simon);
     }

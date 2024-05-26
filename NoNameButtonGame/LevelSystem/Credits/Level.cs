@@ -4,18 +4,22 @@ using Microsoft.Xna.Framework;
 using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Objects;
 using MonoUtils.Ui.Objects.TextSystem;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Credits;
 
 public class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry)
+    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+        settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Credits");
         Name = textComponent.GetValue("Name");

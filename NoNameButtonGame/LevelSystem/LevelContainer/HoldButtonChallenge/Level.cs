@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
+using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Objects;
@@ -12,6 +13,7 @@ using MonoUtils.Ui.Objects.Buttons;
 using MonoUtils.Ui.Objects.Buttons.AddOn;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.HoldButtonChallenge;
@@ -27,7 +29,8 @@ internal class Level : SampleLevel
     private bool _firstPlay = true;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        float difficulty = 1) : base(display, window, random, effectsRegistry)
+        SettingsAndSaveManager settingsAndSaveManager, float difficulty = 1) : base(display, window, random,
+        effectsRegistry, settingsAndSaveManager)
     {
         _random = random;
         var textComponent = TextProvider.GetText("Levels.GlitchBlockHoldButtonChallenge");
@@ -45,7 +48,7 @@ internal class Level : SampleLevel
 
         var flippedDifficulty = 6F - 5F * cleanDifficulty;
 
-        var overTimeInvokeMovement = new OverTimeInvoker( 250F * flippedDifficulty, false);
+        var overTimeInvokeMovement = new OverTimeInvoker(250F * flippedDifficulty, false);
         overTimeInvokeMovement.Trigger += TriggerMovement;
         AutoManaged.Add(overTimeInvokeMovement);
 
@@ -169,6 +172,7 @@ internal class Level : SampleLevel
             onButton?.Play();
             return;
         }
+
         int index = _random.Next(useRow ? _rows.Count : _columns.Count);
 
         IPlayable playable = useRow ? _rows[index] : _columns[index];
