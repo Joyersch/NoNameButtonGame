@@ -162,18 +162,10 @@ public class Level : SampleLevel
 
         _videoCollection.Add(_resolutionInfo);
 
-        List<Resolution> resolutions = new List<Resolution>()
-        {
-            new Resolution(1280, 720),
-            new Resolution(1920, 1080),
-            new Resolution(2560, 1440),
-            new Resolution(3840, 2160),
-        };
-
-        var index = resolutions.IndexOf(resolutions.First(r =>
+        var index = VideoSettings.Resolutions.IndexOf(VideoSettings.Resolutions.First(r =>
             r.Width == videoSettings.Resolution.Width));
 
-        _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1, resolutions, index);
+        _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1, VideoSettings.Resolutions, index);
 
         _resolution.InRectangle(Camera.Rectangle)
             .OnCenter()

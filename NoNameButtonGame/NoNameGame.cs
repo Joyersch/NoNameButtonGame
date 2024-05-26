@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -191,6 +192,14 @@ public class NoNameGame : SimpleGame
         var languageSettings = SettingsAndSaveManager.GetSetting<LanguageSettings>();
         var advancedSettings = SettingsAndSaveManager.GetSetting<AdvancedSettings>();
 
+        if (settings.Resolution is null)
+        {
+            settings.Resolution = VideoSettings.Resolutions
+                .OrderBy(r => r.Width < GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width)
+                .First();
+            SettingsAndSaveManager.SaveSettings();
+        }
+
         ApplySettings(settings);
 
         TextProvider.Localization = languageSettings.Localization;
@@ -200,6 +209,8 @@ public class NoNameGame : SimpleGame
 
     public void ApplySettings(VideoSettings settings)
     {
+
+
         ApplyResolution(settings.Resolution);
         ApplyFullscreen(settings.IsFullscreen);
         ApplyFixedStep(settings.IsFixedStep);
