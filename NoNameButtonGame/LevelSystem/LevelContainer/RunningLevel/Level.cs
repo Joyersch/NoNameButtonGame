@@ -268,9 +268,9 @@ internal class Level : SampleLevel
         base.Draw(spriteBatch);
     }
 
-    protected override void DrawStatic(SpriteBatch spriteBatch)
+    protected override void DrawStaticFront(SpriteBatch spriteBatch)
     {
-        base.DrawStatic(spriteBatch);
+        base.DrawStaticFront(spriteBatch);
 
         if (!_started)
             return;

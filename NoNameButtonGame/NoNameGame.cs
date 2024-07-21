@@ -18,6 +18,7 @@ using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
+using NoNameButtonGame.LevelSystem.Selection;
 using CookieClickerFont = NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel.Font;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
@@ -101,6 +102,17 @@ public class NoNameGame : SimpleGame
 
         // Select
         SelectButton.Texture = Content.GetTexture("minibutton");
+        Showcase.Texture[0] = Content.GetTexture("Showcases/Level0");
+        Showcase.Texture[1] = Content.GetTexture("Showcases/Level1");
+        Showcase.Texture[2] = Content.GetTexture("Showcases/Level2");
+        Showcase.Texture[3] = Content.GetTexture("Showcases/Level3");
+        Showcase.Texture[4] = Content.GetTexture("Showcases/Level4");
+        Showcase.Texture[5] = Content.GetTexture("Showcases/Level5");
+        Showcase.Texture[6] = Content.GetTexture("Showcases/Level6");
+        Showcase.Texture[7] = Content.GetTexture("Showcases/Level7");
+        Showcase.Texture[8] = Content.GetTexture("Showcases/Level8");
+        Showcase.Texture[9] = Content.GetTexture("Showcases/Level9");
+        Showcase.Texture[10] = Content.GetTexture("Showcases/Level10");
 
         // Sound effects
         _effectsRegistry.Register(Content.GetSfx("8_bit_notes/C"), "note_c");

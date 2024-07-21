@@ -24,6 +24,7 @@ internal class LevelManager
     private bool _onFinishScreen;
     private int _levelId;
     private LevelState _levelState;
+    private int _difficulty = 1;
 
     public event Action CloseGame;
 
@@ -63,7 +64,7 @@ internal class LevelManager
         if (_progress.MaxLevel == 0)
         {
             _levelState = LevelState.Level;
-            ChangeLevel(_progress.MaxLevel + 1);
+            ChangeLevel(_progress.MaxLevel + 1, 1);
             _starting = false;
         }
         else
@@ -95,10 +96,13 @@ internal class LevelManager
     public void SetAsLevelSelect()
         => _levelState = LevelState.SelectLevel;
 
-    public void ChangeLevel(int level)
+    public void ChangeLevel(int level, int difficulty)
+        => ChangeLevel(LevelFactory.ParseLevelType(level), difficulty);
+    
+    public void ChangeLevel(LevelFactory.LevelType level, int difficulty)
     {
-        _currentLevel = _levelFactory.GetLevel(level);
-        _levelId = level;
+        _currentLevel = _levelFactory.GetLevel(level, difficulty);
+        _levelId = (int)level;
         ChangeTitle?.Invoke(_currentLevel.Name);
         RegisterEvents();
     }
@@ -119,7 +123,7 @@ internal class LevelManager
                 break;
             case LevelState.SelectLevel:
             case LevelState.Level:
-                ChangeLevel(_levelId);
+                ChangeLevel(_levelId, _difficulty);
                 return;
             case LevelState.Endless:
                 _currentLevel = _levelFactory.GetEndless();
@@ -152,7 +156,8 @@ internal class LevelManager
             {
                 Log.Information($"Starting level {_levelId}");
                 _levelState = LevelState.Level;
-                ChangeLevel(_progress.MaxLevel + 1);
+                _difficulty = 1;
+                ChangeLevel(_progress.MaxLevel + 1, _difficulty);
             };
 
             mainMenu.SelectClicked += delegate
@@ -182,11 +187,12 @@ internal class LevelManager
         else if (_currentLevel is Selection.Level selectLevel)
         {
             selectLevel.OnExit += ExitLevel;
-            selectLevel.OnLevelSelect += delegate(int level)
+            selectLevel.OnLevelSelect += delegate(LevelFactory.LevelType level, int difficulty)
             {
                 Log.Information($"Selecting level {level}");
                 _levelState = LevelState.SelectLevel;
-                ChangeLevel(level);
+                _difficulty = difficulty;
+                ChangeLevel(level, difficulty);
             };
         }
         else if (_currentLevel is Settings.Level settingsLevel)
@@ -269,9 +275,9 @@ internal class LevelManager
                 break;
             case LevelState.EndlessLevel:
                 _currentEndlessLevelId = -1;
-                if (_currentDifficulty < 10)
+                if (_currentDifficulty < 25)
                     _currentDifficulty = 0;
-                _currentDifficulty += 10;
+                _currentDifficulty += 25;
                 var endlessProgress = _settingsAndSaveManager.GetSave<EndlessProgress>();
                 var progress = _currentDifficulty / 5;
                 if (endlessProgress.HighestLevel < progress)

@@ -2,5 +2,73 @@
   {
     "key": "Name",
     "value": "Auswahl"
+  },
+  {
+    "key": "Play",
+    "value": "Spielen"
+  },
+  {
+    "key": "Fallback",
+    "value": "Fallback"
+  },
+  {
+    "key": "Tutorial",
+    "value": "Tutorial"
+  },
+  {
+    "key": "ButtonGrid",
+    "value": "ButtonGrid"
+  },
+  {
+    "key": "SimonSays",
+    "value": "SimonSays"
+  },
+  {
+    "key": "Quiz",
+    "value": "Quiz"
+  },
+  {
+    "key": "CookieClicker",
+    "value": "CookieClicker"
+  },
+  {
+    "key": "GlitchBlock",
+    "value": "GlitchBlock"
+  },
+  {
+    "key": "HoldButtonChallenge",
+    "value": "HoldButtonChallenge"
+  },
+  {
+    "key": "Falling",
+    "value": "Falling"
+  },
+  {
+    "key": "Running",
+    "value": "Running"
+  },
+  {
+    "key": "SuperGun",
+    "value": "SuperGun"
+  },
+  {
+    "key": "Easy",
+    "value": "Einfach"
+  },
+  {
+    "key": "Medium",
+    "value": "Mittel"
+  },
+  {
+    "key": "Hard",
+    "value": "Schwer"
+  },
+  {
+    "key": "Insane",
+    "value": "Krass"
+  },
+  {
+    "key": "Extreme",
+    "value": "Extrem"
   }
 ]

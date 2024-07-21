@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
-using NoNameButtonGame.LevelSystem.Settings;
 using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
 
 namespace NoNameButtonGame.LevelSystem;
@@ -41,7 +40,7 @@ public class LevelFactory
         => new(_display, _screen, _random, _settingsAndSave, _game, _effectsRegistry);
 
     public Selection.Level GetSelectLevel()
-        => new(_display, _screen, _random, _settingsAndSave.GetSave<Progress>(), _effectsRegistry, _settingsAndSave);
+        => new(_display, _screen, _random, _settingsAndSave.GetSave<Progress>(), _effectsRegistry, _settingsAndSave, this);
 
     public FinishScreen.Level GetFinishScreen()
         => new(_display, _screen, _random, _effectsRegistry, _settingsAndSave);
@@ -53,20 +52,36 @@ public class LevelFactory
         => new(_display, _screen, _random, _effectsRegistry, _settingsAndSave);
 
     public SampleLevel GetLevel(int number, int difficulty = 1)
-        => number switch
+        => GetLevel(ParseLevelType(number), difficulty);
+
+    public SampleLevel GetLevel(LevelType type, int difficulty = 1)
+        => type switch
         {
-            1 => new Levels.TutorialLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave),
-            2 => new Levels.ButtonGridLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave, difficulty),
-            3 => new Levels.SimonSaysLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave, difficulty),
-            4 => new Levels.QuizLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave),
-            5 => new Levels.CookieClickerLevel.Level(_display, _screen, _random, _settingsAndSave, _effectsRegistry),
-            6 => new Levels.GlitchBlockTutorial.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave),
-            7 => new Levels.HoldButtonChallenge.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave, difficulty),
-            8 => new Levels.FallingLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave, difficulty),
-            9 => new Levels.RunningLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave, difficulty),
-            10 => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave, difficulty),
+            LevelType.Tutorial => new Levels.TutorialLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave),
+            LevelType.ButtonGrid => new Levels.ButtonGridLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave, difficulty),
+            LevelType.SimonSays => new Levels.SimonSaysLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave, difficulty),
+            LevelType.Quiz => new Levels.QuizLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave),
+            LevelType.CookieClicker => new Levels.CookieClickerLevel.Level(_display, _screen, _random, _settingsAndSave,
+                _effectsRegistry),
+            LevelType.GlitchBlock => new Levels.GlitchBlockTutorial.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave),
+            LevelType.HoldButtonChallenge => new Levels.HoldButtonChallenge.Level(_display, _screen, _random,
+                _effectsRegistry, _settingsAndSave, difficulty),
+            LevelType.Falling => new Levels.FallingLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave, difficulty),
+            LevelType.Running => new Levels.RunningLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave, difficulty),
+            LevelType.SuperGun => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry,
+                _settingsAndSave, difficulty),
             _ => new Levels.FallbackLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave)
         };
+
+    public static LevelType ParseLevelType(int number)
+        => Enum.IsDefined(typeof(LevelType), number) ? (LevelType)number : LevelType.Fallback;
 
     public int MaxLevel()
         => 10;
@@ -75,6 +90,22 @@ public class LevelFactory
         => _random.Next(2) switch
         {
             0 => _random.Next(2, 4), /*ButtonGridLevel & SimonSaysLevel*/
-            _ /*1*/ => _random.Next(7, 11), /*GlitchBlockHoldButtonChallenge & FallingLevel & RunningLevel & SuperGunLevel*/
+            _ /*1*/ => _random.Next(7,
+                11), /*GlitchBlockHoldButtonChallenge & FallingLevel & RunningLevel & SuperGunLevel*/
         };
+
+    public enum LevelType
+    {
+        Fallback = 0,
+        Tutorial,
+        ButtonGrid,
+        SimonSays,
+        Quiz,
+        CookieClicker,
+        GlitchBlock,
+        HoldButtonChallenge,
+        Falling,
+        Running,
+        SuperGun,
+    }
 }

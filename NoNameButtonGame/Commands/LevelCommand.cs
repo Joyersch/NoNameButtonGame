@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using MonoUtils.Console;
+using MonoUtils.Settings;
 using NoNameButtonGame.LevelSystem;
+using NoNameButtonGame.LevelSystem.Selection;
 
 namespace NoNameButtonGame.Commands;
 
@@ -10,7 +12,8 @@ public class LevelCommand : ICommand
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));
-
+        var saves = context.GetValue<SettingsAndSaveManager>(nameof(SettingsAndSaveManager));
+        var selectionSettings = saves.GetSave<SelectionState>();
 
         if (options.Length < 1)
             return new[] { levelManager.GetCurrentLevelId().ToString() };
@@ -27,7 +30,7 @@ public class LevelCommand : ICommand
             return new[] { "Usage:", "level (level)"};
 
         levelManager.SetAsLevelSelect();
-        levelManager.ChangeLevel(ival);
+        levelManager.ChangeLevel(ival, Level.ResolveDifficulty(selectionSettings.Difficulty));
         return new[] { $"changed level to {ival}!" };
     }
 }

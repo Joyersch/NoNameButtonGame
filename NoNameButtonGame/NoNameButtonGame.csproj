@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Music" />
+    <Folder Include="Content\Textures\Showcases\" />
     <Folder Include="Text\Levels\MainMenu\" />
     <Folder Include="Text\Levels\Settings\" />
   </ItemGroup>

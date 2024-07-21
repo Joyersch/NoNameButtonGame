@@ -1,17 +1,22 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
+using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Color;
+using MonoUtils.Ui.Logic;
+using MonoUtils.Ui.Objects;
 
 namespace NoNameButtonGame.GameObjects;
 
-public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable
+public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable, IHitbox
 {
     private Vector2 _position;
     private Vector2 _size;
-    private Color _color;
+
+    public Color Color { get; set; }
 
     public float Layer { get; set; }
 
@@ -19,19 +24,23 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable
 
     public Rectangle Rectangle { get; private set; }
 
+    public string Identifier { get; private set; }
+
+    public Rectangle[] Hitbox => new[] { new Rectangle(_position.ToPoint(), _size.ToPoint()) };
+
     public static Texture2D Texture;
 
-    public Dot(Vector2 position, Vector2 size)
+    public Dot(Vector2 position, Vector2 size, string identifier = "")
     {
         _position = position;
         _size = size;
-        _color = new Color(0,0,0, 150);
+        Identifier = identifier;
+        Color = new Color(0, 0, 0, 150);
         Rectangle = this.GetRectangle();
     }
 
     public void Update(GameTime gameTime)
     {
-
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -40,7 +49,7 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable
             Texture,
             _position,
             null,
-            _color,
+            Color,
             Rotation,
             Vector2.Zero,
             _size,
@@ -64,12 +73,12 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable
     {
         if (input.Length < 1)
             return;
-        _color = input[0];
+        Color = input[0];
     }
 
     public int ColorLength()
         => 1;
 
     public Color[] GetColor()
-        => new[] { _color };
+        => new[] { Color };
 }

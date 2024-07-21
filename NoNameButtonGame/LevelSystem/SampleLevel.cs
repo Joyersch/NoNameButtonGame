@@ -42,7 +42,8 @@ public class SampleLevel : ILevel
     protected readonly ColorListener ColorListener;
 
     protected readonly List<object> AutoManaged;
-    protected readonly List<object> AutoManagedStatic;
+    protected readonly List<object> AutoManagedStaticFront;
+    protected readonly List<object> AutoManagedStaticBack;
     protected Cursor Cursor;
 
     private bool _canExit;
@@ -66,7 +67,8 @@ public class SampleLevel : ILevel
         _mouseSettings = settingsAndSaveManager.GetSetting<MouseSettings>();
 
         AutoManaged = new List<object>();
-        AutoManagedStatic = new List<object>();
+        AutoManagedStaticFront = new List<object>();
+        AutoManagedStaticBack = new List<object>();
         _cursorIndicator = new Text("[arrow]");
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
         _cursorIndicator[0].Origin = new Vector2(2.5F, 2.5F);
@@ -140,12 +142,11 @@ public class SampleLevel : ILevel
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
+        #region Game
         graphicsDevice.SetRenderTarget(Display.Target);
+        graphicsDevice.Clear(Color.Transparent);
 
-        graphicsDevice.Clear(new Color(50, 50, 50));
-
-        spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp,
-            transformMatrix: Camera.CameraMatrix);
+        spriteBatch.Begin(samplerState:SamplerState.PointClamp, transformMatrix: Camera.CameraMatrix);
 
         Draw(spriteBatch);
 
@@ -156,15 +157,18 @@ public class SampleLevel : ILevel
 
         spriteBatch.End();
 
+        #endregion // Game
+
         graphicsDevice.SetRenderTarget(null);
+        graphicsDevice.Clear(new Color(50, 50, 50));
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
+        spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
 
-        graphicsDevice.Clear(Color.HotPink);
+        DrawStaticBack(spriteBatch);
 
         spriteBatch.Draw(Display.Target, Display.Window, null, Color.White);
 
-        DrawStatic(spriteBatch);
+        DrawStaticFront(spriteBatch);
 
         spriteBatch.End();
     }
@@ -182,15 +186,24 @@ public class SampleLevel : ILevel
         Mouse.DrawIndicator(spriteBatch);
     }
 
-    protected virtual void DrawStatic(SpriteBatch spriteBatch)
+    protected virtual void DrawStaticFront(SpriteBatch spriteBatch)
     {
-        foreach (var obj in AutoManagedStatic)
+        foreach (var obj in AutoManagedStaticFront)
         {
             if (obj is IManageable manageable)
                 manageable.Draw(spriteBatch);
         }
 
         Mouse.Draw(spriteBatch);
+    }
+
+    protected virtual void DrawStaticBack(SpriteBatch spriteBatch)
+    {
+        foreach (var obj in AutoManagedStaticBack)
+        {
+            if (obj is IManageable manageable)
+                manageable.Draw(spriteBatch);
+        }
     }
 
     public virtual void SetScreen(Vector2 screen)
