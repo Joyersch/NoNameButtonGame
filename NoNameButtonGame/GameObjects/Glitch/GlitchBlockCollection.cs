@@ -7,7 +7,7 @@ using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
-using MonoUtils.Ui.Objects;
+using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
 
 namespace NoNameButtonGame.GameObjects.Glitch;

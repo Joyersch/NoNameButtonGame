@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Buttons;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 

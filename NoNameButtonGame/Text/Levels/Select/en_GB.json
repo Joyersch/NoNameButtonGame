@@ -70,5 +70,9 @@
   {
     "key": "Extreme",
     "value": "Extreme"
+  },
+  {
+    "key": "Completed",
+    "value": "Completed"
   }
 ]

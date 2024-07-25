@@ -20,14 +20,14 @@ public class LevelCommand : ICommand
 
         var value = options[0].ToString();
 
-        if (options[0].ToString() == "complete")
+        if (options[0].ToString() == "complete" || options[0].ToString() == "c")
         {
             levelManager.GetCurrentLevel().Finish();
-            return new[] { "Completed the current level!" };
+            return new[] { "Completed the current level!", $"Endless would be on: {levelManager.EndlessLevel}" };
         }
 
         if (!int.TryParse(value, out int ival))
-            return new[] { "Usage:", "level (level)"};
+            return new[] { "Usage:", "level (level)" };
 
         levelManager.SetAsLevelSelect();
         levelManager.ChangeLevel(ival, Level.ResolveDifficulty(selectionSettings.Difficulty));

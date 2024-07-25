@@ -94,6 +94,12 @@ public class LevelFactory
                 11), /*GlitchBlockHoldButtonChallenge & FallingLevel & RunningLevel & SuperGunLevel*/
         };
 
+    public static bool HasLevelDifficulty(LevelType level)
+        => HasLevelDifficulty((int)level);
+
+    public static bool HasLevelDifficulty(int level)
+     => level is 2 or 3 or >= 7 and <= 10;
+
     public enum LevelType
     {
         Fallback = 0,

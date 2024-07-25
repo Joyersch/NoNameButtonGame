@@ -22,5 +22,33 @@
   {
     "key": "Best",
     "value": "Derzeit hast du {0} level in einer Sitzung geschafft!"
+  },
+  {
+    "key": "Challenges",
+    "value": "Challenges"
+  },
+  {
+    "key": "Back",
+    "value": "Zurück"
+  },
+  {
+    "key": "Time30min",
+    "value": "In 30 Minuten zu Level 50 gekommen."
+  },
+  {
+    "key": "Time1h",
+    "value": "In 60 Minutes zu Level 50 gekommen."
+  },
+  {
+    "key": "Beat10",
+    "value": "10 Level erreicht."
+  },
+  {
+    "key": "Beat25",
+    "value": "25 Level erreicht."
+  },
+  {
+    "key": "Beat50",
+    "value": "50 Level erreicht."
   }
 ]

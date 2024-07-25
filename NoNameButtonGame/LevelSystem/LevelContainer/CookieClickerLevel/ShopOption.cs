@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Objects.Buttons;
-using MonoUtils.Ui.Objects.Buttons.AddOn;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.Buttons;
+using MonoUtils.Ui.Buttons.AddOn;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;

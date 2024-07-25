@@ -7,7 +7,7 @@ using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.LevelSystem.Settings;

@@ -7,8 +7,9 @@ using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Objects.Buttons.AddOn;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.Buttons.AddOn;
+using MonoUtils.Ui.Color;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
@@ -114,6 +115,60 @@ public class Level : SampleLevel
             .SetDistanceY(-2F)
             .Move();
         AutoManaged.Add(credits);
+
+
+        if (progress.FinishedLevels)
+        {
+            Rainbow color = new Rainbow
+            {
+                Increment = 5
+            };
+            var completion = new Text("[star]", 0.5F);
+            completion.InRectangle(Camera.Rectangle)
+                .OnX(0.875F)
+                .OnY(0.9F)
+                .Centered()
+                .Move();
+            AutoManaged.Add(completion);
+            AutoManaged.Add(color);
+            ColorListener.Add(color, completion);
+        }
+
+        if (progress.FinishedSelect)
+        {
+            Rainbow color = new Rainbow
+            {
+                Offset = 80,
+                Increment = 5
+            };
+            var completion = new Text("[star]", 0.5F);
+            completion.InRectangle(Camera.Rectangle)
+                .OnX(0.9F)
+                .OnY(0.9F)
+                .Centered()
+                .Move();
+            AutoManaged.Add(completion);
+            AutoManaged.Add(color);
+            ColorListener.Add(color, completion);
+        }
+
+        if (progress.FinishedEndless)
+        {
+            Rainbow color = new Rainbow
+            {
+                Offset = 160,
+                Increment = 5
+            };
+            var completion = new Text("[star]", 0.5F);
+            completion.InRectangle(Camera.Rectangle)
+                .OnX(0.925F)
+                .OnY(0.9F)
+                .Centered()
+                .Move();
+            AutoManaged.Add(completion);
+            AutoManaged.Add(color);
+            ColorListener.Add(color, completion);
+        }
 
         if (panIn)
         {

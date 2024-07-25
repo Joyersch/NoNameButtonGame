@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Helper;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Buttons;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 

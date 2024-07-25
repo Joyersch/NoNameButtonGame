@@ -6,7 +6,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;

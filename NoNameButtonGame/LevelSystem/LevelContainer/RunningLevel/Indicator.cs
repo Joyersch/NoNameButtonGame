@@ -1,4 +1,4 @@
-﻿using MonoUtils.Ui.Objects.TextSystem;
+﻿using MonoUtils.Ui.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
 

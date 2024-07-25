@@ -2,16 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Ui.TextSystem;
 
-namespace NoNameButtonGame.LevelSystem;
+namespace NoNameButtonGame.LevelSystem.MainMenu;
 
 public class Font : ILetter
 {
-    public static Vector2 ImageSize => new Vector2(8, 8);
+    public static Vector2 ImageSize => new(16, 16);
 
     public static Texture2D Texture;
 
     // How many letter till line wrap on texture
-    public static int TextureWidth => 8;
+    public static int TextureWidth => 16;
 
     public Rectangle GetImageLocation(int letter)
     {
@@ -31,7 +31,7 @@ public class Font : ILetter
     {
         var letter = identifier.ToLower() switch
         {
-            "[arrow]" => Letters.Arrow,
+            "[star]" => Letters.Star,
             _ => Letters.None
         };
         return (int)letter;
@@ -41,14 +41,14 @@ public class Font : ILetter
     {
         return (Letters)character switch
         {
-            Letters.Arrow => new Rectangle(2, 1, 5, 5),
-            _ => new Rectangle(0, 0, 8, 8)
+            Letters.Star => new Rectangle(2, 2, 12, 11),
+            _ => new Rectangle(0, 0, 16, 16)
         };
     }
 
     public enum Letters
     {
         None = -1,
-        Arrow
+        Star,
     }
 }

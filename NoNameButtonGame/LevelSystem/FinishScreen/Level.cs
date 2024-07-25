@@ -8,7 +8,7 @@ using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 

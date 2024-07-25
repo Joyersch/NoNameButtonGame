@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using MonoUtils.Logic;
 using MonoUtils.Sound;
-using MonoUtils.Ui.Objects.Buttons;
+using MonoUtils.Ui.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 

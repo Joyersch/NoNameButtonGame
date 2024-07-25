@@ -22,5 +22,33 @@
   {
     "key": "Best",
     "value": "As of now, your highscore is {0} level(s) on one session!"
+  },
+  {
+    "key": "Challenges",
+    "value": "Challenges"
+  },
+  {
+    "key": "Back",
+    "value": "Back"
+  },
+  {
+    "key": "Time30min",
+    "value": "Reached level 50 in 30 minutes"
+  },
+  {
+    "key": "Time1h",
+    "value": "Reached level 50 in 60 minutes"
+  },
+  {
+    "key": "Beat10",
+    "value": "Reached level 10"
+  },
+  {
+    "key": "Beat25",
+    "value": "Reached level 25"
+  },
+  {
+    "key": "Beat50",
+    "value": "Reached level 50"
   }
 ]

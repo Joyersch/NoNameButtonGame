@@ -10,9 +10,9 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
-using MonoUtils.Ui.Objects;
+using MonoUtils.Ui;
 using MonoUtils.Console;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
@@ -22,6 +22,7 @@ using NoNameButtonGame.LevelSystem.Selection;
 using CookieClickerFont = NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel.Font;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
+using Font = NoNameButtonGame.LevelSystem.MainMenu.Font;
 using GeneralFont = NoNameButtonGame.LevelSystem.Font;
 
 namespace NoNameButtonGame;
@@ -90,6 +91,7 @@ public class NoNameGame : SimpleGame
         // Fonts
         CookieClickerFont.Texture = Content.GetTexture("Font/CookieClicker");
         GeneralFont.Texture = Content.GetTexture("Font/General");
+        Font.Texture = Content.GetTexture("Font/Progress");
 
         // Objects
         MousePointer.Texture = Content.GetTexture("mousepoint");

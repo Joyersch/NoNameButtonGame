@@ -6,5 +6,5 @@ public enum Difficulty
     Medium,
     Hard,
     Insane,
-    Impossible
+    Extreme
 }

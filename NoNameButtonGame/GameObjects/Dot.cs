@@ -7,7 +7,7 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui.Color;
 using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Objects;
+using MonoUtils.Ui;
 
 namespace NoNameButtonGame.GameObjects;
 

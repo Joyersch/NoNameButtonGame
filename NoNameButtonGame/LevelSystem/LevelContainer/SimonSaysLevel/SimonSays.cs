@@ -7,8 +7,8 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Sound;
-using MonoUtils.Ui.Objects.Buttons;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.Buttons;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 

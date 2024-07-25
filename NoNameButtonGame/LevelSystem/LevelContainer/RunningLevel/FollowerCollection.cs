@@ -9,8 +9,7 @@ using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Ui;
 using MonoUtils.Ui.Logic.Listener;
-using MonoUtils.Ui.Objects;
-using MonoUtils.Ui.Objects.TextSystem;
+using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Glitch;
 
