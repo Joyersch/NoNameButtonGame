@@ -4,29 +4,20 @@
     <TargetFramework>net6.0</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
-    <Platforms>AnyCPU;x64</Platforms>
     <Title>NoNameButtonGame</Title>
     <Authors>Joy Schnittker</Authors>
     <PackageProjectUrl>https://github.com/Joyersch/NoNameButtonGame</PackageProjectUrl>
-    <AssemblyVersion>1.1.2</AssemblyVersion>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Content\bin\DesktopGL\Courier New.xnb" />
     <None Remove="Icon.bmp" />
-    <None Remove="MiniGames\**" />
-    <None Remove="Debug\**" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.bmp" />
-    <EmbeddedResource Remove="MiniGames\**" />
-    <EmbeddedResource Remove="Debug\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
