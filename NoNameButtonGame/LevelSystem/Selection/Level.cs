@@ -15,6 +15,7 @@ using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.LevelSystem.Selection.Progress;
+using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
@@ -80,6 +81,8 @@ public class Level : SampleLevel
     {
         var textComponent = TextProvider.GetText("Levels.Select");
         Name = textComponent.GetValue("Name");
+
+        Default.Play();
 
         var selectionState = settingsAndSaveManager.GetSave<SelectionState>();
         var selectProgress = settingsAndSaveManager.GetSave<Save>();
