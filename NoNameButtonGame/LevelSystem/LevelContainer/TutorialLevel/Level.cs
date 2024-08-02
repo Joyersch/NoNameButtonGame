@@ -21,7 +21,7 @@ internal class Level : SampleLevel
 
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager settingsAndSaveManager) : base(display, window, random, effectsRegistry, settingsAndSaveManager)
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry, settingsAndSaveManager)
     {
         TextComponent textComponent = TextProvider.GetText("Levels.TutorialLevel");
         Name = textComponent.GetValue("Name");

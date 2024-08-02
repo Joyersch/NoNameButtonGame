@@ -48,7 +48,7 @@ public class SampleLevel : ILevel
 
     private Text _cursorIndicator;
 
-    protected SampleLevel(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, SettingsAndSaveManager settingsAndSaveManager)
+    protected SampleLevel(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, SettingsAndSaveManager<string> settingsAndSaveManager)
     {
         Display = display;
         Random = random;

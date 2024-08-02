@@ -26,7 +26,7 @@ public class Level : SampleLevel
     public event Action<object> CreditsClicked;
 
     public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry,
-        int maxLevel, bool panIn, SettingsAndSaveManager settingsAndSaveManager) : base(display, window, rand, effectsRegistry, settingsAndSaveManager)
+        int maxLevel, bool panIn, SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, rand, effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");

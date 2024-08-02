@@ -76,7 +76,7 @@ public class Level : SampleLevel
     }
 
     public Level(Display display, Vector2 window, Random rand, LevelSystem.Progress progress, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager settingsAndSaveManager, LevelFactory factory) : base(display, window, rand,
+        SettingsAndSaveManager<string> settingsAndSaveManager, LevelFactory factory) : base(display, window, rand,
         effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Select");

@@ -27,7 +27,7 @@ using GeneralFont = NoNameButtonGame.LevelSystem.Font;
 
 namespace NoNameButtonGame;
 
-public class NoNameGame : SimpleGame
+public class NoNameGame : ExtentedGame
 {
     private LevelManager _levelManager;
     private bool _showElapsedTime;
@@ -40,8 +40,8 @@ public class NoNameGame : SimpleGame
     public NoNameGame()
     {
         IsMouseVisible = false;
-        SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/NoNameButtonGame/";
-        SaveFile = 0;
+        SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Joyersch/NoNameButtonGame/";
+        SaveFile = string.Empty;
         _loopStation = new LoopStation();
         _effectsRegistry = new EffectsRegistry();
     }

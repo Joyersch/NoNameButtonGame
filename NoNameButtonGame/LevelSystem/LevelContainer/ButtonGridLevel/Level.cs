@@ -20,7 +20,7 @@ public class Level : SampleLevel
     private Timer _timer;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager settingsAndSaveManager, int difficulty = 1) : base(display, window, random,
+        SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(display, window, random,
         effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.ButtonGridLevel");

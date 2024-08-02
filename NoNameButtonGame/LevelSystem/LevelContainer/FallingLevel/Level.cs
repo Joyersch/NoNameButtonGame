@@ -26,7 +26,7 @@ internal class Level : SampleLevel
     private bool _checkOffscreen;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager settingsAndSaveManager, float difficulty = 1F) : base(display, window, random,
+        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1F) : base(display, window, random,
         effectsRegistry, settingsAndSaveManager)
     {
         _random = random;

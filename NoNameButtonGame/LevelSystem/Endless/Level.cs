@@ -19,7 +19,7 @@ public class Level : SampleLevel
     public event Action Selected;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager saveManager) : base(display, window, random,
+        SettingsAndSaveManager<string> saveManager) : base(display, window, random,
         effectsRegistry, saveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Endless");

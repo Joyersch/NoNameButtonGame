@@ -83,7 +83,7 @@ public class Level : SampleLevel
         Advanced
     }
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager<string> settingsAndSave,
         NoNameGame game, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry,
         settingsAndSave)
     {

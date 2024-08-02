@@ -21,7 +21,7 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 
 public class Level : SampleLevel
 {
-    private readonly SettingsAndSaveManager _settingsAndSave;
+    private readonly SettingsAndSaveManager<string> _settingsAndSave;
     private LevelSave _save;
 
     private OverTimeMover _overTimeMoverShop;
@@ -45,7 +45,7 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager settingsAndSave,
+    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager<string> settingsAndSave,
         EffectsRegistry effectsRegistry) : base(display, window, random,
         effectsRegistry, settingsAndSave)
     {

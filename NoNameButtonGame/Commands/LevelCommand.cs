@@ -12,7 +12,7 @@ public class LevelCommand : ICommand
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
         var levelManager = context.GetValue<LevelManager>(nameof(LevelManager));
-        var saves = context.GetValue<SettingsAndSaveManager>(nameof(SettingsAndSaveManager));
+        var saves = context.GetValue<SettingsAndSaveManager<string>>(nameof(SettingsAndSaveManager<string>));
         var selectionSettings = saves.GetSave<SelectionState>();
 
         if (options.Length < 1)

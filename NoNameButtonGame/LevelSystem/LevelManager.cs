@@ -13,7 +13,7 @@ namespace NoNameButtonGame.LevelSystem;
 
 internal class LevelManager
 {
-    private readonly SettingsAndSaveManager _settingsAndSaveManager;
+    private readonly SettingsAndSaveManager<string> _settingsAndSaveManager;
     private readonly NoNameGame _game;
     private readonly Progress _progress;
     private readonly Selection.Progress.Save _selectionProgress;
@@ -56,7 +56,7 @@ internal class LevelManager
         EndlessLevel
     }
 
-    public LevelManager(Display display, SettingsAndSaveManager settingsAndSaveManager,
+    public LevelManager(Display display, SettingsAndSaveManager<string> settingsAndSaveManager,
         NoNameGame game, EffectsRegistry effectsRegistry,
         int? seed = null)
     {

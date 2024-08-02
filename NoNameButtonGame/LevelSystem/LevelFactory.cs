@@ -13,13 +13,13 @@ public class LevelFactory
     private readonly Random _random;
     private Vector2 _screen;
 
-    private readonly SettingsAndSaveManager _settingsAndSave;
+    private readonly SettingsAndSaveManager<string> _settingsAndSave;
     private readonly NoNameGame _game;
     private readonly Progress _progress;
     private readonly EffectsRegistry _effectsRegistry;
 
     public LevelFactory(Display display, Vector2 screen, Random random,
-        SettingsAndSaveManager settingsAndSave, NoNameGame game, Progress progress, EffectsRegistry effectsRegistry)
+        SettingsAndSaveManager<string> settingsAndSave, NoNameGame game, Progress progress, EffectsRegistry effectsRegistry)
     {
         _display = display;
         _screen = screen;

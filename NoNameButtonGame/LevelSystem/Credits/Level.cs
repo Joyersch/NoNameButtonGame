@@ -17,7 +17,7 @@ namespace NoNameButtonGame.LevelSystem.Credits;
 public class Level : SampleLevel
 {
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Credits");

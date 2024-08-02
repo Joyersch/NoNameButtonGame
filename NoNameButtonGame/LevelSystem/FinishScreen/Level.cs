@@ -19,7 +19,7 @@ public class Level : SampleLevel
     private bool _canExit;
 
     public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.FinishScreen");
