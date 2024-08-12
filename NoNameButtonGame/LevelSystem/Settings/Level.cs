@@ -83,11 +83,9 @@ public class Level : SampleLevel
         Advanced
     }
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager<string> settingsAndSave,
-        NoNameGame game, EffectsRegistry effectsRegistry) : base(display, window, random, effectsRegistry,
-        settingsAndSave)
+    public Level(Scene scene, Random random, SettingsAndSaveManager<string> settingsAndSave, NoNameGame game,
+        EffectsRegistry effectsRegistry) : base(scene, random, effectsRegistry, settingsAndSave)
     {
-        var game1 = game;
         var advancedSettings = settingsAndSave.GetSetting<AdvancedSettings>();
         var videoSettings = settingsAndSave.GetSetting<VideoSettings>();
         _languageSettings = settingsAndSave.GetSetting<LanguageSettings>();
@@ -194,7 +192,7 @@ public class Level : SampleLevel
             SetScreen(resolution.ToVector2());
             Log.Information($"Changed resolution to: {resolution}");
             OnWindowResize?.Invoke(Window);
-            game1.ApplyResolution(resolution);
+            game.ApplyResolution(resolution);
         };
 
         _videoCollection.Add(_resolution);
@@ -209,7 +207,7 @@ public class Level : SampleLevel
         _fixedStep.ValueChanged += delegate(bool value)
         {
             videoSettings.IsFixedStep = value;
-            game1.ApplyFixedStep(value);
+            game.ApplyFixedStep(value);
         };
 
         _videoCollection.Add(_fixedStep);
@@ -228,7 +226,7 @@ public class Level : SampleLevel
         _fullscreen.ValueChanged += delegate(bool value)
         {
             videoSettings.IsFullscreen = value;
-            game1.ApplyFullscreen(value);
+            game.ApplyFullscreen(value);
         };
 
         _videoCollection.Add(_fullscreen);
@@ -335,7 +333,7 @@ public class Level : SampleLevel
 
         #region Language
 
-        Flag flag = new Flag(TextProvider.Language.en_GB, 2.5F);
+        Flag flag = new Flag(TextProvider.Language.en_GB, 5F);
         flag.InRectangle(Camera.Rectangle)
             .OnY(0.55F)
             .OnX(0.33F)
@@ -346,7 +344,7 @@ public class Level : SampleLevel
 
         _languageCollection.Add(flag);
 
-        flag = new Flag(TextProvider.Language.de_DE, 2.5F);
+        flag = new Flag(TextProvider.Language.de_DE, 5F);
         flag.InRectangle(Camera.Rectangle)
             .OnY(0.55F)
             .OnX(0.66F)
@@ -365,7 +363,7 @@ public class Level : SampleLevel
         _consoleEnabled.ValueChanged += delegate(bool value)
         {
             advancedSettings.ConsoleEnabled = value;
-            game1.ApplyConsole(value);
+            game.ApplyConsole(value);
         };
         _consoleEnabled.GetAnchor(anchorLeft)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -384,7 +382,7 @@ public class Level : SampleLevel
         _showElapsedTime.ValueChanged += (c) =>
         {
             advancedSettings.ShowElapsedTime = c;
-            game1.ShowElapsedTime(c);
+            game.ShowElapsedTime(c);
         };
         _showElapsedTime.GetAnchor(_consoleEnabled)
             .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
@@ -410,7 +408,7 @@ public class Level : SampleLevel
         deleteSaveHold.Click += delegate
         {
             settingsAndSave.DeleteSave();
-            game1.Exit();
+            game.Exit();
         };
 
         _advancedCollection.Add(deleteSaveHold);

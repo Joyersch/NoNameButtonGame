@@ -11,7 +11,7 @@ public class MiniButton : TextButton<SelectButton>
     {
     }
 
-    public MiniButton(string text, string name) : base(text, new SelectButton(Vector2.Zero))
+    public MiniButton(string text, string name) : base(text, new SelectButton(Vector2.Zero, 8F))
     {
         Name = name;
     }

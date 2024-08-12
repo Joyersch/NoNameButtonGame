@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -16,8 +17,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.GlitchBlockTutorial;
 
 internal class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.GlitchBlockTutorial");
@@ -25,7 +26,7 @@ internal class Level : SampleLevel
 
         var blockSize = new Vector2(Camera.Rectangle.Width * 0.25F, Camera.Rectangle.Height);
 
-        var block = new GlitchBlockCollection(blockSize, 4);
+        var block = new GlitchBlockCollection(blockSize, 8);
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
         block.InRectangle(Camera.Rectangle)
@@ -54,8 +55,8 @@ internal class Level : SampleLevel
         button.Click += delegate { mover.Start(); };
         AutoManaged.Add(button);
 
-        blockSize.X = GlitchBlock.ImageSize.X;
-        block = new GlitchBlockCollection(blockSize, 4);
+        blockSize.X = GlitchBlock.ImageSize.X * 2;
+        block = new GlitchBlockCollection(blockSize, 8);
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
         block.InRectangle(Camera.Rectangle)
@@ -119,8 +120,8 @@ internal class Level : SampleLevel
             .Move();
         AutoManaged.Add(text);
 
-        blockSize = new Vector2(GlitchBlock.ImageSize.X * 4, GlitchBlock.ImageSize.Y * 16);
-        block = new GlitchBlockCollection(blockSize, 4);
+        blockSize = new Vector2(GlitchBlock.ImageSize.X * 8, GlitchBlock.ImageSize.Y * 32);
+        block = new GlitchBlockCollection(blockSize, 8);
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
         block.InRectangle(Camera.Rectangle)
@@ -130,8 +131,8 @@ internal class Level : SampleLevel
             .Move();
         AutoManaged.Add(block);
 
-        blockSize = new Vector2(GlitchBlock.ImageSize.X * 20, GlitchBlock.ImageSize.Y * 4);
-        var block2 = new GlitchBlockCollection(blockSize, 4);
+        blockSize = new Vector2(GlitchBlock.ImageSize.X * 40, GlitchBlock.ImageSize.Y * 8);
+        var block2 = new GlitchBlockCollection(blockSize, 8);
         block2.ChangeColor(GlitchBlock.Color);
         block2.Enter += Fail;
         block2.GetAnchor(block)
@@ -142,5 +143,5 @@ internal class Level : SampleLevel
     }
 
     private Vector2 RightOfCamera()
-        => Camera.Position + new Vector2(Camera.Size.X / 2, 0);
+        => Camera.Position + new Vector2(Camera.Size.X, 0);
 }

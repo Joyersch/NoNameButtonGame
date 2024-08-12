@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -14,8 +15,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.FallbackLevel;
 
 internal class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.FallbackLevel");

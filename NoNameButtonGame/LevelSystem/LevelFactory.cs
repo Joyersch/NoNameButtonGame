@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
@@ -9,20 +10,19 @@ namespace NoNameButtonGame.LevelSystem;
 
 public class LevelFactory
 {
-    private readonly Display _display;
+    private readonly Scene _scene;
     private readonly Random _random;
-    private Vector2 _screen;
 
     private readonly SettingsAndSaveManager<string> _settingsAndSave;
     private readonly NoNameGame _game;
     private readonly Progress _progress;
     private readonly EffectsRegistry _effectsRegistry;
 
-    public LevelFactory(Display display, Vector2 screen, Random random,
-        SettingsAndSaveManager<string> settingsAndSave, NoNameGame game, Progress progress, EffectsRegistry effectsRegistry)
+    public LevelFactory(Scene scene, Random random,
+        SettingsAndSaveManager<string> settingsAndSave, NoNameGame game, Progress progress,
+        EffectsRegistry effectsRegistry)
     {
-        _display = display;
-        _screen = screen;
+        _scene = scene;
         _random = random;
         _settingsAndSave = settingsAndSave;
         _game = game;
@@ -30,26 +30,23 @@ public class LevelFactory
         _effectsRegistry = effectsRegistry;
     }
 
-    public void ChangeScreenSize(Vector2 screen)
-        => _screen = screen;
-
     public MainMenu.Level GetStartLevel(bool pan)
-        => new(_display, _screen, _random, _progress, _effectsRegistry, MaxLevel(), pan, _settingsAndSave);
+        => new(_scene, _random, _progress, _effectsRegistry, MaxLevel(), pan, _settingsAndSave);
 
     public Settings.Level GetSettingsLevel()
-        => new(_display, _screen, _random, _settingsAndSave, _game, _effectsRegistry);
+        => new(_scene, _random, _settingsAndSave, _game, _effectsRegistry);
 
     public Selection.Level GetSelectLevel()
-        => new(_display, _screen, _random, _settingsAndSave.GetSave<Progress>(), _effectsRegistry, _settingsAndSave, this);
+        => new(_scene, _random, _settingsAndSave.GetSave<Progress>(), _effectsRegistry, _settingsAndSave, this);
 
     public FinishScreen.Level GetFinishScreen()
-        => new(_display, _screen, _random, _effectsRegistry, _settingsAndSave);
+        => new(_scene, _random, _effectsRegistry, _settingsAndSave);
 
     public Credits.Level GetCredits()
-        => new(_display, _screen, _random, _effectsRegistry, _settingsAndSave);
+        => new(_scene, _random, _effectsRegistry, _settingsAndSave);
 
     public Endless.Level GetEndless()
-        => new(_display, _screen, _random, _effectsRegistry, _settingsAndSave);
+        => new(_scene, _random, _effectsRegistry, _settingsAndSave);
 
     public SampleLevel GetLevel(int number, int difficulty = 1)
         => GetLevel(ParseLevelType(number), difficulty);
@@ -57,27 +54,27 @@ public class LevelFactory
     public SampleLevel GetLevel(LevelType type, int difficulty = 1)
         => type switch
         {
-            LevelType.Tutorial => new Levels.TutorialLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.Tutorial => new Levels.TutorialLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave),
-            LevelType.ButtonGrid => new Levels.ButtonGridLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.ButtonGrid => new Levels.ButtonGridLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave, difficulty),
-            LevelType.SimonSays => new Levels.SimonSaysLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.SimonSays => new Levels.SimonSaysLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave, difficulty),
-            LevelType.Quiz => new Levels.QuizLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.Quiz => new Levels.QuizLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave),
-            LevelType.CookieClicker => new Levels.CookieClickerLevel.Level(_display, _screen, _random, _settingsAndSave,
+            LevelType.CookieClicker => new Levels.CookieClickerLevel.Level(_scene, _random, _settingsAndSave,
                 _effectsRegistry),
-            LevelType.GlitchBlock => new Levels.GlitchBlockTutorial.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.GlitchBlock => new Levels.GlitchBlockTutorial.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave),
-            LevelType.HoldButtonChallenge => new Levels.HoldButtonChallenge.Level(_display, _screen, _random,
+            LevelType.HoldButtonChallenge => new Levels.HoldButtonChallenge.Level(_scene, _random,
                 _effectsRegistry, _settingsAndSave, difficulty),
-            LevelType.Falling => new Levels.FallingLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.Falling => new Levels.FallingLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave, difficulty),
-            LevelType.Running => new Levels.RunningLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.Running => new Levels.RunningLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave, difficulty),
-            LevelType.SuperGun => new Levels.SuperGunLevel.Level(_display, _screen, _random, _effectsRegistry,
+            LevelType.SuperGun => new Levels.SuperGunLevel.Level(_scene, _random, _effectsRegistry,
                 _settingsAndSave, difficulty),
-            _ => new Levels.FallbackLevel.Level(_display, _screen, _random, _effectsRegistry, _settingsAndSave)
+            _ => new Levels.FallbackLevel.Level(_scene, _random, _effectsRegistry, _settingsAndSave)
         };
 
     public static LevelType ParseLevelType(int number)
@@ -98,7 +95,7 @@ public class LevelFactory
         => HasLevelDifficulty((int)level);
 
     public static bool HasLevelDifficulty(int level)
-     => level is 2 or 3 or >= 7 and <= 10;
+        => level is 2 or 3 or >= 7 and <= 10;
 
     public enum LevelType
     {

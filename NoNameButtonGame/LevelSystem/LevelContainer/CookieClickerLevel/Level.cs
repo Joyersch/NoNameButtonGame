@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -45,8 +46,8 @@ public class Level : SampleLevel
 
     private string ObjectiveText => $"{_objectiveInfoText} {_objectives[_currentObjective]}";
 
-    public Level(Display display, Vector2 window, Random random, SettingsAndSaveManager<string> settingsAndSave,
-        EffectsRegistry effectsRegistry) : base(display, window, random,
+    public Level(Scene scene, Random random, SettingsAndSaveManager<string> settingsAndSave,
+        EffectsRegistry effectsRegistry) : base(scene, random,
         effectsRegistry, settingsAndSave)
     {
         _settingsAndSave = settingsAndSave;
@@ -65,7 +66,7 @@ public class Level : SampleLevel
 
         _save = settingsAndSave.GetSave<LevelSave>();
 
-        var oneScreen = Display.Size / 2;
+        var oneScreen = Display.Size;
         var shopScreen = new Vector2(oneScreen.X, 0);
 
         Camera.Move(oneScreen / 2);

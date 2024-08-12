@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
@@ -31,8 +32,8 @@ internal class Level : SampleLevel
 
     private Text _gun;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(display, window, random,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(scene, random,
         effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.SuperGunLevel");
@@ -129,7 +130,7 @@ internal class Level : SampleLevel
 
     private void CreateShot()
     {
-        var shot = new GlitchBlockCollection(new Vector2(20, 8), 4);
+        var shot = new GlitchBlockCollection(new Vector2(40, 16), 8);
         shot.GetAnchor(_gun)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)

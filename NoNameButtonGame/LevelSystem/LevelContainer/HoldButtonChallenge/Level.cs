@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
@@ -27,8 +28,8 @@ internal class Level : SampleLevel
     private bool _isInitiated;
     private bool _firstPlay = true;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1) : base(display, window, random,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1) : base(scene, random,
         effectsRegistry, settingsAndSaveManager)
     {
         _random = random;
@@ -51,13 +52,13 @@ internal class Level : SampleLevel
         overTimeInvokeMovement.Trigger += TriggerMovement;
         AutoManaged.Add(overTimeInvokeMovement);
 
-        var baseSize = GlitchBlock.ImageSize * 5;
+        var baseSize = GlitchBlock.ImageSize * 10;
         var x = Camera.Rectangle.Size.X - baseSize.X;
         var y = Camera.Rectangle.Size.Y - baseSize.Y;
 
         #region Corners
 
-        var leftUpperCorner = new GlitchBlockCollection(baseSize, 5F);
+        var leftUpperCorner = new GlitchBlockCollection(baseSize, 10F);
         leftUpperCorner.InRectangle(Camera.Rectangle)
             .Move();
         leftUpperCorner.Enter += Fail;
@@ -69,7 +70,7 @@ internal class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.BottomRight)
             .Move();
 
-        var bottomLeftCorner = new GlitchBlockCollection(baseSize, 5F);
+        var bottomLeftCorner = new GlitchBlockCollection(baseSize, 10F);
         bottomLeftCorner.InRectangle(Camera.Rectangle)
             .OnY(1F)
             .BySizeY(-1F)
@@ -77,7 +78,7 @@ internal class Level : SampleLevel
         bottomLeftCorner.Enter += Fail;
         AutoManaged.Add(bottomLeftCorner);
 
-        var topRightCorner = new GlitchBlockCollection(baseSize, 5F);
+        var topRightCorner = new GlitchBlockCollection(baseSize, 10F);
         topRightCorner.InRectangle(Camera.Rectangle)
             .OnX(1F)
             .BySizeX(-1F)
@@ -85,7 +86,7 @@ internal class Level : SampleLevel
         topRightCorner.Enter += Fail;
         AutoManaged.Add(topRightCorner);
 
-        var bottomRightCorner = new GlitchBlockCollection(baseSize, 5F);
+        var bottomRightCorner = new GlitchBlockCollection(baseSize, 10F);
         bottomRightCorner.InRectangle(Camera.Rectangle)
             .OnX(1F)
             .OnY(1F)
@@ -103,7 +104,7 @@ internal class Level : SampleLevel
         IMoveable lastWall = corner;
         for (int i = 0; i < 7; i++)
         {
-            var wall = new Row(available.Width, new Vector2(x, baseSize.Y), 5F, _random);
+            var wall = new Row(available.Width, new Vector2(x, baseSize.Y), 10F, _random);
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -118,7 +119,7 @@ internal class Level : SampleLevel
         lastWall = corner;
         for (int i = 0; i < 14; i++)
         {
-            var wall = new Column(available.Height, new Vector2(baseSize.X, y), 5F, _random);
+            var wall = new Column(available.Height, new Vector2(baseSize.X, y), 10F, _random);
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.TopRight)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)

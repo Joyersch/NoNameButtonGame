@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
@@ -19,8 +20,8 @@ public class Level : SampleLevel
 {
     private Timer _timer;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(display, window, random,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(scene, random,
         effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.ButtonGridLevel");

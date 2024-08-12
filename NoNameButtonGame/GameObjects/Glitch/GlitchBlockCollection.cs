@@ -31,11 +31,11 @@ internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseA
 
     public float Layer { get; set; }
 
-    public GlitchBlockCollection(Vector2 size) : this(Vector2.Zero, size, GlitchBlock.ImageSize * 4)
+    public GlitchBlockCollection(Vector2 size) : this(Vector2.Zero, size, GlitchBlock.ImageSize * 8)
     {
     }
 
-    public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.ImageSize * 4)
+    public GlitchBlockCollection(Vector2 position, Vector2 size) : this(position, size, GlitchBlock.ImageSize * 8)
     {
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -18,8 +19,8 @@ public class Level : SampleLevel
 {
     public event Action Selected;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> saveManager) : base(display, window, random,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> saveManager) : base(scene, random,
         effectsRegistry, saveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Endless");

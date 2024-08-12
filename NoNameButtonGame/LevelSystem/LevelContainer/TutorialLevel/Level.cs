@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -20,8 +21,9 @@ internal class Level : SampleLevel
     private readonly OverTimeMover _mover;
 
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry, settingsAndSaveManager)
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, random, effectsRegistry,
+        settingsAndSaveManager)
     {
         TextComponent textComponent = TextProvider.GetText("Levels.TutorialLevel");
         Name = textComponent.GetValue("Name");

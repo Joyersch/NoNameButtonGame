@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -46,8 +47,8 @@ internal class Level : SampleLevel
     private bool _waitForInfo;
     private OverTimeInvoker _gridCooldown;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1F) : base(display, window, random,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1F) : base(scene, random,
         effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.RunningLevel");
@@ -64,7 +65,7 @@ internal class Level : SampleLevel
 
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
 
-        _timer = new Timer(Vector2.Zero, Display.SimpleScale * 2, 20000D + cleanDifficulty * 20000F,
+        _timer = new Timer(Vector2.Zero, Display.SimpleScale, 20000D + cleanDifficulty * 20000F,
             textComponent.GetValue("FinishPrefix"));
         _timer.InRectangle(Display.Screen)
             .OnX(0.005F)
@@ -81,7 +82,7 @@ internal class Level : SampleLevel
             DisplayDelay = 50
         };
 
-        var size = new Vector2(GlitchBlock.ImageSize.X * 8, Camera.RealSize.Y);
+        var size = new Vector2(GlitchBlock.ImageSize.X * 16, Camera.RealSize.Y);
 
         _initializer = new GlitchBlockCollection(size);
         _initializer.ChangeColor(GlitchBlock.Color);
@@ -134,7 +135,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(color);
 
         // activates idle spawner if 5 seconds pass
-        _idleTimer = new Timer(Vector2.Zero, Display.SimpleScale * 2, 5000F * flippedDifficulty,
+        _idleTimer = new Timer(Vector2.Zero, Display.SimpleScale, 5000F * flippedDifficulty,
             textComponent.GetValue("IdlePrefix"));
         _idleTimer.Start();
         _idleTimer.GetAnchor(_timer)

@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
@@ -27,7 +28,9 @@ internal class LevelManager
     private bool _onFinishScreen;
     private int _levelId;
     private LevelState _levelState;
+
     private int _difficulty = 1;
+
     // 950 / 50 => 19
     private int _difficultyStep = 19;
 
@@ -56,9 +59,8 @@ internal class LevelManager
         EndlessLevel
     }
 
-    public LevelManager(Display display, SettingsAndSaveManager<string> settingsAndSaveManager,
-        NoNameGame game, EffectsRegistry effectsRegistry,
-        int? seed = null)
+    public LevelManager(Scene scene, SettingsAndSaveManager<string> settingsAndSaveManager, NoNameGame game,
+        EffectsRegistry effectsRegistry, int? seed = null)
     {
         _settingsAndSaveManager = settingsAndSaveManager;
         _game = game;
@@ -67,7 +69,7 @@ internal class LevelManager
         _selectionProgress = _settingsAndSaveManager.GetSave<Selection.Progress.Save>();
         _levelId = _progress.MaxLevel + 1;
         var random = new Random(seed ?? DateTime.Now.Millisecond);
-        _levelFactory = new LevelFactory(display, videoSettings.Resolution.ToVector2(), random,
+        _levelFactory = new LevelFactory(scene, random,
             settingsAndSaveManager, game, _progress, effectsRegistry);
         _finishScreen = _levelFactory.GetFinishScreen();
         _finishScreen.OnFinish += FinishScreenDisplayed;
@@ -87,7 +89,7 @@ internal class LevelManager
         var endless = settingsAndSaveManager.GetSave<EndlessProgress>();
         var challenges = settingsAndSaveManager.GetSave<Challenges>();
         challenges.Score10 = endless.HighestLevel >= 10;
-        challenges.Score25 =endless.HighestLevel >= 25;
+        challenges.Score25 = endless.HighestLevel >= 25;
         challenges.Score50 = endless.HighestLevel >= 50;
 
         _settingsAndSaveManager.SaveSave();
@@ -258,8 +260,6 @@ internal class LevelManager
             {
                 _settingsAndSaveManager.LoadSettings();
                 _game.ApplySettings();
-                var videoSettings = _settingsAndSaveManager.GetSetting<Settings.VideoSettings>();
-                _levelFactory.ChangeScreenSize(videoSettings.Resolution.ToVector2());
                 _finishScreen = _levelFactory.GetFinishScreen();
                 ExitLevel();
             };
@@ -270,7 +270,6 @@ internal class LevelManager
                 _finishScreen.OnFinish += FinishScreenDisplayed;
                 ExitLevel();
             };
-            settingsLevel.OnWindowResize += delegate(Vector2 screen) { _levelFactory.ChangeScreenSize(screen); };
             settingsLevel.OnNameChange += delegate { ChangeTitle?.Invoke(settingsLevel.Name); };
         }
         else if (_currentLevel is Endless.Level endlessLevel)

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
-using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -11,7 +11,6 @@ using MonoUtils.Ui.Buttons.AddOn;
 using MonoUtils.Ui.Color;
 using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
@@ -25,13 +24,16 @@ public class Level : SampleLevel
     public event Action<object> EndlessClicked;
     public event Action<object> CreditsClicked;
 
-    public Level(Display display, Vector2 window, Random rand, Progress progress, EffectsRegistry effectsRegistry,
-        int maxLevel, bool panIn, SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, rand, effectsRegistry, settingsAndSaveManager)
+    public Level(Scene display, Random rand, Progress progress, EffectsRegistry effectsRegistry, int maxLevel,
+        bool panIn, SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, rand, effectsRegistry,
+        settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
         Name = textComponent.GetValue("Name");
 
         Default.Play();
+
+        Camera.ZoomSpeed = 3000;
 
         var startButton = new Button(textComponent.GetValue("StartButton"));
         startButton.InRectangle(Camera.Rectangle)
@@ -87,7 +89,7 @@ public class Level : SampleLevel
             .Move();
         AutoManaged.Add(exitButton);
 
-        var header = new Text("NoNameButtonGame", Vector2.Zero, 5F, 1);
+        var header = new Text("NoNameButtonGame", Vector2.Zero, 10F, 1);
         header.InRectangle(Camera.Rectangle)
             .OnX(0.605F)
             .OnY(0.25F)
@@ -95,9 +97,14 @@ public class Level : SampleLevel
             .Move();
         AutoManaged.Add(header);
 
-        var assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        var version = new Text($"v{assemblyVersion!.Major}.{assemblyVersion!.Minor}.{assemblyVersion!.Build}",
-            Vector2.Zero, 0.5F);
+
+        var assembly = Assembly.GetExecutingAssembly();
+        var assemblyVersion = assembly.GetName().Version;
+        var assemblyFileInfo = assembly.GetCustomAttributes<AssemblyFileVersionAttribute>()
+            .FirstOrDefault()?.Version ?? string.Empty;
+        string formatted =
+            $"v{assemblyVersion!.Major}.{assemblyVersion!.Minor}.{assemblyVersion!.Build} {assemblyFileInfo}";
+        var version = new Text(formatted, Vector2.Zero, 0.5F);
         version.InRectangle(Camera.Rectangle)
             .OnX(0.905F)
             .OnY(0.315F)
@@ -105,7 +112,7 @@ public class Level : SampleLevel
             .Move();
         AutoManaged.Add(version);
 
-        var credits = new ClickableText(textComponent.GetValue("CreditsText"));
+        var credits = new ClickableText(textComponent.GetValue("CreditsText"), 2F);
         credits.ChangeColor(ClickableText.LinkColor);
         credits.Click += CreditsLinkPressed;
         credits.GetAnchor(header)

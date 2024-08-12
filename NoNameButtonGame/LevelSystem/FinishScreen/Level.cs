@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
@@ -18,8 +19,8 @@ public class Level : SampleLevel
 {
     private bool _canExit;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.FinishScreen");
@@ -55,6 +56,7 @@ public class Level : SampleLevel
 
     public override void Update(GameTime gameTime)
     {
+        Camera.Move(Vector2.Zero);
         base.Update(gameTime);
         Default2.Play();
 

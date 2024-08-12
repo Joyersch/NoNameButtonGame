@@ -43,7 +43,7 @@ public class FollowerCollection : IManageable, IInteractable
         _indicator = new List<Indicator>();
         _invoker = new OverTimeInvoker(spawnTime, false);
         _invoker.Trigger += SpawnNewBlock;
-        _distance = _camera.RealSize.Length() / 2;
+        _distance = _camera.RealSize.Length() * 2 / 3;
         _indicatorColor = new PulsatingRed();
         _colorListener = new ColorListener();
     }
@@ -88,7 +88,7 @@ public class FollowerCollection : IManageable, IInteractable
             // move block towards the player
             if (_started)
             {
-                var distance = (_speed + _blocks.Count * 3) * (gameTime.ElapsedGameTime.Milliseconds / 1000F);
+                var distance = (_speed + _blocks.Count * 3) * (gameTime.ElapsedGameTime.Milliseconds / 1000F) * 2;
                 if (!block.Rectangle.Intersects(_camera.Rectangle))
                     distance *= length / 200;
                 else
@@ -138,7 +138,7 @@ public class FollowerCollection : IManageable, IInteractable
 
     public void Spawn()
     {
-        var block = new GlitchBlockCollection(GlitchBlock.ImageSize * 4);
+        var block = new GlitchBlockCollection(GlitchBlock.ImageSize * 8);
         block.ChangeColor(GlitchBlock.Color);
         block.InRectangle(_camera.Rectangle)
             .OnCenter()

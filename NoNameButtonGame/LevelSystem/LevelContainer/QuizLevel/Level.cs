@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using MonoUtils;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
@@ -11,8 +12,8 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.QuizLevel;
 
 public class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.QuizLevel");

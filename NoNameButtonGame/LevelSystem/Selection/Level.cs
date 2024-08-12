@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
@@ -39,45 +40,45 @@ public class Level : SampleLevel
     {
         public static class Sidebar
         {
-            public static Color Enabled = new Color(75, 75, 75);
-            public static Color Disabled = new Color(55, 55, 55);
-            public static Color Selected = new Color(125, 125, 125);
+            public static Color Enabled = new(75, 75, 75);
+            public static Color Disabled = new(55, 55, 55);
+            public static Color Selected = new(125, 125, 125);
         }
 
         public static class Easy
         {
-            public static Color Enabled = new Color(59, 252, 25);
-            public static Color Disabled = new Color(25, 104, 11);
+            public static Color Enabled = new(59, 252, 25);
+            public static Color Disabled = new(25, 104, 11);
         }
 
         public static class Medium
         {
-            public static Color Enabled = new Color(252, 245, 32);
-            public static Color Disabled = new Color(104, 101, 16);
+            public static Color Enabled = new(252, 245, 32);
+            public static Color Disabled = new(104, 101, 16);
         }
 
         public static class Hard
         {
-            public static Color Enabled = new Color(252, 155, 27);
-            public static Color Disabled = new Color(102, 62, 11);
+            public static Color Enabled = new(252, 155, 27);
+            public static Color Disabled = new(102, 62, 11);
         }
 
         public static class Insane
         {
-            public static Color Enabled = new Color(252, 102, 27);
-            public static Color Disabled = new Color(109, 46, 14);
+            public static Color Enabled = new(252, 102, 27);
+            public static Color Disabled = new(109, 46, 14);
         }
 
         public static class Extreme
         {
-            public static Color Enabled = new Color(252, 27, 27);
-            public static Color Disabled = new Color(112, 18, 18);
+            public static Color Enabled = new(252, 27, 27);
+            public static Color Disabled = new(112, 18, 18);
         }
     }
 
-    public Level(Display display, Vector2 window, Random rand, LevelSystem.Progress progress, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager, LevelFactory factory) : base(display, window, rand,
-        effectsRegistry, settingsAndSaveManager)
+    public Level(Scene scene, Random rand, LevelSystem.Progress progress,
+        EffectsRegistry effectsRegistry, SettingsAndSaveManager<string> settingsAndSaveManager,
+        LevelFactory factory) : base(scene, rand, effectsRegistry, settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Select");
         Name = textComponent.GetValue("Name");
@@ -114,13 +115,15 @@ public class Level : SampleLevel
             ResetButton();
             _easyButton.Text.ChangeColor(Colors.Easy.Enabled);
             settingsAndSaveManager.SaveSave();
-        };
+        }
+
+        ;
 
         _selectedLevel = (int)selectionState.Level - 1;
 
         for (int i = 0; i < 10; i++)
         {
-            var dot = new Dot(Vector2.Zero, Vector2.One * 20F, (i + 1).ToString())
+            var dot = new Dot(Vector2.Zero, Vector2.One * 40F, (i + 1).ToString())
             {
                 Color = maxLevel > i ? Colors.Sidebar.Enabled : Colors.Sidebar.Disabled,
             };
@@ -159,7 +162,7 @@ public class Level : SampleLevel
         }
 
 
-        var button = new Button(textComponent.GetValue("Play"), 3F);
+        var button = new Button(textComponent.GetValue("Play"), 6F);
         button.InRectangle(Camera.Rectangle)
             .OnX(0.9F)
             .OnY(0.9F)
@@ -222,31 +225,31 @@ public class Level : SampleLevel
         };
         AutoManaged.Add(up);
 
-        _easyButton = new Button(textComponent.GetValue("Easy"), 2.5F);
+        _easyButton = new Button(textComponent.GetValue("Easy"), 5F);
         _easyButton.InRectangle(Camera.Rectangle)
             .OnX(0.25F)
             .OnY(0.9F)
             .Centered()
             .Move();
-        _mediumButton = new Button(textComponent.GetValue("Medium"), 2.5F);
+        _mediumButton = new Button(textComponent.GetValue("Medium"), 5F);
         _mediumButton.InRectangle(Camera.Rectangle)
             .OnX(0.375F)
             .OnY(0.9F)
             .Centered()
             .Move();
-        _hardButton = new Button(textComponent.GetValue("Hard"), 2.5F);
+        _hardButton = new Button(textComponent.GetValue("Hard"), 5F);
         _hardButton.InRectangle(Camera.Rectangle)
             .OnX(0.5F)
             .OnY(0.9F)
             .Centered()
             .Move();
-        _insaneButton = new Button(textComponent.GetValue("Insane"), 2.5F);
+        _insaneButton = new Button(textComponent.GetValue("Insane"), 5F);
         _insaneButton.InRectangle(Camera.Rectangle)
             .OnX(0.625F)
             .OnY(0.9F)
             .Centered()
             .Move();
-        _extremeButton = new Button(textComponent.GetValue("Extreme"), 2.5F);
+        _extremeButton = new Button(textComponent.GetValue("Extreme"), 5F);
         _extremeButton.InRectangle(Camera.Rectangle)
             .OnX(0.75F)
             .OnY(0.9F)
@@ -345,7 +348,7 @@ public class Level : SampleLevel
                 _levelStats.Add(collection);
                 continue;
             }
-            
+
             text = new Text(textComponent.GetValue("Medium"));
             text.InRectangle(Camera.Rectangle)
                 .OnX(0.9F)
@@ -354,7 +357,7 @@ public class Level : SampleLevel
                 .Move();
             text.ChangeColor(selectProgress.Levels[i].BeatMedium ? Colors.Medium.Enabled : Colors.Medium.Disabled);
             collection.Add(text);
-            
+
             text = new Text(textComponent.GetValue("Hard"));
             text.InRectangle(Camera.Rectangle)
                 .OnX(0.9F)
@@ -363,7 +366,7 @@ public class Level : SampleLevel
                 .Move();
             text.ChangeColor(selectProgress.Levels[i].BeatHard ? Colors.Hard.Enabled : Colors.Hard.Disabled);
             collection.Add(text);
-            
+
             text = new Text(textComponent.GetValue("Insane"));
             text.InRectangle(Camera.Rectangle)
                 .OnX(0.9F)
@@ -372,7 +375,7 @@ public class Level : SampleLevel
                 .Move();
             text.ChangeColor(selectProgress.Levels[i].BeatInsane ? Colors.Insane.Enabled : Colors.Insane.Disabled);
             collection.Add(text);
-            
+
             text = new Text(textComponent.GetValue("Extreme"));
             text.InRectangle(Camera.Rectangle)
                 .OnX(0.9F)
@@ -396,16 +399,17 @@ public class Level : SampleLevel
         {
             _mediumButton.Update(gameTime);
             _mediumButton.UpdateInteraction(gameTime, Cursor);
-            
+
             _hardButton.Update(gameTime);
             _hardButton.UpdateInteraction(gameTime, Cursor);
-            
+
             _insaneButton.Update(gameTime);
             _insaneButton.UpdateInteraction(gameTime, Cursor);
-            
+
             _extremeButton.Update(gameTime);
             _extremeButton.UpdateInteraction(gameTime, Cursor);
         }
+
         _levelStats[_selectedLevel].Update(gameTime);
         Log.Information(_selectedLevel.ToString());
     }
@@ -421,6 +425,7 @@ public class Level : SampleLevel
             _insaneButton.Draw(spriteBatch);
             _extremeButton.Draw(spriteBatch);
         }
+
         _levelStats[_selectedLevel].Draw(spriteBatch);
         base.Draw(spriteBatch);
     }
@@ -439,7 +444,7 @@ public class Level : SampleLevel
     public static Difficulty ResolveDifficulty(int difficulty)
         => difficulty switch
         {
-            1 =>Difficulty.Easy,
+            1 => Difficulty.Easy,
             400 => Difficulty.Medium,
             600 => Difficulty.Hard,
             800 => Difficulty.Insane,

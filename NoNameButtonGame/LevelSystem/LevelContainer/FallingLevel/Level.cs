@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -25,8 +26,8 @@ internal class Level : SampleLevel
     private bool _hasWon;
     private bool _checkOffscreen;
 
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1F) : base(display, window, random,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager, float difficulty = 1F) : base(scene, random,
         effectsRegistry, settingsAndSaveManager)
     {
         _random = random;
@@ -43,7 +44,7 @@ internal class Level : SampleLevel
 
         var flippedDifficulty = 3.5F - cleanDifficulty * 2F;
         float winCondition = 10 + 40 * cleanDifficulty;
-        float singleScale = 5F;
+        float singleScale = 10F;
         float wallWidth = 3F;
 
         float moveTime = (664F * flippedDifficulty + 50F) / 5;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
@@ -12,6 +13,7 @@ using MonoUtils.Settings;
 using MonoUtils.Sound;
 using MonoUtils.Ui;
 using MonoUtils.Console;
+using MonoUtils.Ui.Buttons;
 using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -48,6 +50,12 @@ public class NoNameGame : ExtentedGame
 
     protected override void Initialize()
     {
+        Text.DefaultLetterScale *= 2F;
+        DelayedText.DefaultScale *= 2F;
+        SquareTextButton.DefaultScale *= 2F;
+        SquareButton.DefaultScale *= 2;
+        Checkbox.DefaultScale *= 2;
+        SampleButton.DefaultScale *= 2;
         base.Initialize();
 
         ApplySettings();
@@ -65,14 +73,15 @@ public class NoNameGame : ExtentedGame
         // register soundSettingsListener to change sound volume if
         //Global.SoundSettingsListener = new SoundSettingsListener(SettingsManager.Settings);
 
-        _elapsedTime = new Text(string.Empty, 3F);
+        _elapsedTime = new Text(string.Empty, 1.5F);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
         if (!int.TryParse(seedText, out int seed))
             seed = Guid.NewGuid().GetHashCode();
+
         // contains start-menu, settings, credits and all other levels
-        _levelManager = new LevelManager(Display, SettingsAndSaveManager, this, _effectsRegistry, seed);
+        _levelManager = new LevelManager(Scene, SettingsAndSaveManager, this, _effectsRegistry, seed);
         _levelManager.ChangeTitle += ChangeTitle;
         _levelManager.CloseGame += Exit;
 
@@ -179,7 +188,7 @@ public class NoNameGame : ExtentedGame
             if (_showElapsedTime)
             {
                 _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
-                _elapsedTime.InRectangle(Display.Window)
+                _elapsedTime.InRectangle(Scene.Display.Window)
                     .ByGridY(1)
                     .BySizeY(-1F)
                     .Move();
@@ -253,9 +262,9 @@ public class NoNameGame : ExtentedGame
         Graphics.PreferredBackBufferHeight = resolution.Height;
         Graphics.ApplyChanges();
 
-        Display.Update();
+        Scene.Display.Update();
 
-        Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Display.SimpleScale,
+        Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.SimpleScale,
             Console);
         Log.Out.UpdateReference(Console);
     }

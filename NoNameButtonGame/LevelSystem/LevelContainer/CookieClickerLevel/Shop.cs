@@ -13,8 +13,6 @@ namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 
 public class Shop : IManageable, IInteractable
 {
-    public static Vector2 DefaultSize => Display.Size / 2;
-
     private LevelSave _storage;
     private readonly Random _random;
 

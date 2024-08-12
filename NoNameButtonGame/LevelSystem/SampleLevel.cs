@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
@@ -27,7 +28,6 @@ public class SampleLevel : ILevel
     public Vector2 Window { get; protected set; }
     protected EffectsRegistry EffectsRegistry { get; }
     protected readonly MousePointer Mouse;
-    protected Vector2 CameraPosition => Camera.Position;
 
     private MouseSettings _mouseSettings;
 
@@ -48,13 +48,12 @@ public class SampleLevel : ILevel
 
     private Text _cursorIndicator;
 
-    protected SampleLevel(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry, SettingsAndSaveManager<string> settingsAndSaveManager)
+    protected SampleLevel(Scene scene, Random random, EffectsRegistry effectsRegistry, SettingsAndSaveManager<string> settingsAndSaveManager)
     {
-        Display = display;
+        Display = scene.Display;
         Random = random;
-        Window = window;
         EffectsRegistry = effectsRegistry;
-        Cursor = new Cursor
+        Cursor = new Cursor(2F)
         {
             Layer = 0,
         };
@@ -71,8 +70,11 @@ public class SampleLevel : ILevel
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
         _cursorIndicator[0].Origin = new Vector2(2.5F, 2.5F);
 
-        Camera = new Camera(Vector2.Zero, Display.Size);
-        Mouse = new MousePointer(window, Camera)
+        Camera = scene.Camera;
+        // Set Camera to 0,0 as it is kept between levels
+        Camera.Move(Vector2.Zero);
+
+        Mouse = new MousePointer(scene)
         {
             UseRelative = true
         };
@@ -95,7 +97,6 @@ public class SampleLevel : ILevel
                 action.Invoke();
         }
 
-        Camera.Update();
         Mouse.Speed = _mouseSettings.Sensitivity;
         Mouse.Update(gameTime);
 

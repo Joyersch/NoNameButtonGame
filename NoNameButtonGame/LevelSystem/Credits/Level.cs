@@ -16,17 +16,14 @@ namespace NoNameButtonGame.LevelSystem.Credits;
 
 public class Level : SampleLevel
 {
-    public Level(Display display, Vector2 window, Random random, EffectsRegistry effectsRegistry,
-        SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, window, random, effectsRegistry,
+    public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, random, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.Credits");
         Name = textComponent.GetValue("Name");
 
         Default2.Play();
-
-        Camera.Zoom = 1F;
-        Camera.Update();
 
         var credits = Global.ReadFromResources("Text.Credits");
         string pattern = @"\[(.*?)\]";

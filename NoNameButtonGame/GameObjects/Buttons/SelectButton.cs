@@ -37,7 +37,7 @@ public class SelectButton : IButton
     {
     }
 
-    public SelectButton(Vector2 position) : this(position, 4F)
+    public SelectButton(Vector2 position) : this(position, 8F)
     {
     }
 
