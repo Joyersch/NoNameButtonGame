@@ -91,11 +91,11 @@
 /processorParam:Quality=Best
 /build:Music/LoFi/LoFi Bass.wav
 
-#begin Music/LoFi/Lofi Drums.wav
+#begin Music/LoFi/LoFi Drums.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:Music/LoFi/Lofi Drums.wav
+/build:Music/LoFi/LoFi Drums.wav
 
 #begin Music/LoFi/LoFi Main 2.wav
 /importer:WavImporter

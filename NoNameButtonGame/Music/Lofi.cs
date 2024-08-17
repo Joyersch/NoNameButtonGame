@@ -5,7 +5,7 @@ namespace NoNameButtonGame.Music;
 
 public static class Lofi
 {
-    private static LoopStation _station = null;
+    private static LoopStation _station;
 
     public static void Initialize(LoopStation station)
     {

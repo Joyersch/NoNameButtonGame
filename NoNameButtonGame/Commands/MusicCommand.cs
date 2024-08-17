@@ -5,17 +5,20 @@ using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.Commands;
 
-public class MusicCommand : ICommand
+public sealed class MusicCommand : ICommand
 {
     [Command(Description = "Play specific music", Name = "music")]
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
-        if (options.Length == 0)
-            return new[] { "music (name)" };
+        switch (options.Length)
+        {
+            case 0:
+                return new[] { "music (name)" };
+            case >= 2:
+                return new[] { "music (name)" };
+        }
 
-        if (options.Length >= 2)
-            return new[] { "music (name)" };
-        string sound = options[0].ToString();
+        var sound = options[0].ToString();
 
         if (sound == "list")
             return Enum.GetNames<Sounds>();

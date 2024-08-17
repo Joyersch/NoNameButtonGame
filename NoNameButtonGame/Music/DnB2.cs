@@ -3,9 +3,9 @@ using MonoUtils.Sound;
 
 namespace NoNameButtonGame.Music;
 
-public class DnB2
+public static class DnB2
 {
-    private static LoopStation _station = null;
+    private static LoopStation _station;
 
     public static void Initialize(LoopStation station)
     {

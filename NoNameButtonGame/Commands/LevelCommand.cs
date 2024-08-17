@@ -6,7 +6,7 @@ using NoNameButtonGame.LevelSystem.Selection;
 
 namespace NoNameButtonGame.Commands;
 
-public class LevelCommand : ICommand
+public sealed class LevelCommand : ICommand
 {
     [Command(Description = "Select a level", Name = "level")]
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
@@ -26,7 +26,7 @@ public class LevelCommand : ICommand
             return new[] { "Completed the current level!", $"Endless would be on: {levelManager.EndlessLevel}" };
         }
 
-        if (!int.TryParse(value, out int ival))
+        if (!int.TryParse(value, out var ival))
             return new[] { "Usage:", "level (level)" };
 
         levelManager.SetAsLevelSelect();

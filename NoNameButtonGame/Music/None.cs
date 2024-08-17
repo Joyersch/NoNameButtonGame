@@ -2,9 +2,9 @@
 
 namespace NoNameButtonGame.Music;
 
-public class None
+public static class None
 {
-    private static LoopStation _station = null;
+    private static LoopStation _station;
 
     public static void Initialize(LoopStation station)
     {
@@ -12,10 +12,5 @@ public class None
     }
 
     public static void Play()
-    {
-        if (_station is null)
-            return;
-
-        _station.ResetVolume();
-    }
+        => _station?.ResetVolume();
 }

@@ -8,7 +8,7 @@ using MonoUtils.Ui.Buttons;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class SelectButton : IButton
+public sealed class SelectButton : IButton
 {
     private Vector2 _position;
     private readonly Vector2 _size;
@@ -31,7 +31,7 @@ public class SelectButton : IButton
     public event Action<object> Click;
 
     public static Texture2D Texture;
-    private static readonly Vector2 ImageSize = new Vector2(16, 8);
+    private static readonly Vector2 ImageSize = new(16, 8);
 
     public SelectButton() : this(Vector2.Zero)
     {
@@ -111,5 +111,5 @@ public class SelectButton : IButton
         => 1;
 
     public Color[] GetColor()
-        => new[] { _color };
+        => [_color];
 }

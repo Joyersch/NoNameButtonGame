@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
@@ -55,7 +54,7 @@ public class SampleLevel : ILevel
         EffectsRegistry = effectsRegistry;
         Cursor = new Cursor(2F)
         {
-            Layer = 0,
+            Layer = 0
         };
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
@@ -63,9 +62,9 @@ public class SampleLevel : ILevel
 
         _mouseSettings = settingsAndSaveManager.GetSetting<MouseSettings>();
 
-        AutoManaged = new List<object>();
-        AutoManagedStaticFront = new List<object>();
-        AutoManagedStaticBack = new List<object>();
+        AutoManaged = [];
+        AutoManagedStaticFront = [];
+        AutoManagedStaticBack = [];
         _cursorIndicator = new Text("[arrow]");
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
         _cursorIndicator[0].Origin = new Vector2(2.5F, 2.5F);

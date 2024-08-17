@@ -4,7 +4,7 @@ using NoNameButtonGame.LevelSystem;
 
 namespace NoNameButtonGame.Commands;
 
-public class ExitCommand : ICommand
+public sealed class ExitCommand : ICommand
 {
     [Command(Description = "Exits the game", Name = "exit")]
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)

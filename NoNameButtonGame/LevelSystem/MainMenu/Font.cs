@@ -4,7 +4,7 @@ using MonoUtils.Ui.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;
 
-public class Font : ILetter
+public sealed class Font : ILetter
 {
     public static Vector2 ImageSize => new(16, 16);
 
@@ -15,9 +15,9 @@ public class Font : ILetter
 
     public Rectangle GetImageLocation(int letter)
     {
-        int x = letter % TextureWidth;
-        int y = letter / TextureWidth;
-        Vector2 location = new Vector2(ImageSize.X * x, ImageSize.Y * y);
+        var x = letter % TextureWidth;
+        var y = letter / TextureWidth;
+        var location = new Vector2(ImageSize.X * x, ImageSize.Y * y);
         return new Rectangle(location.ToPoint(), ImageSize.ToPoint());
     }
 
@@ -49,6 +49,6 @@ public class Font : ILetter
     public enum Letters
     {
         None = -1,
-        Star,
+        Star
     }
 }

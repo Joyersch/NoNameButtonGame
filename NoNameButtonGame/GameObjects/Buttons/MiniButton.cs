@@ -3,16 +3,11 @@ using MonoUtils.Ui.Buttons;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 
-public class MiniButton : TextButton<SelectButton>
+public sealed class MiniButton(string text, string name) : TextButton<SelectButton>(text, new SelectButton(Vector2.Zero, 8F))
 {
-    public string Name { get; }
+    public string Name { get; } = name;
 
     public MiniButton(string text) : this(text, string.Empty)
     {
-    }
-
-    public MiniButton(string text, string name) : base(text, new SelectButton(Vector2.Zero, 8F))
-    {
-        Name = name;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
@@ -29,20 +28,21 @@ using GeneralFont = NoNameButtonGame.LevelSystem.Font;
 
 namespace NoNameButtonGame;
 
-public class NoNameGame : ExtentedGame
+public sealed class NoNameGame : ExtentedGame
 {
     private LevelManager _levelManager;
     private bool _showElapsedTime;
     private Text _elapsedTime;
 
-    private LoopStation _loopStation;
-    private EffectsRegistry _effectsRegistry;
+    private readonly LoopStation _loopStation;
+    private readonly EffectsRegistry _effectsRegistry;
     private bool _keyWasPressed;
 
     public NoNameGame()
     {
         IsMouseVisible = false;
-        SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Joyersch/NoNameButtonGame/";
+        SaveDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
+                        "/Joyersch/NoNameButtonGame/";
         SaveFile = string.Empty;
         _loopStation = new LoopStation();
         _effectsRegistry = new EffectsRegistry();
@@ -50,12 +50,12 @@ public class NoNameGame : ExtentedGame
 
     protected override void Initialize()
     {
-        Text.DefaultLetterScale *= 2F;
-        DelayedText.DefaultScale *= 2F;
-        SquareTextButton.DefaultScale *= 2F;
-        SquareButton.DefaultScale *= 2;
-        Checkbox.DefaultScale *= 2;
-        SampleButton.DefaultScale *= 2;
+        Text.DefaultLetterScale = 4F;
+        DelayedText.DefaultScale = 4F;
+        SquareTextButton.DefaultScale = 8F;
+        SquareButton.DefaultScale = 8F;
+        Checkbox.DefaultScale = 8F;
+        SampleButton.DefaultScale = 8F;
         base.Initialize();
 
         ApplySettings();
@@ -69,15 +69,11 @@ public class NoNameGame : ExtentedGame
             SettingsAndSaveManager.SaveSettings();
         }
 
-
-        // register soundSettingsListener to change sound volume if
-        //Global.SoundSettingsListener = new SoundSettingsListener(SettingsManager.Settings);
-
         _elapsedTime = new Text(string.Empty, 1.5F);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
-        if (!int.TryParse(seedText, out int seed))
+        if (!int.TryParse(seedText, out var seed))
             seed = Guid.NewGuid().GetHashCode();
 
         // contains start-menu, settings, credits and all other levels
@@ -249,7 +245,7 @@ public class NoNameGame : ExtentedGame
         _showElapsedTime = advancedSettings.ShowElapsedTime;
     }
 
-    public void ApplySettings(VideoSettings settings)
+    private void ApplySettings(VideoSettings settings)
     {
         ApplyResolution(settings.Resolution);
         ApplyFullscreen(settings.IsFullscreen);

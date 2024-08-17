@@ -4,7 +4,7 @@ using MonoUtils.Ui.Color;
 
 namespace NoNameButtonGame.Colors;
 
-public class PulsatingRed : AnimatedColor
+public sealed class PulsatingRed : AnimatedColor
 {
     public PulsatingRed()
     {
