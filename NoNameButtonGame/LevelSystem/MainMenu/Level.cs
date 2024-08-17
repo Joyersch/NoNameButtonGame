@@ -104,7 +104,7 @@ public class Level : SampleLevel
             .FirstOrDefault()?.Version ?? string.Empty;
         string formatted =
             $"v{assemblyVersion!.Major}.{assemblyVersion!.Minor}.{assemblyVersion!.Build} {assemblyFileInfo}";
-        var version = new Text(formatted, Vector2.Zero, 0.5F);
+        var version = new Text(formatted, Vector2.Zero, 0.5F * Text.DefaultLetterScale);
         version.InRectangle(Camera.Rectangle)
             .OnX(0.905F)
             .OnY(0.315F)
@@ -130,7 +130,7 @@ public class Level : SampleLevel
             {
                 Increment = 5
             };
-            var completion = new Text("[star]", 0.5F);
+            var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
             completion.InRectangle(Camera.Rectangle)
                 .OnX(0.875F)
                 .OnY(0.9F)
@@ -148,7 +148,7 @@ public class Level : SampleLevel
                 Offset = 80,
                 Increment = 5
             };
-            var completion = new Text("[star]", 0.5F);
+            var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
             completion.InRectangle(Camera.Rectangle)
                 .OnX(0.9F)
                 .OnY(0.9F)
@@ -166,7 +166,7 @@ public class Level : SampleLevel
                 Offset = 160,
                 Increment = 5
             };
-            var completion = new Text("[star]", 0.5F);
+            var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
             completion.InRectangle(Camera.Rectangle)
                 .OnX(0.925F)
                 .OnY(0.9F)

@@ -35,7 +35,7 @@ public class Level : SampleLevel
 
         AutoManaged.Add(pressToContinueLabel);
 
-        Text levelFinishedLabel = new Text(textComponent.GetValue("LevelFinished"), 3F);
+        Text levelFinishedLabel = new Text(textComponent.GetValue("LevelFinished"), 3F * Text.DefaultLetterScale);
         levelFinishedLabel.InRectangle(Camera.Rectangle)
             .OnCenter()
             .OnY(0.2F)

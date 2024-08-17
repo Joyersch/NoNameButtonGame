@@ -69,7 +69,7 @@ public sealed class NoNameGame : ExtentedGame
             SettingsAndSaveManager.SaveSettings();
         }
 
-        _elapsedTime = new Text(string.Empty, 1.5F);
+        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
@@ -130,32 +130,31 @@ public sealed class NoNameGame : ExtentedGame
         _effectsRegistry.Register(Content.GetSfx("wall"), "wall");
 
         // Music
-        _loopStation.Register(Content.GetMusic("Main"), "main");
-        _loopStation.Register(Content.GetMusic("Main 2"), "main2");
-        _loopStation.Register(Content.GetMusic("Ride Memphis"), "ride_memphis");
-        _loopStation.Register(Content.GetMusic("Percussion Memphis"), "percussion_memphis");
-        _loopStation.Register(Content.GetMusic("Lead Trance"), "lead_trance");
-        _loopStation.Register(Content.GetMusic("Lead DnB"), "lead_dnb");
-        _loopStation.Register(Content.GetMusic("Kickdrum Trance"), "kickdrum_trance");
-        _loopStation.Register(Content.GetMusic("Drums Trap"), "drums_trap");
-        _loopStation.Register(Content.GetMusic("Drums Trance"), "drums_trance");
-        _loopStation.Register(Content.GetMusic("Drums Synthwave"), "drums_synthwave");
-        _loopStation.Register(Content.GetMusic("Drums Memphis"), "drums_memphis");
-        _loopStation.Register(Content.GetMusic("Drums DnB"), "drums_dnb");
-        _loopStation.Register(Content.GetMusic("Bass Trap"), "bass_trap");
-        _loopStation.Register(Content.GetMusic("Bass Trance"), "bass_trance");
-        _loopStation.Register(Content.GetMusic("Bass Synthwave und DnB"), "bass_synthwave_DnB");
-        _loopStation.Register(Content.GetMusic("Bass Memphis"), "bass_memphis");
 
-        _loopStation.Register(Content.GetMusic("LoFi/Lofi Main"), "lofi_main");
-        _loopStation.Register(Content.GetMusic("LoFi/Lofi Main 2"), "lofi_main2");
-        _loopStation.Register(Content.GetMusic("LoFi/Lofi Drums"), "lofi_drums");
-        _loopStation.Register(Content.GetMusic("LoFi/Lofi Bass"), "lofi_bass");
-
-        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Main MUFFLED"), "lofi_main_muffled");
-        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Main 2 MUFFLED"), "lofi_main2_muffled");
-        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Drums MUFFLED"), "lofi_drums_muffled");
-        _loopStation.Register(Content.GetMusic("LoFi/MUFFLED/Lofi Bass MUFFLED"), "lofi_bass_muffled");
+        RegisterToStation(Statics.Music.Melody.Main);
+        RegisterToStation(Statics.Music.Melody.Main2);
+        RegisterToStation(Statics.Music.Melody.LoFiMain);
+        RegisterToStation(Statics.Music.Melody.LoFiMain2);
+        RegisterToStation(Statics.Music.Melody.LoFiMainMuffled);
+        RegisterToStation(Statics.Music.Melody.LoFiMain2Muffled);
+        RegisterToStation(Statics.Music.Ride.Memphis);
+        RegisterToStation(Statics.Music.Percussion.Memphis);
+        RegisterToStation(Statics.Music.Lead.Trance);
+        RegisterToStation(Statics.Music.Lead.DnB);
+        RegisterToStation(Statics.Music.Kickdrum.Trance);
+        RegisterToStation(Statics.Music.Drums.Trap);
+        RegisterToStation(Statics.Music.Drums.Trance);
+        RegisterToStation(Statics.Music.Drums.Synthwave);
+        RegisterToStation(Statics.Music.Drums.Memphis);
+        RegisterToStation(Statics.Music.Drums.DnB);
+        RegisterToStation(Statics.Music.Drums.LoFi);
+        RegisterToStation(Statics.Music.Drums.LoFiMuffled);
+        RegisterToStation(Statics.Music.Bass.Trap);
+        RegisterToStation(Statics.Music.Bass.Trance);
+        RegisterToStation(Statics.Music.Bass.SynthwaveDnB);
+        RegisterToStation(Statics.Music.Bass.Memphis);
+        RegisterToStation(Statics.Music.Bass.LoFi);
+        RegisterToStation(Statics.Music.Bass.LoFiMuffled);
 
         Lofi.Initialize(_loopStation);
         LofiMuffled.Initialize(_loopStation);
@@ -175,6 +174,9 @@ public sealed class NoNameGame : ExtentedGame
 
         _loopStation.Initialize(250F);
     }
+
+    private void RegisterToStation(string name)
+        => _loopStation?.Register(Content.GetMusic(name), name);
 
     protected override void Update(GameTime gameTime)
     {

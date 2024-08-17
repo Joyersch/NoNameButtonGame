@@ -20,10 +20,10 @@ public static class Trance
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("main", 0.1F);
-        _station.SetVolume("main2", 1F);
-        _station.SetVolume("kickdrum_trance", 1F);
-        _station.SetVolume("lead_trance", 1F);
-        _station.SetVolume("bass_trance", 1F);
+        _station.SetVolume(Statics.Music.Melody.Main, 0.1F);
+        _station.SetVolume(Statics.Music.Melody.Main2, 1F);
+        _station.SetVolume(Statics.Music.Kickdrum.Trance, 1F);
+        _station.SetVolume(Statics.Music.Lead.Trance, 1F);
+        _station.SetVolume(Statics.Music.Bass.Trance, 1F);
     }
 }

@@ -20,7 +20,7 @@ public static class DnB3
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("main", 1F);
-        _station.SetVolume("drums_dnb", 0.8F);
+        _station.SetVolume(Statics.Music.Melody.Main, 1F);
+        _station.SetVolume(Statics.Music.Drums.DnB, 0.8F);
     }
 }

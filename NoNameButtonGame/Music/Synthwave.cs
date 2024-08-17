@@ -20,8 +20,8 @@ public static class Synthwave
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("main", 1F);
-        _station.SetVolume("drums_synthwave", 0.8F);
-        _station.SetVolume("bass_synthwave_DnB", 0.4F);
+        _station.SetVolume(Statics.Music.Melody.Main, 1F);
+        _station.SetVolume(Statics.Music.Drums.Synthwave, 0.8F);
+        _station.SetVolume(Statics.Music.Bass.SynthwaveDnB, 0.4F);
     }
 }

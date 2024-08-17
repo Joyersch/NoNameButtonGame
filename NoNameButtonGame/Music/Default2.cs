@@ -20,6 +20,6 @@ public static class Default2
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("main2", 1F);
+        _station.SetVolume(Statics.Music.Melody.Main2, 1F);
     }
 }

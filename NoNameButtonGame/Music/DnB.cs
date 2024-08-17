@@ -20,9 +20,9 @@ public static class DnB
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("main", 1F);
-        _station.SetVolume("lead_dnb", 0.3F);
-        _station.SetVolume("drums_dnb", 0.8F);
-        _station.SetVolume("bass_synthwave_DnB", 0.4F);
+        _station.SetVolume(Statics.Music.Melody.Main, 1F);
+        _station.SetVolume(Statics.Music.Lead.DnB, 0.3F);
+        _station.SetVolume(Statics.Music.Drums.DnB, 0.8F);
+        _station.SetVolume(Statics.Music.Bass.SynthwaveDnB, 0.4F);
     }
 }

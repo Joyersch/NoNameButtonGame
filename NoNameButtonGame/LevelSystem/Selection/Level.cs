@@ -220,7 +220,6 @@ public class Level : SampleLevel
             selectionState.Level = level;
             if (!LevelFactory.HasLevelDifficulty(level))
                 easyButtonClick();
-            Log.Information(((int)level).ToString());
             settingsAndSaveManager.SaveSave();
         };
         AutoManaged.Add(up);
@@ -411,7 +410,6 @@ public class Level : SampleLevel
         }
 
         _levelStats[_selectedLevel].Update(gameTime);
-        Log.Information(_selectedLevel.ToString());
     }
 
     protected override void Draw(SpriteBatch spriteBatch)

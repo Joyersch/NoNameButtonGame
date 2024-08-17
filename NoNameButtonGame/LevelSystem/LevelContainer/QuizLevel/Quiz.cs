@@ -43,7 +43,7 @@ public class Quiz : IManageable, IInteractable
         if (questions.Any(q => q.Answers.Length > 3))
             Log.Warning("A question has more answers that supported!");
 
-        _question = new Text(string.Empty, scale);
+        _question = new Text(string.Empty, scale * Text.DefaultLetterScale);
         _question.InRectangle(Rectangle)
             .OnCenter()
             .OnY(3, 10)

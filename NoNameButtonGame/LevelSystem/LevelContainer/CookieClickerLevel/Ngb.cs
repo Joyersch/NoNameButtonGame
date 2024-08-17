@@ -25,7 +25,7 @@ public class Nbg : IManageable, IMoveable, ILayerable
     private readonly Rectangle _area;
     private readonly float _scale;
 
-    public float Speed = 60;
+    public float Speed = 90;
 
     private bool _moveUp;
     private bool _moveLeft;
@@ -49,11 +49,11 @@ public class Nbg : IManageable, IMoveable, ILayerable
 
     public void Update(GameTime gameTime)
     {
-        float by = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000 * Speed;
+        float moveBy = (float)(gameTime.ElapsedGameTime.TotalSeconds * Speed);
 
         var position = _position;
-        position.Y += _moveUp ? -by : by;
-        position.X += _moveLeft ? -by : by;
+        position.Y += _moveUp ? -moveBy : moveBy;
+        position.X += _moveLeft ? -moveBy : moveBy;
         bool newColor = false;
         bool hasChanged;
         do
@@ -68,8 +68,8 @@ public class Nbg : IManageable, IMoveable, ILayerable
                 hasChanged = true;
 
 
-                by -= difference;
-                position.Y += by * (_moveUp ? -1 : 1);
+                moveBy -= difference;
+                position.Y += moveBy * (_moveUp ? -1 : 1);
             }
 
             if (position.Y + _size.Y >= _area.Bottom)
@@ -79,8 +79,8 @@ public class Nbg : IManageable, IMoveable, ILayerable
                 _moveUp = !_moveUp;
                 newColor = true;
                 hasChanged = true;
-                by -= difference;
-                position.Y += by * (_moveUp ? -1 : 1);
+                moveBy -= difference;
+                position.Y += moveBy * (_moveUp ? -1 : 1);
             }
 
             if (position.X <= _area.Left)
@@ -92,22 +92,22 @@ public class Nbg : IManageable, IMoveable, ILayerable
                 newColor = true;
                 hasChanged = true;
 
-                by -= difference;
-                position.X += by * (_moveLeft ? -1 : 1);
+                moveBy -= difference;
+                position.X += moveBy * (_moveLeft ? -1 : 1);
             }
 
             if (position.X + _size.X >= _area.Right)
             {
                 var difference = _area.Right - (position.X + _size.X);
 
-                if (Math.Abs(difference - by) < float.Epsilon)
+                if (Math.Abs(difference - moveBy) < float.Epsilon)
                     difference *= 0;
 
                 _moveLeft = !_moveLeft;
                 newColor = true;
                 hasChanged = true;
-                by -= difference;
-                position.X += by * (_moveLeft ? -1 : 1);
+                moveBy -= difference;
+                position.X += moveBy * (_moveLeft ? -1 : 1);
             }
         } while (hasChanged);
 

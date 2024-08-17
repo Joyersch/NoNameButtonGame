@@ -20,10 +20,10 @@ public static class Memphis
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("main", 1F);
-        _station.SetVolume("ride_memphis", 1F);
-        _station.SetVolume("percussion_memphis", 1F);
-        _station.SetVolume("drums_memphis", 1F);
-        _station.SetVolume("bass_memphis", 1F);
+        _station.SetVolume(Statics.Music.Melody.Main, 1F);
+        _station.SetVolume(Statics.Music.Ride.Memphis, 1F);
+        _station.SetVolume(Statics.Music.Percussion.Memphis, 1F);
+        _station.SetVolume(Statics.Music.Drums.Memphis, 1F);
+        _station.SetVolume(Statics.Music.Bass.Memphis, 1F);
     }
 }

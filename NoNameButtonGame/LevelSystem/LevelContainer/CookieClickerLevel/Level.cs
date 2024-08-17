@@ -170,7 +170,7 @@ public class Level : SampleLevel
         _objectiveDisplay.InRectangle(Display.Screen).OnX(0.01F).OnY(0.01F).Move();
         AutoManagedStaticFront.Add(_objectiveDisplay);
 
-        var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 2.5F);
+        var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 5F);
         AutoManaged.Add(nbg);
     }
 

@@ -74,7 +74,7 @@ public class SimonSays : IManageable, IInteractable
             SimonSaysButton.Keys.note_f);
         _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed, effects,
             SimonSaysButton.Keys.note_g);
-        _enteredSequenceDisplay = new Text(string.Empty, 1F);
+        _enteredSequenceDisplay = new Text(string.Empty);
         _enteredSequenceDisplay.InRectangle(area)
             .OnCenter()
             .OnY(4, 5)

@@ -42,6 +42,7 @@ public sealed class MusicCommand : ICommand
             Sounds.Synthwave => Synthwave.Play,
             Sounds.Trap => Trap.Play,
             Sounds.Trap2 => Trap2.Play,
+            Sounds.Trance => Trance.Play,
             _ => None.Play
         };
         audio.Invoke();
@@ -63,6 +64,7 @@ public sealed class MusicCommand : ICommand
         Memphis,
         Synthwave,
         Trap,
-        Trap2
+        Trap2,
+        Trance
     }
 }

@@ -20,9 +20,9 @@ public static class Lofi
             return;
         }
         _station.ResetVolume();
-        _station.SetVolume("lofi_main", 1F);
-        _station.SetVolume("lofi_main2", 1F);
-        _station.SetVolume("lofi_drums", 1F);
-        _station.SetVolume("lofi_bass", 1F);
+        _station.SetVolume(Statics.Music.Melody.LoFiMain, 1F);
+        _station.SetVolume(Statics.Music.Melody.LoFiMain2, 1F);
+        _station.SetVolume(Statics.Music.Drums.LoFi, 1F);
+        _station.SetVolume(Statics.Music.Bass.LoFi, 1F);
     }
 }
