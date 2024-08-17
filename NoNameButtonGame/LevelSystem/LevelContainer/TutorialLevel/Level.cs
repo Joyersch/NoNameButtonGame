@@ -34,7 +34,7 @@ internal class Level : SampleLevel
 
         #region StartScreen
 
-        var keyInfo = new Text(textComponent.GetValue("KeyInfo"), 0.5F);
+        var keyInfo = new Text(textComponent.GetValue("KeyInfo"), 0.5F * Text.DefaultLetterScale);
         keyInfo.InRectangle(screen)
             .With(5, 5)
             .Move();

@@ -166,7 +166,7 @@ public class Level : SampleLevel
         _counter.InRectangle(Camera.Rectangle).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
         AutoManaged.Add(_counter);
 
-        _objectiveDisplay = new Text(ObjectiveText, Display.SimpleScale);
+        _objectiveDisplay = new Text(ObjectiveText, Display.SimpleScale / 2 * Text.DefaultLetterScale);
         _objectiveDisplay.InRectangle(Display.Screen).OnX(0.01F).OnY(0.01F).Move();
         AutoManagedStaticFront.Add(_objectiveDisplay);
 

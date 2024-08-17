@@ -69,7 +69,7 @@ public sealed class NoNameGame : ExtentedGame
             SettingsAndSaveManager.SaveSettings();
         }
 
-        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale);
+        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.SimpleScale / 2);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
@@ -267,6 +267,8 @@ public sealed class NoNameGame : ExtentedGame
         Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.SimpleScale,
             Console);
         Log.Out.UpdateReference(Console);
+
+        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.SimpleScale / 2);
     }
 
     public void ShowElapsedTime(bool show)
