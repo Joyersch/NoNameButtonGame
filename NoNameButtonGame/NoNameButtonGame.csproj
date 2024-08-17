@@ -8,7 +8,7 @@
     <Authors>Joy Schnittker</Authors>
     <PackageProjectUrl>https://github.com/Joyersch/NoNameButtonGame</PackageProjectUrl>
     <AssemblyVersion>1.2.3</AssemblyVersion>
-    <FileVersion>pre2</FileVersion>
+    <FileVersion></FileVersion>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
