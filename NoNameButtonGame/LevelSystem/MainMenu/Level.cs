@@ -97,14 +97,7 @@ public class Level : SampleLevel
             .Move();
         AutoManaged.Add(header);
 
-
-        var assembly = Assembly.GetExecutingAssembly();
-        var assemblyVersion = assembly.GetName().Version;
-        var assemblyFileInfo = assembly.GetCustomAttributes<AssemblyFileVersionAttribute>()
-            .FirstOrDefault()?.Version ?? string.Empty;
-        string formatted =
-            $"v{assemblyVersion!.Major}.{assemblyVersion!.Minor}.{assemblyVersion!.Build} {assemblyFileInfo}";
-        var version = new Text(formatted, Vector2.Zero, 0.5F * Text.DefaultLetterScale);
+        var version = new Text(Statics.Version.ToString(), Vector2.Zero, 0.5F * Text.DefaultLetterScale);
         version.InRectangle(Camera.Rectangle)
             .OnX(0.905F)
             .OnY(0.315F)

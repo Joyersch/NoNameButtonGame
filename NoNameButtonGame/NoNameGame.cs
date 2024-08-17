@@ -122,15 +122,14 @@ public sealed class NoNameGame : ExtentedGame
         Showcase.Texture[10] = Content.GetTexture("Showcases/Level10");
 
         // Sound effects
-        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/C"), "note_c");
-        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/D"), "note_d");
-        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/E"), "note_e");
-        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/F"), "note_f");
-        _effectsRegistry.Register(Content.GetSfx("8_bit_notes/G"), "note_g");
-        _effectsRegistry.Register(Content.GetSfx("wall"), "wall");
+        RegisterEffect(Statics.Sfx.Notes.C);
+        RegisterEffect(Statics.Sfx.Notes.D);
+        RegisterEffect(Statics.Sfx.Notes.E);
+        RegisterEffect(Statics.Sfx.Notes.F);
+        RegisterEffect(Statics.Sfx.Notes.G);
+        RegisterEffect(Statics.Sfx.Wall);
 
         // Music
-
         RegisterToStation(Statics.Music.Melody.Main);
         RegisterToStation(Statics.Music.Melody.Main2);
         RegisterToStation(Statics.Music.Melody.LoFiMain);
@@ -177,6 +176,9 @@ public sealed class NoNameGame : ExtentedGame
 
     private void RegisterToStation(string name)
         => _loopStation?.Register(Content.GetMusic(name), name);
+    
+    private void RegisterEffect(string name)
+        => _effectsRegistry?.Register(Content.GetSfx(name), name);
 
     protected override void Update(GameTime gameTime)
     {

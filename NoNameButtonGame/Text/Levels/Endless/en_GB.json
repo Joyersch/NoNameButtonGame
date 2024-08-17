@@ -33,11 +33,11 @@
   },
   {
     "key": "Time30min",
-    "value": "Reached level 50 in 30 minutes"
+    "value": "Reached level 50 on endless in 30 minutes"
   },
   {
     "key": "Time1h",
-    "value": "Reached level 50 in 60 minutes"
+    "value": "Reached level 50 on endless in 60 minutes"
   },
   {
     "key": "Beat10",

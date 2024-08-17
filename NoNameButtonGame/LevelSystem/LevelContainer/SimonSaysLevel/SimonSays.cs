@@ -65,15 +65,15 @@ public class SimonSays : IManageable, IInteractable
         _sequence = new SimonSequence(1, 5, length, random);
 
         _buttons[0] = new SimonSaysButton(SimonColors.DarkYellow, SimonColors.LightYellow, buttonDisplaySpeed, effects,
-            SimonSaysButton.Keys.note_c);
+            SimonSaysButton.Keys.C);
         _buttons[1] = new SimonSaysButton(SimonColors.DarkRed, SimonColors.LightRed, buttonDisplaySpeed, effects,
-            SimonSaysButton.Keys.note_d);
+            SimonSaysButton.Keys.D);
         _buttons[2] = new SimonSaysButton(SimonColors.DarkGreen, SimonColors.LightGreen, buttonDisplaySpeed, effects,
-            SimonSaysButton.Keys.note_e);
+            SimonSaysButton.Keys.E);
         _buttons[3] = new SimonSaysButton(SimonColors.DarkBlue, SimonColors.LightBlue, buttonDisplaySpeed, effects,
-            SimonSaysButton.Keys.note_f);
+            SimonSaysButton.Keys.F);
         _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed, effects,
-            SimonSaysButton.Keys.note_g);
+            SimonSaysButton.Keys.G);
         _enteredSequenceDisplay = new Text(string.Empty);
         _enteredSequenceDisplay.InRectangle(area)
             .OnCenter()

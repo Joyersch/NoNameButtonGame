@@ -20,11 +20,11 @@ public class SimonSaysButton : TextButton<SampleButton>
 
     public enum Keys
     {
-        note_c,
-        note_d,
-        note_e,
-        note_f,
-        note_g
+        C,
+        D,
+        E,
+        F,
+        G
     }
 
     public SimonSaysButton(Color color, Color highlight, float time, EffectsRegistry effects, Keys key) : this(Vector2.Zero, "[block]", 1F, color,
@@ -57,7 +57,7 @@ public class SimonSaysButton : TextButton<SampleButton>
     {
         _invoker.Start();
         Text.ChangeColor(_hightlight);
-        var effect = _effects.GetInstance(_key.ToString());
+        var effect = _effects.GetInstance($"{Statics.Sfx.Notes.Base}{_key}");
         effect?.Play();
     }
 

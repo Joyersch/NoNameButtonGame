@@ -215,7 +215,7 @@ public class SampleLevel : ILevel
 
     protected virtual void Fail()
     {
-        var effect = EffectsRegistry.GetInstance("wall");
+        var effect = EffectsRegistry.GetInstance(Statics.Sfx.Wall);
         effect?.Play();
         OnFail?.Invoke();
     }
