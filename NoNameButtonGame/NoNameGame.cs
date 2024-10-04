@@ -184,6 +184,7 @@ public sealed class NoNameGame : ExtentedGame
     {
         if (IsActive)
         {
+            Scene.Update(gameTime);
             _levelManager.Update(gameTime);
             if (_showElapsedTime)
             {

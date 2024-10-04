@@ -47,7 +47,8 @@ public class SampleLevel : ILevel
 
     private Text _cursorIndicator;
 
-    protected SampleLevel(Scene scene, Random random, EffectsRegistry effectsRegistry, SettingsAndSaveManager<string> settingsAndSaveManager)
+    protected SampleLevel(Scene scene, Random random, EffectsRegistry effectsRegistry,
+        SettingsAndSaveManager<string> settingsAndSaveManager)
     {
         Display = scene.Display;
         Random = random;
@@ -84,6 +85,13 @@ public class SampleLevel : ILevel
 
     public virtual void Update(GameTime gameTime)
     {
+        Mouse.Speed = _mouseSettings.Sensitivity;
+        Mouse.Update(gameTime);
+        RelativePositionListener.Update(gameTime);
+        PositionListener.Update(gameTime);
+        Cursor.Update(gameTime);
+
+        var cameraPosition = Camera.Position;
         foreach (var obj in AutoManaged)
         {
             if (obj is IInteractable interactable)
@@ -96,8 +104,14 @@ public class SampleLevel : ILevel
                 action.Invoke();
         }
 
-        Mouse.Speed = _mouseSettings.Sensitivity;
-        Mouse.Update(gameTime);
+        if (cameraPosition != Camera.Position)
+        {
+            Camera.Calculate();
+            Mouse.Update(gameTime);
+            RelativePositionListener.Update(gameTime);
+            PositionListener.Update(gameTime);
+            Cursor.Update(gameTime);
+        }
 
         MoveHelper.RotateTowards(_cursorIndicator[0], Cursor);
         _cursorIndicator[0].Rotation += (float)(Math.PI / 4F);
@@ -121,10 +135,7 @@ public class SampleLevel : ILevel
             newPosition.Y = Camera.Rectangle.Bottom - rectangleHeight;
 
         _cursorIndicator.Move(newPosition);
-
         _cursorIndicator.Update(gameTime);
-        PositionListener.Update(gameTime);
-        RelativePositionListener.Update(gameTime);
         ColorListener.Update(gameTime);
 
         if (!_canExit)
@@ -134,17 +145,16 @@ public class SampleLevel : ILevel
             _canExit = false;
             Exit();
         }
-
-        Cursor.Update(gameTime);
     }
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
         #region Game
+
         graphicsDevice.SetRenderTarget(Display.Target);
         graphicsDevice.Clear(Color.Transparent);
 
-        spriteBatch.Begin(samplerState:SamplerState.PointClamp, transformMatrix: Camera.CameraMatrix);
+        spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: Camera.CameraMatrix);
 
         Draw(spriteBatch);
 
