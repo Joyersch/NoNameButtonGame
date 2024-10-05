@@ -164,5 +164,6 @@ public class Level : SampleLevel
             .Centered()
             .Apply();
         AutoManaged.Add(text);
+        DynamicScaler.Apply(Display.Scale);
     }
 }

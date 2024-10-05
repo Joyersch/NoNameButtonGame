@@ -55,10 +55,7 @@ public class SampleLevel : ILevel
         Display = scene.Display;
         Random = random;
         EffectsRegistry = effectsRegistry;
-        Cursor = new Cursor(2F)
-        {
-            Layer = 0
-        };
+
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();
@@ -70,6 +67,13 @@ public class SampleLevel : ILevel
         AutoManaged = [];
         AutoManagedStaticFront = [];
         AutoManagedStaticBack = [];
+
+        Cursor = new Cursor(2F)
+        {
+            Layer = 0
+        };
+        DynamicScaler.Register(Cursor);
+
         _cursorIndicator = new Text("[arrow]");
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
         _cursorIndicator[0].Origin = new Vector2(2.5F, 2.5F);
@@ -161,7 +165,7 @@ public class SampleLevel : ILevel
         graphicsDevice.SetRenderTarget(null);
         graphicsDevice.Clear(new Color(50, 50, 50));
 
-        spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp,
+        spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp,
             transformMatrix: Camera.CameraMatrix);
 
         DrawStaticBack(spriteBatch);
