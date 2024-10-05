@@ -30,146 +30,179 @@ internal class Level : SampleLevel
 
         Default.Play();
 
-        var screen = Camera.Rectangle;
+        AnchorCalculator anchorCalculator = null;
+        PositionCalculator positionCalculator = null;
 
         #region StartScreen
 
         var keyInfo = new Text(textComponent.GetValue("KeyInfo"), 0.5F * Text.DefaultLetterScale);
-        keyInfo.InRectangle(Camera)
-            .With(5, 5)
-            .Apply();
         AutoManaged.Add(keyInfo);
+        DynamicScaler.Register(keyInfo);
+
+        positionCalculator = keyInfo.InRectangle(Camera)
+            .OnX(0)
+            .OnY(0)
+            // Note: this will not dynamically scale this as the calculation is done here. I'm just lazy!
+            .With(5 * Display.Scale, 5 * Display.Scale);
+        CalculatorCollection.Register(positionCalculator);
 
         var startButton = new Button(textComponent.GetValue("Button1"));
-        startButton.InRectangle(Camera)
-            .OnCenter()
-            .Centered()
-            .Apply();
         startButton.Click += MoveToNextScreen;
         AutoManaged.Add(startButton);
+        DynamicScaler.Register(startButton);
+
+        positionCalculator = startButton.InRectangle(Camera)
+            .OnCenter()
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var infoText = new Text(textComponent.GetValue("Info1"));
-        infoText.InRectangle(Camera)
+        AutoManaged.Add(infoText);
+        DynamicScaler.Register(infoText);
+
+        positionCalculator = infoText.InRectangle(Camera)
             .OnCenter()
             .OnY(3, 10)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(infoText);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         #endregion // StartScreen
 
-        screen.Y += Camera.Rectangle.Height;
+        var secondScreen = new PositionCalculator(Camera, Camera).ByGridY(1).Calculate();
 
-        _mover = new OverTimeMover(Camera, screen.Location.ToVector2(), 600F, OverTimeMover.MoveMode.Sin);
+        _mover = new OverTimeMover(Camera, secondScreen, 600F, OverTimeMover.MoveMode.Sin);
         AutoManaged.Add(_mover);
 
         #region LockButtonScreen
 
         var magicButton = new Button(textComponent.GetValue("Button2"));
-        magicButton.InRectangle(Camera)
+        magicButton.Click += MagicButtonOnClick;
+        AutoManaged.Add(magicButton);
+        DynamicScaler.Register(magicButton);
+
+        positionCalculator = magicButton.InRectangle(Camera)
             .OnCenter()
             .OnY(13, 16)
             .Centered()
-            .Apply();
-        magicButton.Click += MagicButtonOnClick;
-        AutoManaged.Add(magicButton);
+            .ByGridY(1);
+        CalculatorCollection.Register(positionCalculator);
 
         var lockButton = new Button(textComponent.GetValue("ButtonSkip"));
-        lockButton.InRectangle(Camera)
-            .OnCenter()
-            .OnY(3, 16)
-            .Centered()
-            .Apply();
-
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Click += delegate { MoveToNextScreen(_lockButtonAddon); };
         AutoManaged.Add(_lockButtonAddon);
+        DynamicScaler.Register(_lockButtonAddon);
 
+        positionCalculator = _lockButtonAddon.InRectangle(Camera)
+            .OnCenter()
+            .OnY(3, 16)
+            .Centered()
+            .ByGridY(1);
+        CalculatorCollection.Register(positionCalculator);
 
         var info1 = new Text(textComponent.GetValue("Info2"));
-        info1.InRectangle(Camera)
+        AutoManaged.Add(info1);
+        DynamicScaler.Register(info1);
+
+        positionCalculator = info1.InRectangle(Camera)
             .OnCenter()
             .OnY(7, 20)
             .Centered()
-            .Apply();
-        AutoManaged.Add(info1);
+            .ByGridY(1);
+        CalculatorCollection.Register(positionCalculator);
+
 
         var info2 = new Text(textComponent.GetValue("Info3"));
-        info2.InRectangle(Camera)
+        AutoManaged.Add(info2);
+        DynamicScaler.Register(info2);
+
+        positionCalculator = info2.InRectangle(Camera)
             .OnCenter()
             .OnY(13, 20)
             .Centered()
-            .Apply();
-        AutoManaged.Add(info2);
+            .ByGridY(1);
+        CalculatorCollection.Register(positionCalculator);
 
         #endregion // LockButtonScreen
-
-        screen.Y += Camera.Rectangle.Height;
 
         #region CounterButtonScreen
 
         var counterButton = new Button(textComponent.GetValue("ButtonSkip"));
-        counterButton.InRectangle(Camera)
-            .OnCenter()
-            .Centered()
-            .Apply();
-
-        var infoAboutCounterButton = new Text(textComponent.GetValue("Info4"));
-        infoAboutCounterButton.InRectangle(Camera)
-            .OnCenter()
-            .OnY(3, 10)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(infoAboutCounterButton);
-
-        var infoAboutCounterButton2 = new Text(textComponent.GetValue("Info5"));
-        infoAboutCounterButton2.InRectangle(Camera)
-            .OnCenter()
-            .OnY(7, 10)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(infoAboutCounterButton2);
-
-
         var counterButtonAddon = new CounterButtonAddon(counterButton, 5);
         counterButtonAddon.Click += delegate { MoveToNextScreen(counterButtonAddon); };
         AutoManaged.Add(counterButtonAddon);
+        DynamicScaler.Register(counterButtonAddon);
+
+        positionCalculator = counterButtonAddon.InRectangle(Camera)
+            .OnCenter()
+            .Centered()
+            .ByGridY(2);
+        CalculatorCollection.Register(positionCalculator);
+
+        var infoAboutCounterButton = new Text(textComponent.GetValue("Info4"));
+        AutoManaged.Add(infoAboutCounterButton);
+        DynamicScaler.Register(infoAboutCounterButton);
+
+        positionCalculator = infoAboutCounterButton.InRectangle(Camera)
+            .OnCenter()
+            .OnY(3, 10)
+            .Centered()
+            .ByGridY(2);
+        CalculatorCollection.Register(positionCalculator);
+
+        var infoAboutCounterButton2 = new Text(textComponent.GetValue("Info5"));
+        AutoManaged.Add(infoAboutCounterButton2);
+        DynamicScaler.Register(infoAboutCounterButton2);
+
+        positionCalculator = infoAboutCounterButton2.InRectangle(Camera)
+            .OnCenter()
+            .OnY(7, 10)
+            .Centered()
+            .ByGridY(2);
+        CalculatorCollection.Register(positionCalculator);
 
         #endregion // CounterButtonScreen
-
-        screen.Y += Camera.Rectangle.Height;
 
         #region HoldButtonScreen
 
         var stateButton = new Button(textComponent.GetValue("ButtonFinish"));
-        stateButton.InRectangle(Camera)
-            .OnCenter()
-            .Centered()
-            .Apply();
-
         var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F);
         holdButtonAddon.Click += Finish;
         AutoManaged.Add(holdButtonAddon);
+        DynamicScaler.Register(holdButtonAddon);
+
+        positionCalculator = holdButtonAddon.InRectangle(Camera)
+            .OnCenter()
+            .Centered()
+            .ByGridY(3);
+        CalculatorCollection.Register(positionCalculator);
 
         var infoAboutButton = new Text(textComponent.GetValue("Info6"));
-        infoAboutButton.InRectangle(Camera)
+        AutoManaged.Add(infoAboutButton);
+        DynamicScaler.Register(infoAboutButton);
+
+        positionCalculator = infoAboutButton.InRectangle(Camera)
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Apply();
-        AutoManaged.Add(infoAboutButton);
+            .ByGridY(3);
+        CalculatorCollection.Register(positionCalculator);
 
         var infoAboutButton2 = new Text(textComponent.GetValue("Info7"));
-        infoAboutButton2.InRectangle(Camera)
+        AutoManaged.Add(infoAboutButton2);
+        DynamicScaler.Register(infoAboutButton2);
+
+        positionCalculator = infoAboutButton2.InRectangle(Camera)
             .OnCenter()
             .OnY(7, 10)
             .Centered()
-            .Apply();
-        AutoManaged.Add(infoAboutButton2);
+            .ByGridY(3);
+        CalculatorCollection.Register(positionCalculator);
 
         #endregion // HoldButtonScreen
 
-        screen.Y += Camera.Rectangle.Height;
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
     }
 
     private void MoveToNextScreen(object sender)
