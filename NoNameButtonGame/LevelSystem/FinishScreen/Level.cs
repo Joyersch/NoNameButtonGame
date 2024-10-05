@@ -26,23 +26,28 @@ public class Level : SampleLevel
         var textComponent = TextProvider.GetText("Levels.FinishScreen");
         Name = textComponent.GetValue("Name");
 
+        PositionCalculator positionCalculator = null;
+
         Text pressToContinueLabel = new Text(textComponent.GetValue("PressToContinue"));
-        pressToContinueLabel.InRectangle(Camera)
+        AutoManaged.Add(pressToContinueLabel);
+        DynamicScaler.Register(pressToContinueLabel);
+
+        positionCalculator = pressToContinueLabel.InRectangle(Camera)
             .OnCenter()
             .OnY(0.9F)
-            .Centered()
-            .Apply();
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
-        AutoManaged.Add(pressToContinueLabel);
 
         Text levelFinishedLabel = new Text(textComponent.GetValue("LevelFinished"), 3F * Text.DefaultLetterScale);
-        levelFinishedLabel.InRectangle(Camera)
+        AutoManaged.Add(levelFinishedLabel);
+        DynamicScaler.Register(levelFinishedLabel);
+
+        positionCalculator = levelFinishedLabel.InRectangle(Camera)
             .OnCenter()
             .OnY(0.2F)
-            .Centered()
-            .Apply();
-
-        AutoManaged.Add(levelFinishedLabel);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         Rainbow rainbowColor = new Rainbow()
         {
@@ -52,6 +57,9 @@ public class Level : SampleLevel
         };
         ColorListener.Add(rainbowColor, levelFinishedLabel);
         AutoManaged.Add(rainbowColor);
+
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
     }
 
     public override void Update(GameTime gameTime)
