@@ -44,7 +44,7 @@ public class Quiz : IManageable, IInteractable
             Log.Warning("A question has more answers that supported!");
 
         _question = new Text(string.Empty, scale * Text.DefaultLetterScale);
-        _question.InRectangle(Rectangle)
+        _question.InRectangle(this)
             .OnCenter()
             .OnY(3, 10)
             .Centered()
@@ -52,7 +52,7 @@ public class Quiz : IManageable, IInteractable
 
         _buttonOne = new Button(string.Empty);
         _buttonOne.Click += ButtonOneClick;
-        _buttonOne.InRectangle(Rectangle)
+        _buttonOne.InRectangle(this)
             .OnCenter()
             .OnX(5, 20)
             .Centered()
@@ -60,14 +60,14 @@ public class Quiz : IManageable, IInteractable
 
         _buttonTwo = new Button(string.Empty);
         _buttonTwo.Click += ButtonTwoClick;
-        _buttonOne.InRectangle(Rectangle)
+        _buttonOne.InRectangle(this)
             .OnCenter()
             .Centered()
             .Move();
 
         _buttonThree = new Button(string.Empty);
         _buttonThree.Click += ButtonThreeClick;
-        _buttonThree.InRectangle(Rectangle)
+        _buttonThree.InRectangle(this)
             .OnCenter()
             .OnY(15, 20)
             .Centered()
@@ -108,16 +108,31 @@ public class Quiz : IManageable, IInteractable
 
         SetQuestionText();
 
-        _question.InRectangle(Rectangle).OnCenter().OnY(3, 10).Centered().Move();
+        _question.InRectangle(this)
+            .OnCenter()
+            .OnY(3, 10)
+            .Centered()
+            .Move();
         _question.Update(gameTime);
 
-        _buttonOne.InRectangle(Rectangle).OnCenter().OnX(5, 20).Centered().Move();
+        _buttonOne.InRectangle(this)
+            .OnCenter()
+            .OnX(5, 20)
+            .Centered()
+            .Move();
         _buttonOne.Update(gameTime);
 
-        _buttonTwo.InRectangle(Rectangle).OnCenter().Centered().Move();
+        _buttonTwo.InRectangle(this)
+            .OnCenter()
+            .Centered()
+            .Move();
         _buttonTwo.Update(gameTime);
 
-        _buttonThree.InRectangle(Rectangle).OnCenter().OnX(15, 20).Centered().Move();
+        _buttonThree.InRectangle(this)
+            .OnCenter()
+            .OnX(15, 20)
+            .Centered()
+            .Move();
         _buttonThree.Update(gameTime);
     }
 

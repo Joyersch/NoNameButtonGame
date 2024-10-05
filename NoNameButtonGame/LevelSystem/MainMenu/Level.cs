@@ -36,7 +36,7 @@ public class Level : SampleLevel
         Camera.ZoomSpeed = 3000;
 
         var startButton = new Button(textComponent.GetValue("StartButton"));
-        startButton.InRectangle(Camera.Rectangle)
+        startButton.InRectangle(Camera)
             .OnX(0.125F)
             .OnY(0.15F)
             .Centered()
@@ -90,7 +90,7 @@ public class Level : SampleLevel
         AutoManaged.Add(exitButton);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 10F, 1);
-        header.InRectangle(Camera.Rectangle)
+        header.InRectangle(Camera)
             .OnX(0.605F)
             .OnY(0.25F)
             .Centered()
@@ -98,7 +98,7 @@ public class Level : SampleLevel
         AutoManaged.Add(header);
 
         var version = new Text(Statics.Version.ToString(), Vector2.Zero, 0.5F * Text.DefaultLetterScale);
-        version.InRectangle(Camera.Rectangle)
+        version.InRectangle(Camera)
             .OnX(0.905F)
             .OnY(0.315F)
             .Centered()
@@ -124,7 +124,7 @@ public class Level : SampleLevel
                 Increment = 5
             };
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
-            completion.InRectangle(Camera.Rectangle)
+            completion.InRectangle(Camera)
                 .OnX(0.875F)
                 .OnY(0.9F)
                 .Centered()
@@ -142,7 +142,7 @@ public class Level : SampleLevel
                 Increment = 5
             };
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
-            completion.InRectangle(Camera.Rectangle)
+            completion.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.9F)
                 .Centered()
@@ -160,7 +160,7 @@ public class Level : SampleLevel
                 Increment = 5
             };
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
-            completion.InRectangle(Camera.Rectangle)
+            completion.InRectangle(Camera)
                 .OnX(0.925F)
                 .OnY(0.9F)
                 .Centered()
@@ -172,12 +172,12 @@ public class Level : SampleLevel
 
         if (panIn)
         {
-            Camera.InRectangle(Camera.Rectangle)
+            Camera.InRectangle(Camera)
                 .OnCenter()
                 .ByGridY(1)
                 .Move();
 
-            Cursor.InRectangle(Camera.Rectangle)
+            Cursor.InRectangle(Camera)
                 .OnCenter()
                 .ByGridY(1)
                 .Move();

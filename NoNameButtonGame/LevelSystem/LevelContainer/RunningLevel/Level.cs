@@ -67,7 +67,7 @@ internal class Level : SampleLevel
 
         _timer = new Timer(Vector2.Zero, Display.SimpleScale, 20000D + cleanDifficulty * 20000F,
             textComponent.GetValue("FinishPrefix"));
-        _timer.InRectangle(Display.Screen)
+        _timer.InRectangle(Display)
             .OnX(0.005F)
             .OnY(0.01F)
             .Move();
@@ -86,7 +86,7 @@ internal class Level : SampleLevel
 
         _initializer = new GlitchBlockCollection(size);
         _initializer.ChangeColor(GlitchBlock.Color);
-        _initializer.InRectangle(Camera.Rectangle)
+        _initializer.InRectangle(Camera)
             .OnCenter()
             .Centered()
             .ByGridX(-1F)
@@ -104,7 +104,7 @@ internal class Level : SampleLevel
         }
 
         _button = new Button(textComponent.GetValue("StartButton"));
-        _button.InRectangle(Camera.Rectangle)
+        _button.InRectangle(Camera)
             .OnCenter()
             .Centered()
             .Move();
@@ -118,7 +118,7 @@ internal class Level : SampleLevel
         _initializerIndicator.ChangeColor(GlitchBlock.Color);
         MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);
         _initializerIndicator.Letters[0].Rotation += (float)(Math.PI / 4F); // 45°
-        _initializerIndicator.InRectangle(Camera.Rectangle)
+        _initializerIndicator.InRectangle(Camera)
             .OnCenter()
             .OnX(0.33F)
             .Centered()
@@ -282,7 +282,7 @@ internal class Level : SampleLevel
 
     private void StartInfo()
     {
-        _info.InRectangle(Camera.Rectangle)
+        _info.InRectangle(Camera)
             .OnCenter()
             .Centered()
             .Move();

@@ -105,19 +105,19 @@ public class Level : SampleLevel
         };
 
         var anchorLeft = new SampleObject(Vector2.Zero, Vector2.One);
-        anchorLeft.InRectangle(Camera.Rectangle)
+        anchorLeft.InRectangle(Camera)
             .OnX(1, 4)
             .OnY(0.3F)
             .Move();
 
         var anchorMiddle = new SampleObject(Vector2.Zero, Vector2.One);
-        anchorMiddle.InRectangle(Camera.Rectangle)
+        anchorMiddle.InRectangle(Camera)
             .OnX(2, 4)
             .OnY(0.3F)
             .Move();
 
         var anchorRight = new SampleObject(Vector2.Zero, Vector2.One);
-        anchorRight.InRectangle(Camera.Rectangle)
+        anchorRight.InRectangle(Camera)
             .OnX(3, 4)
             .OnY(0.3F)
             .Move();
@@ -129,7 +129,7 @@ public class Level : SampleLevel
         _advancedCollection = new ManagementCollection();
 
         _videoButton = new Button(string.Empty);
-        _videoButton.InRectangle(Camera.Rectangle)
+        _videoButton.InRectangle(Camera)
             .OnY(0.1F)
             .OnX(0.1F)
             .Centered()
@@ -137,7 +137,7 @@ public class Level : SampleLevel
         _videoButton.Click += _ => _menuState = MenuState.Video;
 
         _audioButton = new Button(string.Empty);
-        _audioButton.InRectangle(Camera.Rectangle)
+        _audioButton.InRectangle(Camera)
             .OnY(0.1F)
             .OnX(0.3F)
             .Centered()
@@ -145,7 +145,7 @@ public class Level : SampleLevel
         _audioButton.Click += _ => _menuState = MenuState.Audio;
 
         _mouseButton = new Button(string.Empty);
-        _mouseButton.InRectangle(Camera.Rectangle)
+        _mouseButton.InRectangle(Camera)
             .OnY(0.1F)
             .OnX(0.5F)
             .Centered()
@@ -153,7 +153,7 @@ public class Level : SampleLevel
         _mouseButton.Click += _ => _menuState = MenuState.Mouse;
 
         _languageButton = new Button(string.Empty);
-        _languageButton.InRectangle(Camera.Rectangle)
+        _languageButton.InRectangle(Camera)
             .OnY(0.1F)
             .OnX(0.7F)
             .Centered()
@@ -161,7 +161,7 @@ public class Level : SampleLevel
         _languageButton.Click += _ => _menuState = MenuState.Language;
 
         _advancedButton = new Button(string.Empty);
-        _advancedButton.InRectangle(Camera.Rectangle)
+        _advancedButton.InRectangle(Camera)
             .OnY(0.1F)
             .OnX(0.9F)
             .Centered()
@@ -179,7 +179,7 @@ public class Level : SampleLevel
 
         _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1, VideoSettings.Resolutions, index);
 
-        _resolution.InRectangle(Camera.Rectangle)
+        _resolution.InRectangle(Camera)
             .OnCenter()
             .OnY(0.4F)
             .Centered()
@@ -262,7 +262,7 @@ public class Level : SampleLevel
         Volume currentVolume = volumeValues.First(i => i.Value == audioSettings.MusicVolume);
         _musicVolume =
             new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
-        _musicVolume.InRectangle(Camera.Rectangle)
+        _musicVolume.InRectangle(Camera)
             .OnCenter()
             .OnY(0.4F)
             .Centered()
@@ -280,7 +280,7 @@ public class Level : SampleLevel
         currentVolume = volumeValues.First(i => i.Value == audioSettings.SoundEffectVolume);
         _soundEffectVolume =
             new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
-        _soundEffectVolume.InRectangle(Camera.Rectangle)
+        _soundEffectVolume.InRectangle(Camera)
             .OnCenter()
             .OnY(0.6F)
             .Centered()
@@ -313,7 +313,7 @@ public class Level : SampleLevel
             1F,
         };
         _sens = new ValueSelection<float>(Vector2.Zero, 1F, values, values.IndexOf(mouseSettings.Sensitivity));
-        _sens.InRectangle(Camera.Rectangle)
+        _sens.InRectangle(Camera)
             .OnCenter()
             .OnY(0.4F)
             .Centered()
@@ -334,7 +334,7 @@ public class Level : SampleLevel
         #region Language
 
         Flag flag = new Flag(TextProvider.Language.en_GB, 5F);
-        flag.InRectangle(Camera.Rectangle)
+        flag.InRectangle(Camera)
             .OnY(0.55F)
             .OnX(0.33F)
             .Centered()
@@ -345,7 +345,7 @@ public class Level : SampleLevel
         _languageCollection.Add(flag);
 
         flag = new Flag(TextProvider.Language.de_DE, 5F);
-        flag.InRectangle(Camera.Rectangle)
+        flag.InRectangle(Camera)
             .OnY(0.55F)
             .OnX(0.66F)
             .Centered()
@@ -397,7 +397,7 @@ public class Level : SampleLevel
         _advancedCollection.Add(_elapsedTimeLabel);
 
         _deleteSave = new Button(string.Empty);
-        _deleteSave.InRectangle(Camera.Rectangle)
+        _deleteSave.InRectangle(Camera)
             .OnCenter()
             .OnY(0.7F)
             .Centered()
@@ -432,7 +432,7 @@ public class Level : SampleLevel
         _saveChangesLabel = new Text(string.Empty);
 
         _saveButton = new Button(string.Empty);
-        _saveButton.InRectangle(Camera.Rectangle)
+        _saveButton.InRectangle(Camera)
             .OnY(0.55F)
             .OnX(0.36F)
             .Centered()
@@ -441,7 +441,7 @@ public class Level : SampleLevel
         _saveButton.Click += delegate { OnSave?.Invoke(); };
 
         _discardButton = new Button(string.Empty);
-        _discardButton.InRectangle(Camera.Rectangle)
+        _discardButton.InRectangle(Camera)
             .OnY(0.55F)
             .OnX(0.64F)
             .Centered()
@@ -674,7 +674,7 @@ public class Level : SampleLevel
 
         _saveChangesLabel.ChangeText(_textComponent.GetValue("SaveChanges"));
         _saveChangesLabel.ChangeColor(Color.DeepSkyBlue);
-        _saveChangesLabel.InRectangle(Camera.Rectangle)
+        _saveChangesLabel.InRectangle(Camera)
             .OnCenter()
             .OnY(0.33F)
             .Centered()

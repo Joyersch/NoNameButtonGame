@@ -26,7 +26,7 @@ internal class Level : SampleLevel
         None.Play();
 
         var failButton = new Button(textComponent.GetValue("Button"));
-        failButton.InRectangle(Camera.Rectangle)
+        failButton.InRectangle(Camera)
             .OnCenter()
             .Centered()
             .Move();
@@ -35,7 +35,7 @@ internal class Level : SampleLevel
 
 
         var info = new Text(textComponent.GetValue("Text"));
-        info.InRectangle(Camera.Rectangle)
+        info.InRectangle(Camera)
             .OnCenter()
             .OnY(3, 10)
             .Centered()

@@ -76,32 +76,32 @@ public class Shop : IManageable, IInteractable
         _notStarted = storage.Upgrade1;
 
         _optionOne = new ShopOption(size.Y, _shopOptionNames[0], storage.Upgrade1, 10, 1.1D, 50);
-        _optionOne.InRectangle(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
+        _optionOne.InRectangle(this).OnX(0.15F).BySizeX(-0.5F).Move();
         _optionOne.Purchased += DecreaseBeanCount;
         _optionOne.Purchased += OptionOnePurchased;
 
         _optionTwo = new ShopOption(size.Y, _shopOptionNames[1], storage.Upgrade2, 50, 1.15D, 20);
-        _optionTwo.InRectangle(_rectangle).OnX(0.35F).BySizeX(-0.5F).Move();
+        _optionTwo.InRectangle(this).OnX(0.35F).BySizeX(-0.5F).Move();
         _optionTwo.Purchased += DecreaseBeanCount;
         _optionTwo.Purchased += OptionTwoPurchased;
 
         _optionThree = new ShopOption(size.Y, _shopOptionNames[2], storage.Upgrade3, 250, 1.33D, 10);
-        _optionThree.InRectangle(_rectangle).OnX(0.55F).BySizeX(-0.5F).Move();
+        _optionThree.InRectangle(this).OnX(0.55F).BySizeX(-0.5F).Move();
         _optionThree.Purchased += DecreaseBeanCount;
         _optionThree.Purchased += OptionThreePurchased;
 
         _optionFour = new ShopOption(size.Y, _shopOptionNames[3], storage.Upgrade4, 3000, 99D, 1);
-        _optionFour.InRectangle(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
+        _optionFour.InRectangle(this).OnX(0.85F).BySizeX(-0.5F).Move();
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
 
         _infoDiplay = new Text(string.Empty);
-        _infoDiplay.InRectangle(_rectangle).OnCenter().OnY(0.875F).BySize(-0.5F).Move();
+        _infoDiplay.InRectangle(this).OnCenter().OnY(0.875F).BySize(-0.5F).Move();
 
         UpdateIcon();
 
         _beanDisplay = new Text(BeanDisplay);
-        _beanDisplay.InRectangle(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
+        _beanDisplay.InRectangle(this).OnCenter().OnY(0.12F).Centered().Move();
     }
 
     public void IncreaseBeanCount()
@@ -120,11 +120,11 @@ public class Shop : IManageable, IInteractable
 
     public void Update(GameTime gameTime)
     {
-        _optionOne.InRectangle(_rectangle).OnX(0.15F).BySizeX(-0.5F).Move();
-        _optionTwo.InRectangle(_rectangle).OnX(0.38F).BySizeX(-0.5F).Move();
-        _optionThree.InRectangle(_rectangle).OnX(0.61F).BySizeX(-0.5F).Move();
-        _optionFour.InRectangle(_rectangle).OnX(0.85F).BySizeX(-0.5F).Move();
-        _infoDiplay.InRectangle(_rectangle).OnCenter().OnY(0.9F).BySize(-0.5F).Move();
+        _optionOne.InRectangle(this).OnX(0.15F).BySizeX(-0.5F).Move();
+        _optionTwo.InRectangle(this).OnX(0.38F).BySizeX(-0.5F).Move();
+        _optionThree.InRectangle(this).OnX(0.61F).BySizeX(-0.5F).Move();
+        _optionFour.InRectangle(this).OnX(0.85F).BySizeX(-0.5F).Move();
+        _infoDiplay.InRectangle(this).OnCenter().OnY(0.9F).BySize(-0.5F).Move();
 
         _optionOne.Update(gameTime, BeanCount);
         _optionTwo.Update(gameTime, BeanCount);
@@ -136,7 +136,7 @@ public class Shop : IManageable, IInteractable
             PurchasedAllOptions?.Invoke();
 
         _beanDisplay.ChangeText(BeanDisplay);
-        _beanDisplay.InRectangle(_rectangle).OnCenter().OnY(0.12F).Centered().Move();
+        _beanDisplay.InRectangle(this).OnCenter().OnY(0.12F).Centered().Move();
         _beanDisplay.Update(gameTime);
 
         foreach (var invoker in _autoClicker)

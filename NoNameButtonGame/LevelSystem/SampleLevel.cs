@@ -81,6 +81,10 @@ public class SampleLevel : ILevel
         Mouse.SetMousePointerPositionToCenter();
         PositionListener.Add(Mouse, Cursor);
         RelativePositionListener.Add(Camera, Mouse);
+        scene.Display.OnResize += delegate
+        {
+            Camera.Calculate();
+        };
     }
 
     public virtual void Update(GameTime gameTime)
@@ -149,12 +153,13 @@ public class SampleLevel : ILevel
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
     {
-        #region Game
+        graphicsDevice.SetRenderTarget(null);
+        graphicsDevice.Clear(new Color(50, 50, 50));
 
-        graphicsDevice.SetRenderTarget(Display.Target);
-        graphicsDevice.Clear(Color.Transparent);
+        spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp,
+            transformMatrix: Camera.CameraMatrix);
 
-        spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: Camera.CameraMatrix);
+        DrawStaticBack(spriteBatch);
 
         Draw(spriteBatch);
 
@@ -162,19 +167,6 @@ public class SampleLevel : ILevel
         {
             _cursorIndicator.Draw(spriteBatch);
         }
-
-        spriteBatch.End();
-
-        #endregion // Game
-
-        graphicsDevice.SetRenderTarget(null);
-        graphicsDevice.Clear(new Color(50, 50, 50));
-
-        spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.PointClamp);
-
-        DrawStaticBack(spriteBatch);
-
-        spriteBatch.Draw(Display.Target, Display.Window, null, Color.White);
 
         DrawStaticFront(spriteBatch);
 

@@ -189,7 +189,7 @@ public sealed class NoNameGame : ExtentedGame
             if (_showElapsedTime)
             {
                 _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
-                _elapsedTime.InRectangle(Scene.Display.Window)
+                _elapsedTime.InRectangle(Scene.Display)
                     .ByGridY(1)
                     .BySizeY(-1F)
                     .Move();
@@ -262,8 +262,6 @@ public sealed class NoNameGame : ExtentedGame
         Graphics.PreferredBackBufferWidth = resolution.Width;
         Graphics.PreferredBackBufferHeight = resolution.Height;
         Graphics.ApplyChanges();
-
-        Scene.Display.Update();
 
         Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.SimpleScale,
             Console);

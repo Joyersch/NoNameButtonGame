@@ -27,7 +27,7 @@ public class Level : SampleLevel
         Name = textComponent.GetValue("Name");
 
         Text pressToContinueLabel = new Text(textComponent.GetValue("PressToContinue"));
-        pressToContinueLabel.InRectangle(Camera.Rectangle)
+        pressToContinueLabel.InRectangle(Camera)
             .OnCenter()
             .OnY(0.9F)
             .Centered()
@@ -36,7 +36,7 @@ public class Level : SampleLevel
         AutoManaged.Add(pressToContinueLabel);
 
         Text levelFinishedLabel = new Text(textComponent.GetValue("LevelFinished"), 3F * Text.DefaultLetterScale);
-        levelFinishedLabel.InRectangle(Camera.Rectangle)
+        levelFinishedLabel.InRectangle(Camera)
             .OnCenter()
             .OnY(0.2F)
             .Centered()

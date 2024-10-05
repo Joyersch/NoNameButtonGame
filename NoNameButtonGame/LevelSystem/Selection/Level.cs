@@ -91,7 +91,7 @@ public class Level : SampleLevel
         _levelStats = new List<ManagementCollection>();
 
         var showcase = new Showcase(selectionState.Level, Display.SimpleScale * 50F);
-        showcase.InRectangle(Display.Window)
+        showcase.InRectangle(Display)
             .OnCenter()
             .OnX(0.5F)
             .Centered()
@@ -99,7 +99,7 @@ public class Level : SampleLevel
         AutoManagedStaticBack.Add(showcase);
 
         var name = new Text(textComponent.GetValue(showcase.Level.ToString()));
-        name.InRectangle(Camera.Rectangle)
+        name.InRectangle(Camera)
             .OnCenter()
             .OnY(0.1F)
             .Centered()
@@ -130,7 +130,7 @@ public class Level : SampleLevel
             if ((int)selectionState.Level == i + 1)
                 dot.Color = Colors.Sidebar.Selected;
 
-            dot.InRectangle(Camera.Rectangle)
+            dot.InRectangle(Camera)
                 .OnX(0.1F)
                 .OnY(0.2175F + 0.0625F * i)
                 .Centered()
@@ -163,7 +163,7 @@ public class Level : SampleLevel
 
 
         var button = new Button(textComponent.GetValue("Play"), 6F);
-        button.InRectangle(Camera.Rectangle)
+        button.InRectangle(Camera)
             .OnX(0.9F)
             .OnY(0.9F)
             .Centered()
@@ -176,7 +176,7 @@ public class Level : SampleLevel
         AutoManaged.Add(button);
 
         var down = new MiniButton("[down]");
-        down.InRectangle(Camera.Rectangle)
+        down.InRectangle(Camera)
             .OnX(0.1F)
             .OnY(0.9F)
             .Centered()
@@ -200,7 +200,7 @@ public class Level : SampleLevel
         AutoManaged.Add(down);
 
         var up = new MiniButton("[up]");
-        up.InRectangle(Camera.Rectangle)
+        up.InRectangle(Camera)
             .OnX(0.1F)
             .OnY(1.1F)
             .ByGridY(-1F)
@@ -225,31 +225,31 @@ public class Level : SampleLevel
         AutoManaged.Add(up);
 
         _easyButton = new Button(textComponent.GetValue("Easy"), 5F);
-        _easyButton.InRectangle(Camera.Rectangle)
+        _easyButton.InRectangle(Camera)
             .OnX(0.25F)
             .OnY(0.9F)
             .Centered()
             .Move();
         _mediumButton = new Button(textComponent.GetValue("Medium"), 5F);
-        _mediumButton.InRectangle(Camera.Rectangle)
+        _mediumButton.InRectangle(Camera)
             .OnX(0.375F)
             .OnY(0.9F)
             .Centered()
             .Move();
         _hardButton = new Button(textComponent.GetValue("Hard"), 5F);
-        _hardButton.InRectangle(Camera.Rectangle)
+        _hardButton.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.9F)
             .Centered()
             .Move();
         _insaneButton = new Button(textComponent.GetValue("Insane"), 5F);
-        _insaneButton.InRectangle(Camera.Rectangle)
+        _insaneButton.InRectangle(Camera)
             .OnX(0.625F)
             .OnY(0.9F)
             .Centered()
             .Move();
         _extremeButton = new Button(textComponent.GetValue("Extreme"), 5F);
-        _extremeButton.InRectangle(Camera.Rectangle)
+        _extremeButton.InRectangle(Camera)
             .OnX(0.75F)
             .OnY(0.9F)
             .Centered()
@@ -322,7 +322,7 @@ public class Level : SampleLevel
         }
 
         var completed = new Text(textComponent.GetValue("Completed"));
-        completed.InRectangle(Camera.Rectangle)
+        completed.InRectangle(Camera)
             .OnX(0.9F)
             .OnY(0.25F)
             .Centered()
@@ -334,7 +334,7 @@ public class Level : SampleLevel
             var collection = new ManagementCollection();
 
             var text = new Text(textComponent.GetValue("Easy"));
-            text.InRectangle(Camera.Rectangle)
+            text.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.33F)
                 .Centered()
@@ -349,7 +349,7 @@ public class Level : SampleLevel
             }
 
             text = new Text(textComponent.GetValue("Medium"));
-            text.InRectangle(Camera.Rectangle)
+            text.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.4F)
                 .Centered()
@@ -358,7 +358,7 @@ public class Level : SampleLevel
             collection.Add(text);
 
             text = new Text(textComponent.GetValue("Hard"));
-            text.InRectangle(Camera.Rectangle)
+            text.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.466F)
                 .Centered()
@@ -367,7 +367,7 @@ public class Level : SampleLevel
             collection.Add(text);
 
             text = new Text(textComponent.GetValue("Insane"));
-            text.InRectangle(Camera.Rectangle)
+            text.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.533F)
                 .Centered()
@@ -376,7 +376,7 @@ public class Level : SampleLevel
             collection.Add(text);
 
             text = new Text(textComponent.GetValue("Extreme"));
-            text.InRectangle(Camera.Rectangle)
+            text.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.6F)
                 .Centered()

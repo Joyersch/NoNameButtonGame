@@ -25,7 +25,7 @@ public class Level : SampleLevel
         Synthwave.Play();
 
         Camera.Move(Display.Size / 2);
-        Cursor.InRectangle(Camera.Rectangle)
+        Cursor.InRectangle(Camera)
             .OnCenter()
             .Centered()
             .Move();
