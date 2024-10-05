@@ -35,6 +35,7 @@ public class Level : SampleLevel
     private readonly Button _extremeButton;
 
     private int _selectedLevel;
+    private PositionCalculator _titlePosition;
 
     private static class Colors
     {
@@ -90,21 +91,27 @@ public class Level : SampleLevel
 
         _levelStats = new List<ManagementCollection>();
 
+        AnchorCalculator anchorCalculator = null;
+        PositionCalculator positionCalculator = null;
+
         var showcase = new Showcase(selectionState.Level, Display.Scale * 50F);
-        showcase.InRectangle(Display)
+        AutoManaged.Add(showcase);
+
+        positionCalculator = showcase.InRectangle(Camera)
             .OnCenter()
-            .OnX(0.5F)
-            .Centered()
-            .Apply();
-        AutoManagedStaticBack.Add(showcase);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var name = new Text(textComponent.GetValue(showcase.Level.ToString()));
-        name.InRectangle(Camera)
+        AutoManaged.Add(name);
+        DynamicScaler.Register(name);
+
+        positionCalculator = name.InRectangle(Camera)
             .OnCenter()
             .OnY(0.1F)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(name);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
+        _titlePosition = positionCalculator;
 
         _levels = new List<Dot>();
         int maxLevel = progress.MaxLevel;
@@ -117,8 +124,6 @@ public class Level : SampleLevel
             settingsAndSaveManager.SaveSave();
         }
 
-        ;
-
         _selectedLevel = (int)selectionState.Level - 1;
 
         for (int i = 0; i < 10; i++)
@@ -127,15 +132,18 @@ public class Level : SampleLevel
             {
                 Color = maxLevel > i ? Colors.Sidebar.Enabled : Colors.Sidebar.Disabled,
             };
+            DynamicScaler.Register(dot);
+
             if ((int)selectionState.Level == i + 1)
                 dot.Color = Colors.Sidebar.Selected;
 
-            dot.InRectangle(Camera)
+            _levels.Add(dot);
+
+            positionCalculator = dot.InRectangle(Camera)
                 .OnX(0.1F)
                 .OnY(0.2175F + 0.0625F * i)
-                .Centered()
-                .Apply();
-            _levels.Add(dot);
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
 
             var mat = new MouseActionsMat(dot);
             mat.Click += delegate(object obj)
@@ -156,6 +164,7 @@ public class Level : SampleLevel
                 if (!LevelFactory.HasLevelDifficulty(level))
                     easyButtonClick();
                 settingsAndSaveManager.SaveSave();
+                _titlePosition.Apply();
             };
             AutoManaged.Add(mat);
             AutoManaged.Add(dot);
@@ -163,24 +172,21 @@ public class Level : SampleLevel
 
 
         var button = new Button(textComponent.GetValue("Play"), 6F);
-        button.InRectangle(Camera)
-            .OnX(0.9F)
-            .OnY(0.9F)
-            .Centered()
-            .Apply();
         button.Click += delegate
         {
             settingsAndSaveManager.SaveSave();
             OnLevelSelect?.Invoke(showcase.Level, ResolveDifficulty(selectionState.Difficulty));
         };
         AutoManaged.Add(button);
+        DynamicScaler.Register(button);
+
+        positionCalculator = button.InRectangle(Camera)
+            .OnX(0.9F)
+            .OnY(0.9F)
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var down = new MiniButton("[down]");
-        down.InRectangle(Camera)
-            .OnX(0.1F)
-            .OnY(0.9F)
-            .Centered()
-            .Apply();
         down.Click += delegate
         {
             int newLevel = (int)showcase.Level + 1;
@@ -196,16 +202,18 @@ public class Level : SampleLevel
             if (!LevelFactory.HasLevelDifficulty(level))
                 easyButtonClick();
             settingsAndSaveManager.SaveSave();
+            _titlePosition.Apply();
         };
         AutoManaged.Add(down);
+        DynamicScaler.Register(down);
+
+        positionCalculator = down.InRectangle(Camera)
+            .OnX(0.1F)
+            .OnY(0.9F)
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var up = new MiniButton("[up]");
-        up.InRectangle(Camera)
-            .OnX(0.1F)
-            .OnY(1.1F)
-            .ByGridY(-1F)
-            .Centered()
-            .Apply();
         up.Click += delegate
         {
             int newLevel = (int)showcase.Level - 1;
@@ -221,39 +229,62 @@ public class Level : SampleLevel
             if (!LevelFactory.HasLevelDifficulty(level))
                 easyButtonClick();
             settingsAndSaveManager.SaveSave();
+            _titlePosition.Apply();
         };
         AutoManaged.Add(up);
+        DynamicScaler.Register(up);
+
+        positionCalculator = up.InRectangle(Camera)
+            .OnX(0.1F)
+            .OnY(1.1F)
+            .ByGridY(-1F)
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         _easyButton = new Button(textComponent.GetValue("Easy"), 5F);
-        _easyButton.InRectangle(Camera)
+        DynamicScaler.Register(_easyButton);
+
+        positionCalculator = _easyButton.InRectangle(Camera)
             .OnX(0.25F)
             .OnY(0.9F)
-            .Centered()
-            .Apply();
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
+
         _mediumButton = new Button(textComponent.GetValue("Medium"), 5F);
-        _mediumButton.InRectangle(Camera)
+        DynamicScaler.Register(_mediumButton);
+
+        positionCalculator = _mediumButton.InRectangle(Camera)
             .OnX(0.375F)
             .OnY(0.9F)
-            .Centered()
-            .Apply();
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
+
         _hardButton = new Button(textComponent.GetValue("Hard"), 5F);
-        _hardButton.InRectangle(Camera)
+        DynamicScaler.Register(_hardButton);
+
+        positionCalculator = _hardButton.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.9F)
-            .Centered()
-            .Apply();
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
+
         _insaneButton = new Button(textComponent.GetValue("Insane"), 5F);
-        _insaneButton.InRectangle(Camera)
+        DynamicScaler.Register(_insaneButton);
+
+        positionCalculator = _insaneButton.InRectangle(Camera)
             .OnX(0.625F)
             .OnY(0.9F)
-            .Centered()
-            .Apply();
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
+
         _extremeButton = new Button(textComponent.GetValue("Extreme"), 5F);
-        _extremeButton.InRectangle(Camera)
+        DynamicScaler.Register(_extremeButton);
+
+        positionCalculator = _extremeButton.InRectangle(Camera)
             .OnX(0.75F)
             .OnY(0.9F)
-            .Centered()
-            .Apply();
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         void ResetButton()
         {
@@ -322,25 +353,29 @@ public class Level : SampleLevel
         }
 
         var completed = new Text(textComponent.GetValue("Completed"));
-        completed.InRectangle(Camera)
+        AutoManaged.Add(completed);
+        DynamicScaler.Register(completed);
+
+        positionCalculator = completed.InRectangle(Camera)
             .OnX(0.9F)
             .OnY(0.25F)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(completed);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         for (int i = 0; i < factory.MaxLevel(); i++)
         {
             var collection = new ManagementCollection();
 
             var text = new Text(textComponent.GetValue("Easy"));
-            text.InRectangle(Camera)
-                .OnX(0.9F)
-                .OnY(0.33F)
-                .Centered()
-                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatEasy ? Colors.Easy.Enabled : Colors.Easy.Disabled);
             collection.Add(text);
+            DynamicScaler.Register(text);
+
+            positionCalculator = text.InRectangle(Camera)
+                .OnX(0.9F)
+                .OnY(0.33F)
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
 
             if (!LevelFactory.HasLevelDifficulty(i + 1))
             {
@@ -349,43 +384,53 @@ public class Level : SampleLevel
             }
 
             text = new Text(textComponent.GetValue("Medium"));
-            text.InRectangle(Camera)
-                .OnX(0.9F)
-                .OnY(0.4F)
-                .Centered()
-                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatMedium ? Colors.Medium.Enabled : Colors.Medium.Disabled);
             collection.Add(text);
+            DynamicScaler.Register(text);
+            positionCalculator = text.InRectangle(Camera)
+                .OnX(0.9F)
+                .OnY(0.4F)
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
 
             text = new Text(textComponent.GetValue("Hard"));
-            text.InRectangle(Camera)
-                .OnX(0.9F)
-                .OnY(0.466F)
-                .Centered()
-                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatHard ? Colors.Hard.Enabled : Colors.Hard.Disabled);
             collection.Add(text);
+            DynamicScaler.Register(text);
+
+            positionCalculator = text.InRectangle(Camera)
+                .OnX(0.9F)
+                .OnY(0.466F)
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
 
             text = new Text(textComponent.GetValue("Insane"));
-            text.InRectangle(Camera)
-                .OnX(0.9F)
-                .OnY(0.533F)
-                .Centered()
-                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatInsane ? Colors.Insane.Enabled : Colors.Insane.Disabled);
             collection.Add(text);
+            DynamicScaler.Register(text);
+
+            positionCalculator = text.InRectangle(Camera)
+                .OnX(0.9F)
+                .OnY(0.533F)
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
 
             text = new Text(textComponent.GetValue("Extreme"));
-            text.InRectangle(Camera)
-                .OnX(0.9F)
-                .OnY(0.6F)
-                .Centered()
-                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatExtreme ? Colors.Extreme.Enabled : Colors.Extreme.Disabled);
             collection.Add(text);
+            DynamicScaler.Register(text);
+
+            positionCalculator = text.InRectangle(Camera)
+                .OnX(0.9F)
+                .OnY(0.6F)
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
 
             _levelStats.Add(collection);
         }
+
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
     }
 
     public override void Update(GameTime gameTime)
