@@ -33,89 +33,106 @@ public class Level : SampleLevel
 
         Default.Play();
 
+        AnchorCalculator anchorCalculator = null;
+        PositionCalculator positionCalculator = null;
+
         Camera.ZoomSpeed = 3000;
 
         var startButton = new Button(textComponent.GetValue("StartButton"));
-        startButton.InRectangle(Camera)
-            .OnX(0.125F)
-            .OnY(0.15F)
-            .Centered()
-            .Apply();
-
         var lockedStartButton = new LockButtonAddon(startButton);
         if (progress.MaxLevel < maxLevel)
             lockedStartButton.Unlock();
         lockedStartButton.Click += StartButtonPressed;
-
+        DynamicScaler.Register(lockedStartButton);
         AutoManaged.Add(lockedStartButton);
 
+        positionCalculator = lockedStartButton.InRectangle(Camera)
+            .OnX(0.125F)
+            .OnY(0.15F)
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
+
         var selectLevelButton = new Button(textComponent.GetValue("SelectButton"));
-        selectLevelButton.GetAnchor(startButton)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Apply();
+
         selectLevelButton.Click += SelectButtonPressed;
         var selectLevelButtonLock = new LockButtonAddon(selectLevelButton);
-
+        DynamicScaler.Register(selectLevelButtonLock);
+        AutoManaged.Add(selectLevelButtonLock);
         if (progress.MaxLevel > 0)
             selectLevelButtonLock.Unlock();
 
-        AutoManaged.Add(selectLevelButtonLock);
+        anchorCalculator = selectLevelButtonLock.GetAnchor(startButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft);
+        CalculatorCollection.Register(anchorCalculator);
+
 
         var endlessButton = new Button(textComponent.GetValue("EndlessButton"));
         endlessButton.Click += EndlessButtonPressed;
-        endlessButton.GetAnchor(selectLevelButton)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Apply();
         var endlessLockButton = new LockButtonAddon(endlessButton);
         if (progress.MaxLevel >= maxLevel)
             endlessLockButton.Unlock();
         AutoManaged.Add(endlessLockButton);
+        DynamicScaler.Register(endlessLockButton);
+
+        anchorCalculator = endlessLockButton.GetAnchor(selectLevelButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft);
+        CalculatorCollection.Register(anchorCalculator);
 
         var settingsButton = new Button(textComponent.GetValue("SettingsButton"));
         settingsButton.Click += SettingsButtonPressed;
-        settingsButton.GetAnchor(endlessButton)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Apply();
         AutoManaged.Add(settingsButton);
+        DynamicScaler.Register(settingsButton);
+
+        anchorCalculator = settingsButton.GetAnchor(endlessButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft);
+        CalculatorCollection.Register(anchorCalculator);
 
         var exitButton = new Button(textComponent.GetValue("ExitButton"));
         exitButton.Click += ExitButtonPressed;
-        exitButton.GetAnchor(settingsButton)
-            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Apply();
         AutoManaged.Add(exitButton);
+        DynamicScaler.Register(exitButton);
+
+        anchorCalculator = exitButton.GetAnchor(settingsButton)
+            .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
+            .SetSubAnchor(AnchorCalculator.Anchor.TopLeft);
+        CalculatorCollection.Register(anchorCalculator);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 10F, 1);
-        header.InRectangle(Camera)
+        AutoManaged.Add(header);
+        DynamicScaler.Register(header);
+
+        positionCalculator = header.InRectangle(Camera)
             .OnX(0.605F)
             .OnY(0.25F)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(header);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var version = new Text(Statics.Version.ToString(), Vector2.Zero, 0.5F * Text.DefaultLetterScale);
-        version.InRectangle(Camera)
+        AutoManaged.Add(version);
+        DynamicScaler.Register(header);
+
+        positionCalculator = version.InRectangle(Camera)
             .OnX(0.905F)
             .OnY(0.315F)
-            .Centered()
-            .Apply();
-        AutoManaged.Add(version);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var credits = new ClickableText(textComponent.GetValue("CreditsText"), 2F);
         credits.ChangeColor(ClickableText.LinkColor);
         credits.Click += CreditsLinkPressed;
-        credits.GetAnchor(header)
+        AutoManaged.Add(credits);
+        DynamicScaler.Register(credits);
+
+        anchorCalculator = credits.GetAnchor(header)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .SetDistanceX(-8F)
             .SetDistanceY(-2F)
-            .Apply();
-        AutoManaged.Add(credits);
-
+            .SetDistanceScale(Display);
+        CalculatorCollection.Register(anchorCalculator);
 
         if (progress.FinishedLevels)
         {
@@ -123,15 +140,19 @@ public class Level : SampleLevel
             {
                 Increment = 5
             };
+            AutoManaged.Add(color);
+
+
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
-            completion.InRectangle(Camera)
+            AutoManaged.Add(completion);
+            ColorListener.Add(color, completion);
+            DynamicScaler.Register(completion);
+
+            positionCalculator = completion.InRectangle(Camera)
                 .OnX(0.875F)
                 .OnY(0.9F)
-                .Centered()
-                .Apply();
-            AutoManaged.Add(completion);
-            AutoManaged.Add(color);
-            ColorListener.Add(color, completion);
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
         }
 
         if (progress.FinishedSelect)
@@ -141,15 +162,18 @@ public class Level : SampleLevel
                 Offset = 80,
                 Increment = 5
             };
+            AutoManaged.Add(color);
+
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
-            completion.InRectangle(Camera)
+            AutoManaged.Add(completion);
+            DynamicScaler.Register(completion);
+            ColorListener.Add(color, completion);
+
+            positionCalculator = completion.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.9F)
-                .Centered()
-                .Apply();
-            AutoManaged.Add(completion);
-            AutoManaged.Add(color);
-            ColorListener.Add(color, completion);
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
         }
 
         if (progress.FinishedEndless)
@@ -159,16 +183,22 @@ public class Level : SampleLevel
                 Offset = 160,
                 Increment = 5
             };
+            AutoManaged.Add(color);
+
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
-            completion.InRectangle(Camera)
+            AutoManaged.Add(completion);
+            DynamicScaler.Register(completion);
+            ColorListener.Add(color, completion);
+
+            positionCalculator = completion.InRectangle(Camera)
                 .OnX(0.925F)
                 .OnY(0.9F)
-                .Centered()
-                .Apply();
-            AutoManaged.Add(completion);
-            AutoManaged.Add(color);
-            ColorListener.Add(color, completion);
+                .Centered();
+            CalculatorCollection.Register(positionCalculator);
         }
+
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
 
         if (panIn)
         {

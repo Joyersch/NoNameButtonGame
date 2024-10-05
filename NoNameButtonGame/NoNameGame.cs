@@ -263,6 +263,8 @@ public sealed class NoNameGame : ExtentedGame
         Graphics.PreferredBackBufferHeight = resolution.Height;
         Graphics.ApplyChanges();
 
+        Scene.Display.Update();
+
         Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.Scale,
             Console);
         Log.Out.UpdateReference(Console);
