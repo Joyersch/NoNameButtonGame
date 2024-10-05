@@ -30,7 +30,7 @@ internal class Level : SampleLevel
         block.ChangeColor(GlitchBlock.Color);
         block.Enter += Fail;
         block.InRectangle(Camera)
-            .Move();
+            .Apply();
         AutoManaged.Add(block);
 
         Trap2.Play();
@@ -43,7 +43,7 @@ internal class Level : SampleLevel
             .OnX(0.625F)
             .OnY(0.25F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         var button = new Button(textComponent.GetValue("Understood"));
@@ -51,7 +51,7 @@ internal class Level : SampleLevel
             .OnX(0.625F)
             .OnY(0.5F)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += delegate { mover.Start(); };
         AutoManaged.Add(button);
 
@@ -63,7 +63,7 @@ internal class Level : SampleLevel
             .OnX(0.7F)
             .BySizeX(-0.5F)
             .ByGridX(1)
-            .Move();
+            .Apply();
         AutoManaged.Add(block);
 
         button = new Button(textComponent.GetValue("Neat"));
@@ -72,7 +72,7 @@ internal class Level : SampleLevel
             .OnY(0.5F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += delegate
         {
             if (mover.IsMoving)
@@ -89,7 +89,7 @@ internal class Level : SampleLevel
             .OnY(0.5F)
             .Centered()
             .ByGridX(1)
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         button = new Button(textComponent.GetValue("Finish"));
@@ -98,7 +98,7 @@ internal class Level : SampleLevel
             .OnY(0.125F)
             .ByGridX(2)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += Finish;
         AutoManaged.Add(button);
 
@@ -108,7 +108,7 @@ internal class Level : SampleLevel
             .OnY(0.2F)
             .Centered()
             .ByGridX(2)
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Info4"));
@@ -117,7 +117,7 @@ internal class Level : SampleLevel
             .OnY(0.65F)
             .Centered()
             .ByGridX(2)
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         blockSize = new Vector2(GlitchBlock.ImageSize.X * 8, GlitchBlock.ImageSize.Y * 32);
@@ -128,7 +128,7 @@ internal class Level : SampleLevel
             .OnX(0.725F)
             .BySizeX(-0.5F)
             .ByGridX(2)
-            .Move();
+            .Apply();
         AutoManaged.Add(block);
 
         blockSize = new Vector2(GlitchBlock.ImageSize.X * 40, GlitchBlock.ImageSize.Y * 8);
@@ -138,7 +138,7 @@ internal class Level : SampleLevel
         block2.GetAnchor(block)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
             .SetSubAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .Move();
+            .Apply();
         AutoManaged.Add(block2);
     }
 

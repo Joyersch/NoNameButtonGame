@@ -64,7 +64,7 @@ public class ShopOption : IInteractable, IMoveable, IRectangle
 
         _button = new LockButtonAddon(_textButton);
         _size = new Vector2(_button.GetSize().X, sizeY);
-        _button.InRectangle(this).OnCenter().BySize(-0.5F).Move();
+        _button.InRectangle(this).OnCenter().BySize(-0.5F).Apply();
         _button.Click += ButtonClick;
         _button.Enter += _ => ButtonEnter?.Invoke();
         _button.Leave += _ => ButtonLeave?.Invoke();
@@ -74,10 +74,10 @@ public class ShopOption : IInteractable, IMoveable, IRectangle
         _infoMat.Leave += _ => _isHover = false;
 
         _amountDisplay = new Text($"{_amount:n0}/{_maxAmount:n0}");
-        _amountDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.3F).Move();
+        _amountDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.3F).Apply();
 
         _priceDisplay = new Text($"{_currentPrice:n0}{_icon}");
-        _priceDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.7F).Move();
+        _priceDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.7F).Apply();
     }
 
     private void ButtonClick(object obj)
@@ -109,17 +109,17 @@ public class ShopOption : IInteractable, IMoveable, IRectangle
         _button.InRectangle(this)
             .OnCenter()
             .BySize(-0.5F)
-            .Move();
+            .Apply();
         _amountDisplay.InRectangle(this)
             .OnCenter()
             .BySize(-0.5F)
             .OnY(0.3F)
-            .Move();
+            .Apply();
         _priceDisplay.InRectangle(this)
             .OnCenter()
             .BySize(-0.5F)
             .OnY(0.7F)
-            .Move();
+            .Apply();
 
         _priceDisplay.ChangeText($"{_currentPrice:n0}{_icon}");
         _amountDisplay.ChangeText($"{_amount:n0}/{_maxAmount:n0}");

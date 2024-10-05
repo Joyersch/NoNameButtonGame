@@ -55,7 +55,7 @@ internal class Level : SampleLevel
         var size = new Vector2(GlitchBlock.ImageSize.X * (singleScale * wallWidth), oneGridLength + singleHeight);
         var left = new GlitchBlockCollection(size, singleScale);
         left.InRectangle(Camera)
-            .Move();
+            .Apply();
         left.Enter += Fail;
         AutoManaged.Add(left);
 
@@ -82,7 +82,7 @@ internal class Level : SampleLevel
         right.InRectangle(Camera)
             .OnX(1F)
             .BySizeX(-1F)
-            .Move();
+            .Apply();
         right.Enter += Fail;
         AutoManaged.Add(right);
 
@@ -107,7 +107,7 @@ internal class Level : SampleLevel
         row.GetAnchor(anchor)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
             .SetSubAnchor(AnchorCalculator.Anchor.BottomLeft)
-            .Move();
+            .Apply();
         row.Enter += Fail;
 
         var id = _random.Next(10);

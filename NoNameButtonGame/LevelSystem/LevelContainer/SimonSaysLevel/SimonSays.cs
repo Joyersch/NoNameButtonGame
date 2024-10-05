@@ -79,7 +79,7 @@ public class SimonSays : IManageable, IInteractable
             .OnCenter()
             .OnY(4, 5)
             .Centered()
-            .Move();
+            .Apply();
 
         _displaySequenceOverTimeInvoker = new OverTimeInvoker(waitBetweenColors, false)
         {
@@ -90,7 +90,7 @@ public class SimonSays : IManageable, IInteractable
         int i = 0;
         foreach (var button in _buttons)
         {
-            button.InRectangle(this).OnCenter().OnX(i++ * 0.2F + 0.1F).Centered().Move();
+            button.InRectangle(this).OnCenter().OnX(i++ * 0.2F + 0.1F).Centered().Apply();
             button.Finished += delegate
             {
                 if (_state == SimonAction.Played)
@@ -102,7 +102,7 @@ public class SimonSays : IManageable, IInteractable
         }
 
         _start = new Button(text["start"]);
-        _start.InRectangle(this).OnCenter().OnY(1, 3).Centered().Move();
+        _start.InRectangle(this).OnCenter().OnY(1, 3).Centered().Apply();
         _start.Click += _ => StartClick();
     }
 
@@ -215,7 +215,7 @@ public class SimonSays : IManageable, IInteractable
             .OnCenter()
             .OnY(4, 5)
             .Centered()
-            .Move();
+            .Apply();
         _enteredSequenceDisplay.Update(gameTime);
 
         _start.Update(gameTime);

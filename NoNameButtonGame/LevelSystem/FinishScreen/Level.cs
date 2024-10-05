@@ -31,7 +31,7 @@ public class Level : SampleLevel
             .OnCenter()
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
 
         AutoManaged.Add(pressToContinueLabel);
 
@@ -40,7 +40,7 @@ public class Level : SampleLevel
             .OnCenter()
             .OnY(0.2F)
             .Centered()
-            .Move();
+            .Apply();
 
         AutoManaged.Add(levelFinishedLabel);
 

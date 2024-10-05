@@ -69,7 +69,7 @@ public sealed class NoNameGame : ExtentedGame
             SettingsAndSaveManager.SaveSettings();
         }
 
-        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.SimpleScale / 2);
+        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.Scale / 2);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
@@ -192,7 +192,7 @@ public sealed class NoNameGame : ExtentedGame
                 _elapsedTime.InRectangle(Scene.Display)
                     .ByGridY(1)
                     .BySizeY(-1F)
-                    .Move();
+                    .Apply();
             }
 
             var keyboardState = Keyboard.GetState();
@@ -263,11 +263,11 @@ public sealed class NoNameGame : ExtentedGame
         Graphics.PreferredBackBufferHeight = resolution.Height;
         Graphics.ApplyChanges();
 
-        Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.SimpleScale,
+        Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.Scale,
             Console);
         Log.Out.UpdateReference(Console);
 
-        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.SimpleScale / 2);
+        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.Scale / 2);
     }
 
     public void ShowElapsedTime(bool show)

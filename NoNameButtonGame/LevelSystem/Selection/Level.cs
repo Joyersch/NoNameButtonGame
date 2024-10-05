@@ -90,12 +90,12 @@ public class Level : SampleLevel
 
         _levelStats = new List<ManagementCollection>();
 
-        var showcase = new Showcase(selectionState.Level, Display.SimpleScale * 50F);
+        var showcase = new Showcase(selectionState.Level, Display.Scale * 50F);
         showcase.InRectangle(Display)
             .OnCenter()
             .OnX(0.5F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManagedStaticBack.Add(showcase);
 
         var name = new Text(textComponent.GetValue(showcase.Level.ToString()));
@@ -103,7 +103,7 @@ public class Level : SampleLevel
             .OnCenter()
             .OnY(0.1F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(name);
 
         _levels = new List<Dot>();
@@ -134,7 +134,7 @@ public class Level : SampleLevel
                 .OnX(0.1F)
                 .OnY(0.2175F + 0.0625F * i)
                 .Centered()
-                .Move();
+                .Apply();
             _levels.Add(dot);
 
             var mat = new MouseActionsMat(dot);
@@ -167,7 +167,7 @@ public class Level : SampleLevel
             .OnX(0.9F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += delegate
         {
             settingsAndSaveManager.SaveSave();
@@ -180,7 +180,7 @@ public class Level : SampleLevel
             .OnX(0.1F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         down.Click += delegate
         {
             int newLevel = (int)showcase.Level + 1;
@@ -205,7 +205,7 @@ public class Level : SampleLevel
             .OnY(1.1F)
             .ByGridY(-1F)
             .Centered()
-            .Move();
+            .Apply();
         up.Click += delegate
         {
             int newLevel = (int)showcase.Level - 1;
@@ -229,31 +229,31 @@ public class Level : SampleLevel
             .OnX(0.25F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         _mediumButton = new Button(textComponent.GetValue("Medium"), 5F);
         _mediumButton.InRectangle(Camera)
             .OnX(0.375F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         _hardButton = new Button(textComponent.GetValue("Hard"), 5F);
         _hardButton.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         _insaneButton = new Button(textComponent.GetValue("Insane"), 5F);
         _insaneButton.InRectangle(Camera)
             .OnX(0.625F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         _extremeButton = new Button(textComponent.GetValue("Extreme"), 5F);
         _extremeButton.InRectangle(Camera)
             .OnX(0.75F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
 
         void ResetButton()
         {
@@ -326,7 +326,7 @@ public class Level : SampleLevel
             .OnX(0.9F)
             .OnY(0.25F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(completed);
 
         for (int i = 0; i < factory.MaxLevel(); i++)
@@ -338,7 +338,7 @@ public class Level : SampleLevel
                 .OnX(0.9F)
                 .OnY(0.33F)
                 .Centered()
-                .Move();
+                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatEasy ? Colors.Easy.Enabled : Colors.Easy.Disabled);
             collection.Add(text);
 
@@ -353,7 +353,7 @@ public class Level : SampleLevel
                 .OnX(0.9F)
                 .OnY(0.4F)
                 .Centered()
-                .Move();
+                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatMedium ? Colors.Medium.Enabled : Colors.Medium.Disabled);
             collection.Add(text);
 
@@ -362,7 +362,7 @@ public class Level : SampleLevel
                 .OnX(0.9F)
                 .OnY(0.466F)
                 .Centered()
-                .Move();
+                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatHard ? Colors.Hard.Enabled : Colors.Hard.Disabled);
             collection.Add(text);
 
@@ -371,7 +371,7 @@ public class Level : SampleLevel
                 .OnX(0.9F)
                 .OnY(0.533F)
                 .Centered()
-                .Move();
+                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatInsane ? Colors.Insane.Enabled : Colors.Insane.Disabled);
             collection.Add(text);
 
@@ -380,7 +380,7 @@ public class Level : SampleLevel
                 .OnX(0.9F)
                 .OnY(0.6F)
                 .Centered()
-                .Move();
+                .Apply();
             text.ChangeColor(selectProgress.Levels[i].BeatExtreme ? Colors.Extreme.Enabled : Colors.Extreme.Disabled);
             collection.Add(text);
 

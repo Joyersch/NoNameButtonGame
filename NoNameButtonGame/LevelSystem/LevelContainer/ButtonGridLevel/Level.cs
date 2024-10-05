@@ -61,7 +61,7 @@ public class Level : SampleLevel
             .OnCenter()
             .OnY(2, 20)
             .Centered()
-            .Move();
+            .Apply();
 
         AutoManaged.Add(info);
 
@@ -89,7 +89,7 @@ public class Level : SampleLevel
                     .OnX(x * 4 + 4, 20)
                     .OnY(y * 4 + 5, 20)
                     .Centered()
-                    .Move();
+                    .Apply();
                 if (index == (useText ? usedText : usedColor))
                     button.Click += Finish;
                 else
@@ -103,7 +103,7 @@ public class Level : SampleLevel
         _timer.InRectangle(Camera)
             .OnX(0.1F)
             .OnY(0.1F)
-            .Move();
+            .Apply();
         AutoManaged.Add(_timer);
 
         PulsatingRed timerColor = new PulsatingRed()
@@ -120,7 +120,7 @@ public class Level : SampleLevel
         _timer.InRectangle(Camera)
             .OnX(0.1F)
             .OnY(0.1F)
-            .Move();
+            .Apply();
         base.Update(gameTime);
     }
 }

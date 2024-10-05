@@ -60,7 +60,7 @@ internal class Level : SampleLevel
             .OnX(0.1F)
             .OnY(0.5F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(_gun);
 
         var button = new Button(textComponent.GetValue("Finish"));
@@ -68,7 +68,7 @@ internal class Level : SampleLevel
             .OnX(0.75F)
             .OnY(0.5F)
             .Centered()
-            .Move();
+            .Apply();
 
         var addon = new CounterButtonAddon(button, 6 + (int)Math.Floor(15 * cleanDifficulty));
         addon.Click += Finish;
@@ -80,7 +80,7 @@ internal class Level : SampleLevel
                 .OnX(random.Next(1, 9) / 10F)
                 .OnY(random.Next(1, 9) / 10F)
                 .Centered()
-                .Move();
+                .Apply();
         };
 
         _createShot = new OverTimeInvoker(_baseCallTime, false);
@@ -134,7 +134,7 @@ internal class Level : SampleLevel
         shot.GetAnchor(_gun)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
-            .Move();
+            .Apply();
         shot.Enter += Fail;
         var direction = MoveHelper.GetDirection(shot, Cursor);
         _shots.Add((direction, shot));

@@ -37,6 +37,8 @@ public class SampleLevel : ILevel
     protected readonly PositionListener PositionListener;
     protected readonly RelativePositionListener RelativePositionListener;
     protected readonly ColorListener ColorListener;
+    protected readonly DynamicScaler DynamicScaler;
+    protected readonly CalculatorCollection CalculatorCollection;
 
     protected readonly List<object> AutoManaged;
     protected readonly List<object> AutoManagedStaticFront;
@@ -60,6 +62,8 @@ public class SampleLevel : ILevel
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();
+        DynamicScaler = new DynamicScaler(Display);
+        CalculatorCollection = new CalculatorCollection();
 
         _mouseSettings = settingsAndSaveManager.GetSetting<MouseSettings>();
 
@@ -84,6 +88,7 @@ public class SampleLevel : ILevel
         scene.Display.OnResize += delegate
         {
             Camera.Calculate();
+            CalculatorCollection.Apply();
         };
     }
 

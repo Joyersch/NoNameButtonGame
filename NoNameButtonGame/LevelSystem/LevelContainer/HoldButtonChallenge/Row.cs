@@ -49,7 +49,7 @@ public class Row : IManageable, IInteractable, IMoveable, IMouseActions, IPlayab
             .SetMainAnchor(AnchorCalculator.Anchor.TopRight)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .SetDistanceX(distance)
-            .Move();
+            .Apply();
         Rectangle = Rectangle.Union(_left.Rectangle, _right.Rectangle);
 
         _leftMover = new OverTimeMover(_left, Vector2.Zero, _time, OverTimeMover.MoveMode.Sin);

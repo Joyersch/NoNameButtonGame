@@ -44,7 +44,7 @@ public class Level : SampleLevel
                 .OnPositionX(-(Camera.Rectangle.Width / 2) + 16)
                 .OnPositionY(pointer)
                 .ByGridY(1)
-                .Move();
+                .Apply();
 
             AutoManaged.Add(newLine);
             pointer += newLine.Rectangle.Height + 8;

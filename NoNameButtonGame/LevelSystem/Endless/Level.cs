@@ -35,35 +35,35 @@ public class Level : SampleLevel
             .OnX(0.5F)
             .OnY(0.15F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
         text = new Text(textComponent.GetValue("Info1"));
         text.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.35F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
         text = new Text(textComponent.GetValue("Info2"));
         text.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.45F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
         text = new Text(string.Format(textComponent.GetValue("Best"), progress.HighestLevel));
         text.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.55F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
         var button = new Button(textComponent.GetValue("Start"));
         button.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.8F)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += _ => Selected?.Invoke();
         AutoManaged.Add(button);
 
@@ -78,7 +78,7 @@ public class Level : SampleLevel
             .OnX(0.9F)
             .OnY(0.9F)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += _ =>
         {
             if (mover.IsMoving)
@@ -94,7 +94,7 @@ public class Level : SampleLevel
             .OnY(0.9F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         button.Click += _ =>
         {
             if (mover.IsMoving)
@@ -112,7 +112,7 @@ public class Level : SampleLevel
             .OnY(0.175F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Beat10"));
@@ -122,7 +122,7 @@ public class Level : SampleLevel
             .OnY(0.266F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Beat25"));
@@ -132,7 +132,7 @@ public class Level : SampleLevel
             .OnY(0.333F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Beat50"));
@@ -142,7 +142,7 @@ public class Level : SampleLevel
             .OnY(0.4F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Time1h"));
@@ -152,7 +152,7 @@ public class Level : SampleLevel
             .OnY(0.466F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
 
         text = new Text(textComponent.GetValue("Time30min"));
@@ -162,7 +162,7 @@ public class Level : SampleLevel
             .OnY(0.533F)
             .ByGridX(1)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(text);
     }
 }

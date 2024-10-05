@@ -143,7 +143,7 @@ public class FollowerCollection : IManageable, IInteractable
         block.InRectangle(_camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
 
         // minus distance moves away from the player
         MoveHelper.MoveTowards(block, _cursor, _distance * 1.5F);

@@ -5,16 +5,20 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Logic.Text;
+using MonoUtils.Ui;
 using MonoUtils.Ui.Color;
 using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
-public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IColorable, IInteractable
+public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IColorable, IInteractable, IScaleable
 {
     private Vector2 _position;
+    private readonly float _initialScale;
+    private float _extendedScale = 1F;
+    public float Scale => _initialScale * _extendedScale;
     private Vector2 _size;
-    private Vector2 _scale;
+    private Vector2 _drawingScale;
     private Color _color;
 
     public readonly TextProvider.Language Language;
@@ -37,21 +41,22 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
     {
     }
 
-    public Flag(TextProvider.Language language, float scale) : this(language, Vector2.Zero, scale)
+    public Flag(TextProvider.Language language, float initialScale) : this(language, Vector2.Zero, initialScale)
     {
     }
 
-    public Flag(TextProvider.Language language, Vector2 position, float scale)
+    public Flag(TextProvider.Language language, Vector2 position, float initialScale)
     {
         Language = language;
         _position = position;
-        _size = ImageSize * scale;
-        _scale = Vector2.One * scale;
+        _initialScale = initialScale;
+        _size = ImageSize * Scale;
+        _drawingScale = Vector2.One * Scale;
         _color = Color.White;
         Rectangle = new Rectangle(_position.ToPoint(), _size.ToPoint());
 
         var imageLocation = new Rectangle(Vector2.Zero.ToPoint(), ImageSize.ToPoint());
-        _hitboxProvider = new HitboxProvider(this, new[] { imageLocation }, _scale);
+        _hitboxProvider = new HitboxProvider(this, new[] { imageLocation }, _drawingScale);
 
         imageLocation.X = (int)ImageSize.X * (int)language;
         _imageLocation = imageLocation;
@@ -80,7 +85,7 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
             _color,
             Rotation,
             Vector2.Zero,
-            _scale,
+            _drawingScale,
             SpriteEffects.None,
             Layer);
     }
@@ -108,5 +113,14 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
         => 1;
 
     public Color[] GetColor()
-        => new[] { _color };
+        => [_color];
+
+    public void SetScale(float scale)
+    {
+        _extendedScale = scale;
+        _size = ImageSize * Scale;
+        _drawingScale = Vector2.One * Scale;
+        Rectangle = this.GetRectangle();
+        _hitboxProvider.SetScale(_drawingScale);
+    }
 }

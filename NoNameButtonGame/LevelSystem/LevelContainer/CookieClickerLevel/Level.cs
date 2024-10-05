@@ -83,30 +83,30 @@ public class Level : SampleLevel
         AutoManaged.Add(_overTimeMoverDistraction);
 
         var shopButton = new Button(textComponent.GetValue("Shop"));
-        shopButton.InRectangle(Camera).OnX(1F).OnY(1F).BySize(-1F).Move();
+        shopButton.InRectangle(Camera).OnX(1F).OnY(1F).BySize(-1F).Apply();
         shopButton.Click += ShopButtonClick;
         var shopButton1 = new LockButtonAddon(shopButton);
         AutoManaged.Add(shopButton1);
 
         var toMainButtonShop = new Button(textComponent.GetValue("Return"));
-        toMainButtonShop.InRectangle(Camera).OnX(1F).OnY(1F).BySizeY(-1F).Move();
+        toMainButtonShop.InRectangle(Camera).OnX(1F).OnY(1F).BySizeY(-1F).Apply();
         toMainButtonShop.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonShop);
 
         var toMainButtonDistraction = new Button(textComponent.GetValue("Return"));
-        toMainButtonDistraction.InRectangle(Camera).OnX(0F).OnY(1F).BySize(-1F).Move();
+        toMainButtonDistraction.InRectangle(Camera).OnX(0F).OnY(1F).BySize(-1F).Apply();
         toMainButtonDistraction.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonDistraction);
 
         var toDistractionButtonShop = new Button(textComponent.GetValue("Distraction"));
-        toDistractionButtonShop.InRectangle(Camera).OnX(1F).OnY(1F).ByGridX(1F).BySize(-1F).Move();
+        toDistractionButtonShop.InRectangle(Camera).OnX(1F).OnY(1F).ByGridX(1F).BySize(-1F).Apply();
         toDistractionButtonShop.Click += DistractionButtonClick;
 
         var toDistractionLockShop = new LockButtonAddon(toDistractionButtonShop);
         AutoManaged.Add(toDistractionLockShop);
 
         var toShopButtonDistraction = new Button(textComponent.GetValue("Shop"));
-        toShopButtonDistraction.InRectangle(Camera).OnX(0F).OnY(1F).ByGridX(-1F).BySizeY(-1F).Move();
+        toShopButtonDistraction.InRectangle(Camera).OnX(0F).OnY(1F).ByGridX(-1F).BySizeY(-1F).Apply();
         toShopButtonDistraction.Click += ShopButtonClick;
 
         var toShopLockDistraction = new LockButtonAddon(toShopButtonDistraction);
@@ -118,14 +118,14 @@ public class Level : SampleLevel
         AutoManaged.Add(clickButton);
 
         var distractionButton = new Button(textComponent.GetValue("Distraction"));
-        distractionButton.InRectangle(Camera).OnX(0F).OnY(1F).BySizeY(-1F).Move();
+        distractionButton.InRectangle(Camera).OnX(0F).OnY(1F).BySizeY(-1F).Apply();
         distractionButton.Click += DistractionButtonClick;
         var distractionLockButton = new LockButtonAddon(distractionButton);
         AutoManaged.Add(distractionLockButton);
 
         _finishButton = new Button(textComponent.GetValue("Finish"));
         _finishButton.Click += Finish;
-        _finishButton.InRectangle(Camera).OnCenter().Centered().ByGridX(-1F).Move();
+        _finishButton.InRectangle(Camera).OnCenter().Centered().ByGridX(-1F).Apply();
 
         var infos = new[]
         {
@@ -163,11 +163,11 @@ public class Level : SampleLevel
         AutoManaged.Add(_shop);
 
         _counter = new Text(string.Empty);
-        _counter.InRectangle(Camera).OnCenter().BySizeY(-0.5F).OnY(0.3F).Move();
+        _counter.InRectangle(Camera).OnCenter().BySizeY(-0.5F).OnY(0.3F).Apply();
         AutoManaged.Add(_counter);
 
-        _objectiveDisplay = new Text(ObjectiveText, Display.SimpleScale / 2 * Text.DefaultLetterScale);
-        _objectiveDisplay.InRectangle(Display).OnX(0.01F).OnY(0.01F).Move();
+        _objectiveDisplay = new Text(ObjectiveText, Display.Scale / 2 * Text.DefaultLetterScale);
+        _objectiveDisplay.InRectangle(Display).OnX(0.01F).OnY(0.01F).Apply();
         AutoManagedStaticFront.Add(_objectiveDisplay);
 
         var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 5F);
@@ -228,7 +228,7 @@ public class Level : SampleLevel
         if (_drawFinish)
             _finishButton.UpdateInteraction(gameTime, Cursor);
         base.Update(gameTime);
-        _counter.InRectangle(new RectangleWrapper(_originScreen)).OnCenter().Centered().OnY(3, 10).Move();
+        _counter.InRectangle(new RectangleWrapper(_originScreen)).OnCenter().Centered().OnY(3, 10).Apply();
     }
 
     protected override void Draw(SpriteBatch spriteBatch)

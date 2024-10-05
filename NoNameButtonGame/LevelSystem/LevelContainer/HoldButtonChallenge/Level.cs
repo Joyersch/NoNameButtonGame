@@ -60,7 +60,7 @@ internal class Level : SampleLevel
 
         var leftUpperCorner = new GlitchBlockCollection(baseSize, 10F);
         leftUpperCorner.InRectangle(Camera)
-            .Move();
+            .Apply();
         leftUpperCorner.Enter += Fail;
         AutoManaged.Add(leftUpperCorner);
 
@@ -68,13 +68,13 @@ internal class Level : SampleLevel
         corner.GetAnchor(leftUpperCorner)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
             .SetSubAnchor(AnchorCalculator.Anchor.BottomRight)
-            .Move();
+            .Apply();
 
         var bottomLeftCorner = new GlitchBlockCollection(baseSize, 10F);
         bottomLeftCorner.InRectangle(Camera)
             .OnY(1F)
             .BySizeY(-1F)
-            .Move();
+            .Apply();
         bottomLeftCorner.Enter += Fail;
         AutoManaged.Add(bottomLeftCorner);
 
@@ -82,7 +82,7 @@ internal class Level : SampleLevel
         topRightCorner.InRectangle(Camera)
             .OnX(1F)
             .BySizeX(-1F)
-            .Move();
+            .Apply();
         topRightCorner.Enter += Fail;
         AutoManaged.Add(topRightCorner);
 
@@ -91,7 +91,7 @@ internal class Level : SampleLevel
             .OnX(1F)
             .OnY(1F)
             .BySize(-1F)
-            .Move();
+            .Apply();
         bottomRightCorner.Enter += Fail;
         AutoManaged.Add(bottomRightCorner);
 
@@ -108,7 +108,7 @@ internal class Level : SampleLevel
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-                .Move();
+                .Apply();
             wall.Enter += Fail;
 
             _rows.Add(wall);
@@ -123,7 +123,7 @@ internal class Level : SampleLevel
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.TopRight)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-                .Move();
+                .Apply();
             wall.Enter += Fail;
 
             _columns.Add(wall);
@@ -156,7 +156,7 @@ internal class Level : SampleLevel
         var calculator = button.InRectangle(new RectangleWrapper(rectangle))
             .OnX(x / rectangle.Width)
             .OnY(y / rectangle.Height);
-        calculator.Move();
+        calculator.Apply();
     }
 
     private void TriggerMovement()

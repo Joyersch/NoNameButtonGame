@@ -11,8 +11,11 @@ namespace NoNameButtonGame.GameObjects.Buttons;
 public sealed class SelectButton : IButton
 {
     private Vector2 _position;
-    private readonly Vector2 _size;
-    private readonly Vector2 _scale;
+    private readonly float _initialScale;
+    private float _extendedScale;
+    public float Scale => _initialScale * _extendedScale;
+    private Vector2 _size;
+    private Vector2 _drawingScale;
     private Color _color;
     private Rectangle _imageLocation;
 
@@ -41,11 +44,12 @@ public sealed class SelectButton : IButton
     {
     }
 
-    public SelectButton(Vector2 position, float scale)
+    public SelectButton(Vector2 position, float initialScale)
     {
+        _initialScale = initialScale;
         _position = position;
-        _size = ImageSize * scale;
-        _scale = Vector2.One * scale;
+        _size = ImageSize * Scale;
+        _drawingScale = Vector2.One * Scale;
         _color = Color.White;
 
         var hitbox = new[]
@@ -53,7 +57,7 @@ public sealed class SelectButton : IButton
             new Rectangle(1, 0, 14, 8),
             new Rectangle(0, 1, 16, 6)
         };
-        _hitbox = new HitboxProvider(this, hitbox, _scale);
+        _hitbox = new HitboxProvider(this, hitbox, _drawingScale);
         _rectangle = this.GetRectangle();
 
         _mouseMat = new MouseActionsMat(this);
@@ -85,7 +89,7 @@ public sealed class SelectButton : IButton
             _color,
             0F,
             Vector2.Zero,
-            _scale,
+            _drawingScale,
             SpriteEffects.None,
             Layer);
     }
@@ -112,4 +116,13 @@ public sealed class SelectButton : IButton
 
     public Color[] GetColor()
         => [_color];
+    
+    public void SetScale(float scale)
+    {
+        _extendedScale = scale;
+        _size = ImageSize * Scale;
+        _drawingScale = Vector2.One * Scale;
+        _rectangle = this.GetRectangle();
+        _hitbox.SetScale(_drawingScale);
+    }
 }

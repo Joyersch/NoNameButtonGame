@@ -28,7 +28,7 @@ public class Level : SampleLevel
         Cursor.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
 
         var cleanDifficulty = (difficulty + 100F) / 1050F;
         if (cleanDifficulty > 1F)

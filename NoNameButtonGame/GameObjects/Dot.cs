@@ -11,10 +11,13 @@ using MonoUtils.Ui;
 
 namespace NoNameButtonGame.GameObjects;
 
-public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable, IHitbox
+public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable, IHitbox, IScaleable
 {
     private Vector2 _position;
+    private Vector2 _baseSize;
     private Vector2 _size;
+
+    public float Scale { private set; get; } = 1F;
 
     public Color Color { get; set; }
 
@@ -33,7 +36,8 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable, 
     public Dot(Vector2 position, Vector2 size, string identifier = "")
     {
         _position = position;
-        _size = size;
+        _baseSize = size;
+        _size = _baseSize * Scale;
         Identifier = identifier;
         Color = new Color(0, 0, 0, 150);
         Rectangle = this.GetRectangle();
@@ -80,5 +84,12 @@ public class Dot : IManageable, IMoveable, IRotateable, ILayerable, IColorable, 
         => 1;
 
     public Color[] GetColor()
-        => new[] { Color };
+        => [Color];
+
+    public void SetScale(float scale)
+    {
+        Scale = scale;
+        _size = _baseSize * Scale;
+        Rectangle = this.GetRectangle();
+    }
 }

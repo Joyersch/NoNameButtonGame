@@ -49,7 +49,7 @@ public class Column : IManageable, IInteractable, IMoveable, IMouseActions, IPla
             .SetMainAnchor(AnchorCalculator.Anchor.BottomRight)
             .SetSubAnchor(AnchorCalculator.Anchor.TopRight)
             .SetDistanceY(distance)
-            .Move();
+            .Apply();
         Rectangle = Rectangle.Union(_up.Rectangle, _down.Rectangle);
 
         _upMover = new OverTimeMover(_up, Vector2.Zero, _time, OverTimeMover.MoveMode.Sin);

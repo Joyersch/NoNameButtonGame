@@ -37,7 +37,7 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
             block.GetAnchor(lastblock)
                 .SetMainAnchor(AnchorCalculator.Anchor.TopRight)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-                .Move();
+                .Apply();
 
             block.Enter += o => Enter?.Invoke(o);
             block.Click += o => Click?.Invoke(o);

@@ -65,12 +65,12 @@ internal class Level : SampleLevel
 
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
 
-        _timer = new Timer(Vector2.Zero, Display.SimpleScale, 20000D + cleanDifficulty * 20000F,
+        _timer = new Timer(Vector2.Zero, Display.Scale, 20000D + cleanDifficulty * 20000F,
             textComponent.GetValue("FinishPrefix"));
         _timer.InRectangle(Display)
             .OnX(0.005F)
             .OnY(0.01F)
-            .Move();
+            .Apply();
         _timer.Trigger += Finish;
 
         _followeres = new FollowerCollection(Cursor, Camera, 1000 * flippedDifficulty, 250F + 300F * cleanDifficulty);
@@ -90,7 +90,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .Centered()
             .ByGridX(-1F)
-            .Move();
+            .Apply();
         _initializer.Enter += Fail;
 
         var position = _initializer.GetPosition() + new Vector2(Camera.RealSize.X * 2, 0);
@@ -107,7 +107,7 @@ internal class Level : SampleLevel
         _button.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
         _button.Click += delegate
         {
             _initializerMover.Start();
@@ -122,7 +122,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnX(0.33F)
             .Centered()
-            .Move();
+            .Apply();
 
         // Starts spam spawning blocks if the activated
         _idleSpawnerInvoker = new OverTimeInvoker(100F, false);
@@ -135,14 +135,14 @@ internal class Level : SampleLevel
         AutoManaged.Add(color);
 
         // activates idle spawner if 5 seconds pass
-        _idleTimer = new Timer(Vector2.Zero, Display.SimpleScale, 5000F * flippedDifficulty,
+        _idleTimer = new Timer(Vector2.Zero, Display.Scale, 5000F * flippedDifficulty,
             textComponent.GetValue("IdlePrefix"));
         _idleTimer.Start();
         _idleTimer.GetAnchor(_timer)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .SetDistanceY(_idleTimer.GetSize().Y / 2)
-            .Move();
+            .Apply();
 
         _idleTimer.Trigger += delegate
         {
@@ -285,7 +285,7 @@ internal class Level : SampleLevel
         _info.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
         _info.Start();
     }
 }

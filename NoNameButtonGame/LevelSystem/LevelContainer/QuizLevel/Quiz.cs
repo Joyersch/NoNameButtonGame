@@ -48,7 +48,7 @@ public class Quiz : IManageable, IInteractable
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Move();
+            .Apply();
 
         _buttonOne = new Button(string.Empty);
         _buttonOne.Click += ButtonOneClick;
@@ -56,14 +56,14 @@ public class Quiz : IManageable, IInteractable
             .OnCenter()
             .OnX(5, 20)
             .Centered()
-            .Move();
+            .Apply();
 
         _buttonTwo = new Button(string.Empty);
         _buttonTwo.Click += ButtonTwoClick;
         _buttonOne.InRectangle(this)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
 
         _buttonThree = new Button(string.Empty);
         _buttonThree.Click += ButtonThreeClick;
@@ -71,7 +71,7 @@ public class Quiz : IManageable, IInteractable
             .OnCenter()
             .OnY(15, 20)
             .Centered()
-            .Move();
+            .Apply();
     }
 
     private void ButtonOneClick(object obj)
@@ -112,27 +112,27 @@ public class Quiz : IManageable, IInteractable
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Move();
+            .Apply();
         _question.Update(gameTime);
 
         _buttonOne.InRectangle(this)
             .OnCenter()
             .OnX(5, 20)
             .Centered()
-            .Move();
+            .Apply();
         _buttonOne.Update(gameTime);
 
         _buttonTwo.InRectangle(this)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
         _buttonTwo.Update(gameTime);
 
         _buttonThree.InRectangle(this)
             .OnCenter()
             .OnX(15, 20)
             .Centered()
-            .Move();
+            .Apply();
         _buttonThree.Update(gameTime);
     }
 

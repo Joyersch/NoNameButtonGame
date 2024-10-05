@@ -29,7 +29,7 @@ internal class Level : SampleLevel
         failButton.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
         failButton.Click += Fail;
         AutoManaged.Add(failButton);
 
@@ -39,7 +39,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(info);
     }
 }

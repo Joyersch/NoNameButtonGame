@@ -40,7 +40,7 @@ public class Level : SampleLevel
             .OnX(0.125F)
             .OnY(0.15F)
             .Centered()
-            .Move();
+            .Apply();
 
         var lockedStartButton = new LockButtonAddon(startButton);
         if (progress.MaxLevel < maxLevel)
@@ -53,7 +53,7 @@ public class Level : SampleLevel
         selectLevelButton.GetAnchor(startButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Move();
+            .Apply();
         selectLevelButton.Click += SelectButtonPressed;
         var selectLevelButtonLock = new LockButtonAddon(selectLevelButton);
 
@@ -67,7 +67,7 @@ public class Level : SampleLevel
         endlessButton.GetAnchor(selectLevelButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Move();
+            .Apply();
         var endlessLockButton = new LockButtonAddon(endlessButton);
         if (progress.MaxLevel >= maxLevel)
             endlessLockButton.Unlock();
@@ -78,7 +78,7 @@ public class Level : SampleLevel
         settingsButton.GetAnchor(endlessButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Move();
+            .Apply();
         AutoManaged.Add(settingsButton);
 
         var exitButton = new Button(textComponent.GetValue("ExitButton"));
@@ -86,7 +86,7 @@ public class Level : SampleLevel
         exitButton.GetAnchor(settingsButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .Move();
+            .Apply();
         AutoManaged.Add(exitButton);
 
         var header = new Text("NoNameButtonGame", Vector2.Zero, 10F, 1);
@@ -94,7 +94,7 @@ public class Level : SampleLevel
             .OnX(0.605F)
             .OnY(0.25F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(header);
 
         var version = new Text(Statics.Version.ToString(), Vector2.Zero, 0.5F * Text.DefaultLetterScale);
@@ -102,7 +102,7 @@ public class Level : SampleLevel
             .OnX(0.905F)
             .OnY(0.315F)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(version);
 
         var credits = new ClickableText(textComponent.GetValue("CreditsText"), 2F);
@@ -113,7 +113,7 @@ public class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
             .SetDistanceX(-8F)
             .SetDistanceY(-2F)
-            .Move();
+            .Apply();
         AutoManaged.Add(credits);
 
 
@@ -128,7 +128,7 @@ public class Level : SampleLevel
                 .OnX(0.875F)
                 .OnY(0.9F)
                 .Centered()
-                .Move();
+                .Apply();
             AutoManaged.Add(completion);
             AutoManaged.Add(color);
             ColorListener.Add(color, completion);
@@ -146,7 +146,7 @@ public class Level : SampleLevel
                 .OnX(0.9F)
                 .OnY(0.9F)
                 .Centered()
-                .Move();
+                .Apply();
             AutoManaged.Add(completion);
             AutoManaged.Add(color);
             ColorListener.Add(color, completion);
@@ -164,7 +164,7 @@ public class Level : SampleLevel
                 .OnX(0.925F)
                 .OnY(0.9F)
                 .Centered()
-                .Move();
+                .Apply();
             AutoManaged.Add(completion);
             AutoManaged.Add(color);
             ColorListener.Add(color, completion);
@@ -175,12 +175,12 @@ public class Level : SampleLevel
             Camera.InRectangle(Camera)
                 .OnCenter()
                 .ByGridY(1)
-                .Move();
+                .Apply();
 
             Cursor.InRectangle(Camera)
                 .OnCenter()
                 .ByGridY(1)
-                .Move();
+                .Apply();
 
             var mover = new OverTimeMover(Camera, Vector2.Zero, 666F, OverTimeMover.MoveMode.Sin);
             mover.Start();

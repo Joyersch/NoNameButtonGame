@@ -37,14 +37,14 @@ internal class Level : SampleLevel
         var keyInfo = new Text(textComponent.GetValue("KeyInfo"), 0.5F * Text.DefaultLetterScale);
         keyInfo.InRectangle(Camera)
             .With(5, 5)
-            .Move();
+            .Apply();
         AutoManaged.Add(keyInfo);
 
         var startButton = new Button(textComponent.GetValue("Button1"));
         startButton.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
         startButton.Click += MoveToNextScreen;
         AutoManaged.Add(startButton);
 
@@ -53,7 +53,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(infoText);
 
         #endregion // StartScreen
@@ -70,7 +70,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(13, 16)
             .Centered()
-            .Move();
+            .Apply();
         magicButton.Click += MagicButtonOnClick;
         AutoManaged.Add(magicButton);
 
@@ -79,7 +79,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(3, 16)
             .Centered()
-            .Move();
+            .Apply();
 
         _lockButtonAddon = new LockButtonAddon(lockButton);
         _lockButtonAddon.Click += delegate { MoveToNextScreen(_lockButtonAddon); };
@@ -91,7 +91,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(7, 20)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(info1);
 
         var info2 = new Text(textComponent.GetValue("Info3"));
@@ -99,7 +99,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(13, 20)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(info2);
 
         #endregion // LockButtonScreen
@@ -112,14 +112,14 @@ internal class Level : SampleLevel
         counterButton.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
 
         var infoAboutCounterButton = new Text(textComponent.GetValue("Info4"));
         infoAboutCounterButton.InRectangle(Camera)
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(infoAboutCounterButton);
 
         var infoAboutCounterButton2 = new Text(textComponent.GetValue("Info5"));
@@ -127,7 +127,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(7, 10)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(infoAboutCounterButton2);
 
 
@@ -145,7 +145,7 @@ internal class Level : SampleLevel
         stateButton.InRectangle(Camera)
             .OnCenter()
             .Centered()
-            .Move();
+            .Apply();
 
         var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F);
         holdButtonAddon.Click += Finish;
@@ -156,7 +156,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(3, 10)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(infoAboutButton);
 
         var infoAboutButton2 = new Text(textComponent.GetValue("Info7"));
@@ -164,7 +164,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .OnY(7, 10)
             .Centered()
-            .Move();
+            .Apply();
         AutoManaged.Add(infoAboutButton2);
 
         #endregion // HoldButtonScreen
