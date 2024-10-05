@@ -20,6 +20,8 @@ public class Level : SampleLevel
 {
     private Timer _timer;
 
+    private PositionCalculator _timerPosition;
+
     public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
         SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(scene, random,
         effectsRegistry, settingsAndSaveManager)
@@ -29,6 +31,9 @@ public class Level : SampleLevel
         Name = textComponent.GetValue("Name");
 
         Trap.Play();
+
+        AnchorCalculator anchorCalculator = null;
+        PositionCalculator positionCalculator = null;
 
         ColorComponentRepository repository = new ColorComponentRepository(random);
         ColorComponent[] colors = repository.GetByColorDistance(difficulty).ToArray();
@@ -57,13 +62,14 @@ public class Level : SampleLevel
         // Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
 
         var info = new Text(infoMessage);
-        info.InRectangle(Camera)
+        AutoManaged.Add(info);
+        DynamicScaler.Register(info);
+
+        positionCalculator = info.InRectangle(Camera)
             .OnCenter()
             .OnY(2, 20)
-            .Centered()
-            .Apply();
-
-        AutoManaged.Add(info);
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         for (int x = 0; x < 4; x++)
         {
@@ -85,26 +91,31 @@ public class Level : SampleLevel
                     }
                 }
 
-                button.InRectangle(Camera)
-                    .OnX(x * 4 + 4, 20)
-                    .OnY(y * 4 + 5, 20)
-                    .Centered()
-                    .Apply();
                 if (index == (useText ? usedText : usedColor))
                     button.Click += Finish;
                 else
                     button.Click += Fail;
                 AutoManaged.Add(button);
+                DynamicScaler.Register(button);
+
+                positionCalculator = button.InRectangle(Camera)
+                    .OnX(x * 4 + 4, 20)
+                    .OnY(y * 4 + 5, 20)
+                    .Centered();
+                CalculatorCollection.Register(positionCalculator);
             }
         }
 
         _timer = new Timer(1F, 15000D, true);
         _timer.Trigger += Fail;
-        _timer.InRectangle(Camera)
-            .OnX(0.1F)
-            .OnY(0.1F)
-            .Apply();
         AutoManaged.Add(_timer);
+        DynamicScaler.Register(_timer);
+
+        positionCalculator = _timer.InRectangle(Camera)
+            .OnX(0.1F)
+            .OnY(0.1F);
+        CalculatorCollection.Register(positionCalculator);
+        _timerPosition = positionCalculator;
 
         PulsatingRed timerColor = new PulsatingRed()
         {
@@ -113,14 +124,14 @@ public class Level : SampleLevel
         };
         AutoManaged.Add(timerColor);
         ColorListener.Add(timerColor, _timer);
+
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
     }
 
     public override void Update(GameTime gameTime)
     {
-        _timer.InRectangle(Camera)
-            .OnX(0.1F)
-            .OnY(0.1F)
-            .Apply();
+        _timerPosition.Apply();
         base.Update(gameTime);
     }
 }
