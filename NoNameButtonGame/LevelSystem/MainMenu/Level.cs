@@ -112,7 +112,7 @@ public class Level : SampleLevel
 
         var version = new Text(Statics.Version.ToString(), Vector2.Zero, 0.5F * Text.DefaultLetterScale);
         AutoManaged.Add(version);
-        DynamicScaler.Register(header);
+        DynamicScaler.Register(version);
 
         positionCalculator = version.InRectangle(Camera)
             .OnX(0.905F)
@@ -141,7 +141,6 @@ public class Level : SampleLevel
                 Increment = 5
             };
             AutoManaged.Add(color);
-
 
             var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
             AutoManaged.Add(completion);

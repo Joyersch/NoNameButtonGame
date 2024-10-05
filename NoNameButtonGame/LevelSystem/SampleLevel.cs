@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoUtils.Helper;
+using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Listener;
@@ -76,7 +77,8 @@ public class SampleLevel : ILevel
 
         _cursorIndicator = new Text("[arrow]");
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
-        _cursorIndicator[0].Origin = new Vector2(2.5F, 2.5F);
+        _cursorIndicator.SetScale(Display.Scale);
+        _cursorIndicator[0].Origin = new Vector2(4, 2);
 
         Camera = scene.Camera;
         // Set Camera to 0,0 as it is kept between levels
@@ -128,6 +130,7 @@ public class SampleLevel : ILevel
 
         MoveHelper.RotateTowards(_cursorIndicator[0], Cursor);
         _cursorIndicator[0].Rotation += (float)(Math.PI / 4F);
+        Log.Information( _cursorIndicator[0].Origin.ToString());
 
         var position = Cursor.GetPosition() + Cursor.GetSize() * 0.5F;
 

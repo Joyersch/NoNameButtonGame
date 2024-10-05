@@ -37,16 +37,18 @@ public class Level : SampleLevel
 
         float pointer = Camera.Rectangle.Y;
         Text newLine = null;
+        PositionCalculator positionCaluclator = null;
         foreach (string s in result)
         {
             newLine = TextNotationProcessor.Parse(s);
+            newLine.SetScale(Display.Scale);
+            AutoManaged.Add(newLine);
+
             newLine.InRectangle(Camera)
                 .OnPositionX(-(Camera.Rectangle.Width / 2) + 16)
                 .OnPositionY(pointer)
-                .ByGridY(1)
-                .Apply();
+                .ByGridY(1).Apply();
 
-            AutoManaged.Add(newLine);
             pointer += newLine.Rectangle.Height + 8;
         }
 
@@ -57,8 +59,6 @@ public class Level : SampleLevel
         mover.ArrivedOnDestination += Exit;
         mover.Start();
         AutoManaged.Add(mover);
-
-        Cursor = new Cursor(2F);
-        PositionListener.Add(Mouse, Cursor);
+        DynamicScaler.Apply(Display.Scale);
     }
 }
