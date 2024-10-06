@@ -11,7 +11,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 
-public class Shop : IManageable, IInteractable
+public class Shop : IManageable, IInteractable, IScaleable
 {
     private LevelSave _storage;
     private readonly Random _random;
@@ -243,5 +243,18 @@ public class Shop : IManageable, IInteractable
         _optionTwo.ChangeText(_shopOptionNames[1]);
         _optionThree.ChangeText(_shopOptionNames[2]);
         _optionFour.ChangeText(_shopOptionNames[3]);
+    }
+
+    public float Scale { private set; get; }
+    public void SetScale(float scale)
+    {
+        Scale = scale;
+
+        _optionOne.SetScale(scale);
+        _optionTwo.SetScale(scale);
+        _optionThree.SetScale(scale);
+        _optionFour.SetScale(scale);
+        _beanDisplay.SetScale(scale);
+        _infoDiplay.SetScale(scale);
     }
 }

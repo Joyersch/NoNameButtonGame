@@ -4,13 +4,15 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Helper;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
+using MonoUtils.Ui;
 using NoNameButtonGame.Colors;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 
-public class Nbg : IManageable, IMoveable, ILayerable
+public class Nbg : IManageable, IMoveable, ILayerable, IScaleable
 {
-    public float Scale => _scale;
+    public float Scale => _baseScale * _extendedScale;
+
     public float Layer { get; set; }
 
     private Vector2 _position;
@@ -23,33 +25,35 @@ public class Nbg : IManageable, IMoveable, ILayerable
     private readonly SingleRandomColor _singleRandomColor;
 
     private readonly Rectangle _area;
-    private readonly float _scale;
+    private readonly float _baseScale;
+    private float _extendedScale;
 
-    public float Speed = 90;
+    public float Speed = 40;
 
     private bool _moveUp;
     private bool _moveLeft;
 
     public static Texture2D Texture;
+    private Vector2 baseSize = new Vector2(21, 13);
 
 
     public Nbg(Rectangle area, Random random) : this(area, random, 1F)
     {
     }
 
-    public Nbg(Rectangle area, Random random, float scale)
+    public Nbg(Rectangle area, Random random, float baseScale)
     {
-        _size = new Vector2(21, 13) * scale;
+        _size =  baseSize * baseScale;
         _position = area.Center.ToVector2() - _size / 2;
         _area = area;
-        _scale = scale;
+        _baseScale = baseScale;
         _singleRandomColor = new SingleRandomColor(random);
         _color = _singleRandomColor.GetColor(1)[0];
     }
 
     public void Update(GameTime gameTime)
     {
-        float moveBy = (float)(gameTime.ElapsedGameTime.TotalSeconds * Speed);
+        float moveBy = (float)(gameTime.ElapsedGameTime.TotalSeconds * Speed * Scale);
 
         var position = _position;
         position.Y += _moveUp ? -moveBy : moveBy;
@@ -129,7 +133,7 @@ public class Nbg : IManageable, IMoveable, ILayerable
             _color,
             0F,
             Vector2.Zero,
-            _scale,
+            Scale,
             SpriteEffects.None,
             Layer);
     }
@@ -143,6 +147,13 @@ public class Nbg : IManageable, IMoveable, ILayerable
     public void Move(Vector2 newPosition)
     {
         _position = newPosition;
+        _rectangle = this.GetRectangle();
+    }
+    
+    public void SetScale(float scale)
+    {
+        _extendedScale = scale;
+        _size =  baseSize * Scale;
         _rectangle = this.GetRectangle();
     }
 }

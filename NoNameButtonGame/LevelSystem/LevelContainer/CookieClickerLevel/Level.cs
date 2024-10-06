@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Text;
 using MonoUtils.Settings;
@@ -12,9 +11,7 @@ using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Buttons;
 using MonoUtils.Ui.Buttons.AddOn;
 using MonoUtils.Ui.TextSystem;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -66,12 +63,14 @@ public class Level : SampleLevel
 
         _save = settingsAndSave.GetSave<LevelSave>();
 
+        AnchorCalculator anchorCalculator = null;
+        PositionCalculator positionCalculator = null;
+
         var oneScreen = Display.Size;
         var shopScreen = new Vector2(oneScreen.X, 0);
 
         Camera.Move(oneScreen / 2);
         _originScreen = Camera.Rectangle;
-
 
         _overTimeMoverShop = new OverTimeMover(Camera, Camera.Position + shopScreen, 666F, OverTimeMover.MoveMode.Sin);
         _overTimeMoverMain = new OverTimeMover(Camera, Camera.Position, 666F, OverTimeMover.MoveMode.Sin);
@@ -83,49 +82,97 @@ public class Level : SampleLevel
         AutoManaged.Add(_overTimeMoverDistraction);
 
         var shopButton = new Button(textComponent.GetValue("Shop"));
-        shopButton.InRectangle(Camera).OnX(1F).OnY(1F).BySize(-1F).Apply();
         shopButton.Click += ShopButtonClick;
         var shopButton1 = new LockButtonAddon(shopButton);
         AutoManaged.Add(shopButton1);
+        DynamicScaler.Register(shopButton1);
+
+        positionCalculator = shopButton1.InRectangle(Camera)
+            .OnX(1F)
+            .OnY(1F)
+            .BySize(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         var toMainButtonShop = new Button(textComponent.GetValue("Return"));
-        toMainButtonShop.InRectangle(Camera).OnX(1F).OnY(1F).BySizeY(-1F).Apply();
         toMainButtonShop.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonShop);
+        DynamicScaler.Register(toMainButtonShop);
+
+        positionCalculator = toMainButtonShop.InRectangle(Camera)
+            .OnX(1F)
+            .OnY(1F)
+            .BySizeY(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         var toMainButtonDistraction = new Button(textComponent.GetValue("Return"));
-        toMainButtonDistraction.InRectangle(Camera).OnX(0F).OnY(1F).BySize(-1F).Apply();
         toMainButtonDistraction.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonDistraction);
+        DynamicScaler.Register(toMainButtonDistraction);
+
+        positionCalculator = toMainButtonDistraction.InRectangle(Camera)
+            .OnX(0F)
+            .OnY(1F)
+            .BySize(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         var toDistractionButtonShop = new Button(textComponent.GetValue("Distraction"));
-        toDistractionButtonShop.InRectangle(Camera).OnX(1F).OnY(1F).ByGridX(1F).BySize(-1F).Apply();
         toDistractionButtonShop.Click += DistractionButtonClick;
-
         var toDistractionLockShop = new LockButtonAddon(toDistractionButtonShop);
         AutoManaged.Add(toDistractionLockShop);
+        DynamicScaler.Register(toDistractionLockShop);
+
+        positionCalculator = toDistractionLockShop.InRectangle(Camera)
+            .OnX(1F)
+            .OnY(1F)
+            .ByGridX(1F)
+            .BySize(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         var toShopButtonDistraction = new Button(textComponent.GetValue("Shop"));
-        toShopButtonDistraction.InRectangle(Camera).OnX(0F).OnY(1F).ByGridX(-1F).BySizeY(-1F).Apply();
         toShopButtonDistraction.Click += ShopButtonClick;
-
         var toShopLockDistraction = new LockButtonAddon(toShopButtonDistraction);
         AutoManaged.Add(toShopLockDistraction);
+        DynamicScaler.Register(toShopLockDistraction);
+
+        positionCalculator = toShopButtonDistraction.InRectangle(Camera)
+            .OnX(0F)
+            .OnY(1F)
+            .ByGridX(-1F)
+            .BySizeY(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         var clickButton = new Button(textComponent.GetValue("BakeABean"));
-        clickButton.Move(oneScreen / 2 - clickButton.GetSize() / 2);
+
         clickButton.Click += _ => _shop!.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
+        DynamicScaler.Register(clickButton);
+
+        positionCalculator = clickButton.InRectangle(Camera)
+            .OnCenter()
+            .Centered();
+        CalculatorCollection.Register(positionCalculator);
 
         var distractionButton = new Button(textComponent.GetValue("Distraction"));
-        distractionButton.InRectangle(Camera).OnX(0F).OnY(1F).BySizeY(-1F).Apply();
         distractionButton.Click += DistractionButtonClick;
         var distractionLockButton = new LockButtonAddon(distractionButton);
         AutoManaged.Add(distractionLockButton);
+        DynamicScaler.Register(distractionLockButton);
+
+        positionCalculator = distractionLockButton.InRectangle(Camera)
+            .OnX(0F)
+            .OnY(1F)
+            .BySizeY(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         _finishButton = new Button(textComponent.GetValue("Finish"));
         _finishButton.Click += Finish;
-        _finishButton.InRectangle(Camera).OnCenter().Centered().ByGridX(-1F).Apply();
+        DynamicScaler.Register(_finishButton);
+
+        positionCalculator = _finishButton.InRectangle(Camera)
+            .OnCenter()
+            .Centered()
+            .ByGridX(-1F);
+        CalculatorCollection.Register(positionCalculator);
 
         var infos = new[]
         {
@@ -161,17 +208,34 @@ public class Level : SampleLevel
         _shop.PurchasedAllOptions += EnableFinishButton;
 
         AutoManaged.Add(_shop);
+        DynamicScaler.Register(_shop);
 
         _counter = new Text(string.Empty);
-        _counter.InRectangle(Camera).OnCenter().BySizeY(-0.5F).OnY(0.3F).Apply();
         AutoManaged.Add(_counter);
+        DynamicScaler.Register(_counter);
+
+        positionCalculator = _counter.InRectangle(Camera)
+            .OnCenter()
+            .BySizeY(-0.5F)
+            .OnY(0.3F);
+        CalculatorCollection.Register(positionCalculator);
+
 
         _objectiveDisplay = new Text(ObjectiveText, Display.Scale / 2 * Text.DefaultLetterScale);
-        _objectiveDisplay.InRectangle(Display).OnX(0.01F).OnY(0.01F).Apply();
         AutoManagedStaticFront.Add(_objectiveDisplay);
+        DynamicScaler.Register(_objectiveDisplay);
+
+        positionCalculator = _objectiveDisplay.InRectangle(Display)
+            .OnX(0.01F)
+            .OnY(0.01F);
+        CalculatorCollection.Register(positionCalculator);
 
         var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 5F);
         AutoManaged.Add(nbg);
+        DynamicScaler.Register(nbg);
+
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
     }
 
     private void UnlockedShop()

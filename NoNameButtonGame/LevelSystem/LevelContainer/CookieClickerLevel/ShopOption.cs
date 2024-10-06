@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
+using MonoUtils.Ui;
 using MonoUtils.Ui.Logic;
 using MonoUtils.Ui.Buttons;
 using MonoUtils.Ui.Buttons.AddOn;
@@ -11,7 +12,7 @@ using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 
-public class ShopOption : IInteractable, IMoveable, IRectangle
+public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
 {
     private Text _amountDisplay;
     private LockButtonAddon _button;
@@ -159,4 +160,30 @@ public class ShopOption : IInteractable, IMoveable, IRectangle
 
     public void ChangeText(string newText)
         => _textButton.Text.ChangeText(newText);
+
+    public float Scale { private set; get; }
+    public void SetScale(float scale)
+    {
+        Scale = scale;
+
+        _button.SetScale(scale);
+        _button.InRectangle(this)
+            .OnCenter()
+            .BySize(-0.5F)
+            .Apply();
+
+        _amountDisplay.SetScale(scale);
+        _amountDisplay.InRectangle(this)
+            .OnCenter()
+            .BySize(-0.5F)
+            .OnY(0.3F)
+            .Apply();
+
+        _priceDisplay.SetScale(scale);
+        _priceDisplay.InRectangle(this)
+            .OnCenter()
+            .BySize(-0.5F)
+            .OnY(0.7F)
+            .Apply();
+    }
 }

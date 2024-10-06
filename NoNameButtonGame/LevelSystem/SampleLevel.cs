@@ -130,7 +130,7 @@ public class SampleLevel : ILevel
 
         MoveHelper.RotateTowards(_cursorIndicator[0], Cursor);
         _cursorIndicator[0].Rotation += (float)(Math.PI / 4F);
-        Log.Information( _cursorIndicator[0].Origin.ToString());
+        Log.Information(_cursorIndicator[0].Origin.ToString());
 
         var position = Cursor.GetPosition() + Cursor.GetSize() * 0.5F;
 
@@ -168,17 +168,25 @@ public class SampleLevel : ILevel
         graphicsDevice.SetRenderTarget(null);
         graphicsDevice.Clear(new Color(50, 50, 50));
 
+
         spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp,
             transformMatrix: Camera.CameraMatrix);
 
         DrawStaticBack(spriteBatch);
 
+        spriteBatch.End();
+
+        spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp,
+            transformMatrix: Camera.CameraMatrix);
+
         Draw(spriteBatch);
 
         if (!Camera.Rectangle.Intersects(Cursor.Rectangle))
-        {
             _cursorIndicator.Draw(spriteBatch);
-        }
+
+        spriteBatch.End();
+
+        spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
         DrawStaticFront(spriteBatch);
 
