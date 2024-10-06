@@ -15,7 +15,7 @@ using NoNameButtonGame.GameObjects.Glitch;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
 
-public class FollowerCollection : IManageable, IInteractable
+public class FollowerCollection : IManageable, IInteractable, IScaleable
 {
     private readonly Cursor _cursor;
     private readonly Camera _camera;
@@ -33,6 +33,8 @@ public class FollowerCollection : IManageable, IInteractable
     private bool _blockToFar;
     private bool _blockOnScreen;
     private float _distance;
+
+    public float Scale { private set; get; }
 
     public FollowerCollection(Cursor cursor, Camera camera, float spawnTime, float speed)
     {
@@ -72,13 +74,13 @@ public class FollowerCollection : IManageable, IInteractable
                 var text = _indicator[i].Text;
 
                 var letter = text.Letters[0];
-                letter.Origin = new Vector2(2.5F, 2.5F);
+                letter.Origin = new Vector2(4, 2);
                 MoveHelper.RotateTowards(letter, block);
                 // + 45 degrees as the texture is rotated -45 degrees
                 letter.Rotation += (float)(Math.PI / 4F);
 
                 text.Move(_cursor.GetPosition());
-                MoveHelper.MoveTowards(text, block, 16);
+                MoveHelper.MoveTowards(text, block, 16 * Scale + text.Size.Length());
             }
 
             // compare distance to player to size of camera
@@ -93,7 +95,7 @@ public class FollowerCollection : IManageable, IInteractable
                     distance *= length / 200;
                 else
                     _blockOnScreen = true;
-                MoveHelper.MoveTowards(block, _cursor, distance);
+                MoveHelper.MoveTowards(block, _cursor, distance * Scale);
             }
 
             block.Update(gameTime);
@@ -138,7 +140,7 @@ public class FollowerCollection : IManageable, IInteractable
 
     public void Spawn()
     {
-        var block = new GlitchBlockCollection(GlitchBlock.ImageSize * 8);
+        var block = new GlitchBlockCollection(GlitchBlock.ImageSize * 8 * Scale, 8 * Scale);
         block.ChangeColor(GlitchBlock.Color);
         block.InRectangle(_camera)
             .OnCenter()
@@ -151,8 +153,9 @@ public class FollowerCollection : IManageable, IInteractable
         _blocks.Add(block);
 
         var text = new Text("[arrow]");
+        text.SetScale(Scale);
         var letter = text.Letters[0];
-        letter.Origin = new Vector2(2, 5);
+        letter.Origin = new Vector2(4, 2);
 
         _colorListener.Add(_indicatorColor, text);
         var indicator = new Indicator
@@ -173,5 +176,11 @@ public class FollowerCollection : IManageable, IInteractable
     {
         _started = false;
         _invoker.Stop();
+    }
+
+    public void SetScale(float scale)
+    {
+        Scale = scale;
+        // Theoretically,  all existing blocks would need to be adjusted. But I'm lazy (again)
     }
 }

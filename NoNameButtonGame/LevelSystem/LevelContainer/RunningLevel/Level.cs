@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
 using MonoUtils.Helper;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
@@ -15,7 +14,6 @@ using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
@@ -76,15 +74,17 @@ internal class Level : SampleLevel
         _followeres = new FollowerCollection(Cursor, Camera, 1000 * flippedDifficulty, 250F + 300F * cleanDifficulty);
         _followeres.Enter += Fail;
         AutoManaged.Add(_followeres);
+        DynamicScaler.Register(_followeres);
 
         _info = new DelayedText(textComponent.GetValue("StartMessage"), false)
         {
             DisplayDelay = 50
         };
+        DynamicScaler.Register(_info);
 
-        var size = new Vector2(GlitchBlock.ImageSize.X * 16, Camera.RealSize.Y);
+        var size = new Vector2(GlitchBlock.ImageSize.X * 16 * Display.Scale, Camera.RealSize.Y);
 
-        _initializer = new GlitchBlockCollection(size);
+        _initializer = new GlitchBlockCollection(size, 8 * Display.Scale);
         _initializer.ChangeColor(GlitchBlock.Color);
         _initializer.InRectangle(Camera)
             .OnCenter()
@@ -104,17 +104,18 @@ internal class Level : SampleLevel
         }
 
         _button = new Button(textComponent.GetValue("StartButton"));
-        _button.InRectangle(Camera)
-            .OnCenter()
-            .Centered()
-            .Apply();
         _button.Click += delegate
         {
             _initializerMover.Start();
             _startedInitialize = true;
         };
+        DynamicScaler.Register(_button);
+        CalculatorCollection.Register(_button.InRectangle(Camera)
+            .OnCenter()
+            .Centered());
 
         _initializerIndicator = new Text("[arrow]");
+        DynamicScaler.Register(_initializerIndicator);
         _initializerIndicator.ChangeColor(GlitchBlock.Color);
         MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);
         _initializerIndicator.Letters[0].Rotation += (float)(Math.PI / 4F); // 45°
@@ -187,6 +188,8 @@ internal class Level : SampleLevel
             else
                 _waitForInfo = true;
         };
+        DynamicScaler.Apply(Display.Scale);
+        CalculatorCollection.Apply();
     }
 
     public override void Update(GameTime gameTime)
@@ -210,7 +213,7 @@ internal class Level : SampleLevel
         if (_initializerMover.IsMoving)
         {
             _initializerIndicator.Move(Cursor.GetPosition());
-            MoveHelper.MoveTowards(_initializerIndicator, _initializer, 16);
+            MoveHelper.MoveTowards(_initializerIndicator, _initializer, 16 * Display.Scale + _initializerIndicator.Size.Length());
             MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);
             _initializerIndicator.Letters[0].Rotation += (float)(Math.PI / 4F); // 45°
             _initializerIndicator.Update(gameTime);
