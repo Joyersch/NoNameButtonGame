@@ -7,6 +7,7 @@ using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
 using MonoUtils.Sound;
+using MonoUtils.Ui;
 using MonoUtils.Ui.Buttons;
 using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
@@ -14,7 +15,7 @@ using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 
-public class SimonSays : IManageable, IInteractable
+public class SimonSays : IManageable, IInteractable, IScaleable
 {
     public Rectangle Rectangle { get; private set; }
     public event Action Finished;
@@ -236,5 +237,28 @@ public class SimonSays : IManageable, IInteractable
         if (_state == SimonAction.Before)
             _start.Draw(spriteBatch);
         _enteredSequenceDisplay.Draw(spriteBatch);
+    }
+
+    public float Scale { private set; get; }
+    public void SetScale(float scale)
+    {
+        Scale = scale;
+
+        int i = 0;
+        foreach (var button in _buttons)
+        {
+            button.SetScale(scale);
+            button.InRectangle(this).OnCenter().OnX(i++ * 0.2F + 0.1F).Centered().Apply();
+        }
+
+        _enteredSequenceDisplay.SetScale(scale);
+        _enteredSequenceDisplay.InRectangle(this)
+            .OnCenter()
+            .OnY(4, 5)
+            .Centered()
+            .Apply();
+
+        _start.SetScale(scale);
+        _start.InRectangle(this).OnCenter().OnY(1, 3).Centered().Apply();
     }
 }
