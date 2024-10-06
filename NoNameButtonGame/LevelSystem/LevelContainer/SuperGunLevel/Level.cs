@@ -56,6 +56,7 @@ internal class Level : SampleLevel
         _shots = new List<(Vector2 direction, GlitchBlockCollection shot)>();
 
         _gun = new Text(textComponent.GetValue("Gun"));
+        _gun.SetScale(Display.Scale);
         _gun.InRectangle(Camera)
             .OnX(0.1F)
             .OnY(0.5F)
@@ -72,6 +73,7 @@ internal class Level : SampleLevel
 
         var addon = new CounterButtonAddon(button, 6 + (int)Math.Floor(15 * cleanDifficulty));
         addon.Click += Finish;
+        addon.SetScale(Display.Scale);
         AutoManaged.Add(addon);
 
         button.Click += delegate
@@ -86,6 +88,7 @@ internal class Level : SampleLevel
         _createShot = new OverTimeInvoker(_baseCallTime, false);
         _createShot.Start();
         _createShot.Trigger += CreateShot;
+        DynamicScaler.Apply(Display.Scale);
     }
 
     public override void Update(GameTime gameTime)
@@ -93,20 +96,20 @@ internal class Level : SampleLevel
         base.Update(gameTime);
         var cursorPosition = Cursor.GetPosition();
         var velocity = _baseVelocity;
-        var calltime = _baseCallTime;
+        var callTime = _baseCallTime;
 
         if (_lastCursorPosision != cursorPosition)
         {
             velocity = _boostVelocity;
-            calltime = _boostCallTime;
+            callTime = _boostCallTime;
         }
 
-        _createShot.ForceChangeTime(calltime);
+        _createShot.ForceChangeTime(callTime);
         _createShot.Update(gameTime);
         (Vector2 direction, GlitchBlockCollection shot)[] shoots = _shots.ToArray();
         foreach (var shot in shoots)
         {
-            shot.shot.Move(shot.shot.GetPosition() + shot.direction * velocity);
+            shot.shot.Move(shot.shot.GetPosition() + shot.direction * velocity * Display.Scale);
             shot.shot.Update(gameTime);
             shot.shot.UpdateInteraction(gameTime, Cursor);
             if (!shot.shot.Rectangle.Intersects(Camera.Rectangle))
@@ -130,7 +133,7 @@ internal class Level : SampleLevel
 
     private void CreateShot()
     {
-        var shot = new GlitchBlockCollection(new Vector2(40, 16), 8);
+        var shot = new GlitchBlockCollection(new Vector2(40, 16) * Display.Scale, 8 * Display.Scale);
         shot.GetAnchor(_gun)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
