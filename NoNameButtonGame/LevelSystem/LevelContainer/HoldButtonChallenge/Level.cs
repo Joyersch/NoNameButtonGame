@@ -52,14 +52,17 @@ internal class Level : SampleLevel
         overTimeInvokeMovement.Trigger += TriggerMovement;
         AutoManaged.Add(overTimeInvokeMovement);
 
-        var baseSize = GlitchBlock.ImageSize * 10;
+        var baseSize = GlitchBlock.ImageSize * 10 * Display.Scale;
+        var baseSingleScale = 10F  * Display.Scale;
         var x = Camera.Rectangle.Size.X - baseSize.X;
         var y = Camera.Rectangle.Size.Y - baseSize.Y;
 
         #region Corners
 
-        var leftUpperCorner = new GlitchBlockCollection(baseSize, 10F);
+        var leftUpperCorner = new GlitchBlockCollection(baseSize, baseSingleScale);
         leftUpperCorner.InRectangle(Camera)
+            .OnX(0)
+            .OnY(0)
             .Apply();
         leftUpperCorner.Enter += Fail;
         AutoManaged.Add(leftUpperCorner);
@@ -70,23 +73,25 @@ internal class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.BottomRight)
             .Apply();
 
-        var bottomLeftCorner = new GlitchBlockCollection(baseSize, 10F);
+        var bottomLeftCorner = new GlitchBlockCollection(baseSize, baseSingleScale);
         bottomLeftCorner.InRectangle(Camera)
+            .OnX(0)
             .OnY(1F)
             .BySizeY(-1F)
             .Apply();
         bottomLeftCorner.Enter += Fail;
         AutoManaged.Add(bottomLeftCorner);
 
-        var topRightCorner = new GlitchBlockCollection(baseSize, 10F);
+        var topRightCorner = new GlitchBlockCollection(baseSize, baseSingleScale);
         topRightCorner.InRectangle(Camera)
             .OnX(1F)
+            .OnY(0)
             .BySizeX(-1F)
             .Apply();
         topRightCorner.Enter += Fail;
         AutoManaged.Add(topRightCorner);
 
-        var bottomRightCorner = new GlitchBlockCollection(baseSize, 10F);
+        var bottomRightCorner = new GlitchBlockCollection(baseSize, baseSingleScale);
         bottomRightCorner.InRectangle(Camera)
             .OnX(1F)
             .OnY(1F)
@@ -104,7 +109,7 @@ internal class Level : SampleLevel
         IMoveable lastWall = corner;
         for (int i = 0; i < 7; i++)
         {
-            var wall = new Row(available.Width, new Vector2(x, baseSize.Y), 10F, _random);
+            var wall = new Row(available.Width, new Vector2(x, baseSize.Y), baseSingleScale, _random);
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -119,7 +124,7 @@ internal class Level : SampleLevel
         lastWall = corner;
         for (int i = 0; i < 14; i++)
         {
-            var wall = new Column(available.Height, new Vector2(baseSize.X, y), 10F, _random);
+            var wall = new Column(available.Height, new Vector2(baseSize.X, y), baseSingleScale, _random);
             wall.GetAnchor(lastWall)
                 .SetMainAnchor(AnchorCalculator.Anchor.TopRight)
                 .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
@@ -146,7 +151,9 @@ internal class Level : SampleLevel
 
         var holdButton = new HoldButtonAddon(_button, 15000 + 5000 * cleanDifficulty);
         holdButton.Click += Finish;
+        holdButton.SetScale(Display.Scale);
         AutoManaged.Add(holdButton);
+        DynamicScaler.Apply(Display.Scale);
     }
 
     private void SetButton(Rectangle rectangle, IButton button, Random random)
