@@ -44,7 +44,7 @@ internal class Level : SampleLevel
 
         var flippedDifficulty = 3.5F - cleanDifficulty * 2F;
         float winCondition = 10 + 40 * cleanDifficulty;
-        float singleScale = 10F;
+        float singleScale = 10F * Display.Scale;
         float wallWidth = 3F;
 
         float moveTime = (664F * flippedDifficulty + 50F) / 5;
@@ -55,6 +55,8 @@ internal class Level : SampleLevel
         var size = new Vector2(GlitchBlock.ImageSize.X * (singleScale * wallWidth), oneGridLength + singleHeight);
         var left = new GlitchBlockCollection(size, singleScale);
         left.InRectangle(Camera)
+            .OnX(0)
+            .OnY(0)
             .Apply();
         left.Enter += Fail;
         AutoManaged.Add(left);
@@ -81,6 +83,7 @@ internal class Level : SampleLevel
         var right = new GlitchBlockCollection(size, singleScale);
         right.InRectangle(Camera)
             .OnX(1F)
+            .OnY(0F)
             .BySizeX(-1F)
             .Apply();
         right.Enter += Fail;
@@ -98,6 +101,8 @@ internal class Level : SampleLevel
         AutoManaged.Add(rightMover);
         if (difficulty > 1F)
             _checkOffscreen = true;
+
+        DynamicScaler.Apply(Display.Scale);
     }
 
     private void CreateRow(IMoveable anchor, Vector2 singleSize, float singleScale, Vector2 destination, float time,
