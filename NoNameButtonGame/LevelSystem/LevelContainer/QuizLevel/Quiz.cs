@@ -6,13 +6,14 @@ using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Hitboxes;
 using MonoUtils.Logic.Management;
+using MonoUtils.Ui;
 using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.QuizLevel;
 
-public class Quiz : IManageable, IInteractable
+public class Quiz : IManageable, IInteractable, IScaleable
 {
     private QuizQuestionsCollection _questions;
     public Rectangle Rectangle { get; private set; }
@@ -157,5 +158,15 @@ public class Quiz : IManageable, IInteractable
         _buttonOne.Text.ChangeText(CurrentAnswers[0].Answer);
         _buttonTwo.Text.ChangeText(CurrentAnswers[1].Answer);
         _buttonThree.Text.ChangeText(CurrentAnswers[2].Answer);
+    }
+
+    public float Scale { private set; get; }
+    public void SetScale(float scale)
+    {
+        Scale = scale;
+        _question.SetScale(scale);
+        _buttonOne.SetScale(scale);
+        _buttonTwo.SetScale(scale);
+        _buttonThree.SetScale(scale);
     }
 }
