@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoNameButtonGame", "NoNameB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoUtils", "..\MonoUtils\MonoUtils\MonoUtils.csproj", "{229FA925-A1AF-4F6E-B434-56C7D8A72EA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Joyersch.Monogame", "..\Joyersch.Monogame\Joyersch.Monogame\Joyersch.Monogame.csproj", "{C6BAA638-F98C-4275-A336-E7A6680C1D08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{229FA925-A1AF-4F6E-B434-56C7D8A72EA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{229FA925-A1AF-4F6E-B434-56C7D8A72EA0}.Release|x64.ActiveCfg = Release|Any CPU
 		{229FA925-A1AF-4F6E-B434-56C7D8A72EA0}.Release|x64.Build.0 = Release|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Debug|x64.Build.0 = Debug|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Release|x64.ActiveCfg = Release|Any CPU
+		{C6BAA638-F98C-4275-A336-E7A6680C1D08}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

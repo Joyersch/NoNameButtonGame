@@ -130,7 +130,6 @@ public class SampleLevel : ILevel
 
         MoveHelper.RotateTowards(_cursorIndicator[0], Cursor);
         _cursorIndicator[0].Rotation += (float)(Math.PI / 4F);
-        Log.Information(_cursorIndicator[0].Origin.ToString());
 
         var position = Cursor.GetPosition() + Cursor.GetSize() * 0.5F;
 

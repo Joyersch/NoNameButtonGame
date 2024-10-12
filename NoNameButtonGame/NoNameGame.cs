@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Joyersch.Monogame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -38,6 +39,9 @@ public sealed class NoNameGame : ExtentedGame
     private readonly EffectsRegistry _effectsRegistry;
     private bool _keyWasPressed;
 
+    private Titlecard _titlecard;
+    private bool _finishedTitleCard;
+
     public NoNameGame()
     {
         IsMouseVisible = false;
@@ -59,6 +63,8 @@ public sealed class NoNameGame : ExtentedGame
         base.Initialize();
 
         ApplySettings();
+
+
 
         // This is to apply new settings to fix some bugs while upgrading to a newer version of the game
         var savedVersion = SettingsAndSaveManager.GetSetting<VersionSettings>();
@@ -84,6 +90,12 @@ public sealed class NoNameGame : ExtentedGame
         // register context for console commands
         Console.Context.RegisterContext(nameof(LevelManager), _levelManager);
         Console.Context.RegisterContext(nameof(SettingsAndSaveManager), SettingsAndSaveManager);
+
+        _titlecard = new Titlecard(Scene);
+        _titlecard.FinishedScene += delegate
+        {
+            _finishedTitleCard = true;
+        };
     }
 
     private void ChangeTitle(string newName)
@@ -92,6 +104,7 @@ public sealed class NoNameGame : ExtentedGame
     protected override void LoadContent()
     {
         base.LoadContent();
+        Titlecard.LoadContent(Content);
 
         // Fonts
         CookieClickerFont.Texture = Content.GetTexture("Font/CookieClicker");
@@ -176,7 +189,7 @@ public sealed class NoNameGame : ExtentedGame
 
     private void RegisterToStation(string name)
         => _loopStation?.Register(Content.GetMusic(name), name);
-    
+
     private void RegisterEffect(string name)
         => _effectsRegistry?.Register(Content.GetSfx(name), name);
 
@@ -185,11 +198,18 @@ public sealed class NoNameGame : ExtentedGame
         if (IsActive)
         {
             Scene.Update(gameTime);
-            _levelManager.Update(gameTime);
+            if (!_finishedTitleCard)
+            {
+                _titlecard.Update(gameTime);
+            }
+            else
+                _levelManager.Update(gameTime);
             if (_showElapsedTime)
             {
                 _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
                 _elapsedTime.InRectangle(Scene.Display)
+                    .OnX(0)
+                    .OnY(0)
                     .ByGridY(1)
                     .BySizeY(-1F)
                     .Apply();
@@ -205,11 +225,14 @@ public sealed class NoNameGame : ExtentedGame
             _elapsedTime.Update(gameTime);
         }
 
-        var audio = SettingsAndSaveManager.GetSetting<AudioSettings>();
-        _loopStation.SetMasterVolume(audio.MusicVolume);
-        _effectsRegistry.SetMasterVolume(audio.SoundEffectVolume);
-        _effectsRegistry.Update(gameTime);
-        _loopStation.Update(gameTime);
+        if (_finishedTitleCard)
+        {
+            var audio = SettingsAndSaveManager.GetSetting<AudioSettings>();
+            _loopStation.SetMasterVolume(audio.MusicVolume);
+            _effectsRegistry.SetMasterVolume(audio.SoundEffectVolume);
+            _effectsRegistry.Update(gameTime);
+            _loopStation.Update(gameTime);
+        }
 
         base.Update(gameTime);
     }
@@ -218,7 +241,16 @@ public sealed class NoNameGame : ExtentedGame
     {
         base.Draw(gameTime);
 
-        _levelManager.Draw(GraphicsDevice, SpriteBatch);
+        if (!_finishedTitleCard)
+        {
+            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: Scene.Camera.CameraMatrix);
+            GraphicsDevice.Clear(new Color(50, 50, 50));
+            _titlecard.Draw(SpriteBatch);
+            SpriteBatch.End();
+        }
+        else
+            _levelManager.Draw(GraphicsDevice, SpriteBatch);
+
         DrawConsole();
         SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp);
         if (_showElapsedTime)
