@@ -29,7 +29,7 @@ using GeneralFont = NoNameButtonGame.LevelSystem.Font;
 
 namespace NoNameButtonGame;
 
-public sealed class NoNameGame : ExtentedGame
+public sealed class NoNameGame : ExtendedGame
 {
     private LevelManager _levelManager;
     private bool _showElapsedTime;
@@ -54,6 +54,7 @@ public sealed class NoNameGame : ExtentedGame
 
     protected override void Initialize()
     {
+        // Set default scale of all buttons and texts
         Text.DefaultLetterScale = 4F;
         DelayedText.DefaultScale = 4F;
         SquareTextButton.DefaultScale = 8F;
@@ -63,8 +64,6 @@ public sealed class NoNameGame : ExtentedGame
         base.Initialize();
 
         ApplySettings();
-
-
 
         // This is to apply new settings to fix some bugs while upgrading to a newer version of the game
         var savedVersion = SettingsAndSaveManager.GetSetting<VersionSettings>();
@@ -92,10 +91,7 @@ public sealed class NoNameGame : ExtentedGame
         Console.Context.RegisterContext(nameof(SettingsAndSaveManager), SettingsAndSaveManager);
 
         _titlecard = new Titlecard(Scene);
-        _titlecard.FinishedScene += delegate
-        {
-            _finishedTitleCard = true;
-        };
+        _titlecard.FinishedScene += delegate { _finishedTitleCard = true; };
     }
 
     private void ChangeTitle(string newName)
@@ -118,7 +114,6 @@ public sealed class NoNameGame : ExtentedGame
 
         // Settings
         Flag.Texture = Content.GetTexture("Flags");
-        Dot.Texture = Content.GetTexture("Dot");
 
         // Select
         SelectButton.Texture = Content.GetTexture("minibutton");
@@ -203,7 +198,13 @@ public sealed class NoNameGame : ExtentedGame
                 _titlecard.Update(gameTime);
             }
             else
-                _levelManager.Update(gameTime);
+            {
+                if (!ConsoleVisible)
+                {
+                    _levelManager.Update(gameTime);
+                }
+            }
+
             if (_showElapsedTime)
             {
                 _elapsedTime.ChangeText(gameTime.TotalGameTime.ToString());
@@ -243,7 +244,8 @@ public sealed class NoNameGame : ExtentedGame
 
         if (!_finishedTitleCard)
         {
-            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, transformMatrix: Scene.Camera.CameraMatrix);
+            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
+                transformMatrix: Scene.Camera.CameraMatrix);
             GraphicsDevice.Clear(new Color(50, 50, 50));
             _titlecard.Draw(SpriteBatch);
             SpriteBatch.End();
@@ -297,8 +299,7 @@ public sealed class NoNameGame : ExtentedGame
 
         Scene.Display.Update();
 
-        Console = new DevConsole(Global.CommandProcessor, Console.GetPosition(), Scene.Display.Scale,
-            Console);
+        Console = new DevConsole(Global.CommandProcessor, Scene, Console);
         Log.Out.UpdateReference(Console);
 
         _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.Scale / 2);

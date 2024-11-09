@@ -24,7 +24,7 @@ public class Level : SampleLevel
 {
     public event Action<LevelFactory.LevelType, int> OnLevelSelect;
 
-    private List<Dot> _levels;
+    private List<Blank> _levels;
 
     private List<ManagementCollection> _levelStats;
 
@@ -113,7 +113,7 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
         _titlePosition = positionCalculator;
 
-        _levels = new List<Dot>();
+        _levels = new List<Blank>();
         int maxLevel = progress.MaxLevel;
 
         void easyButtonClick()
@@ -128,7 +128,7 @@ public class Level : SampleLevel
 
         for (int i = 0; i < 10; i++)
         {
-            var dot = new Dot(Vector2.Zero, Vector2.One * 40F, (i + 1).ToString())
+            var dot = new Blank(Vector2.Zero, Vector2.One * 40F, (i + 1).ToString())
             {
                 Color = maxLevel > i ? Colors.Sidebar.Enabled : Colors.Sidebar.Disabled,
             };
@@ -148,7 +148,7 @@ public class Level : SampleLevel
             var mat = new MouseActionsMat(dot);
             mat.Click += delegate(object obj)
             {
-                var clicked = (Dot)obj;
+                var clicked = (Blank)obj;
                 if (clicked.Color == Colors.Sidebar.Disabled)
                     return;
 

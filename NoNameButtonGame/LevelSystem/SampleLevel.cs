@@ -167,7 +167,6 @@ public class SampleLevel : ILevel
         graphicsDevice.SetRenderTarget(null);
         graphicsDevice.Clear(new Color(50, 50, 50));
 
-
         spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp,
             transformMatrix: Camera.CameraMatrix);
 

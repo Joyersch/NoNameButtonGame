@@ -64,7 +64,7 @@ internal class LevelManager
     {
         _settingsAndSaveManager = settingsAndSaveManager;
         _game = game;
-        var videoSettings = _settingsAndSaveManager.GetSetting<Settings.VideoSettings>();
+
         _progress = _settingsAndSaveManager.GetSave<Progress>();
         _selectionProgress = _settingsAndSaveManager.GetSave<Selection.Progress.Save>();
         _levelId = _progress.MaxLevel + 1;

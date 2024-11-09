@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Logic;
 using MonoUtils.Logic.Management;
@@ -69,7 +70,7 @@ public class Level : SampleLevel
 
     private Button _saveButton;
     private Button _discardButton;
-    private Dot _highlight;
+    private Blank _highlight;
 
     private Button _deleteSave;
 
@@ -509,7 +510,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _highlight = new Dot(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
+        _highlight = new Blank(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
         {
             //DrawColor = new Color(32, 32, 32, 240)
         };
