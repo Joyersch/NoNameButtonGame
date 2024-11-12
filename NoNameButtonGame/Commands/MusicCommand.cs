@@ -8,6 +8,21 @@ namespace NoNameButtonGame.Commands;
 public sealed class MusicCommand : ICommand
 {
     [Command(Description = "Play specific music", Name = "music")]
+    [CommandOptions(Name = "default", Depth = 1)]
+    [CommandOptions(Name = "default2", Depth = 1)]
+    [CommandOptions(Name = "default3", Depth = 1)]
+    [CommandOptions(Name = "dnb", Depth = 1)]
+    [CommandOptions(Name = "dnb2", Depth = 1)]
+    [CommandOptions(Name = "dnb3", Depth = 1)]
+    [CommandOptions(Name = "dnb4", Depth = 1)]
+    [CommandOptions(Name = "lofi", Depth = 1)]
+    [CommandOptions(Name = "lofimuffled", Depth = 1)]
+    [CommandOptions(Name = "none", Depth = 1)]
+    [CommandOptions(Name = "memphis", Depth = 1)]
+    [CommandOptions(Name = "synthwave", Depth = 1)]
+    [CommandOptions(Name = "trap", Depth = 1)]
+    [CommandOptions(Name = "trap2", Depth = 1)]
+    [CommandOptions(Name = "trance", Depth = 1)]
     public IEnumerable<string> Execute(DevConsole caller, object[] options, ContextProvider context)
     {
         switch (options.Length)
