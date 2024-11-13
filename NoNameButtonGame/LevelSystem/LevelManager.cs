@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
 using MonoUtils.Logging;
 using MonoUtils.Settings;
 using MonoUtils.Sound;
@@ -47,7 +46,7 @@ internal class LevelManager
     private int _currentEndlessLevelId = -1;
     private bool _starting = true;
 
-    private enum LevelState
+    public enum LevelState
     {
         Menu,
         Settings,
@@ -151,9 +150,6 @@ internal class LevelManager
 
     public void Exit()
         => CloseGame?.Invoke();
-
-    public void SetAsLevelSelect()
-        => _levelState = LevelState.SelectLevel;
 
     public void ChangeLevel(int level, int difficulty)
         => ChangeLevel(LevelFactory.ParseLevelType(level), difficulty);
@@ -429,4 +425,13 @@ internal class LevelManager
 
     public SampleLevel GetCurrentLevel()
         => _currentLevel;
+
+    public LevelState GetCurrenState()
+        => _levelState;
+
+    public void SetLevelState(LevelState state)
+    {
+        _levelState = state;
+        ChangeLevel();
+    }
 }
