@@ -13,7 +13,7 @@ Create the following folder structure:
 ├── MonoUtils
 └── Joyersch.Monogame
 ```
-MonoUtils can be found here: https://github.com/Joyersch/MonoUtils
+MonoUtils can be found here: https://github.com/Joyersch/MonoUtils  
 Joyersch.Monogame can be found here: https://github.com/Joyersch/Joyersch.Monogame
 
 Please refrain from distributing this commercially.
