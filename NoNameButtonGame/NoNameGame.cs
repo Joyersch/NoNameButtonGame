@@ -91,7 +91,16 @@ public sealed class NoNameGame : ExtendedGame
         Console.Context.RegisterContext(nameof(SettingsAndSaveManager), SettingsAndSaveManager);
 
         _titlecard = new Titlecard(Scene);
-        _titlecard.FinishedScene += delegate { _finishedTitleCard = true; };
+        _titlecard.FinishedScene += delegate
+        {
+            _finishedTitleCard = true;
+            var save =SettingsAndSaveManager.GetSave<GlobalSave>();
+            save.WasLaunched = true;
+            SettingsAndSaveManager.SaveSave();
+        };
+
+        // Skip title card if the game was ever launched before
+        _finishedTitleCard = SettingsAndSaveManager.GetSave<GlobalSave>().WasLaunched;
     }
 
     private void ChangeTitle(string newName)
