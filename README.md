@@ -10,8 +10,10 @@ Create the following folder structure:
 ```
 .
 ├── NoNameButtonGame
-└── MonoUtils
+├── MonoUtils
+└── Joyersch.Monogame
 ```
 MonoUtils can be found here: https://github.com/Joyersch/MonoUtils
+Joyersch.Monogame can be found here: https://github.com/Joyersch/Joyersch.Monogame
 
 Please refrain from distributing this commercially.
