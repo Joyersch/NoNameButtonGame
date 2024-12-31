@@ -8,8 +8,13 @@
     <Authors>Joy Schnittker</Authors>
     <PackageProjectUrl>https://github.com/Joyersch/NoNameButtonGame</PackageProjectUrl>
     <AssemblyVersion>1.2.4</AssemblyVersion>
-    <FileVersion></FileVersion>
   </PropertyGroup>
+
+  <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
+    <Message Text="Restoring dotnet tools" Importance="High" />
+    <Exec Command="dotnet tool restore" />
+  </Target>
+
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
