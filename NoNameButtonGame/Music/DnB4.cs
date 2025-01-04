@@ -1,5 +1,5 @@
-﻿using MonoUtils.Logging;
-using MonoUtils.Sound;
+﻿using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Sound;
 
 namespace NoNameButtonGame.Music;
 

@@ -1,13 +1,10 @@
 using System;
 using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Management;
-using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -22,7 +19,7 @@ public class Quiz : IManageable, IInteractable, IScaleable
     private Button _buttonTwo;
     private Button _buttonThree;
 
-    private Text _question;
+    private BasicText _question;
 
     private int _questionsPointer;
 
@@ -44,7 +41,7 @@ public class Quiz : IManageable, IInteractable, IScaleable
         if (questions.Any(q => q.Answers.Length > 3))
             Log.Warning("A question has more answers that supported!");
 
-        _question = new Text(string.Empty, scale * Text.DefaultLetterScale);
+        _question = new BasicText(string.Empty, scale * BasicText.DefaultLetterScale);
         _question.InRectangle(this)
             .OnCenter()
             .OnY(3, 10)

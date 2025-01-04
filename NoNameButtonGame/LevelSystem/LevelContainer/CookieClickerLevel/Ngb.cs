@@ -1,10 +1,7 @@
 using System;
+using Joyersch.Monogame;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Helper;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Management;
-using MonoUtils.Ui;
 using NoNameButtonGame.Colors;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;

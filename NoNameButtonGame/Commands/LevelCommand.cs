@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MonoUtils.Console;
-using MonoUtils.Settings;
+using Joyersch.Monogame.Console;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
 using NoNameButtonGame.LevelSystem;
 using NoNameButtonGame.LevelSystem.Selection;
 

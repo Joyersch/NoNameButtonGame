@@ -1,16 +1,14 @@
 ﻿using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Helpers;
+using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Helper;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
@@ -36,7 +34,7 @@ internal class Level : SampleLevel
     private bool _startedInitialize;
     private readonly GlitchBlockCollection _initializer;
     private readonly OverTimeMover _initializerMover;
-    private readonly Text _initializerIndicator;
+    private readonly BasicText _initializerIndicator;
     private bool _initializerIsOffscreen;
     private bool _initializerWasOnScreen;
 
@@ -114,7 +112,7 @@ internal class Level : SampleLevel
             .OnCenter()
             .Centered());
 
-        _initializerIndicator = new Text("[arrow]");
+        _initializerIndicator = new BasicText("[arrow]");
         DynamicScaler.Register(_initializerIndicator);
         _initializerIndicator.ChangeColor(GlitchBlock.Color);
         MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);

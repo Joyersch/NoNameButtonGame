@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Joyersch.Monogame.Ui.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Ui.TextSystem;
 
 namespace NoNameButtonGame.LevelSystem;
 

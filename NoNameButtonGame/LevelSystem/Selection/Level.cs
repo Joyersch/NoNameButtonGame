@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Management;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.TextSystem;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.LevelSystem.Selection.Progress;
 using NoNameButtonGame.Music;
@@ -102,7 +96,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var name = new Text(textComponent.GetValue(showcase.Level.ToString()));
+        var name = new BasicText(textComponent.GetValue(showcase.Level.ToString()));
         AutoManaged.Add(name);
         DynamicScaler.Register(name);
 
@@ -352,7 +346,7 @@ public class Level : SampleLevel
                 throw new ArgumentOutOfRangeException();
         }
 
-        var completed = new Text(textComponent.GetValue("Completed"));
+        var completed = new BasicText(textComponent.GetValue("Completed"));
         AutoManaged.Add(completed);
         DynamicScaler.Register(completed);
 
@@ -366,7 +360,7 @@ public class Level : SampleLevel
         {
             var collection = new ManagementCollection();
 
-            var text = new Text(textComponent.GetValue("Easy"));
+            var text = new BasicText(textComponent.GetValue("Easy"));
             text.ChangeColor(selectProgress.Levels[i].BeatEasy ? Colors.Easy.Enabled : Colors.Easy.Disabled);
             collection.Add(text);
             DynamicScaler.Register(text);
@@ -383,7 +377,7 @@ public class Level : SampleLevel
                 continue;
             }
 
-            text = new Text(textComponent.GetValue("Medium"));
+            text = new BasicText(textComponent.GetValue("Medium"));
             text.ChangeColor(selectProgress.Levels[i].BeatMedium ? Colors.Medium.Enabled : Colors.Medium.Disabled);
             collection.Add(text);
             DynamicScaler.Register(text);
@@ -393,7 +387,7 @@ public class Level : SampleLevel
                 .Centered();
             CalculatorCollection.Register(positionCalculator);
 
-            text = new Text(textComponent.GetValue("Hard"));
+            text = new BasicText(textComponent.GetValue("Hard"));
             text.ChangeColor(selectProgress.Levels[i].BeatHard ? Colors.Hard.Enabled : Colors.Hard.Disabled);
             collection.Add(text);
             DynamicScaler.Register(text);
@@ -404,7 +398,7 @@ public class Level : SampleLevel
                 .Centered();
             CalculatorCollection.Register(positionCalculator);
 
-            text = new Text(textComponent.GetValue("Insane"));
+            text = new BasicText(textComponent.GetValue("Insane"));
             text.ChangeColor(selectProgress.Levels[i].BeatInsane ? Colors.Insane.Enabled : Colors.Insane.Disabled);
             collection.Add(text);
             DynamicScaler.Register(text);
@@ -415,7 +409,7 @@ public class Level : SampleLevel
                 .Centered();
             CalculatorCollection.Register(positionCalculator);
 
-            text = new Text(textComponent.GetValue("Extreme"));
+            text = new BasicText(textComponent.GetValue("Extreme"));
             text.ChangeColor(selectProgress.Levels[i].BeatExtreme ? Colors.Extreme.Enabled : Colors.Extreme.Disabled);
             collection.Add(text);
             DynamicScaler.Register(text);

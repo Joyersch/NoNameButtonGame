@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using MonoUtils.Console;
+using Joyersch.Monogame.Console;
+using Joyersch.Monogame.Ui;
 using NoNameButtonGame.LevelSystem;
 
 namespace NoNameButtonGame.Commands;

@@ -1,15 +1,11 @@
 using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui.Color;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using MonoUtils;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Color;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
@@ -28,7 +24,7 @@ public class Level : SampleLevel
 
         PositionCalculator positionCalculator = null;
 
-        Text pressToContinueLabel = new Text(textComponent.GetValue("PressToContinue"));
+        BasicText pressToContinueLabel = new BasicText(textComponent.GetValue("PressToContinue"));
         AutoManaged.Add(pressToContinueLabel);
         DynamicScaler.Register(pressToContinueLabel);
 
@@ -39,7 +35,7 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
 
-        Text levelFinishedLabel = new Text(textComponent.GetValue("LevelFinished"), 3F * Text.DefaultLetterScale);
+        BasicText levelFinishedLabel = new BasicText(textComponent.GetValue("LevelFinished"), 3F * BasicText.DefaultLetterScale);
         AutoManaged.Add(levelFinishedLabel);
         DynamicScaler.Register(levelFinishedLabel);
 

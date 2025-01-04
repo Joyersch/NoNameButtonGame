@@ -1,9 +1,9 @@
-﻿using MonoUtils.Ui.TextSystem;
+﻿using Joyersch.Monogame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
 
 public class Indicator
 {
-    public Text Text;
+    public BasicText Text;
     public bool CanDraw;
 }

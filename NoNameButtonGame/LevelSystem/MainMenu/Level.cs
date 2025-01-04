@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Linq;
-using System.Reflection;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Buttons.AddOn;
-using MonoUtils.Ui.Color;
-using MonoUtils.Ui.TextSystem;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons.AddOn;
+using Joyersch.Monogame.Ui.Color;
+using Joyersch.Monogame.Ui.Text;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Music;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
@@ -100,7 +96,7 @@ public class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft);
         CalculatorCollection.Register(anchorCalculator);
 
-        var header = new Text("NoNameButtonGame", Vector2.Zero, 10F, 1);
+        var header = new BasicText("NoNameButtonGame", Vector2.Zero, 10F, 1);
         AutoManaged.Add(header);
         DynamicScaler.Register(header);
 
@@ -110,7 +106,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var version = new Text(Statics.Version.ToString(), Vector2.Zero, 0.5F * Text.DefaultLetterScale);
+        var version = new BasicText(Statics.Version.ToString(), Vector2.Zero, 0.5F * BasicText.DefaultLetterScale);
         AutoManaged.Add(version);
         DynamicScaler.Register(version);
 
@@ -142,7 +138,7 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(color);
 
-            var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
+            var completion = new BasicText("[star]", 0.5F * BasicText.DefaultLetterScale);
             AutoManaged.Add(completion);
             ColorListener.Add(color, completion);
             DynamicScaler.Register(completion);
@@ -163,7 +159,7 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(color);
 
-            var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
+            var completion = new BasicText("[star]", 0.5F * BasicText.DefaultLetterScale);
             AutoManaged.Add(completion);
             DynamicScaler.Register(completion);
             ColorListener.Add(color, completion);
@@ -184,7 +180,7 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(color);
 
-            var completion = new Text("[star]", 0.5F * Text.DefaultLetterScale);
+            var completion = new BasicText("[star]", 0.5F * BasicText.DefaultLetterScale);
             AutoManaged.Add(completion);
             DynamicScaler.Register(completion);
             ColorListener.Add(color, completion);

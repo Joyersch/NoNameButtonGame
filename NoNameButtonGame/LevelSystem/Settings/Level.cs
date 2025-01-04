@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons;
+using Joyersch.Monogame.Ui.Buttons.AddOn;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Management;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.Buttons.AddOn;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Music;
 
@@ -44,15 +40,15 @@ public class Level : SampleLevel
     private Button _mouseButton;
     private Button _languageButton;
 
-    private Text _consoleEnabledLabel;
-    private Text _resolutionInfo;
-    private Text _fixedStepLabel;
-    private Text _elapsedTimeLabel;
-    private Text _musicVolumeLabel;
-    private Text _soundEffectVolumeLabel;
-    private Text _saveChangesLabel;
-    private Text _sensLabel;
-    private Text _fullscreenLabel;
+    private BasicText _consoleEnabledLabel;
+    private BasicText _resolutionInfo;
+    private BasicText _fixedStepLabel;
+    private BasicText _elapsedTimeLabel;
+    private BasicText _musicVolumeLabel;
+    private BasicText _soundEffectVolumeLabel;
+    private BasicText _saveChangesLabel;
+    private BasicText _sensLabel;
+    private BasicText _fullscreenLabel;
 
     private TextComponent _textComponent;
     private Checkbox _consoleEnabled;
@@ -187,7 +183,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _resolutionInfo = new Text(string.Empty);
+        _resolutionInfo = new BasicText(string.Empty);
         DynamicScaler.Register(_resolutionInfo);
         _videoCollection.Add(_resolutionInfo);
 
@@ -214,7 +210,7 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _fixedStepLabel = new Text(string.Empty);
+        _fixedStepLabel = new BasicText(string.Empty);
         DynamicScaler.Register(_fixedStepLabel);
         _videoCollection.Add(_fixedStepLabel);
         anchorCalculator = _fixedStepLabel.GetAnchor(_fixedStep)
@@ -240,7 +236,7 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _fullscreenLabel = new Text(string.Empty);
+        _fullscreenLabel = new BasicText(string.Empty);
         DynamicScaler.Register(_fullscreenLabel);
         _videoCollection.Add(_fullscreenLabel);
 
@@ -292,7 +288,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _musicVolumeLabel = new Text(string.Empty);
+        _musicVolumeLabel = new BasicText(string.Empty);
         _audioCollection.Add(_musicVolumeLabel);
         DynamicScaler.Register(_musicVolumeLabel);
 
@@ -320,7 +316,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _soundEffectVolumeLabel = new Text(string.Empty);
+        _soundEffectVolumeLabel = new BasicText(string.Empty);
         _audioCollection.Add(_soundEffectVolumeLabel);
         DynamicScaler.Register(_soundEffectVolumeLabel);
 
@@ -359,7 +355,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _sensLabel = new Text(string.Empty);
+        _sensLabel = new BasicText(string.Empty);
         _mouseCollection.Add(_sensLabel);
         DynamicScaler.Register(_sensLabel);
 
@@ -414,7 +410,7 @@ public class Level : SampleLevel
             .OnY(0.3F);
         CalculatorCollection.Register(positionCalculator);
 
-        _consoleEnabledLabel = new Text(string.Empty);
+        _consoleEnabledLabel = new BasicText(string.Empty);
         _advancedCollection.Add(_consoleEnabledLabel);
         DynamicScaler.Register(_consoleEnabledLabel);
         anchorCalculator = _consoleEnabledLabel.GetAnchor(_consoleEnabled)
@@ -440,7 +436,7 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _elapsedTimeLabel = new Text(string.Empty);
+        _elapsedTimeLabel = new BasicText(string.Empty);
         _advancedCollection.Add(_elapsedTimeLabel);
         DynamicScaler.Register(_elapsedTimeLabel);
 
@@ -482,7 +478,7 @@ public class Level : SampleLevel
 
         #region SaveSettings
 
-        _saveChangesLabel = new Text(string.Empty);
+        _saveChangesLabel = new BasicText(string.Empty);
         DynamicScaler.Register(_saveChangesLabel);
 
         positionCalculator = _saveChangesLabel.InRectangle(Camera)

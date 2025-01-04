@@ -1,14 +1,9 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui.Text;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.FallbackLevel;
@@ -34,7 +29,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(failButton);
 
 
-        var info = new Text(textComponent.GetValue("Text"));
+        var info = new BasicText(textComponent.GetValue("Text"));
         info.InRectangle(Camera)
             .OnCenter()
             .OnY(3, 10)

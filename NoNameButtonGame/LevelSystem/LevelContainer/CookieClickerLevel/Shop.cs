@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Management;
-using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
@@ -24,7 +21,7 @@ public class Shop : IManageable, IInteractable, IScaleable
     private readonly ShopOption _optionThree;
     private readonly ShopOption _optionFour;
 
-    private readonly Text _beanDisplay;
+    private readonly BasicText _beanDisplay;
 
     private readonly List<OverTimeInvoker> _autoClicker;
     private int _notStarted;
@@ -42,7 +39,7 @@ public class Shop : IManageable, IInteractable, IScaleable
 
     public event Action PurchasedAllOptions;
 
-    private readonly Text _infoDiplay;
+    private readonly BasicText _infoDiplay;
 
     private readonly string[] _infoDisplayText;
     private readonly string[] _shopOptionNames;
@@ -95,12 +92,12 @@ public class Shop : IManageable, IInteractable, IScaleable
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
 
-        _infoDiplay = new Text(string.Empty);
+        _infoDiplay = new BasicText(string.Empty);
         _infoDiplay.InRectangle(this).OnCenter().OnY(0.875F).BySize(-0.5F).Apply();
 
         UpdateIcon();
 
-        _beanDisplay = new Text(BeanDisplay);
+        _beanDisplay = new BasicText(BeanDisplay);
         _beanDisplay.InRectangle(this).OnCenter().OnY(0.12F).Centered().Apply();
     }
 

@@ -1,15 +1,11 @@
 using System;
 using System.Text.RegularExpressions;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.TextSystem;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Credits;
@@ -36,7 +32,7 @@ public class Level : SampleLevel
             .Split("\n");
 
         float pointer = Camera.Rectangle.Y;
-        Text newLine = null;
+        BasicText newLine = null;
         PositionCalculator positionCaluclator = null;
         foreach (string s in result)
         {

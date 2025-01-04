@@ -1,12 +1,10 @@
 using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.Music;
@@ -43,7 +41,7 @@ internal class Level : SampleLevel
         AutoManaged.Add(mover);
 
 
-        var text = new Text(textComponent.GetValue("Info1"));
+        var text = new BasicText(textComponent.GetValue("Info1"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -97,7 +95,7 @@ internal class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Info2"));
+        text = new BasicText(textComponent.GetValue("Info2"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -120,7 +118,7 @@ internal class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Info3"));
+        text = new BasicText(textComponent.GetValue("Info3"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -131,7 +129,7 @@ internal class Level : SampleLevel
             .ByGridX(2);
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Info4"));
+        text = new BasicText(textComponent.GetValue("Info4"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 

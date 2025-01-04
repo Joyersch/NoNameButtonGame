@@ -1,5 +1,5 @@
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Storage;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 

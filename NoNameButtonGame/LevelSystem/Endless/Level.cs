@@ -1,17 +1,11 @@
 ﻿using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.Endless;
@@ -33,7 +27,7 @@ public class Level : SampleLevel
         AnchorCalculator anchorCalculator = null;
         PositionCalculator positionCalculator = null;
 
-        var text = new Text(textComponent.GetValue("Header"), 3);
+        var text = new BasicText(textComponent.GetValue("Header"), 3);
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -43,7 +37,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Info1"));
+        text = new BasicText(textComponent.GetValue("Info1"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -53,7 +47,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Info2"));
+        text = new BasicText(textComponent.GetValue("Info2"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -63,7 +57,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(string.Format(textComponent.GetValue("Best"), progress.HighestLevel));
+        text = new BasicText(string.Format(textComponent.GetValue("Best"), progress.HighestLevel));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -127,7 +121,7 @@ public class Level : SampleLevel
 
         var challenges = saveManager.GetSave<Challenges>();
 
-        text = new Text(textComponent.GetValue("Challenges"));
+        text = new BasicText(textComponent.GetValue("Challenges"));
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
 
@@ -138,7 +132,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Beat10"));
+        text = new BasicText(textComponent.GetValue("Beat10"));
         text.ChangeColor(challenges.Score10 ? Color.White : Color.Gray);
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
@@ -150,7 +144,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Beat25"));
+        text = new BasicText(textComponent.GetValue("Beat25"));
         text.ChangeColor(challenges.Score25 ? Color.White : Color.Gray);
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
@@ -162,7 +156,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Beat50"));
+        text = new BasicText(textComponent.GetValue("Beat50"));
         text.ChangeColor(challenges.Score50 ? Color.White : Color.Gray);
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
@@ -174,7 +168,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Time1h"));
+        text = new BasicText(textComponent.GetValue("Time1h"));
         text.ChangeColor(challenges.Time1h ? Color.White : Color.Gray);
         AutoManaged.Add(text);
         DynamicScaler.Register(text);
@@ -186,7 +180,7 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new Text(textComponent.GetValue("Time30min"));
+        text = new BasicText(textComponent.GetValue("Time30min"));
         text.ChangeColor(challenges.Time30min ? Color.White : Color.Gray);
         AutoManaged.Add(text);
         DynamicScaler.Register(text);

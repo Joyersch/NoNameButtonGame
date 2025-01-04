@@ -1,5 +1,5 @@
-﻿using MonoUtils.Logging;
-using MonoUtils.Sound;
+﻿using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Sound;
 
 namespace NoNameButtonGame.Music;
 
@@ -19,6 +19,7 @@ public static class Default2
             Log.Warning("Music \"Default2\" not initialized!");
             return;
         }
+
         _station.ResetVolume();
         _station.SetVolume(Statics.Music.Melody.Main2, 1F);
     }

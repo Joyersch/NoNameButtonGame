@@ -1,24 +1,22 @@
 using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons;
+using Joyersch.Monogame.Ui.Buttons.AddOn;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.Buttons.AddOn;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 
 public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
 {
-    private Text _amountDisplay;
+    private BasicText _amountDisplay;
     private LockButtonAddon _button;
     private TextButton<SampleButton> _textButton;
     private MouseActionsMat _infoMat;
-    private Text _priceDisplay;
+    private BasicText _priceDisplay;
 
     private int _amount;
     private int _maxAmount;
@@ -74,10 +72,10 @@ public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
         _infoMat.Enter += _ => _isHover = true;
         _infoMat.Leave += _ => _isHover = false;
 
-        _amountDisplay = new Text($"{_amount:n0}/{_maxAmount:n0}");
+        _amountDisplay = new BasicText($"{_amount:n0}/{_maxAmount:n0}");
         _amountDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.3F).Apply();
 
-        _priceDisplay = new Text($"{_currentPrice:n0}{_icon}");
+        _priceDisplay = new BasicText($"{_currentPrice:n0}{_icon}");
         _priceDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.7F).Apply();
     }
 

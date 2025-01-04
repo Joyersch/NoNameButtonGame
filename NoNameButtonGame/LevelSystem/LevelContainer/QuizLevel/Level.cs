@@ -1,11 +1,7 @@
 using System;
-using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using NoNameButtonGame.LevelSystem.Settings;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.QuizLevel;

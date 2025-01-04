@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logging;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
 using NoNameButtonGame.LevelSystem.Endless;
 using NoNameButtonGame.LevelSystem.Selection;
 

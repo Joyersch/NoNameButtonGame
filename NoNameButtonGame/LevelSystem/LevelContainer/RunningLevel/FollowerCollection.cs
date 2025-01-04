@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Helpers;
+using Joyersch.Monogame.Listener;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Helper;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Listener;
-using MonoUtils.Logic.Management;
-using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Glitch;
 
@@ -152,7 +150,7 @@ public class FollowerCollection : IManageable, IInteractable, IScaleable
         block.Enter += delegate { Enter?.Invoke(); };
         _blocks.Add(block);
 
-        var text = new Text("[arrow]");
+        var text = new BasicText("[arrow]");
         text.SetScale(Scale);
         var letter = text.Letters[0];
         letter.Origin = new Vector2(4, 2);

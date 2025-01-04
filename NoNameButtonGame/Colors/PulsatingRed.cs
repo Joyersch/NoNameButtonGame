@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using Joyersch.Monogame.Ui.Color;
 using Microsoft.Xna.Framework;
-using MonoUtils.Ui.Color;
 
 namespace NoNameButtonGame.Colors;
 

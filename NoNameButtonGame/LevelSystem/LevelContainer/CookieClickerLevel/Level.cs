@@ -1,16 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons;
+using Joyersch.Monogame.Ui.Buttons.AddOn;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.Buttons.AddOn;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Music;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
@@ -27,7 +25,7 @@ public class Level : SampleLevel
     private OverTimeMover _overTimeMoverDistraction;
 
     private Shop _shop;
-    private Text _counter;
+    private BasicText _counter;
 
     private readonly Rectangle _originScreen;
 
@@ -35,7 +33,7 @@ public class Level : SampleLevel
     private bool _drawFinish;
     private bool _shopUnlocked;
 
-    private readonly Text _objectiveDisplay;
+    private readonly BasicText _objectiveDisplay;
     private readonly string _objectiveInfoText;
     private int _currentObjective;
 
@@ -210,7 +208,7 @@ public class Level : SampleLevel
         AutoManaged.Add(_shop);
         DynamicScaler.Register(_shop);
 
-        _counter = new Text(string.Empty);
+        _counter = new BasicText(string.Empty);
         AutoManaged.Add(_counter);
         DynamicScaler.Register(_counter);
 
@@ -221,7 +219,7 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
 
-        _objectiveDisplay = new Text(ObjectiveText, Display.Scale / 2 * Text.DefaultLetterScale);
+        _objectiveDisplay = new BasicText(ObjectiveText, Display.Scale / 2 * BasicText.DefaultLetterScale);
         AutoManagedStaticFront.Add(_objectiveDisplay);
         DynamicScaler.Register(_objectiveDisplay);
 

@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Ui.Buttons;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Management;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
@@ -24,7 +21,7 @@ public class SimonSays : IManageable, IInteractable, IScaleable
 
     private readonly SimonSaysButton[] _buttons = new SimonSaysButton[5];
     private readonly TextButton<SampleButton> _start;
-    private readonly Text _enteredSequenceDisplay;
+    private readonly BasicText _enteredSequenceDisplay;
     private readonly OverTimeInvoker _displaySequenceOverTimeInvoker;
     private SimonSequence _sequence;
     private SimonAction _state;
@@ -75,7 +72,7 @@ public class SimonSays : IManageable, IInteractable, IScaleable
             SimonSaysButton.Keys.F);
         _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed, effects,
             SimonSaysButton.Keys.G);
-        _enteredSequenceDisplay = new Text(string.Empty);
+        _enteredSequenceDisplay = new BasicText(string.Empty);
         _enteredSequenceDisplay.InRectangle(this)
             .OnCenter()
             .OnY(4, 5)

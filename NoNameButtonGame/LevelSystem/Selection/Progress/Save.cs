@@ -1,4 +1,4 @@
-using MonoUtils.Settings;
+using Joyersch.Monogame.Storage;
 
 namespace NoNameButtonGame.LevelSystem.Selection.Progress;
 

@@ -1,16 +1,12 @@
 ﻿using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons.AddOn;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Buttons.AddOn;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.TutorialLevel;
@@ -35,7 +31,7 @@ internal class Level : SampleLevel
 
         #region StartScreen
 
-        var keyInfo = new Text(textComponent.GetValue("KeyInfo"), 0.5F * Text.DefaultLetterScale);
+        var keyInfo = new BasicText(textComponent.GetValue("KeyInfo"), 0.5F * BasicText.DefaultLetterScale);
         AutoManaged.Add(keyInfo);
         DynamicScaler.Register(keyInfo);
 
@@ -56,7 +52,7 @@ internal class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var infoText = new Text(textComponent.GetValue("Info1"));
+        var infoText = new BasicText(textComponent.GetValue("Info1"));
         AutoManaged.Add(infoText);
         DynamicScaler.Register(infoText);
 
@@ -100,7 +96,7 @@ internal class Level : SampleLevel
             .ByGridY(1);
         CalculatorCollection.Register(positionCalculator);
 
-        var info1 = new Text(textComponent.GetValue("Info2"));
+        var info1 = new BasicText(textComponent.GetValue("Info2"));
         AutoManaged.Add(info1);
         DynamicScaler.Register(info1);
 
@@ -112,7 +108,7 @@ internal class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
 
-        var info2 = new Text(textComponent.GetValue("Info3"));
+        var info2 = new BasicText(textComponent.GetValue("Info3"));
         AutoManaged.Add(info2);
         DynamicScaler.Register(info2);
 
@@ -139,7 +135,7 @@ internal class Level : SampleLevel
             .ByGridY(2);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutCounterButton = new Text(textComponent.GetValue("Info4"));
+        var infoAboutCounterButton = new BasicText(textComponent.GetValue("Info4"));
         AutoManaged.Add(infoAboutCounterButton);
         DynamicScaler.Register(infoAboutCounterButton);
 
@@ -150,7 +146,7 @@ internal class Level : SampleLevel
             .ByGridY(2);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutCounterButton2 = new Text(textComponent.GetValue("Info5"));
+        var infoAboutCounterButton2 = new BasicText(textComponent.GetValue("Info5"));
         AutoManaged.Add(infoAboutCounterButton2);
         DynamicScaler.Register(infoAboutCounterButton2);
 
@@ -177,7 +173,7 @@ internal class Level : SampleLevel
             .ByGridY(3);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutButton = new Text(textComponent.GetValue("Info6"));
+        var infoAboutButton = new BasicText(textComponent.GetValue("Info6"));
         AutoManaged.Add(infoAboutButton);
         DynamicScaler.Register(infoAboutButton);
 
@@ -188,7 +184,7 @@ internal class Level : SampleLevel
             .ByGridY(3);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutButton2 = new Text(textComponent.GetValue("Info7"));
+        var infoAboutButton2 = new BasicText(textComponent.GetValue("Info7"));
         AutoManaged.Add(infoAboutButton2);
         DynamicScaler.Register(infoAboutButton2);
 

@@ -1,13 +1,9 @@
 using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Collision;
+using Joyersch.Monogame.Ui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Management;
-using MonoUtils.Logic.Text;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Color;
-using MonoUtils.Ui.Logic;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 

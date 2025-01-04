@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mime;
 using System.Reflection;
 using Joyersch.Monogame;
+using Joyersch.Monogame.Logging;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons;
+using Joyersch.Monogame.Ui.Text;
+using Joyersch.Monogame.Ui.Titlecard;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoUtils;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Console;
-using MonoUtils.Ui.Buttons;
-using MonoUtils.Ui.TextSystem;
-using NoNameButtonGame.GameObjects;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.LevelSystem;
@@ -33,7 +30,7 @@ public sealed class NoNameGame : ExtendedGame
 {
     private LevelManager _levelManager;
     private bool _showElapsedTime;
-    private Text _elapsedTime;
+    private BasicText _elapsedTime;
 
     private readonly LoopStation _loopStation;
     private readonly EffectsRegistry _effectsRegistry;
@@ -55,7 +52,7 @@ public sealed class NoNameGame : ExtendedGame
     protected override void Initialize()
     {
         // Set default scale of all buttons and texts
-        Text.DefaultLetterScale = 4F;
+        BasicText.DefaultLetterScale = 4F;
         DelayedText.DefaultScale = 4F;
         SquareTextButton.DefaultScale = 8F;
         SquareButton.DefaultScale = 8F;
@@ -74,7 +71,7 @@ public sealed class NoNameGame : ExtendedGame
             SettingsAndSaveManager.SaveSettings();
         }
 
-        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.Scale / 2);
+        _elapsedTime = new BasicText(string.Empty, 1.5F * BasicText.DefaultLetterScale * Scene.Display.Scale / 2);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
@@ -311,7 +308,7 @@ public sealed class NoNameGame : ExtendedGame
         Console = new DevConsole(Global.CommandProcessor, Scene, Console);
         Log.Out.UpdateReference(Console);
 
-        _elapsedTime = new Text(string.Empty, 1.5F * Text.DefaultLetterScale * Scene.Display.Scale / 2);
+        _elapsedTime = new BasicText(string.Empty, 1.5F * BasicText.DefaultLetterScale * Scene.Display.Scale / 2);
     }
 
     public void ShowElapsedTime(bool show)

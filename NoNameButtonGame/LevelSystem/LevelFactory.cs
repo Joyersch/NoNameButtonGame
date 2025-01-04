@@ -1,9 +1,7 @@
 using System;
-using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
 using Levels = NoNameButtonGame.LevelSystem.LevelContainer;
 
 namespace NoNameButtonGame.LevelSystem;

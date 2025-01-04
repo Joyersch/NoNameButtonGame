@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MonoUtils.Settings;
+using Joyersch.Monogame.Storage;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 
@@ -11,11 +11,11 @@ public class VideoSettings : ISettings
 
     public bool IsFullscreen { get; set; } = true;
 
-    public static List<Resolution> Resolutions = new List<Resolution>()
-    {
-        new Resolution(1280, 720),
-        new Resolution(1920, 1080),
-        new Resolution(2560, 1440),
-        new Resolution(3840, 2160),
-    };
+    public static List<Resolution> Resolutions =
+    [
+        new(1280, 720),
+        new(1920, 1080),
+        new(2560, 1440),
+        new(3840, 2160)
+    ];
 }

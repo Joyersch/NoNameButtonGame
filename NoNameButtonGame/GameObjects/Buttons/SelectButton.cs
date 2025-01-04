@@ -1,10 +1,10 @@
 ﻿using System;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Collision;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Buttons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils.Helper;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Ui.Logic;
-using MonoUtils.Ui.Buttons;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 

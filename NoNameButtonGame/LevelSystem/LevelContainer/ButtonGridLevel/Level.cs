@@ -1,17 +1,12 @@
 using System;
-using System.Linq;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
-using MonoUtils;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.ButtonGridLevel;
@@ -61,7 +56,7 @@ public class Level : SampleLevel
 
         // Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
 
-        var info = new Text(infoMessage);
+        var info = new BasicText(infoMessage);
         AutoManaged.Add(info);
         DynamicScaler.Register(info);
 

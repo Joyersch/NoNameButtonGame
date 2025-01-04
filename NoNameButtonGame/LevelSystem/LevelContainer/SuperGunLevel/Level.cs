@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Helpers;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui.Buttons.AddOn;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoUtils;
-using MonoUtils.Helper;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Text;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Buttons.AddOn;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
-using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SuperGunLevel;
@@ -30,7 +26,7 @@ internal class Level : SampleLevel
 
     private List<(Vector2 direction, GlitchBlockCollection shot)> _shots;
 
-    private Text _gun;
+    private BasicText _gun;
 
     public Level(Scene scene, Random random, EffectsRegistry effectsRegistry,
         SettingsAndSaveManager<string> settingsAndSaveManager, int difficulty = 1) : base(scene, random,
@@ -55,7 +51,7 @@ internal class Level : SampleLevel
 
         _shots = new List<(Vector2 direction, GlitchBlockCollection shot)>();
 
-        _gun = new Text(textComponent.GetValue("Gun"));
+        _gun = new BasicText(textComponent.GetValue("Gun"));
         _gun.SetScale(Display.Scale);
         _gun.InRectangle(Camera)
             .OnX(0.1F)

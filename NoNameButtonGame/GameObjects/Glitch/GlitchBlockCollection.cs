@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq;
-using MonoUtils.Helper;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Management;
-using MonoUtils.Ui;
-using MonoUtils.Ui.Color;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Ui;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseActions, IMoveable, IColorable,
+internal sealed class GlitchBlockCollection : IHitbox, IManageable, ILayerable, IMouseActions, IMoveable, IColorable,
     IInteractable
 {
     private Vector2 _position;

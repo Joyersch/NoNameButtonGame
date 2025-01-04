@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Joyersch.Monogame;
+using Joyersch.Monogame.Helpers;
+using Joyersch.Monogame.Listener;
+using Joyersch.Monogame.Sound;
+using Joyersch.Monogame.Storage;
+using Joyersch.Monogame.Ui;
+using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoUtils.Helper;
-using MonoUtils.Logging;
-using MonoUtils.Logic;
-using MonoUtils.Logic.Hitboxes;
-using MonoUtils.Logic.Listener;
-using MonoUtils.Logic.Management;
-using MonoUtils.Settings;
-using MonoUtils.Sound;
-using MonoUtils.Ui;
-using MonoUtils.Ui.TextSystem;
 using NoNameButtonGame.LevelSystem.Settings;
-using IUpdateable = MonoUtils.Logic.IUpdateable;
+using IDrawable = Joyersch.Monogame.IDrawable;
+using IUpdateable = Joyersch.Monogame.IUpdateable;
 
 namespace NoNameButtonGame.LevelSystem;
 
@@ -48,7 +46,7 @@ public class SampleLevel : ILevel
 
     private bool _canExit;
 
-    private Text _cursorIndicator;
+    private BasicText _cursorIndicator;
 
     protected SampleLevel(Scene scene, Random random, EffectsRegistry effectsRegistry,
         SettingsAndSaveManager<string> settingsAndSaveManager)
@@ -75,7 +73,7 @@ public class SampleLevel : ILevel
         };
         DynamicScaler.Register(Cursor);
 
-        _cursorIndicator = new Text("[arrow]");
+        _cursorIndicator = new BasicText("[arrow]");
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
         _cursorIndicator.SetScale(Display.Scale);
         _cursorIndicator[0].Origin = new Vector2(4, 2);
@@ -195,7 +193,7 @@ public class SampleLevel : ILevel
     {
         foreach (var obj in AutoManaged)
         {
-            if (obj is MonoUtils.Logic.IDrawable drawable &&
+            if (obj is IDrawable drawable &&
                 drawable.Rectangle.Intersects(Camera.Rectangle.ExtendFromCenter(1.5F)))
                 drawable.Draw(spriteBatch);
         }
