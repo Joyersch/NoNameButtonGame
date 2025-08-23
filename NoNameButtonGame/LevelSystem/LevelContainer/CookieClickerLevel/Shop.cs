@@ -159,12 +159,13 @@ public class Shop : IManageable, IInteractable, IScaleable
         }
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _optionOne.UpdateInteraction(gameTime, toCheck);
-        _optionTwo.UpdateInteraction(gameTime, toCheck);
-        _optionThree.UpdateInteraction(gameTime, toCheck);
-        _optionFour.UpdateInteraction(gameTime, toCheck);
+        bool interaction = false;
+        interaction |= _optionOne.UpdateInteraction(gameTime, toCheck);
+        interaction |= _optionTwo.UpdateInteraction(gameTime, toCheck);
+        interaction |= _optionThree.UpdateInteraction(gameTime, toCheck);
+        interaction |= _optionFour.UpdateInteraction(gameTime, toCheck);
 
         if (_optionOne.IsHoverOnButton())
             _infoDiplay.ChangeText(_infoDisplayText[0]);
@@ -176,6 +177,7 @@ public class Shop : IManageable, IInteractable, IScaleable
             _infoDiplay.ChangeText(_infoDisplayText[3]);
         else
             _infoDiplay.ChangeText(string.Empty);
+        return interaction;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -254,4 +256,6 @@ public class Shop : IManageable, IInteractable, IScaleable
         _beanDisplay.SetScale(scale);
         _infoDiplay.SetScale(scale);
     }
+
+    public Rectangle[] Hitbox => [];
 }

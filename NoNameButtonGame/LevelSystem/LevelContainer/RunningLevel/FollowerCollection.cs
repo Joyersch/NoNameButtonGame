@@ -115,12 +115,15 @@ public class FollowerCollection : IManageable, IInteractable, IScaleable
             Spawn();
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
+        bool interaction = false;
         foreach (var block in _blocks)
         {
-            block.UpdateInteraction(gameTime, toCheck);
+            interaction |= block.UpdateInteraction(gameTime, toCheck);
         }
+
+        return interaction;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -181,4 +184,6 @@ public class FollowerCollection : IManageable, IInteractable, IScaleable
         Scale = scale;
         // Theoretically,  all existing blocks would need to be adjusted. But I'm lazy (again)
     }
+
+    public Rectangle[] Hitbox => [];
 }

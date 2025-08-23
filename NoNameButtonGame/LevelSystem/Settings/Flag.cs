@@ -60,9 +60,9 @@ public class Flag : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IC
         _mouseActionsMat.Click += delegate { Click?.Invoke(this); };
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
+        return _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
     }
 
 

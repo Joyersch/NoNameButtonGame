@@ -90,12 +90,15 @@ internal sealed class GlitchBlockCollection : IHitbox, IManageable, ILayerable, 
         }
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        for (int i = 0; i < _glitchBlocksGrid.Count; i++)
+        var @return = false;
+        foreach (var t in _glitchBlocksGrid)
         {
-            _glitchBlocksGrid[i].UpdateInteraction(gameTime, toCheck);
+            @return |= t.UpdateInteraction(gameTime, toCheck);
         }
+
+        return @return;
     }
 
     public void Draw(SpriteBatch spriteBatch)

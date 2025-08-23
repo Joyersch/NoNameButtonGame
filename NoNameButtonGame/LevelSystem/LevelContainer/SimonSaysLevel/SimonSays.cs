@@ -220,11 +220,13 @@ public class SimonSays : IManageable, IInteractable, IScaleable
         _displaySequenceOverTimeInvoker.Update(gameTime);
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
+        bool interaction = false;
         foreach (var button in _buttons)
-            button.UpdateInteraction(gameTime, toCheck);
-        _start.UpdateInteraction(gameTime, toCheck);
+            interaction |= button.UpdateInteraction(gameTime, toCheck);
+        interaction |= _start.UpdateInteraction(gameTime, toCheck);
+        return interaction;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -237,6 +239,7 @@ public class SimonSays : IManageable, IInteractable, IScaleable
     }
 
     public float Scale { private set; get; }
+
     public void SetScale(float scale)
     {
         Scale = scale;
@@ -258,4 +261,6 @@ public class SimonSays : IManageable, IInteractable, IScaleable
         _start.SetScale(scale);
         _start.InRectangle(this).OnCenter().OnY(1, 3).Centered().Apply();
     }
+
+    public Rectangle[] Hitbox => [];
 }

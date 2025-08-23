@@ -134,11 +134,13 @@ public class Quiz : IManageable, IInteractable, IScaleable
         _buttonThree.Update(gameTime);
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _buttonOne.UpdateInteraction(gameTime, toCheck);
-        _buttonTwo.UpdateInteraction(gameTime, toCheck);
-        _buttonThree.UpdateInteraction(gameTime, toCheck);
+        bool interaction = false;
+        interaction |= _buttonOne.UpdateInteraction(gameTime, toCheck);
+        interaction |= _buttonTwo.UpdateInteraction(gameTime, toCheck);
+        interaction |= _buttonThree.UpdateInteraction(gameTime, toCheck);
+        return interaction;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -158,6 +160,7 @@ public class Quiz : IManageable, IInteractable, IScaleable
     }
 
     public float Scale { private set; get; }
+
     public void SetScale(float scale)
     {
         Scale = scale;
@@ -166,4 +169,6 @@ public class Quiz : IManageable, IInteractable, IScaleable
         _buttonTwo.SetScale(scale);
         _buttonThree.SetScale(scale);
     }
+
+    public Rectangle[] Hitbox => [];
 }

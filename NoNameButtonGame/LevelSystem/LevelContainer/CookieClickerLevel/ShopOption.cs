@@ -92,10 +92,12 @@ public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
             _currentPrice = 0;
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _button.UpdateInteraction(gameTime, toCheck);
-        _infoMat.UpdateInteraction(gameTime, toCheck);
+        bool @return = false;
+        @return |= _button.UpdateInteraction(gameTime, toCheck);
+        @return |= _infoMat.UpdateInteraction(gameTime, toCheck);
+        return @return;
     }
 
     public void Update(GameTime gameTime, long beanCount)
@@ -184,4 +186,6 @@ public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
             .OnY(0.7F)
             .Apply();
     }
+
+    public Rectangle[] Hitbox => [];
 }

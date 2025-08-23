@@ -79,9 +79,9 @@ internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILaye
         _animation.Update(gameTime);
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
+        return _mouseActionsMat.UpdateInteraction(gameTime, toCheck);
     }
 
     public virtual void Draw(SpriteBatch spriteBatch)

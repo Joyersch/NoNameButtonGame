@@ -68,10 +68,12 @@ public class Row : IManageable, IInteractable, IMoveable, IMouseActions, IPlayab
         _right.Draw(spriteBatch);
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _left.UpdateInteraction(gameTime, toCheck);
-        _right.UpdateInteraction(gameTime, toCheck);
+        bool interaction = false;
+        interaction |= _left.UpdateInteraction(gameTime, toCheck);
+        interaction |= _right.UpdateInteraction(gameTime, toCheck);
+        return interaction;
     }
 
     public Vector2 GetPosition()
@@ -104,19 +106,19 @@ public class Row : IManageable, IInteractable, IMoveable, IMouseActions, IPlayab
             case 0:
                 _leftMover.ChangeDestination(_rightPosition - new Vector2(_left.GetSize().X, 0));
                 _leftMover.ChangeMode(OverTimeMover.MoveMode.Sin);
-                _leftMover.ChangeTime(_time /  2.5F);
+                _leftMover.ChangeTime(_time / 2.5F);
                 _leftMover.ArrivedOnDestination += ResetPositions;
                 _leftMover.Start();
                 break;
             case 1:
                 _rightMover.ChangeDestination(_leftPosition + new Vector2(_right.GetSize().X, 0));
                 _rightMover.ChangeMode(OverTimeMover.MoveMode.Sin);
-                _rightMover.ChangeTime(_time /  2.5F);
+                _rightMover.ChangeTime(_time / 2.5F);
                 _rightMover.ArrivedOnDestination += ResetPositions;
                 _rightMover.Start();
                 break;
             case 2:
-                _leftMover.ChangeDestination(_rightPosition - new Vector2(_left.GetSize().X  * 1.5F, 0));
+                _leftMover.ChangeDestination(_rightPosition - new Vector2(_left.GetSize().X * 1.5F, 0));
                 _leftMover.ChangeMode(OverTimeMover.MoveMode.Sin);
                 _leftMover.ChangeTime(_time / 2);
                 _leftMover.ArrivedOnDestination += delegate
@@ -169,4 +171,6 @@ public class Row : IManageable, IInteractable, IMoveable, IMouseActions, IPlayab
         };
         _rightMover.Start();
     }
+
+    public Rectangle[] Hitbox => [];
 }

@@ -68,10 +68,12 @@ public class Column : IManageable, IInteractable, IMoveable, IMouseActions, IPla
         _down.Draw(spriteBatch);
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
-        _up.UpdateInteraction(gameTime, toCheck);
-        _down.UpdateInteraction(gameTime, toCheck);
+        bool interaction = false;
+        interaction |= _up.UpdateInteraction(gameTime, toCheck);
+        interaction |= _down.UpdateInteraction(gameTime, toCheck);
+        return interaction;
     }
 
     public Vector2 GetPosition()
@@ -111,7 +113,7 @@ public class Column : IManageable, IInteractable, IMoveable, IMouseActions, IPla
             case 1:
                 _downMover.ChangeDestination(_upPosition + new Vector2(0, _down.GetSize().Y));
                 _downMover.ChangeMode(OverTimeMover.MoveMode.Sin);
-                _downMover.ChangeTime(_time /  2.5F);
+                _downMover.ChangeTime(_time / 2.5F);
                 _downMover.ArrivedOnDestination += ResetPositions;
                 _downMover.Start();
                 break;
@@ -142,6 +144,7 @@ public class Column : IManageable, IInteractable, IMoveable, IMouseActions, IPla
                 break;
         }
     }
+
     private void ResetPositions()
     {
         _upArrived = false;
@@ -168,4 +171,6 @@ public class Column : IManageable, IInteractable, IMoveable, IMouseActions, IPla
                 _isPlaying = false;
         };
     }
+
+    public Rectangle[] Hitbox => [];
 }

@@ -55,13 +55,16 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
         }
     }
 
-    public void UpdateInteraction(GameTime gameTime, IHitbox toCheck)
+    public bool UpdateInteraction(GameTime gameTime, IHitbox toCheck)
     {
+        bool interaction = false;
         for (int i = 0; i < 10; i++)
         {
             if (i != _disabled)
-                _blocks[i].UpdateInteraction(gameTime, toCheck);
+                interaction |= _blocks[i].UpdateInteraction(gameTime, toCheck);
         }
+
+        return interaction;
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -90,4 +93,6 @@ public class Row : IMoveable, IManageable, IInteractable, IMouseActions
 
     public void SetPath(int id)
         => _disabled = id;
+
+    public Rectangle[] Hitbox => [];
 }

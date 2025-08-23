@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Joyersch.Monogame;
 using Joyersch.Monogame.Helpers;
 using Joyersch.Monogame.Listener;
+using Joyersch.Monogame.Logging;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
 using Joyersch.Monogame.Ui;
@@ -103,6 +104,7 @@ public class SampleLevel : ILevel
         RelativePositionListener.Update(gameTime);
         PositionListener.Update(gameTime);
         Cursor.Update(gameTime);
+        Log.Information(Cursor.GetPosition().ToString());
 
         var cameraPosition = Camera.Position;
         foreach (var obj in AutoManaged)
@@ -158,6 +160,7 @@ public class SampleLevel : ILevel
             _canExit = false;
             Exit();
         }
+        Log.Information(Cursor.GetPosition().ToString());
     }
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)
