@@ -525,16 +525,6 @@ public class Level : SampleLevel
                 OnFlagClick(f); // Calls ApplyText
         }
 
-        var x = new BasicText("Test");
-        x.Move(new Vector2(10, 10));
-        DynamicScaler.Register(x);
-        _videoCollection.Add(x);
-
-       x = new BasicText("Test2");
-        x.Move(new Vector2(10, 50));
-        DynamicScaler.Register(x);
-        _videoCollection.Add(x);
-
         DynamicScaler.Apply(Display.Scale);
         CalculatorCollection.Apply();
     }
