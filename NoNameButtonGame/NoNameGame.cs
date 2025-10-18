@@ -90,7 +90,7 @@ public sealed class NoNameGame : ExtendedGame
         };
 
         // Skip title card if the game was ever launched before
-        _finishedTitleCard = !SettingsAndSaveManager.GetSave<GlobalSave>().WasLaunched;
+        _finishedTitleCard = SettingsAndSaveManager.GetSave<GlobalSave>().WasLaunched;
         var scaleProvider = new ScaleProvider(Scene);
         _titlecard.SetScale(scaleProvider);
     }
