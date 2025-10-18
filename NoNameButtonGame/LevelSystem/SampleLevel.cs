@@ -29,6 +29,7 @@ public class SampleLevel : ILevel
     protected readonly MousePointer Mouse;
 
     private MouseSettings _mouseSettings;
+    private ScaleProvider _scaleProvider;
 
     protected readonly Display Display;
     public string Name;
@@ -37,12 +38,12 @@ public class SampleLevel : ILevel
     protected readonly PositionListener PositionListener;
     protected readonly RelativePositionListener RelativePositionListener;
     protected readonly ColorListener ColorListener;
-    protected readonly DynamicScaler DynamicScaler;
     protected readonly CalculatorCollection CalculatorCollection;
 
     protected readonly List<object> AutoManaged;
     protected readonly List<object> AutoManagedStaticFront;
     protected readonly List<object> AutoManagedStaticBack;
+    protected readonly List<IScaleable> AutoScale;
     protected Cursor Cursor;
 
     private bool _canExit;
@@ -59,25 +60,25 @@ public class SampleLevel : ILevel
         PositionListener = new PositionListener();
         RelativePositionListener = new RelativePositionListener();
         ColorListener = new ColorListener();
-        DynamicScaler = new DynamicScaler(Display);
         CalculatorCollection = new CalculatorCollection();
-
+        _scaleProvider = new ScaleProvider(scene);
+        
         _mouseSettings = settingsAndSaveManager.GetSetting<MouseSettings>();
 
         AutoManaged = [];
         AutoManagedStaticFront = [];
         AutoManagedStaticBack = [];
+        AutoScale = [];
 
         Cursor = new Cursor(2F)
         {
             Layer = 0
         };
-        DynamicScaler.Register(Cursor);
+        AutoScale.Add(Cursor);
 
-        _cursorIndicator = new BasicText("[arrow]");
+        _cursorIndicator = new BasicText("[arrow]", Vector2.Zero, 3f);
         _cursorIndicator.ChangeColor(Color.DeepSkyBlue);
-        _cursorIndicator.SetScale(Display.Scale);
-        _cursorIndicator[0].Origin = new Vector2(4, 2);
+        AutoScale.Add(_cursorIndicator);
 
         Camera = scene.Camera;
         // Set Camera to 0,0 as it is kept between levels
@@ -94,17 +95,29 @@ public class SampleLevel : ILevel
         {
             Camera.Calculate();
             CalculatorCollection.Apply();
+            Log.Warning("resizing");
+            
+            foreach (var scaleable in AutoScale)
+                scaleable.SetScale(_scaleProvider);
         };
+        SetScaleAndCalculatePositions();
+    }
+
+    public void SetScaleAndCalculatePositions()
+    {
+        foreach (var scaleable in AutoScale)
+            scaleable.SetScale(_scaleProvider);
+        CalculatorCollection.Apply();
     }
 
     public virtual void Update(GameTime gameTime)
     {
+        _cursorIndicator[0].Origin = new Vector2(8f, 0f);
         Mouse.Speed = _mouseSettings.Sensitivity;
         Mouse.Update(gameTime);
         RelativePositionListener.Update(gameTime);
         PositionListener.Update(gameTime);
         Cursor.Update(gameTime);
-        Log.Information(Cursor.GetPosition().ToString());
 
         var cameraPosition = Camera.Position;
         foreach (var obj in AutoManaged)
@@ -160,7 +173,6 @@ public class SampleLevel : ILevel
             _canExit = false;
             Exit();
         }
-        Log.Information(Cursor.GetPosition().ToString());
     }
 
     public void Draw(GraphicsDevice graphicsDevice, SpriteBatch spriteBatch)

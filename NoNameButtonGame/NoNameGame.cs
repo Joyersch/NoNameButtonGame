@@ -51,13 +51,6 @@ public sealed class NoNameGame : ExtendedGame
 
     protected override void Initialize()
     {
-        // Set default scale of all buttons and texts
-        BasicText.DefaultLetterScale = 4F;
-        DelayedText.DefaultScale = 4F;
-        SquareTextButton.DefaultScale = 8F;
-        SquareButton.DefaultScale = 8F;
-        Checkbox.DefaultScale = 8F;
-        SampleButton.DefaultScale = 8F;
         base.Initialize();
 
         ApplySettings();
@@ -71,7 +64,7 @@ public sealed class NoNameGame : ExtendedGame
             SettingsAndSaveManager.SaveSettings();
         }
 
-        _elapsedTime = new BasicText(string.Empty, 1.5F * BasicText.DefaultLetterScale * Scene.Display.Scale / 2);
+        _elapsedTime = new BasicText(string.Empty, 3f * Scene.Display.Scale / 2);
 
         // get seed from arguments if it is given
         var seedText = Args.FirstOrDefault(s => s.StartsWith("--seed="), "--seed=NULL")[7..];
@@ -91,13 +84,15 @@ public sealed class NoNameGame : ExtendedGame
         _titlecard.FinishedScene += delegate
         {
             _finishedTitleCard = true;
-            var save =SettingsAndSaveManager.GetSave<GlobalSave>();
+            var save = SettingsAndSaveManager.GetSave<GlobalSave>();
             save.WasLaunched = true;
             SettingsAndSaveManager.SaveSave();
         };
 
         // Skip title card if the game was ever launched before
-        _finishedTitleCard = SettingsAndSaveManager.GetSave<GlobalSave>().WasLaunched;
+        _finishedTitleCard = !SettingsAndSaveManager.GetSave<GlobalSave>().WasLaunched;
+        var scaleProvider = new ScaleProvider(Scene);
+        _titlecard.SetScale(scaleProvider);
     }
 
     private void ChangeTitle(string newName)
@@ -247,12 +242,12 @@ public sealed class NoNameGame : ExtendedGame
     protected override void Draw(GameTime gameTime)
     {
         base.Draw(gameTime);
-
+        
+        GraphicsDevice.Clear(new Color(50, 50, 50));
         if (!_finishedTitleCard)
         {
             SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp,
                 transformMatrix: Scene.Camera.CameraMatrix);
-            GraphicsDevice.Clear(new Color(50, 50, 50));
             _titlecard.Draw(SpriteBatch);
             SpriteBatch.End();
         }
@@ -308,11 +303,9 @@ public sealed class NoNameGame : ExtendedGame
         Console = new DevConsole(Global.CommandProcessor, Scene, Console);
         Log.Out.UpdateReference(Console);
 
-        _elapsedTime = new BasicText(string.Empty, 1.5F * BasicText.DefaultLetterScale * Scene.Display.Scale / 2);
+        _elapsedTime = new BasicText(string.Empty, 3f * Scene.Display.Scale / 2);
     }
 
     public void ShowElapsedTime(bool show)
-    {
-        _showElapsedTime = show;
-    }
+        => _showElapsedTime = show;
 }

@@ -31,9 +31,9 @@ internal class Level : SampleLevel
 
         #region StartScreen
 
-        var keyInfo = new BasicText(textComponent.GetValue("KeyInfo"), 0.5F * BasicText.DefaultLetterScale);
+        var keyInfo = new BasicText(textComponent.GetValue("KeyInfo"), 1f);
         AutoManaged.Add(keyInfo);
-        DynamicScaler.Register(keyInfo);
+        AutoScale.Add(keyInfo);
 
         positionCalculator = keyInfo.InRectangle(Camera)
             .OnX(0)
@@ -45,16 +45,16 @@ internal class Level : SampleLevel
         var startButton = new Button(textComponent.GetValue("Button1"));
         startButton.Click += MoveToNextScreen;
         AutoManaged.Add(startButton);
-        DynamicScaler.Register(startButton);
+        AutoScale.Add(startButton);
 
         positionCalculator = startButton.InRectangle(Camera)
             .OnCenter()
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var infoText = new BasicText(textComponent.GetValue("Info1"));
+        var infoText = new BasicText(textComponent.GetValue("Info1"), 2f);
         AutoManaged.Add(infoText);
-        DynamicScaler.Register(infoText);
+        AutoScale.Add(infoText);
 
         positionCalculator = infoText.InRectangle(Camera)
             .OnCenter()
@@ -74,7 +74,7 @@ internal class Level : SampleLevel
         var magicButton = new Button(textComponent.GetValue("Button2"));
         magicButton.Click += MagicButtonOnClick;
         AutoManaged.Add(magicButton);
-        DynamicScaler.Register(magicButton);
+        AutoScale.Add(magicButton);
 
         positionCalculator = magicButton.InRectangle(Camera)
             .OnCenter()
@@ -84,10 +84,10 @@ internal class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         var lockButton = new Button(textComponent.GetValue("ButtonSkip"));
-        _lockButtonAddon = new LockButtonAddon(lockButton);
+        _lockButtonAddon = new LockButtonAddon(lockButton, 3f);
         _lockButtonAddon.Click += delegate { MoveToNextScreen(_lockButtonAddon); };
         AutoManaged.Add(_lockButtonAddon);
-        DynamicScaler.Register(_lockButtonAddon);
+        AutoScale.Add(_lockButtonAddon);
 
         positionCalculator = _lockButtonAddon.InRectangle(Camera)
             .OnCenter()
@@ -96,9 +96,9 @@ internal class Level : SampleLevel
             .ByGridY(1);
         CalculatorCollection.Register(positionCalculator);
 
-        var info1 = new BasicText(textComponent.GetValue("Info2"));
+        var info1 = new BasicText(textComponent.GetValue("Info2"), 2f);
         AutoManaged.Add(info1);
-        DynamicScaler.Register(info1);
+        AutoScale.Add(info1);
 
         positionCalculator = info1.InRectangle(Camera)
             .OnCenter()
@@ -108,9 +108,9 @@ internal class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
 
-        var info2 = new BasicText(textComponent.GetValue("Info3"));
+        var info2 = new BasicText(textComponent.GetValue("Info3"), 2f);
         AutoManaged.Add(info2);
-        DynamicScaler.Register(info2);
+        AutoScale.Add(info2);
 
         positionCalculator = info2.InRectangle(Camera)
             .OnCenter()
@@ -124,10 +124,10 @@ internal class Level : SampleLevel
         #region CounterButtonScreen
 
         var counterButton = new Button(textComponent.GetValue("ButtonSkip"));
-        var counterButtonAddon = new CounterButtonAddon(counterButton, 5);
+        var counterButtonAddon = new CounterButtonAddon(counterButton, 5, 2f);
         counterButtonAddon.Click += delegate { MoveToNextScreen(counterButtonAddon); };
         AutoManaged.Add(counterButtonAddon);
-        DynamicScaler.Register(counterButtonAddon);
+        AutoScale.Add(counterButtonAddon);
 
         positionCalculator = counterButtonAddon.InRectangle(Camera)
             .OnCenter()
@@ -135,9 +135,9 @@ internal class Level : SampleLevel
             .ByGridY(2);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutCounterButton = new BasicText(textComponent.GetValue("Info4"));
+        var infoAboutCounterButton = new BasicText(textComponent.GetValue("Info4"), 2f);
         AutoManaged.Add(infoAboutCounterButton);
-        DynamicScaler.Register(infoAboutCounterButton);
+        AutoScale.Add(infoAboutCounterButton);
 
         positionCalculator = infoAboutCounterButton.InRectangle(Camera)
             .OnCenter()
@@ -146,9 +146,9 @@ internal class Level : SampleLevel
             .ByGridY(2);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutCounterButton2 = new BasicText(textComponent.GetValue("Info5"));
+        var infoAboutCounterButton2 = new BasicText(textComponent.GetValue("Info5"), 2f);
         AutoManaged.Add(infoAboutCounterButton2);
-        DynamicScaler.Register(infoAboutCounterButton2);
+        AutoScale.Add(infoAboutCounterButton2);
 
         positionCalculator = infoAboutCounterButton2.InRectangle(Camera)
             .OnCenter()
@@ -162,10 +162,10 @@ internal class Level : SampleLevel
         #region HoldButtonScreen
 
         var stateButton = new Button(textComponent.GetValue("ButtonFinish"));
-        var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F);
+        var holdButtonAddon = new HoldButtonAddon(stateButton, 3000F, 2f);
         holdButtonAddon.Click += Finish;
         AutoManaged.Add(holdButtonAddon);
-        DynamicScaler.Register(holdButtonAddon);
+        AutoScale.Add(holdButtonAddon);
 
         positionCalculator = holdButtonAddon.InRectangle(Camera)
             .OnCenter()
@@ -173,9 +173,9 @@ internal class Level : SampleLevel
             .ByGridY(3);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutButton = new BasicText(textComponent.GetValue("Info6"));
+        var infoAboutButton = new BasicText(textComponent.GetValue("Info6"), 2f);
         AutoManaged.Add(infoAboutButton);
-        DynamicScaler.Register(infoAboutButton);
+        AutoScale.Add(infoAboutButton);
 
         positionCalculator = infoAboutButton.InRectangle(Camera)
             .OnCenter()
@@ -184,9 +184,9 @@ internal class Level : SampleLevel
             .ByGridY(3);
         CalculatorCollection.Register(positionCalculator);
 
-        var infoAboutButton2 = new BasicText(textComponent.GetValue("Info7"));
+        var infoAboutButton2 = new BasicText(textComponent.GetValue("Info7"), 2f);
         AutoManaged.Add(infoAboutButton2);
-        DynamicScaler.Register(infoAboutButton2);
+        AutoScale.Add(infoAboutButton2);
 
         positionCalculator = infoAboutButton2.InRectangle(Camera)
             .OnCenter()
@@ -197,8 +197,7 @@ internal class Level : SampleLevel
 
         #endregion // HoldButtonScreen
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 
     private void MoveToNextScreen(object sender)

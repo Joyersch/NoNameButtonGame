@@ -32,13 +32,17 @@ public class FollowerCollection : IManageable, IInteractable, IScaleable
     private bool _blockOnScreen;
     private float _distance;
 
-    public float Scale { private set; get; }
+    public float Scale => _baseScale * _extendedScale;
 
-    public FollowerCollection(Cursor cursor, Camera camera, float spawnTime, float speed)
+    private readonly float _baseScale;
+    private float _extendedScale = 1f;
+
+    public FollowerCollection(Cursor cursor, Camera camera, float spawnTime, float speed, float scale)
     {
         _cursor = cursor;
         _camera = camera;
         _speed = speed;
+        _baseScale = scale;
         _blocks = new List<GlitchBlockCollection>();
         _indicator = new List<Indicator>();
         _invoker = new OverTimeInvoker(spawnTime, false);
@@ -153,8 +157,7 @@ public class FollowerCollection : IManageable, IInteractable, IScaleable
         block.Enter += delegate { Enter?.Invoke(); };
         _blocks.Add(block);
 
-        var text = new BasicText("[arrow]");
-        text.SetScale(Scale);
+        var text = new BasicText("[arrow]", Scale * 3f);
         var letter = text.Letters[0];
         letter.Origin = new Vector2(4, 2);
 
@@ -179,9 +182,10 @@ public class FollowerCollection : IManageable, IInteractable, IScaleable
         _invoker.Stop();
     }
 
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        Scale = scale;
+        _extendedScale = provider.Scale;
+        _distance = _camera.RealSize.Length() * 2 / 3;
         // Theoretically,  all existing blocks would need to be adjusted. But I'm lazy (again)
     }
 

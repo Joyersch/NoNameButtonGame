@@ -35,12 +35,14 @@ public sealed class SelectButton : IButton
 
     public static Texture2D Texture;
     private static readonly Vector2 ImageSize = new(16, 8);
+    
+    private static readonly float DefaultScale = 8f;
 
     public SelectButton() : this(Vector2.Zero)
     {
     }
 
-    public SelectButton(Vector2 position) : this(position, 8F)
+    public SelectButton(Vector2 position) : this(position, DefaultScale)
     {
     }
 
@@ -118,9 +120,9 @@ public sealed class SelectButton : IButton
     public Color[] GetColor()
         => [_color];
     
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        _extendedScale = scale;
+        _extendedScale = provider.Scale;
         _size = ImageSize * Scale;
         _drawingScale = Vector2.One * Scale;
         _rectangle = this.GetRectangle();

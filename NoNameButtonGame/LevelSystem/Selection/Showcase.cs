@@ -4,16 +4,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace NoNameButtonGame.LevelSystem.Selection;
 
-public class Showcase : IManageable, IMoveable
+public class Showcase : IManageable, IMoveable, IScaleable
 {
     private Vector2 _position;
-    private readonly float _scale;
+    public float Scale => _baseScale * _extendedScale;
+
+    private float _baseScale = 1f;
+    private float _extendedScale = 1f;
+    
 
     public static Texture2D[] Texture = new Texture2D[11];
     private static readonly Vector2 BaseSize = new(16, 9);
 
     public LevelFactory.LevelType Level { get; private set; }
-    public Rectangle Rectangle => new(_position.ToPoint(), (BaseSize * _scale).ToPoint());
+    public Rectangle Rectangle => new(_position.ToPoint(), (BaseSize * Scale).ToPoint());
 
     public Showcase(LevelFactory.LevelType level, float scale = 20F) : this(Vector2.Zero, level, scale)
     {
@@ -23,7 +27,7 @@ public class Showcase : IManageable, IMoveable
     {
         _position = position;
         Level = level;
-        _scale = scale;
+        _baseScale = scale;
     }
 
     public void Update(GameTime gameTime)
@@ -38,11 +42,16 @@ public class Showcase : IManageable, IMoveable
         => _position;
 
     public Vector2 GetSize()
-        => _scale * BaseSize;
+        => Scale * BaseSize;
 
     public void Move(Vector2 newPosition)
         => _position = newPosition;
 
     public void ChangeLevel(LevelFactory.LevelType type)
         => Level = type;
+    
+    public void SetScale(ScaleProvider provider)
+    {
+        _extendedScale = provider.Scale;
+    }
 }

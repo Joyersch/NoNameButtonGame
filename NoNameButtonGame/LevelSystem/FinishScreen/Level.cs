@@ -24,9 +24,9 @@ public class Level : SampleLevel
 
         PositionCalculator positionCalculator = null;
 
-        BasicText pressToContinueLabel = new BasicText(textComponent.GetValue("PressToContinue"));
+        BasicText pressToContinueLabel = new BasicText(textComponent.GetValue("PressToContinue"), 4f);
         AutoManaged.Add(pressToContinueLabel);
-        DynamicScaler.Register(pressToContinueLabel);
+        AutoScale.Add(pressToContinueLabel);
 
         positionCalculator = pressToContinueLabel.InRectangle(Camera)
             .OnCenter()
@@ -35,9 +35,9 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
 
-        BasicText levelFinishedLabel = new BasicText(textComponent.GetValue("LevelFinished"), 3F * BasicText.DefaultLetterScale);
+        BasicText levelFinishedLabel = new BasicText(textComponent.GetValue("LevelFinished"), 12f);
         AutoManaged.Add(levelFinishedLabel);
-        DynamicScaler.Register(levelFinishedLabel);
+        AutoScale.Add(levelFinishedLabel);
 
         positionCalculator = levelFinishedLabel.InRectangle(Camera)
             .OnCenter()
@@ -54,8 +54,7 @@ public class Level : SampleLevel
         ColorListener.Add(rainbowColor, levelFinishedLabel);
         AutoManaged.Add(rainbowColor);
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 
     public override void Update(GameTime gameTime)

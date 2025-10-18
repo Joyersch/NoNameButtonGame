@@ -20,8 +20,8 @@ public class Level : SampleLevel
     public event Action<object> EndlessClicked;
     public event Action<object> CreditsClicked;
 
-    public Level(Scene display, Random rand, Progress progress, EffectsRegistry effectsRegistry, int maxLevel,
-        bool panIn, SettingsAndSaveManager<string> settingsAndSaveManager) : base(display, rand, effectsRegistry,
+    public Level(Scene scene, Random rand, Progress progress, EffectsRegistry effectsRegistry, int maxLevel,
+        bool panIn, SettingsAndSaveManager<string> settingsAndSaveManager) : base(scene, rand, effectsRegistry,
         settingsAndSaveManager)
     {
         var textComponent = TextProvider.GetText("Levels.MainMenu");
@@ -35,12 +35,12 @@ public class Level : SampleLevel
         Camera.ZoomSpeed = 3000;
 
         var startButton = new Button(textComponent.GetValue("StartButton"));
-        var lockedStartButton = new LockButtonAddon(startButton);
+        var lockedStartButton = new LockButtonAddon(startButton, 3f);
         if (progress.MaxLevel < maxLevel)
             lockedStartButton.Unlock();
         lockedStartButton.Click += StartButtonPressed;
-        DynamicScaler.Register(lockedStartButton);
         AutoManaged.Add(lockedStartButton);
+        AutoScale.Add(lockedStartButton);
 
         positionCalculator = lockedStartButton.InRectangle(Camera)
             .OnX(0.125F)
@@ -49,11 +49,10 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         var selectLevelButton = new Button(textComponent.GetValue("SelectButton"));
-
         selectLevelButton.Click += SelectButtonPressed;
-        var selectLevelButtonLock = new LockButtonAddon(selectLevelButton);
-        DynamicScaler.Register(selectLevelButtonLock);
+        var selectLevelButtonLock = new LockButtonAddon(selectLevelButton, 3f);
         AutoManaged.Add(selectLevelButtonLock);
+        AutoScale.Add(selectLevelButtonLock);
         if (progress.MaxLevel > 0)
             selectLevelButtonLock.Unlock();
 
@@ -61,15 +60,14 @@ public class Level : SampleLevel
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft);
         CalculatorCollection.Register(anchorCalculator);
-
-
+        
         var endlessButton = new Button(textComponent.GetValue("EndlessButton"));
         endlessButton.Click += EndlessButtonPressed;
-        var endlessLockButton = new LockButtonAddon(endlessButton);
+        var endlessLockButton = new LockButtonAddon(endlessButton, 3f);
         if (progress.MaxLevel >= maxLevel)
             endlessLockButton.Unlock();
         AutoManaged.Add(endlessLockButton);
-        DynamicScaler.Register(endlessLockButton);
+        AutoScale.Add(endlessLockButton);
 
         anchorCalculator = endlessLockButton.GetAnchor(selectLevelButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -79,7 +77,7 @@ public class Level : SampleLevel
         var settingsButton = new Button(textComponent.GetValue("SettingsButton"));
         settingsButton.Click += SettingsButtonPressed;
         AutoManaged.Add(settingsButton);
-        DynamicScaler.Register(settingsButton);
+        AutoScale.Add(settingsButton);
 
         anchorCalculator = settingsButton.GetAnchor(endlessButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -89,7 +87,7 @@ public class Level : SampleLevel
         var exitButton = new Button(textComponent.GetValue("ExitButton"));
         exitButton.Click += ExitButtonPressed;
         AutoManaged.Add(exitButton);
-        DynamicScaler.Register(exitButton);
+        AutoScale.Add(exitButton);
 
         anchorCalculator = exitButton.GetAnchor(settingsButton)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -98,7 +96,7 @@ public class Level : SampleLevel
 
         var header = new BasicText("NoNameButtonGame", Vector2.Zero, 10F, 1);
         AutoManaged.Add(header);
-        DynamicScaler.Register(header);
+        AutoScale.Add(header);
 
         positionCalculator = header.InRectangle(Camera)
             .OnX(0.605F)
@@ -106,9 +104,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var version = new BasicText(Statics.Version.ToString(), Vector2.Zero, 0.5F * BasicText.DefaultLetterScale);
+        var version = new BasicText(Statics.Version.ToString(), Vector2.Zero, 2f);
         AutoManaged.Add(version);
-        DynamicScaler.Register(version);
+        AutoScale.Add(version);
 
         positionCalculator = version.InRectangle(Camera)
             .OnX(0.905F)
@@ -116,11 +114,11 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var credits = new ClickableText(textComponent.GetValue("CreditsText"), 2F);
+        var credits = new ClickableText(textComponent.GetValue("CreditsText"), 2f);
         credits.ChangeColor(ClickableText.LinkColor);
         credits.Click += CreditsLinkPressed;
         AutoManaged.Add(credits);
-        DynamicScaler.Register(credits);
+        AutoScale.Add(credits);
 
         anchorCalculator = credits.GetAnchor(header)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -138,10 +136,10 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(color);
 
-            var completion = new BasicText("[star]", 0.5F * BasicText.DefaultLetterScale);
+            var completion = new BasicText("[star]", 2f);
             AutoManaged.Add(completion);
+            AutoScale.Add(completion);
             ColorListener.Add(color, completion);
-            DynamicScaler.Register(completion);
 
             positionCalculator = completion.InRectangle(Camera)
                 .OnX(0.875F)
@@ -159,9 +157,9 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(color);
 
-            var completion = new BasicText("[star]", 0.5F * BasicText.DefaultLetterScale);
+            var completion = new BasicText("[star]", 2f);
             AutoManaged.Add(completion);
-            DynamicScaler.Register(completion);
+            AutoScale.Add(completion);
             ColorListener.Add(color, completion);
 
             positionCalculator = completion.InRectangle(Camera)
@@ -180,9 +178,9 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(color);
 
-            var completion = new BasicText("[star]", 0.5F * BasicText.DefaultLetterScale);
+            var completion = new BasicText("[star]", 2f);
+            AutoScale.Add(completion);
             AutoManaged.Add(completion);
-            DynamicScaler.Register(completion);
             ColorListener.Add(color, completion);
 
             positionCalculator = completion.InRectangle(Camera)
@@ -192,25 +190,24 @@ public class Level : SampleLevel
             CalculatorCollection.Register(positionCalculator);
         }
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
 
-        if (panIn)
-        {
-            Camera.InRectangle(Camera)
-                .OnCenter()
-                .ByGridY(1)
-                .Apply();
+        if (!panIn)
+            return;
+        
+        Camera.InRectangle(Camera)
+            .OnCenter()
+            .ByGridY(1)
+            .Apply();
 
-            Cursor.InRectangle(Camera)
-                .OnCenter()
-                .ByGridY(1)
-                .Apply();
+        Cursor.InRectangle(Camera)
+            .OnCenter()
+            .ByGridY(1)
+            .Apply();
 
-            var mover = new OverTimeMover(Camera, Vector2.Zero, 666F, OverTimeMover.MoveMode.Sin);
-            mover.Start();
-            AutoManaged.Add(mover);
-        }
+        var mover = new OverTimeMover(Camera, Vector2.Zero, 666F, OverTimeMover.MoveMode.Sin);
+        mover.Start();
+        AutoManaged.Add(mover);
     }
 
     private void StartButtonPressed(object sender)

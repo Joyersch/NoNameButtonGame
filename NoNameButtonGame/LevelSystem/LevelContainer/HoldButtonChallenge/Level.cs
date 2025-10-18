@@ -146,11 +146,12 @@ internal class Level : SampleLevel
             DnB4.Play();
         };
 
-        var holdButton = new HoldButtonAddon(_button, 15000 + 5000 * cleanDifficulty);
+        var holdButton = new HoldButtonAddon(_button, 15000 + 5000 * cleanDifficulty, 1.5f);
         holdButton.Click += Finish;
-        holdButton.SetScale(Display.Scale);
         AutoManaged.Add(holdButton);
-        DynamicScaler.Apply(Display.Scale);
+        AutoScale.Add(holdButton);
+        
+        SetScaleAndCalculatePositions();
     }
 
     private void SetButton(Rectangle rectangle, IButton button, Random random)

@@ -41,7 +41,7 @@ public class Quiz : IManageable, IInteractable, IScaleable
         if (questions.Any(q => q.Answers.Length > 3))
             Log.Warning("A question has more answers that supported!");
 
-        _question = new BasicText(string.Empty, scale * BasicText.DefaultLetterScale);
+        _question = new BasicText(string.Empty, scale * 2f);
         _question.InRectangle(this)
             .OnCenter()
             .OnY(3, 10)
@@ -161,13 +161,13 @@ public class Quiz : IManageable, IInteractable, IScaleable
 
     public float Scale { private set; get; }
 
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        Scale = scale;
-        _question.SetScale(scale);
-        _buttonOne.SetScale(scale);
-        _buttonTwo.SetScale(scale);
-        _buttonThree.SetScale(scale);
+        Scale = provider.Scale;
+        _question.SetScale(provider);
+        _buttonOne.SetScale(provider);
+        _buttonTwo.SetScale(provider);
+        _buttonThree.SetScale(provider);
     }
 
     public Rectangle[] Hitbox => [];

@@ -25,7 +25,7 @@ public class Level : SampleLevel
         quiz.Reset += Fail;
         quiz.Finish += Finish;
         AutoManaged.Add(quiz);
-        DynamicScaler.Register(quiz);
-        DynamicScaler.Apply(Display.Scale);
+        AutoScale.Add(quiz);
+        SetScaleAndCalculatePositions();
     }
 }

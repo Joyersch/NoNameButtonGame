@@ -51,14 +51,14 @@ internal class Level : SampleLevel
 
         _shots = new List<(Vector2 direction, GlitchBlockCollection shot)>();
 
-        _gun = new BasicText(textComponent.GetValue("Gun"));
-        _gun.SetScale(Display.Scale);
+        _gun = new BasicText(textComponent.GetValue("Gun"), 3f);
         _gun.InRectangle(Camera)
             .OnX(0.1F)
             .OnY(0.5F)
             .Centered()
             .Apply();
         AutoManaged.Add(_gun);
+        AutoScale.Add(_gun);
 
         var button = new Button(textComponent.GetValue("Finish"));
         button.InRectangle(Camera)
@@ -67,10 +67,10 @@ internal class Level : SampleLevel
             .Centered()
             .Apply();
 
-        var addon = new CounterButtonAddon(button, 6 + (int)Math.Floor(15 * cleanDifficulty));
+        var addon = new CounterButtonAddon(button, 6 + (int)Math.Floor(15 * cleanDifficulty), 2f);
         addon.Click += Finish;
-        addon.SetScale(Display.Scale);
         AutoManaged.Add(addon);
+        AutoScale.Add(addon);
 
         button.Click += delegate
         {
@@ -84,7 +84,7 @@ internal class Level : SampleLevel
         _createShot = new OverTimeInvoker(_baseCallTime, false);
         _createShot.Start();
         _createShot.Trigger += CreateShot;
-        DynamicScaler.Apply(Display.Scale);
+        SetScaleAndCalculatePositions();
     }
 
     public override void Update(GameTime gameTime)

@@ -41,9 +41,9 @@ internal class Level : SampleLevel
         AutoManaged.Add(mover);
 
 
-        var text = new BasicText(textComponent.GetValue("Info1"));
+        var text = new BasicText(textComponent.GetValue("Info1"), 4f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.625F)
@@ -55,7 +55,7 @@ internal class Level : SampleLevel
         var button = new Button(textComponent.GetValue("Understood"));
         button.Click += delegate { mover.Start(); };
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
+        AutoScale.Add(button);
 
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.625F)
@@ -86,7 +86,7 @@ internal class Level : SampleLevel
             mover.Start();
         };
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
+        AutoScale.Add(button);
 
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.85F)
@@ -95,9 +95,8 @@ internal class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Info2"));
+        text = new BasicText(textComponent.GetValue("Info2"), 4f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.35F)
@@ -109,7 +108,7 @@ internal class Level : SampleLevel
         button = new Button(textComponent.GetValue("Finish"));
         button.Click += Finish;
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
+        AutoScale.Add(button);
 
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.875F)
@@ -118,9 +117,9 @@ internal class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Info3"));
+        text = new BasicText(textComponent.GetValue("Info3"), 4f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.33F)
@@ -129,9 +128,9 @@ internal class Level : SampleLevel
             .ByGridX(2);
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Info4"));
+        text = new BasicText(textComponent.GetValue("Info4"), 4f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -165,8 +164,7 @@ internal class Level : SampleLevel
             .SetSubAnchor(AnchorCalculator.Anchor.BottomLeft);
         CalculatorCollection.Register(anchorCalculator);
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 
     private Vector2 RightOfCamera()

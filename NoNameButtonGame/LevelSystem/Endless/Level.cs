@@ -27,9 +27,9 @@ public class Level : SampleLevel
         AnchorCalculator anchorCalculator = null;
         PositionCalculator positionCalculator = null;
 
-        var text = new BasicText(textComponent.GetValue("Header"), 3);
+        var text = new BasicText(textComponent.GetValue("Header"), 6f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -37,9 +37,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Info1"));
+        text = new BasicText(textComponent.GetValue("Info1"), 3f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -47,9 +47,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Info2"));
+        text = new BasicText(textComponent.GetValue("Info2"), 3f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -57,9 +57,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(string.Format(textComponent.GetValue("Best"), progress.HighestLevel));
+        text = new BasicText(string.Format(textComponent.GetValue("Best"), progress.HighestLevel), 3f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -70,8 +70,8 @@ public class Level : SampleLevel
         var button = new Button(textComponent.GetValue("Start"));
         button.Click += _ => Selected?.Invoke();
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
-
+        AutoScale.Add(button);
+        
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.8F)
@@ -93,7 +93,7 @@ public class Level : SampleLevel
             mover.Start();
         };
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
+        AutoScale.Add(button);
 
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.9F)
@@ -110,7 +110,7 @@ public class Level : SampleLevel
             mover.Start();
         };
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
+        AutoScale.Add(button);
 
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.1F)
@@ -121,9 +121,9 @@ public class Level : SampleLevel
 
         var challenges = saveManager.GetSave<Challenges>();
 
-        text = new BasicText(textComponent.GetValue("Challenges"));
+        text = new BasicText(textComponent.GetValue("Challenges"), 3f);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -132,10 +132,10 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Beat10"));
+        text = new BasicText(textComponent.GetValue("Beat10"), 3f);
         text.ChangeColor(challenges.Score10 ? Color.White : Color.Gray);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -144,10 +144,10 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Beat25"));
+        text = new BasicText(textComponent.GetValue("Beat25"), 3f);
         text.ChangeColor(challenges.Score25 ? Color.White : Color.Gray);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -156,10 +156,10 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Beat50"));
+        text = new BasicText(textComponent.GetValue("Beat50"), 3f);
         text.ChangeColor(challenges.Score50 ? Color.White : Color.Gray);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -168,10 +168,10 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Time1h"));
+        text = new BasicText(textComponent.GetValue("Time1h"), 3f);
         text.ChangeColor(challenges.Time1h ? Color.White : Color.Gray);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -180,10 +180,10 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        text = new BasicText(textComponent.GetValue("Time30min"));
+        text = new BasicText(textComponent.GetValue("Time30min"), 3f);
         text.ChangeColor(challenges.Time30min ? Color.White : Color.Gray);
         AutoManaged.Add(text);
-        DynamicScaler.Register(text);
+        AutoScale.Add(text);
 
         positionCalculator = text.InRectangle(Camera)
             .OnX(0.5F)
@@ -192,7 +192,6 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 }

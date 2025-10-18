@@ -45,9 +45,10 @@ public class Level : SampleLevel
         var simon = new SimonSays(Camera.Rectangle, random, text, playLength, waitBetweenColors, buttonDisplaySpeed,
             effectsRegistry);
         simon.Finished += Finish;
-        DynamicScaler.Register(simon);
+        AutoScale.Add(simon);
 
         AutoManaged.Add(simon);
-        DynamicScaler.Apply(Display.Scale);
+        
+        SetScaleAndCalculatePositions();
     }
 }

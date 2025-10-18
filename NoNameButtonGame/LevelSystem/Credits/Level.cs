@@ -36,8 +36,7 @@ public class Level : SampleLevel
         PositionCalculator positionCaluclator = null;
         foreach (string s in result)
         {
-            newLine = TextNotationProcessor.Parse(s);
-            newLine.SetScale(Display.Scale);
+            newLine = TextNotationProcessor.Parse(s, 6f);
             AutoManaged.Add(newLine);
 
             newLine.InRectangle(Camera)
@@ -55,6 +54,5 @@ public class Level : SampleLevel
         mover.ArrivedOnDestination += Exit;
         mover.Start();
         AutoManaged.Add(mover);
-        DynamicScaler.Apply(Display.Scale);
     }
 }

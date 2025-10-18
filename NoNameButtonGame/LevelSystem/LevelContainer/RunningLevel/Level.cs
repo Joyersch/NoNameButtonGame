@@ -61,24 +61,24 @@ internal class Level : SampleLevel
 
         _anchorGrid = new CameraAnchorGrid(Camera, Cursor, 666F, OverTimeMover.MoveMode.Sin);
 
-        _timer = new Timer(Vector2.Zero, Display.Scale, 20000D + cleanDifficulty * 20000F,
+        _timer = new Timer(Vector2.Zero,2f, 20000D + cleanDifficulty * 20000F,
             textComponent.GetValue("FinishPrefix"));
         _timer.InRectangle(Display)
             .OnX(0.005F)
             .OnY(0.01F)
             .Apply();
         _timer.Trigger += Finish;
+        AutoScale.Add(_timer);
 
-        _followeres = new FollowerCollection(Cursor, Camera, 1000 * flippedDifficulty, 250F + 300F * cleanDifficulty);
+        _followeres = new FollowerCollection(Cursor, Camera, 1000 * flippedDifficulty, 250F + 300F * cleanDifficulty, scene.Display.Scale);
         _followeres.Enter += Fail;
         AutoManaged.Add(_followeres);
-        DynamicScaler.Register(_followeres);
 
-        _info = new DelayedText(textComponent.GetValue("StartMessage"), false)
+        _info = new DelayedText(textComponent.GetValue("StartMessage"), false, Vector2.Zero, 3f)
         {
             DisplayDelay = 50
         };
-        DynamicScaler.Register(_info);
+        AutoScale.Add(_info);
 
         var size = new Vector2(GlitchBlock.ImageSize.X * 16 * Display.Scale, Camera.RealSize.Y);
 
@@ -107,13 +107,13 @@ internal class Level : SampleLevel
             _initializerMover.Start();
             _startedInitialize = true;
         };
-        DynamicScaler.Register(_button);
+        AutoScale.Add(_button);
+        
         CalculatorCollection.Register(_button.InRectangle(Camera)
             .OnCenter()
             .Centered());
 
-        _initializerIndicator = new BasicText("[arrow]");
-        DynamicScaler.Register(_initializerIndicator);
+        _initializerIndicator = new BasicText("[arrow]", 3f);
         _initializerIndicator.ChangeColor(GlitchBlock.Color);
         MoveHelper.RotateTowards(_initializerIndicator.Letters[0], _initializer);
         _initializerIndicator.Letters[0].Rotation += (float)(Math.PI / 4F); // 45°
@@ -122,6 +122,8 @@ internal class Level : SampleLevel
             .OnX(0.33F)
             .Centered()
             .Apply();
+        
+        AutoScale.Add(_initializerIndicator);
 
         // Starts spam spawning blocks if the activated
         _idleSpawnerInvoker = new OverTimeInvoker(100F, false);
@@ -134,15 +136,17 @@ internal class Level : SampleLevel
         AutoManaged.Add(color);
 
         // activates idle spawner if 5 seconds pass
-        _idleTimer = new Timer(Vector2.Zero, Display.Scale, 5000F * flippedDifficulty,
+        _idleTimer = new Timer(Vector2.Zero, 2f, 5000F * flippedDifficulty,
             textComponent.GetValue("IdlePrefix"));
         _idleTimer.Start();
-        _idleTimer.GetAnchor(_timer)
+        AutoScale.Add(_idleTimer);
+
+        var calculator = _idleTimer.GetAnchor(_timer)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
             .SetSubAnchor(AnchorCalculator.Anchor.TopLeft)
-            .SetDistanceY(_idleTimer.GetSize().Y / 2)
-            .Apply();
-
+            .SetDistanceY(_idleTimer.GetSize().Y / 2);
+        CalculatorCollection.Register(calculator);
+        
         _idleTimer.Trigger += delegate
         {
             Log.Information("Idle check confirm");
@@ -186,8 +190,7 @@ internal class Level : SampleLevel
             else
                 _waitForInfo = true;
         };
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 
     public override void Update(GameTime gameTime)

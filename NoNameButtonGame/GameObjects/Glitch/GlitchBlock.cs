@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace NoNameButtonGame.GameObjects.Glitch;
 
-internal class GlitchBlock : IHitbox, IManageable, IMoveable, IRotateable, ILayerable, IColorable, IInteractable,
+internal class GlitchBlock : IManageable, IMoveable, IRotateable, ILayerable, IColorable, IInteractable,
     IMouseActions
 {
     private Vector2 _position;

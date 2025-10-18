@@ -88,17 +88,18 @@ public class Level : SampleLevel
         AnchorCalculator anchorCalculator = null;
         PositionCalculator positionCalculator = null;
 
-        var showcase = new Showcase(selectionState.Level, Display.Scale * 50F);
+        var showcase = new Showcase(selectionState.Level, 50F);
         AutoManaged.Add(showcase);
+        AutoScale.Add(showcase);
 
         positionCalculator = showcase.InRectangle(Camera)
             .OnCenter()
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        var name = new BasicText(textComponent.GetValue(showcase.Level.ToString()));
+        var name = new BasicText(textComponent.GetValue(showcase.Level.ToString()), 4f);
         AutoManaged.Add(name);
-        DynamicScaler.Register(name);
+        AutoScale.Add(name);
 
         positionCalculator = name.InRectangle(Camera)
             .OnCenter()
@@ -122,11 +123,10 @@ public class Level : SampleLevel
 
         for (int i = 0; i < 10; i++)
         {
-            var dot = new Blank(Vector2.Zero, Vector2.One * 40F, (i + 1).ToString())
+            var dot = new Blank(Vector2.Zero,  40F, (i + 1).ToString())
             {
                 Color = maxLevel > i ? Colors.Sidebar.Enabled : Colors.Sidebar.Disabled,
             };
-            DynamicScaler.Register(dot);
 
             if ((int)selectionState.Level == i + 1)
                 dot.Color = Colors.Sidebar.Selected;
@@ -162,6 +162,7 @@ public class Level : SampleLevel
             };
             AutoManaged.Add(mat);
             AutoManaged.Add(dot);
+            AutoScale.Add(dot);
         }
 
 
@@ -172,7 +173,7 @@ public class Level : SampleLevel
             OnLevelSelect?.Invoke(showcase.Level, ResolveDifficulty(selectionState.Difficulty));
         };
         AutoManaged.Add(button);
-        DynamicScaler.Register(button);
+        AutoScale.Add(button);
 
         positionCalculator = button.InRectangle(Camera)
             .OnX(0.9F)
@@ -199,7 +200,7 @@ public class Level : SampleLevel
             _titlePosition.Apply();
         };
         AutoManaged.Add(down);
-        DynamicScaler.Register(down);
+        AutoScale.Add(down);
 
         positionCalculator = down.InRectangle(Camera)
             .OnX(0.1F)
@@ -226,7 +227,7 @@ public class Level : SampleLevel
             _titlePosition.Apply();
         };
         AutoManaged.Add(up);
-        DynamicScaler.Register(up);
+        AutoScale.Add(up);
 
         positionCalculator = up.InRectangle(Camera)
             .OnX(0.1F)
@@ -236,7 +237,7 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         _easyButton = new Button(textComponent.GetValue("Easy"), 5F);
-        DynamicScaler.Register(_easyButton);
+        AutoScale.Add(_easyButton);
 
         positionCalculator = _easyButton.InRectangle(Camera)
             .OnX(0.25F)
@@ -245,8 +246,8 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         _mediumButton = new Button(textComponent.GetValue("Medium"), 5F);
-        DynamicScaler.Register(_mediumButton);
-
+        AutoScale.Add(_mediumButton);
+        
         positionCalculator = _mediumButton.InRectangle(Camera)
             .OnX(0.375F)
             .OnY(0.9F)
@@ -254,8 +255,8 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         _hardButton = new Button(textComponent.GetValue("Hard"), 5F);
-        DynamicScaler.Register(_hardButton);
-
+        AutoScale.Add(_hardButton);
+        
         positionCalculator = _hardButton.InRectangle(Camera)
             .OnX(0.5F)
             .OnY(0.9F)
@@ -263,8 +264,8 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         _insaneButton = new Button(textComponent.GetValue("Insane"), 5F);
-        DynamicScaler.Register(_insaneButton);
-
+        AutoScale.Add(_insaneButton);
+        
         positionCalculator = _insaneButton.InRectangle(Camera)
             .OnX(0.625F)
             .OnY(0.9F)
@@ -272,8 +273,8 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
         _extremeButton = new Button(textComponent.GetValue("Extreme"), 5F);
-        DynamicScaler.Register(_extremeButton);
-
+        AutoScale.Add(_extremeButton);
+        
         positionCalculator = _extremeButton.InRectangle(Camera)
             .OnX(0.75F)
             .OnY(0.9F)
@@ -346,9 +347,9 @@ public class Level : SampleLevel
                 throw new ArgumentOutOfRangeException();
         }
 
-        var completed = new BasicText(textComponent.GetValue("Completed"));
+        var completed = new BasicText(textComponent.GetValue("Completed"), 4f);
         AutoManaged.Add(completed);
-        DynamicScaler.Register(completed);
+        AutoScale.Add(completed);
 
         positionCalculator = completed.InRectangle(Camera)
             .OnX(0.9F)
@@ -360,10 +361,10 @@ public class Level : SampleLevel
         {
             var collection = new ManagementCollection();
 
-            var text = new BasicText(textComponent.GetValue("Easy"));
+            var text = new BasicText(textComponent.GetValue("Easy"), 3f);
             text.ChangeColor(selectProgress.Levels[i].BeatEasy ? Colors.Easy.Enabled : Colors.Easy.Disabled);
             collection.Add(text);
-            DynamicScaler.Register(text);
+            AutoScale.Add(text);
 
             positionCalculator = text.InRectangle(Camera)
                 .OnX(0.9F)
@@ -377,20 +378,21 @@ public class Level : SampleLevel
                 continue;
             }
 
-            text = new BasicText(textComponent.GetValue("Medium"));
+            text = new BasicText(textComponent.GetValue("Medium"), 3f);
             text.ChangeColor(selectProgress.Levels[i].BeatMedium ? Colors.Medium.Enabled : Colors.Medium.Disabled);
             collection.Add(text);
-            DynamicScaler.Register(text);
+            AutoScale.Add(text);
+            
             positionCalculator = text.InRectangle(Camera)
                 .OnX(0.9F)
                 .OnY(0.4F)
                 .Centered();
             CalculatorCollection.Register(positionCalculator);
 
-            text = new BasicText(textComponent.GetValue("Hard"));
+            text = new BasicText(textComponent.GetValue("Hard"), 3f);
             text.ChangeColor(selectProgress.Levels[i].BeatHard ? Colors.Hard.Enabled : Colors.Hard.Disabled);
             collection.Add(text);
-            DynamicScaler.Register(text);
+            AutoScale.Add(text);
 
             positionCalculator = text.InRectangle(Camera)
                 .OnX(0.9F)
@@ -398,10 +400,10 @@ public class Level : SampleLevel
                 .Centered();
             CalculatorCollection.Register(positionCalculator);
 
-            text = new BasicText(textComponent.GetValue("Insane"));
+            text = new BasicText(textComponent.GetValue("Insane"), 3f);
             text.ChangeColor(selectProgress.Levels[i].BeatInsane ? Colors.Insane.Enabled : Colors.Insane.Disabled);
             collection.Add(text);
-            DynamicScaler.Register(text);
+            AutoScale.Add(text);
 
             positionCalculator = text.InRectangle(Camera)
                 .OnX(0.9F)
@@ -409,10 +411,10 @@ public class Level : SampleLevel
                 .Centered();
             CalculatorCollection.Register(positionCalculator);
 
-            text = new BasicText(textComponent.GetValue("Extreme"));
+            text = new BasicText(textComponent.GetValue("Extreme"), 3f);
             text.ChangeColor(selectProgress.Levels[i].BeatExtreme ? Colors.Extreme.Enabled : Colors.Extreme.Disabled);
             collection.Add(text);
-            DynamicScaler.Register(text);
+            AutoScale.Add(text);
 
             positionCalculator = text.InRectangle(Camera)
                 .OnX(0.9F)
@@ -423,8 +425,7 @@ public class Level : SampleLevel
             _levelStats.Add(collection);
         }
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 
     public override void Update(GameTime gameTime)

@@ -81,9 +81,9 @@ public class Level : SampleLevel
 
         var shopButton = new Button(textComponent.GetValue("Shop"));
         shopButton.Click += ShopButtonClick;
-        var shopButton1 = new LockButtonAddon(shopButton);
+        var shopButton1 = new LockButtonAddon(shopButton, 3f);
         AutoManaged.Add(shopButton1);
-        DynamicScaler.Register(shopButton1);
+        AutoScale.Add(shopButton1);
 
         positionCalculator = shopButton1.InRectangle(Camera)
             .OnX(1F)
@@ -94,7 +94,7 @@ public class Level : SampleLevel
         var toMainButtonShop = new Button(textComponent.GetValue("Return"));
         toMainButtonShop.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonShop);
-        DynamicScaler.Register(toMainButtonShop);
+        AutoScale.Add(toMainButtonShop);
 
         positionCalculator = toMainButtonShop.InRectangle(Camera)
             .OnX(1F)
@@ -105,7 +105,7 @@ public class Level : SampleLevel
         var toMainButtonDistraction = new Button(textComponent.GetValue("Return"));
         toMainButtonDistraction.Click += ReturnButtonClick;
         AutoManaged.Add(toMainButtonDistraction);
-        DynamicScaler.Register(toMainButtonDistraction);
+        AutoScale.Add(toMainButtonDistraction);
 
         positionCalculator = toMainButtonDistraction.InRectangle(Camera)
             .OnX(0F)
@@ -115,9 +115,9 @@ public class Level : SampleLevel
 
         var toDistractionButtonShop = new Button(textComponent.GetValue("Distraction"));
         toDistractionButtonShop.Click += DistractionButtonClick;
-        var toDistractionLockShop = new LockButtonAddon(toDistractionButtonShop);
+        var toDistractionLockShop = new LockButtonAddon(toDistractionButtonShop, 3f);
         AutoManaged.Add(toDistractionLockShop);
-        DynamicScaler.Register(toDistractionLockShop);
+        AutoScale.Add(toDistractionLockShop);
 
         positionCalculator = toDistractionLockShop.InRectangle(Camera)
             .OnX(1F)
@@ -128,11 +128,11 @@ public class Level : SampleLevel
 
         var toShopButtonDistraction = new Button(textComponent.GetValue("Shop"));
         toShopButtonDistraction.Click += ShopButtonClick;
-        var toShopLockDistraction = new LockButtonAddon(toShopButtonDistraction);
+        var toShopLockDistraction = new LockButtonAddon(toShopButtonDistraction, 3f);
         AutoManaged.Add(toShopLockDistraction);
-        DynamicScaler.Register(toShopLockDistraction);
-
-        positionCalculator = toShopButtonDistraction.InRectangle(Camera)
+        AutoScale.Add(toShopLockDistraction);
+        
+        positionCalculator = toShopLockDistraction.InRectangle(Camera)
             .OnX(0F)
             .OnY(1F)
             .ByGridX(-1F)
@@ -143,7 +143,7 @@ public class Level : SampleLevel
 
         clickButton.Click += _ => _shop!.IncreaseBeanCount();
         AutoManaged.Add(clickButton);
-        DynamicScaler.Register(clickButton);
+        AutoScale.Add(clickButton);
 
         positionCalculator = clickButton.InRectangle(Camera)
             .OnCenter()
@@ -152,9 +152,9 @@ public class Level : SampleLevel
 
         var distractionButton = new Button(textComponent.GetValue("Distraction"));
         distractionButton.Click += DistractionButtonClick;
-        var distractionLockButton = new LockButtonAddon(distractionButton);
+        var distractionLockButton = new LockButtonAddon(distractionButton, 3f);
         AutoManaged.Add(distractionLockButton);
-        DynamicScaler.Register(distractionLockButton);
+        AutoScale.Add(distractionLockButton);
 
         positionCalculator = distractionLockButton.InRectangle(Camera)
             .OnX(0F)
@@ -164,7 +164,7 @@ public class Level : SampleLevel
 
         _finishButton = new Button(textComponent.GetValue("Finish"));
         _finishButton.Click += Finish;
-        DynamicScaler.Register(_finishButton);
+        AutoScale.Add(_finishButton);
 
         positionCalculator = _finishButton.InRectangle(Camera)
             .OnCenter()
@@ -206,11 +206,11 @@ public class Level : SampleLevel
         _shop.PurchasedAllOptions += EnableFinishButton;
 
         AutoManaged.Add(_shop);
-        DynamicScaler.Register(_shop);
+        AutoScale.Add(_shop);
 
-        _counter = new BasicText(string.Empty);
+        _counter = new BasicText(string.Empty, 3f);
         AutoManaged.Add(_counter);
-        DynamicScaler.Register(_counter);
+        AutoScale.Add(_counter);
 
         positionCalculator = _counter.InRectangle(Camera)
             .OnCenter()
@@ -219,9 +219,9 @@ public class Level : SampleLevel
         CalculatorCollection.Register(positionCalculator);
 
 
-        _objectiveDisplay = new BasicText(ObjectiveText, Display.Scale / 2 * BasicText.DefaultLetterScale);
+        _objectiveDisplay = new BasicText(ObjectiveText, 3f);
         AutoManagedStaticFront.Add(_objectiveDisplay);
-        DynamicScaler.Register(_objectiveDisplay);
+        AutoScale.Add(_objectiveDisplay);
 
         positionCalculator = _objectiveDisplay.InRectangle(Display)
             .OnX(0.01F)
@@ -230,10 +230,8 @@ public class Level : SampleLevel
 
         var nbg = new Nbg(new Rectangle((int)-oneScreen.X, 0, (int)oneScreen.X, (int)oneScreen.Y), random, 5F);
         AutoManaged.Add(nbg);
-        DynamicScaler.Register(nbg);
-
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        AutoScale.Add(nbg);
+        SetScaleAndCalculatePositions();
     }
 
     private void UnlockedShop()

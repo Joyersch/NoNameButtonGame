@@ -92,12 +92,12 @@ public class Shop : IManageable, IInteractable, IScaleable
         _optionFour.Purchased += DecreaseBeanCount;
         _optionFour.Purchased += OptionFourPurchased;
 
-        _infoDiplay = new BasicText(string.Empty);
+        _infoDiplay = new BasicText(string.Empty, 3f);
         _infoDiplay.InRectangle(this).OnCenter().OnY(0.875F).BySize(-0.5F).Apply();
 
         UpdateIcon();
 
-        _beanDisplay = new BasicText(BeanDisplay);
+        _beanDisplay = new BasicText(BeanDisplay, 3f);
         _beanDisplay.InRectangle(this).OnCenter().OnY(0.12F).Centered().Apply();
     }
 
@@ -245,16 +245,16 @@ public class Shop : IManageable, IInteractable, IScaleable
     }
 
     public float Scale { private set; get; }
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        Scale = scale;
+        Scale = provider.Scale;
 
-        _optionOne.SetScale(scale);
-        _optionTwo.SetScale(scale);
-        _optionThree.SetScale(scale);
-        _optionFour.SetScale(scale);
-        _beanDisplay.SetScale(scale);
-        _infoDiplay.SetScale(scale);
+        _optionOne.SetScale(provider);
+        _optionTwo.SetScale(provider);
+        _optionThree.SetScale(provider);
+        _optionFour.SetScale(provider);
+        _beanDisplay.SetScale(provider);
+        _infoDiplay.SetScale(provider);
     }
 
     public Rectangle[] Hitbox => [];

@@ -25,7 +25,6 @@ public class Level : SampleLevel
 
     public event Action OnSave;
     public event Action OnDiscard;
-
     public event Action OnNameChange;
 
     private ManagementCollection _advancedCollection;
@@ -111,7 +110,7 @@ public class Level : SampleLevel
 
         _videoButton = new Button(string.Empty);
         _videoButton.Click += _ => _menuState = MenuState.Video;
-        DynamicScaler.Register(_videoButton);
+        AutoScale.Add(_videoButton);
 
         positionCalculator = _videoButton.InRectangle(Camera)
             .OnY(0.1F)
@@ -121,7 +120,7 @@ public class Level : SampleLevel
 
         _audioButton = new Button(string.Empty);
         _audioButton.Click += _ => _menuState = MenuState.Audio;
-        DynamicScaler.Register(_audioButton);
+        AutoScale.Add(_audioButton);
 
         positionCalculator = _audioButton.InRectangle(Camera)
             .OnY(0.1F)
@@ -131,7 +130,7 @@ public class Level : SampleLevel
 
         _mouseButton = new Button(string.Empty);
         _mouseButton.Click += _ => _menuState = MenuState.Mouse;
-        DynamicScaler.Register(_mouseButton);
+        AutoScale.Add(_mouseButton);
 
         positionCalculator = _mouseButton.InRectangle(Camera)
             .OnY(0.1F)
@@ -141,7 +140,7 @@ public class Level : SampleLevel
 
         _languageButton = new Button(string.Empty);
         _languageButton.Click += _ => _menuState = MenuState.Language;
-        DynamicScaler.Register(_languageButton);
+        AutoScale.Add(_languageButton);
 
         positionCalculator = _languageButton.InRectangle(Camera)
             .OnY(0.1F)
@@ -151,7 +150,7 @@ public class Level : SampleLevel
 
         _advancedButton = new Button(string.Empty);
         _advancedButton.Click += _ => _menuState = MenuState.Advanced;
-        DynamicScaler.Register(_advancedButton);
+        AutoScale.Add(_advancedButton);
 
         positionCalculator = _advancedButton.InRectangle(Camera)
             .OnY(0.1F)
@@ -164,7 +163,7 @@ public class Level : SampleLevel
         var index = VideoSettings.Resolutions.IndexOf(VideoSettings.Resolutions.First(r =>
             r.Width == videoSettings.Resolution.Width));
 
-        _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1, VideoSettings.Resolutions, index);
+        _resolution = new ValueSelection<Resolution>(Vector2.Zero, 1.5f, VideoSettings.Resolutions, index);
         _resolution.ValueChanged += delegate(object o)
         {
             var resolution = (Resolution)o;
@@ -173,9 +172,10 @@ public class Level : SampleLevel
             Log.Information($"Changed resolution to: {resolution}");
             OnWindowResize?.Invoke(Window);
             game.ApplyResolution(resolution);
+            SetScaleAndCalculatePositions();
         };
         _videoCollection.Add(_resolution);
-        DynamicScaler.Register(_resolution);
+        AutoScale.Add(_resolution);
 
         positionCalculator = _resolution.InRectangle(Camera)
             .OnCenter()
@@ -183,9 +183,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _resolutionInfo = new BasicText(string.Empty);
-        DynamicScaler.Register(_resolutionInfo);
+        _resolutionInfo = new BasicText(string.Empty, 4f);
         _videoCollection.Add(_resolutionInfo);
+        AutoScale.Add(_resolutionInfo);
 
         anchorCalculator = _resolutionInfo.GetAnchor(_resolution)
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
@@ -194,14 +194,14 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _fixedStep = new Checkbox(videoSettings.IsFixedStep);
+        _fixedStep = new Checkbox(6f, 2f, videoSettings.IsFixedStep);
         _fixedStep.ValueChanged += delegate(bool value)
         {
             videoSettings.IsFixedStep = value;
             game.ApplyFixedStep(value);
         };
-        DynamicScaler.Register(_fixedStep);
         _videoCollection.Add(_fixedStep);
+        AutoScale.Add(_fixedStep);
 
         anchorCalculator = _fixedStep.GetAnchor(_resolution)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -210,9 +210,10 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _fixedStepLabel = new BasicText(string.Empty);
-        DynamicScaler.Register(_fixedStepLabel);
+        _fixedStepLabel = new BasicText(string.Empty, 3f);
         _videoCollection.Add(_fixedStepLabel);
+        AutoScale.Add(_fixedStepLabel);
+
         anchorCalculator = _fixedStepLabel.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
@@ -220,14 +221,14 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _fullscreen = new Checkbox(videoSettings.IsFullscreen);
+        _fullscreen = new Checkbox(6f, 2f, videoSettings.IsFullscreen);
         _fullscreen.ValueChanged += delegate(bool value)
         {
             videoSettings.IsFullscreen = value;
             game.ApplyFullscreen(value);
         };
-        DynamicScaler.Register(_fullscreen);
         _videoCollection.Add(_fullscreen);
+        AutoScale.Add(_fullscreen);
 
         anchorCalculator = _fullscreen.GetAnchor(_fixedStep)
             .SetMainAnchor(AnchorCalculator.Anchor.BottomLeft)
@@ -236,9 +237,9 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _fullscreenLabel = new BasicText(string.Empty);
-        DynamicScaler.Register(_fullscreenLabel);
+        _fullscreenLabel = new BasicText(string.Empty, 3f);
         _videoCollection.Add(_fullscreenLabel);
+        AutoScale.Add(_fullscreenLabel);
 
         anchorCalculator = _fullscreenLabel.GetAnchor(_fullscreen)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
@@ -273,14 +274,14 @@ public class Level : SampleLevel
 
         Volume currentVolume = volumeValues.First(i => i.Value == audioSettings.MusicVolume);
         _musicVolume =
-            new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
+            new ValueSelection<Volume>(Vector2.Zero, 1.5F, volumeValues, volumeValues.IndexOf(currentVolume));
         _musicVolume.ValueChanged += delegate(object o)
         {
             Volume v = (Volume)o;
             audioSettings.MusicVolume = v.Value;
         };
-        DynamicScaler.Register(_musicVolume);
         _audioCollection.Add(_musicVolume);
+        AutoScale.Add(_musicVolume);
 
         positionCalculator = _musicVolume.InRectangle(Camera)
             .OnCenter()
@@ -288,9 +289,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _musicVolumeLabel = new BasicText(string.Empty);
+        _musicVolumeLabel = new BasicText(string.Empty, 4f);
         _audioCollection.Add(_musicVolumeLabel);
-        DynamicScaler.Register(_musicVolumeLabel);
+        AutoScale.Add(_musicVolumeLabel);
 
         anchorCalculator = _musicVolumeLabel.GetAnchor(_musicVolume)
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
@@ -301,14 +302,14 @@ public class Level : SampleLevel
 
         currentVolume = volumeValues.First(i => i.Value == audioSettings.SoundEffectVolume);
         _soundEffectVolume =
-            new ValueSelection<Volume>(Vector2.Zero, 1F, volumeValues, volumeValues.IndexOf(currentVolume));
+            new ValueSelection<Volume>(Vector2.Zero, 1.5F, volumeValues, volumeValues.IndexOf(currentVolume));
         _soundEffectVolume.ValueChanged += delegate(object o)
         {
             Volume v = (Volume)o;
             audioSettings.SoundEffectVolume = v.Value;
         };
         _audioCollection.Add(_soundEffectVolume);
-        DynamicScaler.Register(_soundEffectVolume);
+        AutoScale.Add(_soundEffectVolume);
 
         positionCalculator = _soundEffectVolume.InRectangle(Camera)
             .OnCenter()
@@ -316,9 +317,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _soundEffectVolumeLabel = new BasicText(string.Empty);
+        _soundEffectVolumeLabel = new BasicText(string.Empty, 4f);
         _audioCollection.Add(_soundEffectVolumeLabel);
-        DynamicScaler.Register(_soundEffectVolumeLabel);
+        AutoScale.Add(_soundEffectVolumeLabel);
 
         anchorCalculator = _soundEffectVolumeLabel.GetAnchor(_soundEffectVolume)
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
@@ -344,10 +345,10 @@ public class Level : SampleLevel
             0.9F,
             1F
         ];
-        _sens = new ValueSelection<float>(Vector2.Zero, 1F, values, values.IndexOf(mouseSettings.Sensitivity));
+        _sens = new ValueSelection<float>(Vector2.Zero, 1.5F, values, values.IndexOf(mouseSettings.Sensitivity));
         _sens.ValueChanged += delegate(object o) { mouseSettings.Sensitivity = (float)o; };
         _mouseCollection.Add(_sens);
-        DynamicScaler.Register(_sens);
+        AutoScale.Add(_sens);
 
         positionCalculator = _sens.InRectangle(Camera)
             .OnCenter()
@@ -355,9 +356,9 @@ public class Level : SampleLevel
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _sensLabel = new BasicText(string.Empty);
+        _sensLabel = new BasicText(string.Empty, 3f);
         _mouseCollection.Add(_sensLabel);
-        DynamicScaler.Register(_sensLabel);
+        AutoScale.Add(_sensLabel);
 
         anchorCalculator = _sensLabel.GetAnchor(_sens)
             .SetMainAnchor(AnchorCalculator.Anchor.Top)
@@ -373,7 +374,7 @@ public class Level : SampleLevel
         Flag flag = new Flag(TextProvider.Language.en_GB, 5F);
         flag.Click += OnFlagClick;
         _languageCollection.Add(flag);
-        DynamicScaler.Register(flag);
+        AutoScale.Add(flag);
 
         positionCalculator = flag.InRectangle(Camera)
             .OnY(0.55F)
@@ -384,7 +385,7 @@ public class Level : SampleLevel
         flag = new Flag(TextProvider.Language.de_DE, 5F);
         flag.Click += OnFlagClick;
         _languageCollection.Add(flag);
-        DynamicScaler.Register(flag);
+        AutoScale.Add(flag);
 
         positionCalculator = flag.InRectangle(Camera)
             .OnY(0.55F)
@@ -396,23 +397,24 @@ public class Level : SampleLevel
 
         #region Advanced
 
-        _consoleEnabled = new Checkbox(advancedSettings.ConsoleEnabled);
+        _consoleEnabled = new Checkbox(6f, 2f, advancedSettings.ConsoleEnabled);
         _consoleEnabled.ValueChanged += delegate(bool value)
         {
             advancedSettings.ConsoleEnabled = value;
             game.ApplyConsole(value);
         };
         _advancedCollection.Add(_consoleEnabled);
-        DynamicScaler.Register(_consoleEnabled);
+        AutoScale.Add(_consoleEnabled);
 
         positionCalculator = _consoleEnabled.InRectangle(Camera)
             .OnX(1, 4)
             .OnY(0.3F);
         CalculatorCollection.Register(positionCalculator);
 
-        _consoleEnabledLabel = new BasicText(string.Empty);
+        _consoleEnabledLabel = new BasicText(string.Empty, 3f);
         _advancedCollection.Add(_consoleEnabledLabel);
-        DynamicScaler.Register(_consoleEnabledLabel);
+        AutoScale.Add(_consoleEnabledLabel);
+
         anchorCalculator = _consoleEnabledLabel.GetAnchor(_consoleEnabled)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
             .SetSubAnchor(AnchorCalculator.Anchor.Left)
@@ -420,14 +422,14 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _showElapsedTime = new Checkbox(advancedSettings.ShowElapsedTime);
+        _showElapsedTime = new Checkbox(6f, 2f, advancedSettings.ShowElapsedTime);
         _showElapsedTime.ValueChanged += (c) =>
         {
             advancedSettings.ShowElapsedTime = c;
             game.ShowElapsedTime(c);
         };
         _advancedCollection.Add(_showElapsedTime);
-        DynamicScaler.Register(_showElapsedTime);
+        AutoScale.Add(_showElapsedTime);
 
         anchorCalculator = _showElapsedTime.GetAnchor(_consoleEnabled)
             .SetMainAnchor(AnchorCalculator.Anchor.Bottom)
@@ -436,9 +438,9 @@ public class Level : SampleLevel
             .SetDistanceScale(Display);
         CalculatorCollection.Register(anchorCalculator);
 
-        _elapsedTimeLabel = new BasicText(string.Empty);
+        _elapsedTimeLabel = new BasicText(string.Empty, 3f);
         _advancedCollection.Add(_elapsedTimeLabel);
-        DynamicScaler.Register(_elapsedTimeLabel);
+        AutoScale.Add(_elapsedTimeLabel);
 
         anchorCalculator = _elapsedTimeLabel.GetAnchor(_showElapsedTime)
             .SetMainAnchor(AnchorCalculator.Anchor.Right)
@@ -448,14 +450,14 @@ public class Level : SampleLevel
         CalculatorCollection.Register(anchorCalculator);
 
         _deleteSave = new Button(string.Empty);
-        var deleteSaveHold = new HoldButtonAddon(_deleteSave, 5000F);
+        var deleteSaveHold = new HoldButtonAddon(_deleteSave, 5000F, 2f);
         deleteSaveHold.Click += delegate
         {
             settingsAndSave.DeleteSave();
             game.Exit();
         };
         _advancedCollection.Add(deleteSaveHold);
-        DynamicScaler.Register(deleteSaveHold);
+        AutoScale.Add(deleteSaveHold);
 
         positionCalculator = deleteSaveHold.InRectangle(Camera)
             .OnCenter()
@@ -478,8 +480,8 @@ public class Level : SampleLevel
 
         #region SaveSettings
 
-        _saveChangesLabel = new BasicText(string.Empty);
-        DynamicScaler.Register(_saveChangesLabel);
+        _saveChangesLabel = new BasicText(string.Empty, 4f);
+        AutoScale.Add(_saveChangesLabel);
 
         positionCalculator = _saveChangesLabel.InRectangle(Camera)
             .OnCenter()
@@ -489,7 +491,7 @@ public class Level : SampleLevel
 
         _saveButton = new Button(string.Empty);
         _saveButton.Click += delegate { OnSave?.Invoke(); };
-        DynamicScaler.Register(_saveButton);
+        AutoScale.Add(_saveButton);
 
         positionCalculator = _saveButton.InRectangle(Camera)
             .OnY(0.55F)
@@ -499,18 +501,19 @@ public class Level : SampleLevel
 
         _discardButton = new Button(string.Empty);
         _discardButton.Click += delegate { OnDiscard?.Invoke(); };
-        DynamicScaler.Register(_discardButton);
+        AutoScale.Add(_discardButton);
+
         positionCalculator = _discardButton.InRectangle(Camera)
             .OnY(0.55F)
             .OnX(0.64F)
             .Centered();
         CalculatorCollection.Register(positionCalculator);
 
-        _highlight = new Blank(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.ToVector2())
+        _highlight = new Blank(Camera.Rectangle.Location.ToVector2(), Camera.Rectangle.Size.X)
         {
             //DrawColor = new Color(32, 32, 32, 240)
         };
-        DynamicScaler.Register(_highlight);
+        AutoScale.Add(_highlight);
 
         positionCalculator = _highlight.InRectangle(Camera)
             .OnCenter()
@@ -525,8 +528,7 @@ public class Level : SampleLevel
                 OnFlagClick(f); // Calls ApplyText
         }
 
-        DynamicScaler.Apply(Display.Scale);
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 
     public override void Update(GameTime gameTime)
@@ -701,6 +703,6 @@ public class Level : SampleLevel
         _discardButton.Text.ChangeText(_textComponent.GetValue("Discard"));
         _discardButton.Text.ChangeColor(Color.Red);
 
-        CalculatorCollection.Apply();
+        SetScaleAndCalculatePositions();
     }
 }

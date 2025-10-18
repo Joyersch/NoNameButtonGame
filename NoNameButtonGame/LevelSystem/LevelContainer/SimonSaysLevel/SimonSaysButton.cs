@@ -4,6 +4,7 @@ using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Ui.Buttons;
 using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
+using NoNameButtonGame.GameObjects.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 
@@ -27,13 +28,13 @@ public class SimonSaysButton : TextButton<SampleButton>
         G
     }
 
-    public SimonSaysButton(Color color, Color highlight, float time, EffectsRegistry effects, Keys key) : this(Vector2.Zero, "[block]", 1F, color,
-        highlight, time, effects, key)
+    public SimonSaysButton(Color color, Color highlight, float time, EffectsRegistry effects, Keys key) : this(
+        "[block]", color, highlight, time, effects, key)
     {
     }
 
-    public SimonSaysButton(Vector2 position, string text, float scale, Color color, Color highlight, float time, EffectsRegistry effects, Keys key) : base(
-        text, scale, new SampleButton(position))
+    public SimonSaysButton(string text, Color color, Color highlight, float time, EffectsRegistry effects,
+        Keys key) : base(text, 2f, new SampleButton(Vector2.Zero, 8f))
     {
         _color = color;
         _hightlight = highlight;

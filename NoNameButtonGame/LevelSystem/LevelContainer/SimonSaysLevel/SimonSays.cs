@@ -72,7 +72,7 @@ public class SimonSays : IManageable, IInteractable, IScaleable
             SimonSaysButton.Keys.F);
         _buttons[4] = new SimonSaysButton(SimonColors.DarkPurple, SimonColors.LightPurple, buttonDisplaySpeed, effects,
             SimonSaysButton.Keys.G);
-        _enteredSequenceDisplay = new BasicText(string.Empty);
+        _enteredSequenceDisplay = new BasicText(string.Empty, 3f);
         _enteredSequenceDisplay.InRectangle(this)
             .OnCenter()
             .OnY(4, 5)
@@ -240,26 +240,34 @@ public class SimonSays : IManageable, IInteractable, IScaleable
 
     public float Scale { private set; get; }
 
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        Scale = scale;
+        Scale = provider.Scale;
 
         int i = 0;
         foreach (var button in _buttons)
         {
-            button.SetScale(scale);
-            button.InRectangle(this).OnCenter().OnX(i++ * 0.2F + 0.1F).Centered().Apply();
+            button.SetScale(provider);
+            button.InRectangle(this)
+                .OnCenter()
+                .OnX(i++ * 0.2F + 0.1F)
+                .Centered()
+                .Apply();
         }
 
-        _enteredSequenceDisplay.SetScale(scale);
+        _enteredSequenceDisplay.SetScale(provider);
         _enteredSequenceDisplay.InRectangle(this)
             .OnCenter()
             .OnY(4, 5)
             .Centered()
             .Apply();
 
-        _start.SetScale(scale);
-        _start.InRectangle(this).OnCenter().OnY(1, 3).Centered().Apply();
+        _start.SetScale(provider);
+        _start.InRectangle(this)
+            .OnCenter()
+            .OnY(1, 3)
+            .Centered()
+            .Apply();
     }
 
     public Rectangle[] Hitbox => [];

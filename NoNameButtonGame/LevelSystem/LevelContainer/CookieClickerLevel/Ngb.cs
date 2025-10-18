@@ -147,9 +147,9 @@ public class Nbg : IManageable, IMoveable, ILayerable, IScaleable
         _rectangle = this.GetRectangle();
     }
     
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        _extendedScale = scale;
+        _extendedScale = provider.Scale;
         _size =  baseSize * Scale;
         _rectangle = this.GetRectangle();
     }

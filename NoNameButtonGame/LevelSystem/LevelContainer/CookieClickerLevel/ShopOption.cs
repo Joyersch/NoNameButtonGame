@@ -61,7 +61,7 @@ public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
 
         _textButton = new Button(text);
 
-        _button = new LockButtonAddon(_textButton);
+        _button = new LockButtonAddon(_textButton, 3f);
         _size = new Vector2(_button.GetSize().X, sizeY);
         _button.InRectangle(this).OnCenter().BySize(-0.5F).Apply();
         _button.Click += ButtonClick;
@@ -72,10 +72,10 @@ public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
         _infoMat.Enter += _ => _isHover = true;
         _infoMat.Leave += _ => _isHover = false;
 
-        _amountDisplay = new BasicText($"{_amount:n0}/{_maxAmount:n0}");
+        _amountDisplay = new BasicText($"{_amount:n0}/{_maxAmount:n0}", 3f);
         _amountDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.3F).Apply();
 
-        _priceDisplay = new BasicText($"{_currentPrice:n0}{_icon}");
+        _priceDisplay = new BasicText($"{_currentPrice:n0}{_icon}", 3f);
         _priceDisplay.InRectangle(this).OnCenter().BySize(-0.5F).OnY(0.7F).Apply();
     }
 
@@ -162,24 +162,24 @@ public class ShopOption : IInteractable, IMoveable, IRectangle, IScaleable
         => _textButton.Text.ChangeText(newText);
 
     public float Scale { private set; get; }
-    public void SetScale(float scale)
+    public void SetScale(ScaleProvider provider)
     {
-        Scale = scale;
+        Scale = provider.Scale;
 
-        _button.SetScale(scale);
+        _button.SetScale(provider);
         _button.InRectangle(this)
             .OnCenter()
             .BySize(-0.5F)
             .Apply();
 
-        _amountDisplay.SetScale(scale);
+        _amountDisplay.SetScale(provider);
         _amountDisplay.InRectangle(this)
             .OnCenter()
             .BySize(-0.5F)
             .OnY(0.3F)
             .Apply();
 
-        _priceDisplay.SetScale(scale);
+        _priceDisplay.SetScale(provider);
         _priceDisplay.InRectangle(this)
             .OnCenter()
             .BySize(-0.5F)

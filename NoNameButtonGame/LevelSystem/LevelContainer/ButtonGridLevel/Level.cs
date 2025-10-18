@@ -50,15 +50,9 @@ public class Level : SampleLevel
         string c = textComponent.GetValue("Color");
 
         string infoMessage = string.Format(infoText, useText ? t : c, shuffler.GetText(usedText));
-        var used = useText ? usedText : usedColor;
-        var color = shuffler.GetColor(used);
-        var message = $"X:{used % 4 + 1} Y: {(used - used % 4) / 4 + 1} ";
 
-        // Log.WriteColor(message, Enumerable.Repeat(color, message.Length).ToArray());
-
-        var info = new BasicText(infoMessage);
+        var info = new BasicText(infoMessage, 3f);
         AutoManaged.Add(info);
-        DynamicScaler.Register(info);
 
         positionCalculator = info.InRectangle(Camera)
             .OnCenter()
@@ -76,12 +70,12 @@ public class Level : SampleLevel
                 button.Text.ChangeColor(shuffler.GetColor(index));
                 if (button.Text.Rectangle.Width > button.Rectangle.Width)
                 {
-                    button = new Button(text, textScale: 0.75F);
+                    button = new Button(text, 8f, 0.75F);
                     button.Text.ChangeColor(shuffler.GetColor(index));
 
                     if (button.Text.Rectangle.Width > button.Rectangle.Width)
                     {
-                        button = new Button(text, textScale: 0.5F);
+                        button = new Button(text,8f, 0.5F);
                         button.Text.ChangeColor(shuffler.GetColor(index));
                     }
                 }
@@ -91,7 +85,6 @@ public class Level : SampleLevel
                 else
                     button.Click += Fail;
                 AutoManaged.Add(button);
-                DynamicScaler.Register(button);
 
                 positionCalculator = button.InRectangle(Camera)
                     .OnX(x * 4 + 4, 20)
@@ -101,10 +94,9 @@ public class Level : SampleLevel
             }
         }
 
-        _timer = new Timer(1F, 15000D, true);
+        _timer = new Timer(2F, 15000D, true);
         _timer.Trigger += Fail;
         AutoManaged.Add(_timer);
-        DynamicScaler.Register(_timer);
 
         positionCalculator = _timer.InRectangle(Camera)
             .OnX(0.1F)
@@ -120,7 +112,6 @@ public class Level : SampleLevel
         AutoManaged.Add(timerColor);
         ColorListener.Add(timerColor, _timer);
 
-        DynamicScaler.Apply(Display.Scale);
         CalculatorCollection.Apply();
     }
 

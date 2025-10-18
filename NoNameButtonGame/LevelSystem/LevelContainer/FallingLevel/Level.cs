@@ -97,8 +97,6 @@ internal class Level : SampleLevel
         AutoManaged.Add(rightMover);
         if (difficulty > 1F)
             _checkOffscreen = true;
-
-        DynamicScaler.Apply(Display.Scale);
     }
 
     private void CreateRow(IMoveable anchor, Vector2 singleSize, float singleScale, Vector2 destination, float time,
