@@ -53,6 +53,7 @@ public class Level : SampleLevel
 
         var info = new BasicText(infoMessage, 3f);
         AutoManaged.Add(info);
+        AutoScale.Add(info);
 
         positionCalculator = info.InRectangle(Camera)
             .OnCenter()
@@ -85,6 +86,7 @@ public class Level : SampleLevel
                 else
                     button.Click += Fail;
                 AutoManaged.Add(button);
+                AutoScale.Add(button);
 
                 positionCalculator = button.InRectangle(Camera)
                     .OnX(x * 4 + 4, 20)
@@ -97,6 +99,7 @@ public class Level : SampleLevel
         _timer = new Timer(2F, 15000D, true);
         _timer.Trigger += Fail;
         AutoManaged.Add(_timer);
+        AutoScale.Add(_timer);
 
         positionCalculator = _timer.InRectangle(Camera)
             .OnX(0.1F)
@@ -111,8 +114,8 @@ public class Level : SampleLevel
         };
         AutoManaged.Add(timerColor);
         ColorListener.Add(timerColor, _timer);
-
-        CalculatorCollection.Apply();
+        
+        SetScaleAndCalculatePositions();
     }
 
     public override void Update(GameTime gameTime)
