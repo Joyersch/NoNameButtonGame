@@ -5,6 +5,9 @@ using Joyersch.Monogame.Ui;
 using Joyersch.Monogame.Ui.Buttons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Collision;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Buttons;
 
 namespace NoNameButtonGame.GameObjects.Buttons;
 

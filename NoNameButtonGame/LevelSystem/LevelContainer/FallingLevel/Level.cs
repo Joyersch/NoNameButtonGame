@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Glitch;
 using NoNameButtonGame.Music;
+using NoNameButtonGame.Ui;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.FallingLevel;
 

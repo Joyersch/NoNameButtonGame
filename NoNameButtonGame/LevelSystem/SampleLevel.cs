@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Joyersch.Monogame;
-using Joyersch.Monogame.Helpers;
 using Joyersch.Monogame.Listener;
 using Joyersch.Monogame.Logging;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
 using Joyersch.Monogame.Ui;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NoNameButtonGame.Helpers;
 using NoNameButtonGame.LevelSystem.Settings;
-using IDrawable = Joyersch.Monogame.IDrawable;
+using NoNameButtonGame.Listener;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Text;
+using IDrawable = NoNameButtonGame.IDrawable;
 using IUpdateable = Joyersch.Monogame.IUpdateable;
 
 namespace NoNameButtonGame.LevelSystem;

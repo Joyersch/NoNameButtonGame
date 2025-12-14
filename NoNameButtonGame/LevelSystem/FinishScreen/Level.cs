@@ -2,12 +2,12 @@ using System;
 using Joyersch.Monogame;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
-using Joyersch.Monogame.Ui.Color;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
+using NoNameButtonGame.Ui.Color;
+using NoNameButtonGame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.FinishScreen;
 

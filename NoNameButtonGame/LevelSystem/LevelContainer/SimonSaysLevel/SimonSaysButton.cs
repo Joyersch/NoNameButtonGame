@@ -2,9 +2,9 @@ using System;
 using Joyersch.Monogame;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Ui.Buttons;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Ui.Buttons;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
 

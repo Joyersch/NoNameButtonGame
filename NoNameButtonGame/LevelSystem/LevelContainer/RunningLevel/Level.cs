@@ -1,18 +1,20 @@
 ﻿using System;
 using Joyersch.Monogame;
-using Joyersch.Monogame.Helpers;
 using Joyersch.Monogame.Logging;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
 using Joyersch.Monogame.Ui;
 using Joyersch.Monogame.Ui.Buttons;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Helpers;
 using NoNameButtonGame.Music;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Buttons;
+using NoNameButtonGame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
 

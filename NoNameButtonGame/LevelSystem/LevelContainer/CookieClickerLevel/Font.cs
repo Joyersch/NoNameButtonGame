@@ -1,6 +1,6 @@
-﻿using Joyersch.Monogame.Ui.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 

@@ -3,10 +3,11 @@ using Joyersch.Monogame;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
 using Joyersch.Monogame.Ui;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Music;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.Endless;
 

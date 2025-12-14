@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Mime;
 using System.Reflection;
 using Joyersch.Monogame;
 using Joyersch.Monogame.Logging;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
-using Joyersch.Monogame.Ui;
-using Joyersch.Monogame.Ui.Buttons;
-using Joyersch.Monogame.Ui.Text;
 using Joyersch.Monogame.Ui.Titlecard;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +17,8 @@ using NoNameButtonGame.LevelSystem.Selection;
 using CookieClickerFont = NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel.Font;
 using NoNameButtonGame.LevelSystem.Settings;
 using NoNameButtonGame.Music;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Text;
 using Font = NoNameButtonGame.LevelSystem.MainMenu.Font;
 using GeneralFont = NoNameButtonGame.LevelSystem.Font;
 
@@ -300,8 +298,8 @@ public sealed class NoNameGame : ExtendedGame
 
         Scene.Display.Update();
 
-        Console = new DevConsole(Global.CommandProcessor, Scene, Console);
-        Log.Out.UpdateReference(Console);
+        Console = new DevConsole(CommandProcessor, Scene, Console);
+        (Log.Out as LogAdapter)!.UpdateReference(Console);
 
         _elapsedTime = new BasicText(string.Empty, 3f * Scene.Display.Scale / 2);
     }

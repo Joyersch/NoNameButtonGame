@@ -3,11 +3,12 @@ using Joyersch.Monogame;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Storage;
 using Joyersch.Monogame.Ui;
-using Joyersch.Monogame.Ui.Buttons.AddOn;
-using Joyersch.Monogame.Ui.Color;
-using Joyersch.Monogame.Ui.Text;
 using NoNameButtonGame.GameObjects.Buttons;
 using NoNameButtonGame.Music;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Buttons.AddOn;
+using NoNameButtonGame.Ui.Color;
+using NoNameButtonGame.Ui.Text;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace NoNameButtonGame.LevelSystem.MainMenu;

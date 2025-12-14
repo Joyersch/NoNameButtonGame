@@ -4,6 +4,8 @@ using Joyersch.Monogame.Collision;
 using Joyersch.Monogame.Ui;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NoNameButtonGame.Collision;
+using NoNameButtonGame.Ui;
 
 namespace NoNameButtonGame.LevelSystem.Settings;
 

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Joyersch.Monogame;
-using Joyersch.Monogame.Helpers;
 using Joyersch.Monogame.Listener;
 using Joyersch.Monogame.Ui;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.Colors;
 using NoNameButtonGame.GameObjects.Glitch;
+using NoNameButtonGame.Helpers;
+using NoNameButtonGame.Listener;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.RunningLevel;
 

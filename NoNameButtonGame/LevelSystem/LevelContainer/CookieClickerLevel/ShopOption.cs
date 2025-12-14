@@ -2,11 +2,13 @@ using System;
 using Joyersch.Monogame;
 using Joyersch.Monogame.Ui;
 using Joyersch.Monogame.Ui.Buttons;
-using Joyersch.Monogame.Ui.Buttons.AddOn;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Ui;
+using NoNameButtonGame.Ui.Buttons;
+using NoNameButtonGame.Ui.Buttons.AddOn;
+using NoNameButtonGame.Ui.Text;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.CookieClickerLevel;
 

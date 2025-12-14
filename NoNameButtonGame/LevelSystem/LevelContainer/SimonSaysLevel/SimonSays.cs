@@ -4,10 +4,11 @@ using System.Linq;
 using Joyersch.Monogame;
 using Joyersch.Monogame.Sound;
 using Joyersch.Monogame.Ui.Buttons;
-using Joyersch.Monogame.Ui.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NoNameButtonGame.GameObjects.Buttons;
+using NoNameButtonGame.Ui.Buttons;
+using NoNameButtonGame.Ui.Text;
 using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace NoNameButtonGame.LevelSystem.LevelContainer.SimonSaysLevel;
